@@ -101,7 +101,6 @@ export function ProjectCircleHero({ accent, category, index, lead, liveUrl, meta
         </div>
 
         <div className="featured-copy project-case-featured">
-          <div className="project-circle-rings" aria-hidden="true"><span /><span /></div>
           <div className="project-circle-copy">
             <p>Project {String(index + 1).padStart(2, '0')} · What we delivered</p>
             <h2>{name}</h2>
