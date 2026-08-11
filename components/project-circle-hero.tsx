@@ -36,10 +36,11 @@ export function ProjectCircleHero({ accent, category, image, index, liveUrl, met
       const progress = reducedMotion ? (rect.top < 0 ? 1 : 0) : clamp(-rect.top / distance);
 
       section.style.setProperty('--project-progress', progress.toFixed(4));
-      section.style.setProperty('--project-portal-size', `${18 + progress * 106}%`);
+      section.style.setProperty('--project-portal-size', `${17 + progress * 99}%`);
+      section.style.setProperty('--project-portal-y', `${(1 - progress) * -2.5}vh`);
       section.style.setProperty('--project-intro-opacity', `${1 - clamp(progress / 0.36)}`);
-      section.style.setProperty('--project-reveal-opacity', `${clamp((progress - 0.3) / 0.32)}`);
-      section.style.setProperty('--project-reveal-y', `${(1 - clamp((progress - 0.28) / 0.38)) * 46}px`);
+      section.style.setProperty('--project-reveal-opacity', `${clamp((progress - 0.3) / 0.3)}`);
+      section.style.setProperty('--project-reveal-y', `${(1 - clamp((progress - 0.28) / 0.38)) * 45}px`);
       frame = 0;
     };
 

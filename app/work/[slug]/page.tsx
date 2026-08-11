@@ -12,7 +12,11 @@ import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
 export function generateStaticParams() { return workItems.map(({ slug }) => ({ slug })); }
 
-const projectAccents = ['#596aa0', '#8a665b', '#95704f', '#68728e', '#6d7d83', '#876a7c', '#746896', '#5e7b78', '#8b655d', '#667a91', '#786889', '#697880'];
+const projectAccents = [
+  '#6f63a6', '#9b5d42', '#647d9c', '#536aa6', '#8c6659', '#6b778e',
+  '#7b6689', '#5c7f7b', '#8a6f52', '#5d7888', '#755d83', '#616f91',
+  '#8a645c', '#7b7062', '#5f7c82', '#816954', '#66785f', '#79657c',
+];
 const priorityOrder = ['illumi', 'nordflam', 'buildvolume', 'caps-tutor'];
 const orderedCaseStudies = [
   ...priorityOrder.map((prioritySlug) => workItems.find((project) => project.slug === prioritySlug)).filter((project): project is (typeof workItems)[number] => Boolean(project)),
