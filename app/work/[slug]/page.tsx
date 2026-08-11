@@ -74,7 +74,6 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
         <ProjectCircleHero
           accent={projectAccents[index % projectAccents.length]}
           category={item.category}
-          image={item.png || item.fallback}
           index={index}
           lead={lead}
           liveUrl={item.url}

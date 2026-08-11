@@ -2,14 +2,12 @@
 
 import type { CSSProperties } from 'react';
 import { useEffect, useRef } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowDown, ArrowLeft, ExternalLink } from 'lucide-react';
 
 type ProjectCircleHeroProps = {
   accent: string;
   category?: string;
-  image: string;
   index: number;
   liveUrl?: string;
   lead: string;
@@ -22,7 +20,7 @@ type ProjectCircleHeroProps = {
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
 
-export function ProjectCircleHero({ accent, category, image, index, lead, liveUrl, meta, name, outcomes, summary, trail }: ProjectCircleHeroProps) {
+export function ProjectCircleHero({ accent, category, index, lead, liveUrl, meta, name, outcomes, summary, trail }: ProjectCircleHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const titleLength = name.length > 20 ? 'xlong' : name.length > 9 ? 'long' : name.length > 7 ? 'medium' : 'standard';
   const leadLength = lead.length > 10 ? 'xlong' : lead.length > 8 ? 'long' : 'standard';
@@ -48,7 +46,6 @@ export function ProjectCircleHero({ accent, category, image, index, lead, liveUr
       section.style.setProperty('--intro-opacity', `${1 - clamp(progress / 0.36)}`);
       section.style.setProperty('--feature-opacity', `${clamp((progress - 0.3) / 0.3)}`);
       section.style.setProperty('--feature-copy-y', `${(1 - clamp((progress - 0.28) / 0.38)) * 45}px`);
-      section.style.setProperty('--project-image-opacity', `${clamp((progress - 0.18) / 0.38) * 0.84}`);
       animationFrame = 0;
     };
 
@@ -70,7 +67,7 @@ export function ProjectCircleHero({ accent, category, image, index, lead, liveUr
     <section
       ref={sectionRef}
       className="reference-hero project-case-hero"
-      style={{ '--project-accent': accent } as CSSProperties}
+      style={{ '--project-accent': accent, '--project-hue': `${(index * 41) % 360}deg` } as CSSProperties}
       aria-labelledby="project-circle-title"
     >
       <div className="reference-stage project-case-stage">
@@ -78,7 +75,6 @@ export function ProjectCircleHero({ accent, category, image, index, lead, liveUr
           <video autoPlay muted loop playsInline preload="auto" poster="/video/pixaloom-ambient-poster.jpg">
             <source src="/video/pixaloom-ambient.mp4" type="video/mp4" />
           </video>
-          <Image src={image} alt="" fill priority quality={92} sizes="100vw" />
         </div>
         <div className="reference-scrim project-case-scrim" aria-hidden="true" />
 
