@@ -12,16 +12,19 @@ type ProjectCircleHeroProps = {
   image: string;
   index: number;
   liveUrl?: string;
+  lead: string;
   meta: string;
   name: string;
   outcomes: string[];
   summary: string;
+  trail: string;
 };
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
 
-export function ProjectCircleHero({ accent, category, image, index, liveUrl, meta, name, outcomes, summary }: ProjectCircleHeroProps) {
+export function ProjectCircleHero({ accent, category, image, index, lead, liveUrl, meta, name, outcomes, summary, trail }: ProjectCircleHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
+  const titleLength = name.length > 20 ? 'xlong' : name.length > 9 ? 'long' : 'standard';
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -75,7 +78,12 @@ export function ProjectCircleHero({ accent, category, image, index, liveUrl, met
           <Link href="/projects" className="project-circle-back"><ArrowLeft size={13} /> All work</Link>
           <span className="project-circle-index">Case study · {String(index + 1).padStart(2, '0')}</span>
           <p>{category} · Pixaloom</p>
-          <h1 id="project-circle-title">{name}</h1>
+          <h1 id="project-circle-title" className="project-circle-title-composition" data-title-length={titleLength}>
+            <span>{lead}</span>
+            <strong>{name}</strong>
+            <i>&amp;</i>
+            <strong>{trail}</strong>
+          </h1>
           <span className="project-circle-meta">{meta}</span>
           <span className="project-circle-scroll">Scroll to reveal <ArrowDown size={12} /></span>
         </div>

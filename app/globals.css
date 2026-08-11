@@ -1023,7 +1023,14 @@ body { padding: 0; background: #030303; color: var(--cream); font-family: Inter,
 .project-circle-back { position: absolute; left: 42px; top: 26px; display: inline-flex; align-items: center; gap: 8px; color: #aaa8a1; font-size: .52rem; letter-spacing: .13em; text-transform: uppercase; pointer-events: auto; }
 .project-circle-index { position: absolute; right: 42px; top: 26px; color: #777772; font-size: .5rem; letter-spacing: .13em; text-transform: uppercase; }
 .project-circle-intro > p { position: absolute; left: 7%; top: 18%; margin: 0; color: #aaa8a1; font-size: .52rem; letter-spacing: .15em; text-transform: uppercase; }
-.project-circle-intro h1 { position: absolute; left: 6%; right: 5%; top: 35%; margin: 0; font-family: "Iowan Old Style",Baskerville,"Times New Roman",serif; font-size: clamp(6rem,15vw,14.5rem); font-weight: 400; line-height: .7; letter-spacing: -.085em; text-align: center; text-shadow: 0 12px 55px rgba(0,0,0,.45); }
+.project-circle-title-composition { position: absolute; inset: 0; margin: 0; font-family: "Iowan Old Style",Baskerville,"Times New Roman",serif; font-weight: 400; line-height: .7; letter-spacing: -.072em; text-shadow: 0 12px 55px rgba(0,0,0,.45); }
+.project-circle-title-composition span,.project-circle-title-composition strong,.project-circle-title-composition i { position: absolute; display: block; font-weight: 400; white-space: nowrap; }
+.project-circle-title-composition span { left: 15%; top: 25%; font-size: clamp(3.4rem,7.2vw,7.4rem); }
+.project-circle-title-composition strong:first-of-type { left: 17%; top: 42%; max-width: 67vw; overflow: hidden; font-size: clamp(5.7rem,12.5vw,13rem); line-height: .78; text-overflow: ellipsis; }
+.project-circle-title-composition i { left: 54%; top: 43%; color: #b6b3aa; font-size: clamp(2.7rem,5.5vw,5.8rem); font-style: italic; }
+.project-circle-title-composition strong:last-of-type { right: 8%; top: 57%; font-size: clamp(5.2rem,11vw,11.5rem); }
+.project-circle-title-composition[data-title-length="long"] strong:first-of-type { font-size: clamp(4.2rem,8vw,8.5rem); }
+.project-circle-title-composition[data-title-length="xlong"] strong:first-of-type { font-size: clamp(3rem,5.8vw,6rem); }
 .project-circle-meta { position: absolute; left: 7%; bottom: 7%; color: #aaa8a1; font-size: .5rem; letter-spacing: .13em; text-transform: uppercase; }
 .project-circle-scroll { position: absolute; right: 42px; bottom: 7%; display: inline-flex; align-items: center; gap: 8px; color: #aaa8a1; font-size: .5rem; letter-spacing: .13em; text-transform: uppercase; }
 .project-circle-reveal { position: absolute; inset: 0; z-index: 3; padding: clamp(48px,7vw,100px); display: grid; grid-template-columns: minmax(0,1.35fr) minmax(280px,.65fr); align-items: end; gap: clamp(55px,8vw,125px); opacity: var(--project-reveal-opacity); transform: translateY(var(--project-reveal-y)); pointer-events: none; will-change: opacity,transform; }
@@ -1176,7 +1183,12 @@ body { padding: 0; background: #030303; color: var(--cream); font-family: Inter,
   .project-circle-back { left: 18px; top: 20px; }
   .project-circle-index { right: 18px; top: 20px; }
   .project-circle-intro > p { left: 20px; top: 13%; }
-  .project-circle-intro h1 { left: 16px; right: 16px; top: 32%; font-size: clamp(5rem,24vw,8rem); line-height: .75; }
+  .project-circle-title-composition span { left: 7%; top: 20%; font-size: 3.5rem; }
+  .project-circle-title-composition strong:first-of-type { left: 5%; top: 38%; max-width: 91vw; font-size: clamp(4.7rem,22vw,6.8rem); }
+  .project-circle-title-composition i { left: 48%; top: 48%; font-size: 3rem; }
+  .project-circle-title-composition strong:last-of-type { right: 3%; top: 59%; font-size: clamp(4.3rem,20vw,6.2rem); }
+  .project-circle-title-composition[data-title-length="long"] strong:first-of-type { font-size: clamp(2.8rem,11vw,4rem); }
+  .project-circle-title-composition[data-title-length="xlong"] strong:first-of-type { font-size: clamp(2rem,8vw,2.8rem); }
   .project-circle-meta { left: 20px; right: 20px; bottom: 9%; max-width: 72%; line-height: 1.6; }
   .project-circle-scroll { right: 18px; bottom: 4%; }
   .project-circle-reveal { padding: 45px 20px 32px; grid-template-columns: 1fr; align-content: end; gap: 34px; }
