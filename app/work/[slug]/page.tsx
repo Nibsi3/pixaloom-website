@@ -13,9 +13,9 @@ import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 export function generateStaticParams() { return workItems.map(({ slug }) => ({ slug })); }
 
 const projectAccents = [
-  '#6f63a6', '#9b5d42', '#647d9c', '#536aa6', '#8c6659', '#6b778e',
-  '#7b6689', '#5c7f7b', '#8a6f52', '#5d7888', '#755d83', '#616f91',
-  '#8a645c', '#7b7062', '#5f7c82', '#816954', '#66785f', '#79657c',
+  '#7969c8', '#b8653e', '#c9973f', '#3f72bd', '#bd796a', '#73869f',
+  '#9a6ead', '#4d8e86', '#b48445', '#4e88a5', '#8b5f99', '#536eac',
+  '#b45f54', '#9b875e', '#4d8b93', '#a87646', '#658557', '#935e83',
 ];
 const priorityOrder = ['illumi', 'nordflam', 'buildvolume', 'caps-tutor'];
 const projectPhrases: Record<string, [string, string]> = {
