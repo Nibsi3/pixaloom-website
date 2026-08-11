@@ -2,18 +2,12 @@
 
 import Link from 'next/link';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
 
 export function CinematicHero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setLoaded(true), 780);
-    return () => window.clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -64,7 +58,7 @@ export function CinematicHero() {
   }, []);
 
   return (
-    <section ref={sectionRef} className={`reference-hero${loaded ? ' is-loaded' : ''}`} aria-labelledby="hero-title">
+    <section ref={sectionRef} className="reference-hero" aria-labelledby="hero-title">
       <div className="reference-stage">
         <div className="reference-media" aria-hidden="true" style={{ position: 'absolute' }}>
           <video autoPlay muted loop playsInline preload="auto" poster="/video/pixaloom-ambient-poster.jpg">
@@ -72,11 +66,6 @@ export function CinematicHero() {
           </video>
         </div>
         <div className="reference-scrim" aria-hidden="true" />
-
-        <div className="reference-loader" aria-hidden="true">
-          <span className="reference-loader-ring" />
-          <strong>P</strong>
-        </div>
 
         <div className="portal-copy">
           <p className="portal-kicker">Independent digital studio</p>
