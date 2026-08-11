@@ -18,26 +18,6 @@ const projectAccents = [
   '#b45f54', '#9b875e', '#4d8b93', '#a87646', '#658557', '#935e83',
 ];
 const priorityOrder = ['illumi', 'nordflam', 'buildvolume', 'caps-tutor'];
-const projectPhrases: Record<string, [string, string]> = {
-  'illumi': ['Business', 'Lighter'],
-  'nordflam': ['Warmth', 'Tangible'],
-  'buildvolume': ['Making', 'Possible'],
-  'caps-tutor': ['Learning', 'Reimagined'],
-  'paws-on-route': ['Care', 'On Route'],
-  'team-colours': ['Identity', 'In Colour'],
-  'vicbay': ['Commerce', 'Coastal'],
-  'physiotherapy': ['Movement', 'Restored'],
-  'slip-a-tip': ['Gratitude', 'Frictionless'],
-  'spotlight': ['Discovery', 'Local'],
-  'nexai': ['Intelligence', 'Connected'],
-  'ai-testing': ['Testing', 'Autonomous'],
-  'haval': ['Motion', 'Driven'],
-  'covercrete': ['Surfaces', 'Refined'],
-  'featherbleu': ['Living', 'Secured'],
-  'george-herald': ['Stories', 'Local'],
-  'trakcare-barcode-scanner': ['Care', 'Traceable'],
-  'kikay-pharma': ['Health', 'Considered'],
-};
 const orderedCaseStudies = [
   ...priorityOrder.map((prioritySlug) => workItems.find((project) => project.slug === prioritySlug)).filter((project): project is (typeof workItems)[number] => Boolean(project)),
   ...workItems.filter((project) => !priorityOrder.includes(project.slug)),
@@ -58,7 +38,6 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
   const index = orderedCaseStudies.findIndex((project) => project.slug === slug);
   const nextProject = orderedCaseStudies[(index + 1) % orderedCaseStudies.length];
   const gallery = item.gallery?.length ? item.gallery : [item.png];
-  const [lead, trail] = projectPhrases[slug] ?? [item.category ?? 'Digital', 'Purposeful'];
   const schema = {
     '@context': 'https://schema.org', '@type': 'CreativeWork', '@id': absoluteUrl(`/work/${slug}#case-study`), name: `${item.name} case study`, description: item.scope,
     creator: { '@id': `${site.url}/#organization` }, provider: { '@id': `${site.url}/#organization` }, url: absoluteUrl(`/work/${slug}`), mainEntityOfPage: absoluteUrl(`/work/${slug}`), image: absoluteUrl(item.png),
@@ -75,13 +54,11 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
           accent={projectAccents[index % projectAccents.length]}
           category={item.category}
           index={index}
-          lead={lead}
           liveUrl={item.url}
           meta={item.meta}
           name={item.name}
           outcomes={item.highlights}
           summary={item.scope.split('\n')[0]}
-          trail={trail}
         />
 
         <section className="case-brief">

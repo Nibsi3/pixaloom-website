@@ -11,22 +11,18 @@ type ProjectCircleHeroProps = {
   category?: string;
   index: number;
   liveUrl?: string;
-  lead: string;
   meta: string;
   name: string;
   outcomes: string[];
   summary: string;
-  trail: string;
 };
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
 
-export function ProjectCircleHero({ accent, category, index, lead, liveUrl, meta, name, outcomes, summary, trail }: ProjectCircleHeroProps) {
+export function ProjectCircleHero({ accent, category, index, liveUrl, meta, name, outcomes, summary }: ProjectCircleHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   useCinematicHeroSnap(sectionRef);
   const titleLength = name.length > 20 ? 'xlong' : name.length > 9 ? 'long' : name.length > 7 ? 'medium' : 'standard';
-  const leadLength = lead.length > 10 ? 'xlong' : lead.length > 8 ? 'long' : 'standard';
-  const trailLength = trail.length > 11 ? 'xlong' : trail.length > 8 ? 'long' : 'standard';
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -87,14 +83,9 @@ export function ProjectCircleHero({ accent, category, index, lead, liveUrl, meta
           <h1
             id="project-circle-title"
             className="project-case-title"
-            data-lead-length={leadLength}
             data-title-length={titleLength}
-            data-trail-length={trailLength}
           >
-            <span>{lead}</span>
             <strong>{name}</strong>
-            <i>&amp;</i>
-            <strong>{trail}</strong>
           </h1>
           <span className="project-circle-meta">{meta}</span>
           <span className="project-circle-scroll">Scroll to reveal <ArrowDown size={12} /></span>
