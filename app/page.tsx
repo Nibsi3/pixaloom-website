@@ -51,7 +51,6 @@ const homeSchema = {
 };
 
 function ArchiveCollection({ item, index }: { item: WorkItem; index: number }) {
-  const details = (item.gallery ?? []).filter((image) => image !== item.png).slice(0, 2);
   const summary = item.scope.split('\n')[0];
   const theme = collectionThemes[index % collectionThemes.length];
 
@@ -79,13 +78,6 @@ function ArchiveCollection({ item, index }: { item: WorkItem; index: number }) {
             <Image src={item.png} alt={`${item.name} project interface`} fill quality={92} sizes="(max-width: 720px) 100vw, 72vw" />
           </span>
         </Link>
-        {details.map((image, detailIndex) => (
-          <div className={`exhibit-crop exhibit-detail-${detailIndex + 1}`} key={image} data-depth={detailIndex === 0 ? '-0.1' : '0.12'}>
-            <span className="exhibit-screen" style={{ position: 'relative' }}>
-              <Image src={image} alt={`${item.name} interface detail ${detailIndex + 1}`} fill quality={95} sizes="(max-width: 720px) 48vw, 30vw" />
-            </span>
-          </div>
-        ))}
         <span className="exhibit-count">{String(index + 1).padStart(2, '0')} / {String(archiveWork.length).padStart(2, '0')}</span>
       </div>
 

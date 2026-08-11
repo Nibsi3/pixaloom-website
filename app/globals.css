@@ -691,7 +691,7 @@ img { max-width: 100%; }
   transform: translate3d(0,var(--depth-y,0),0);
   will-change: transform;
 }
-.exhibit-window-main { z-index: 2; left: 16%; top: 9%; width: 68%; }
+.exhibit-window-main { z-index: 2; left: 11%; top: 9%; width: 78%; }
 .exhibit-browser-bar { height: 30px; padding: 0 12px; display: flex; align-items: center; gap: 5px; border-bottom: 1px solid rgba(255,255,255,.09); background: #111; }
 .exhibit-browser-bar i { width: 5px; height: 5px; border-radius: 50%; background: #4d4d49; }
 .exhibit-browser-bar i:first-child { background: var(--collection-accent); }
@@ -699,19 +699,12 @@ img { max-width: 100%; }
 .exhibit-screen { position: relative; display: block; aspect-ratio: 1.69; overflow: hidden; background: #151515; }
 .exhibit-screen img { object-fit: cover; object-position: top center; filter: saturate(.88) contrast(1.02); transition: transform 1s cubic-bezier(.2,.7,.2,1),filter .45s; }
 .exhibit-window-main:hover .exhibit-screen img { transform: scale(1.02); filter: saturate(1); }
-.exhibit-crop { position: absolute; z-index: 3; width: 23%; overflow: hidden; border: 1px solid rgba(255,255,255,.16); background: #0d0d0d; box-shadow: 0 28px 85px rgba(0,0,0,.52); transform: translate3d(0,var(--depth-y,0),0); will-change: transform; }
-.exhibit-crop .exhibit-screen { aspect-ratio: 1.13; }
-.exhibit-detail-1 { left: 2%; top: 25%; transform: translate3d(0,var(--depth-y,0),0) rotate(-2.5deg); }
-.exhibit-detail-2 { right: 2%; bottom: 8%; transform: translate3d(0,var(--depth-y,0),0) rotate(2.5deg); }
 .exhibit-count { position: absolute; left: 3%; bottom: 10%; color: #60605c; writing-mode: vertical-rl; }
 .exhibit-foot { position: relative; z-index: 4; max-width: 1120px; margin: 10px auto 0; padding-top: 26px; border-top: 1px solid rgba(255,255,255,.16); display: grid; grid-template-columns: 1.15fr .85fr; gap: 90px; }
 .exhibit-foot > p { max-width: 560px; margin: 0; color: #989791; font-size: .73rem; line-height: 1.78; }
 .exhibit-foot > div { display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
 .exhibit-foot span { color: #6f6f6a; line-height: 1.55; }
 .exhibit-foot a { display: flex; align-items: center; gap: 8px; padding-bottom: 6px; border-bottom: 1px solid color-mix(in srgb,var(--collection-accent) 60%,#555); color: #d2cfc7; font-size: .5rem; letter-spacing: .13em; text-transform: uppercase; }
-.exhibit-2 .exhibit-window-main,.exhibit-4 .exhibit-window-main { left: 14%; width: 72%; }
-.exhibit-2 .exhibit-detail-1,.exhibit-4 .exhibit-detail-1 { left: auto; right: 1%; top: 18%; transform: translate3d(0,var(--depth-y,0),0) rotate(2.5deg); }
-.exhibit-2 .exhibit-detail-2,.exhibit-4 .exhibit-detail-2 { right: auto; left: 1%; bottom: 7%; transform: translate3d(0,var(--depth-y,0),0) rotate(-2.5deg); }
 
 .reference-lab { padding: 150px 42px 165px; border-top: 1px solid var(--fine-line); background: #111; }
 .reference-lab-heading { min-height: 390px; }
@@ -796,7 +789,7 @@ img { max-width: 100%; }
   .portal-copy h1 strong:nth-of-type(1) { left: 12%; }
   .portal-copy h1 strong:nth-of-type(2) { right: 5%; }
   .exhibit-art { min-height: 540px; }
-  .exhibit-window-main,.exhibit-2 .exhibit-window-main,.exhibit-4 .exhibit-window-main { left: 11%; width: 78%; }
+  .exhibit-window-main { left: 8%; width: 84%; }
 }
 
 @media (max-width: 720px) {
@@ -824,12 +817,9 @@ img { max-width: 100%; }
   .exhibit-theme { display: none; }
   .exhibit-heading h2 { margin-top: 32px; font-size: clamp(4.1rem,20vw,6rem); text-align: left; }
   .exhibit-art { height: 480px; min-height: 0; margin-top: 5px; }
-  .exhibit-window-main,.exhibit-2 .exhibit-window-main,.exhibit-4 .exhibit-window-main { left: 0; top: 13%; width: 100%; }
+  .exhibit-window-main { left: 0; top: 13%; width: 100%; }
   .exhibit-browser-bar { height: 24px; }
   .exhibit-browser-bar em { display: none; }
-  .exhibit-crop { width: 42%; }
-  .exhibit-detail-1,.exhibit-2 .exhibit-detail-1,.exhibit-4 .exhibit-detail-1 { left: auto; right: -4%; top: 4%; transform: translate3d(0,var(--depth-y,0),0) rotate(2deg); }
-  .exhibit-detail-2,.exhibit-2 .exhibit-detail-2,.exhibit-4 .exhibit-detail-2 { right: auto; left: -4%; bottom: 4%; transform: translate3d(0,var(--depth-y,0),0) rotate(-2deg); }
   .exhibit-count { display: none; }
   .exhibit-foot { margin-top: 18px; grid-template-columns: 1fr; gap: 28px; }
   .exhibit-foot > p { max-width: none; font-size: .68rem; }
