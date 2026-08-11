@@ -48,6 +48,7 @@ export function ProjectCircleHero({ accent, category, image, index, lead, liveUr
       section.style.setProperty('--intro-opacity', `${1 - clamp(progress / 0.36)}`);
       section.style.setProperty('--feature-opacity', `${clamp((progress - 0.3) / 0.3)}`);
       section.style.setProperty('--feature-copy-y', `${(1 - clamp((progress - 0.28) / 0.38)) * 45}px`);
+      section.style.setProperty('--project-image-opacity', `${clamp((progress - 0.18) / 0.38) * 0.84}`);
       animationFrame = 0;
     };
 
@@ -74,6 +75,9 @@ export function ProjectCircleHero({ accent, category, image, index, lead, liveUr
     >
       <div className="reference-stage project-case-stage">
         <div className="reference-media project-case-media" aria-hidden="true">
+          <video autoPlay muted loop playsInline preload="auto" poster="/video/pixaloom-ambient-poster.jpg">
+            <source src="/video/pixaloom-ambient.mp4" type="video/mp4" />
+          </video>
           <Image src={image} alt="" fill priority quality={92} sizes="100vw" />
         </div>
         <div className="reference-scrim project-case-scrim" aria-hidden="true" />

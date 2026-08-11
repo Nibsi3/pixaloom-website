@@ -1053,8 +1053,9 @@ body { padding: 0; background: #030303; color: var(--cream); font-family: Inter,
 .project-circle-outcomes li { padding: 16px 0; display: grid; grid-template-columns: 30px 1fr; gap: 12px; border-bottom: 1px solid rgba(255,255,255,.22); color: rgba(244,241,233,.86); font-size: .62rem; line-height: 1.55; }
 .project-circle-outcomes li span { padding-top: 2px; color: rgba(244,241,233,.44); font-size: .47rem; letter-spacing: .1em; }
 .project-case-media { background: var(--project-accent); }
-.project-case-media::after { content: ''; position: absolute; inset: 0; background: var(--project-accent); mix-blend-mode: color; opacity: .5; pointer-events: none; }
-.project-case-media img { object-fit: cover; object-position: top center; filter: saturate(.8) contrast(1.14) brightness(.58); }
+.project-case-media::after { content: ''; position: absolute; inset: 0; z-index: 2; background: var(--project-accent); mix-blend-mode: color; opacity: .52; pointer-events: none; }
+.project-case-media video { position: absolute; inset: 0; z-index: 0; filter: saturate(.9) contrast(1.18) brightness(.82); }
+.project-case-media img { z-index: 1; object-fit: cover; object-position: top center; opacity: var(--project-image-opacity,0); filter: saturate(.8) contrast(1.14) brightness(.58); transition: opacity .12s linear; }
 .project-case-scrim { opacity: calc(.72 - var(--hero-progress) * .42); }
 .project-case-intro > p { position: absolute; left: 7%; top: 18%; margin: 0; color: #aaa8a1; font-size: .52rem; letter-spacing: .15em; text-transform: uppercase; }
 .project-case-title strong { white-space: nowrap; }
