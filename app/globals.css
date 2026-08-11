@@ -574,7 +574,7 @@ img { max-width: 100%; }
   pointer-events: none;
   will-change: opacity;
 }
-.portal-kicker,.featured-kicker {
+.featured-kicker {
   margin: 0;
   color: #aaa8a1;
   font-size: .52rem;
@@ -582,7 +582,6 @@ img { max-width: 100%; }
   letter-spacing: .16em;
   text-transform: uppercase;
 }
-.portal-kicker { position: absolute; left: 7%; top: 11%; }
 .portal-copy h1 {
   margin: 0;
   font-family: "Iowan Old Style",Baskerville,"Times New Roman",serif;
@@ -595,7 +594,6 @@ img { max-width: 100%; }
 .portal-copy h1 strong:nth-of-type(1) { left: 21%; top: 42%; font-size: clamp(5.7rem,12.5vw,13rem); }
 .portal-copy h1 i { left: 52%; top: 42%; color: #b6b3aa; font-size: clamp(2.7rem,5.5vw,5.8rem); font-style: italic; }
 .portal-copy h1 strong:nth-of-type(2) { right: 9%; top: 56%; font-size: clamp(5.2rem,11vw,11.5rem); }
-.portal-year { position: absolute; right: 7%; top: 12%; width: 74px; aspect-ratio: 1; border: 1px solid rgba(240,237,228,.4); border-radius: 50%; display: grid; place-items: center; color: #c0bdb5; font-size: .52rem; letter-spacing: .08em; }
 .portal-caption { position: absolute; left: 50%; bottom: 5.5%; transform: translateX(-50%); color: #898883; font-size: .48rem; letter-spacing: .2em; text-transform: uppercase; white-space: nowrap; }
 .portal-scroll { position: absolute; left: 3.2%; bottom: 4.5%; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #9c9b95; pointer-events: auto; }
 .portal-scroll span { writing-mode: vertical-rl; transform: rotate(180deg); font-size: .47rem; letter-spacing: .16em; text-transform: uppercase; }
@@ -806,12 +804,10 @@ img { max-width: 100%; }
   .reference-stage { top: 66px; height: calc(100svh - 66px); min-height: 500px; }
   .reference-media { inset: -2%; clip-path: circle(var(--portal-size) at 50% 40%); }
   .reference-media video { object-position: center; }
-  .portal-kicker { left: 20px; top: 7%; }
   .portal-copy h1 span { left: 7%; top: 20%; font-size: 3.5rem; }
   .portal-copy h1 strong:nth-of-type(1) { left: 5%; top: 38%; font-size: clamp(5.2rem,26vw,7.3rem); }
   .portal-copy h1 i { left: 48%; top: 47%; font-size: 3rem; }
   .portal-copy h1 strong:nth-of-type(2) { right: 3%; top: 57%; font-size: clamp(4.9rem,23vw,6.8rem); }
-  .portal-year { right: 18px; top: 7%; width: 58px; }
   .portal-caption { bottom: 3.5%; font-size: .39rem; letter-spacing: .13em; }
   .portal-scroll { left: 15px; bottom: 3.5%; }
   .featured-kicker { left: 20px; top: 7%; }

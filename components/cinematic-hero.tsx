@@ -68,14 +68,12 @@ export function CinematicHero() {
         <div className="reference-scrim" aria-hidden="true" />
 
         <div className="portal-copy">
-          <p className="portal-kicker">Independent digital studio</p>
           <h1 id="hero-title">
             <span>between</span>
             <strong>Code</strong>
             <i>&amp;</i>
             <strong>Culture</strong>
           </h1>
-          <span className="portal-year">*2026</span>
           <span className="portal-caption">Websites · Products · Experiences</span>
           <Link className="portal-scroll" href="#featured-state">
             <span>Scroll down</span><ArrowDown size={12} />
