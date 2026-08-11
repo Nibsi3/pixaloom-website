@@ -84,9 +84,6 @@ export function CinematicHero() {
           <p className="featured-kicker">Pixaloom · Independent digital studio</p>
           <h2>Push <em>the</em><br />Possible</h2>
           <p className="featured-intro">We build digital experiences with enough clarity to work and enough character to be remembered.</p>
-          <Link className="featured-orbit" href="#work-archive">
-            <span>Explore<br />works</span><ArrowDown size={13} />
-          </Link>
           <div className="featured-project">
             <span>Strategy · Design · Engineering</span>
             <strong>Made in South Africa</strong>

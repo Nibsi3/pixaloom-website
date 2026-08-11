@@ -623,8 +623,6 @@ img { max-width: 100%; }
 }
 .featured-copy > h2 em { margin-left: .08em; font-size: .54em; font-weight: 400; }
 .featured-intro { position: absolute; left: 7%; bottom: 4.5%; max-width: 310px; margin: 0; color: rgba(255,255,255,.78); font-size: .63rem; line-height: 1.65; }
-.featured-orbit { position: absolute; right: 12%; top: 12%; width: 122px; aspect-ratio: 1; border: 1px solid rgba(255,255,255,.62); border-radius: 50%; display: flex; justify-content: center; align-items: center; gap: 8px; color: white; font-size: .5rem; line-height: 1.45; letter-spacing: .13em; text-transform: uppercase; transition: background .3s,color .3s,transform .3s; }
-.featured-orbit:hover { background: white; color: #111; transform: rotate(7deg); }
 .featured-project { position: absolute; right: 4%; bottom: 4.5%; min-width: 220px; padding-left: 17px; border-left: 1px solid rgba(255,255,255,.4); display: grid; gap: 6px; }
 .featured-project > span { color: rgba(255,255,255,.62); font-size: .45rem; letter-spacing: .12em; text-transform: uppercase; }
 .featured-project > strong { font-family: "Iowan Old Style",Baskerville,serif; font-size: 1.2rem; font-weight: 400; }
@@ -806,7 +804,6 @@ img { max-width: 100%; }
   .featured-kicker { left: 20px; top: 7%; }
   .featured-copy > h2 { left: 20px; bottom: 20%; font-size: clamp(5rem,24vw,7rem); }
   .featured-intro { left: 21px; right: 21px; bottom: 7%; max-width: 270px; }
-  .featured-orbit { right: 20px; top: 10%; width: 96px; }
   .featured-project { display: none; }
   .reference-archive { padding-top: 90px; }
   .reference-archive-intro { width: calc(100% - 40px); min-height: 360px; }
