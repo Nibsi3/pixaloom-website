@@ -4,6 +4,7 @@ import type { CSSProperties } from 'react';
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { ArrowDown, ArrowLeft, ExternalLink } from 'lucide-react';
+import { useCinematicHeroSnap } from '@/components/use-cinematic-hero-snap';
 
 type ProjectCircleHeroProps = {
   accent: string;
@@ -22,6 +23,7 @@ const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Mat
 
 export function ProjectCircleHero({ accent, category, index, lead, liveUrl, meta, name, outcomes, summary, trail }: ProjectCircleHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
+  useCinematicHeroSnap(sectionRef);
   const titleLength = name.length > 20 ? 'xlong' : name.length > 9 ? 'long' : name.length > 7 ? 'medium' : 'standard';
   const leadLength = lead.length > 10 ? 'xlong' : lead.length > 8 ? 'long' : 'standard';
   const trailLength = trail.length > 11 ? 'xlong' : trail.length > 8 ? 'long' : 'standard';

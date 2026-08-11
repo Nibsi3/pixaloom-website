@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { useEffect, useRef } from 'react';
+import { useCinematicHeroSnap } from '@/components/use-cinematic-hero-snap';
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
 
 export function CinematicHero() {
   const sectionRef = useRef<HTMLElement>(null);
+  useCinematicHeroSnap(sectionRef);
 
   useEffect(() => {
     const section = sectionRef.current;
