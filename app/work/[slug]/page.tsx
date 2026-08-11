@@ -2,14 +2,22 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { JsonLd } from '@/components/json-ld';
+import { ProjectCircleHero } from '@/components/project-circle-hero';
 import { workItems } from '@/components/work-items';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
 export function generateStaticParams() { return workItems.map(({ slug }) => ({ slug })); }
+
+const projectAccents = ['#596aa0', '#8a665b', '#95704f', '#68728e', '#6d7d83', '#876a7c', '#746896', '#5e7b78', '#8b655d', '#667a91', '#786889', '#697880'];
+const priorityOrder = ['illumi', 'nordflam', 'buildvolume', 'caps-tutor'];
+const orderedCaseStudies = [
+  ...priorityOrder.map((prioritySlug) => workItems.find((project) => project.slug === prioritySlug)).filter((project): project is (typeof workItems)[number] => Boolean(project)),
+  ...workItems.filter((project) => !priorityOrder.includes(project.slug)),
+];
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -23,8 +31,8 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const item = workItems.find((project) => project.slug === slug);
   if (!item) notFound();
-  const index = workItems.findIndex((project) => project.slug === slug);
-  const nextProject = workItems[(index + 1) % workItems.length];
+  const index = orderedCaseStudies.findIndex((project) => project.slug === slug);
+  const nextProject = orderedCaseStudies[(index + 1) % orderedCaseStudies.length];
   const gallery = item.gallery?.length ? item.gallery : [item.png];
   const schema = {
     '@context': 'https://schema.org', '@type': 'CreativeWork', '@id': absoluteUrl(`/work/${slug}#case-study`), name: `${item.name} case study`, description: item.scope,
@@ -38,20 +46,17 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
       <main id="main-content" className="case-study">
         <JsonLd id="work-schema" data={schema} />
 
-        <section className="case-study-hero">
-          <div className="site-container">
-            <div className="case-nav"><Link href="/projects"><ArrowLeft size={14} /> All work</Link><span>Case study · {String(index + 1).padStart(2, '0')}</span></div>
-            <p className="micro-label">{item.category} · Designed &amp; developed by Pixaloom</p>
-            <h1>{item.name}</h1>
-            <div className="case-hero-foot"><p>{item.meta}</p>{item.url ? <a href={item.url} target="_blank" rel="noreferrer">Visit live project <ExternalLink size={14} /></a> : <span>Selected engagement</span>}</div>
-          </div>
-        </section>
-
-        <section className="case-stage">
-          <div className="case-stage-orbit" aria-hidden="true" />
-          <div className="case-stage-image"><Image src={item.png || item.fallback} alt={`${item.name} interface`} fill loading="eager" sizes="100vw" /></div>
-          <span className="case-stage-label">Pixaloom archive · {item.category}</span>
-        </section>
+        <ProjectCircleHero
+          accent={projectAccents[index % projectAccents.length]}
+          category={item.category}
+          image={item.png || item.fallback}
+          index={index}
+          liveUrl={item.url}
+          meta={item.meta}
+          name={item.name}
+          outcomes={item.highlights}
+          summary={item.scope.split('\n')[0]}
+        />
 
         <section className="case-brief">
           <div className="site-container case-brief-grid">

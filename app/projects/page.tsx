@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
@@ -18,16 +17,6 @@ const orderedWorkItems = [
 ];
 const additionalWork = labProjects.filter((project) => !project.href);
 const totalProjects = orderedWorkItems.length + additionalWork.length;
-const projectColours = [
-  '#7568a5', '#9a5f45', '#60799c', '#53679b', '#8c675a', '#6c7c8e',
-  '#8a6d7f', '#786f9a', '#8f7655', '#607d78', '#875e67', '#66738a',
-  '#89705f', '#766686', '#5f7882', '#8c6a55', '#6d745f', '#735f79',
-];
-
-function projectStyle(colour: string) {
-  return { '--orbit-color': colour } as CSSProperties;
-}
-
 const portfolioSchema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
@@ -57,55 +46,23 @@ export default function ProjectsPage() {
 
     <section className="minimal-work-index"><div className="minimal-shell">
       <div className="minimal-section-mark"><span>01</span><p>Work index</p></div>
-      <div className="minimal-work-list orbit-project-list">
-        {orderedWorkItems.map((item, index) => <details className="orbit-project" key={item.slug} style={projectStyle(projectColours[index % projectColours.length])}>
-          <summary className="orbit-summary">
-            <span className="orbit-number">{String(index + 1).padStart(2, '0')}</span>
-            <span className="orbit-category">{item.category}</span>
-            <span className="orbit-name">{item.name}</span>
-            <span className="orbit-meta">{item.meta}</span>
-            <span className="orbit-control" aria-hidden="true"><span /></span>
-          </summary>
-          <div className="orbit-reveal">
-            <div className="orbit-reveal-inner">
-              <div className="orbit-geometry" aria-hidden="true"><span /><span /></div>
-              <div className="orbit-copy">
-                <p>Project {String(index + 1).padStart(2, '0')} · What we delivered</p>
-                <h2>{item.name}</h2>
-                <div className="orbit-copy-footer">
-                  <p>{item.scope.split('\n')[0]}</p>
-                  <Link href={`/work/${item.slug}`}>Explore full case study <ArrowUpRight size={15} /></Link>
-                </div>
-              </div>
-              <div className="orbit-deliverables">
-                <p>Selected outcomes</p>
-                <ol>{item.highlights.slice(0, 3).map((highlight, highlightIndex) => <li key={highlight}><span>0{highlightIndex + 1}</span>{highlight}</li>)}</ol>
-              </div>
-            </div>
-          </div>
-        </details>)}
+      <div className="minimal-work-list">
+        {orderedWorkItems.map((item, index) => <Link href={`/work/${item.slug}`} key={item.slug}>
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <p>{item.category}</p>
+          <h2>{item.name}</h2>
+          <em>{item.meta}</em>
+          <ArrowUpRight size={17} />
+        </Link>)}
         {additionalWork.map((item, index) => {
           const projectIndex = orderedWorkItems.length + index;
-          return <details className="orbit-project" id={item.name.toLowerCase().replaceAll(' ', '-')} key={item.name} style={projectStyle(item.accent)}>
-            <summary className="orbit-summary">
-              <span className="orbit-number">{String(projectIndex + 1).padStart(2, '0')}</span>
-              <span className="orbit-category">{item.category}</span>
-              <span className="orbit-name">{item.name}</span>
-              <span className="orbit-meta">{item.description}</span>
-              <span className="orbit-control" aria-hidden="true"><span /></span>
-            </summary>
-            <div className="orbit-reveal">
-              <div className="orbit-reveal-inner">
-                <div className="orbit-geometry" aria-hidden="true"><span /><span /></div>
-                <div className="orbit-copy">
-                  <p>Project {String(projectIndex + 1).padStart(2, '0')} · What we delivered</p>
-                  <h2>{item.name}</h2>
-                  <div className="orbit-copy-footer"><p>{item.description}</p><span className="orbit-status">Selected work</span></div>
-                </div>
-                <div className="orbit-deliverables"><p>Current focus</p><ol><li><span>01</span>{item.category}</li><li><span>02</span>Product strategy and experience design</li><li><span>03</span>Purposeful, scalable development</li></ol></div>
-              </div>
-            </div>
-          </details>;
+          return <article id={item.name.toLowerCase().replaceAll(' ', '-')} key={item.name}>
+            <span>{String(projectIndex + 1).padStart(2, '0')}</span>
+            <p>{item.category}</p>
+            <h2>{item.name}</h2>
+            <em>{item.description}</em>
+            <strong>Selected work</strong>
+          </article>;
         })}
       </div>
     </div></section>
