@@ -11,27 +11,48 @@ export async function POST(req: Request) {
       );
     }
 
-    const from = process.env.RESEND_FROM || 'Pixaloom Website <onboarding@resend.dev>';
+    const from = process.env.RESEND_FROM || 'Pixaloom Website <website@pixaloom.co.za>';
 
     const body = (await req.json()) as {
       name?: string;
       email?: string;
       company?: string;
+      phone?: string;
+      service?: string;
       budget?: string;
       message?: string;
+      website?: string;
     };
 
     const name = (body.name || '').trim();
     const email = (body.email || '').trim();
     const company = (body.company || '').trim();
+    const phone = (body.phone || '').trim();
+    const service = (body.service || '').trim();
     const budget = (body.budget || '').trim();
     const message = (body.message || '').trim();
 
-    if (message.length < 10) {
+    // Quietly accept bot submissions caught by the honeypot.
+    if ((body.website || '').trim()) {
+      return NextResponse.json({ ok: true });
+    }
+
+    if (!name || name.length > 80 || !email || email.length > 120 || !/^\S+@\S+\.\S+$/.test(email)) {
       return NextResponse.json(
-        { ok: false, error: 'Message too short' },
+        { ok: false, error: 'Please provide a valid name and email address.' },
         { status: 400 },
       );
+    }
+
+    if (message.length < 20 || message.length > 3000) {
+      return NextResponse.json(
+        { ok: false, error: 'Please provide between 20 and 3,000 characters.' },
+        { status: 400 },
+      );
+    }
+
+    if (company.length > 120 || phone.length > 30 || service.length > 80 || budget.length > 80) {
+      return NextResponse.json({ ok: false, error: 'One or more fields are too long.' }, { status: 400 });
     }
 
     const resend = new Resend(apiKey);
@@ -44,6 +65,8 @@ export async function POST(req: Request) {
       `Name: ${name || '-'}`,
       `Email: ${email || '-'}`,
       `Company: ${company || '-'}`,
+      `Phone: ${phone || '-'}`,
+      `Service: ${service || '-'}`,
       `Budget: ${budget || '-'}`,
       '',
       'Message:',
@@ -57,6 +80,8 @@ export async function POST(req: Request) {
           <tr><td style="padding:4px 12px 4px 0; color:#6b7280;">Name</td><td style="padding:4px 0;">${escapeHtml(name || '-')}</td></tr>
           <tr><td style="padding:4px 12px 4px 0; color:#6b7280;">Email</td><td style="padding:4px 0;">${escapeHtml(email || '-')}</td></tr>
           <tr><td style="padding:4px 12px 4px 0; color:#6b7280;">Company</td><td style="padding:4px 0;">${escapeHtml(company || '-')}</td></tr>
+          <tr><td style="padding:4px 12px 4px 0; color:#6b7280;">Phone</td><td style="padding:4px 0;">${escapeHtml(phone || '-')}</td></tr>
+          <tr><td style="padding:4px 12px 4px 0; color:#6b7280;">Service</td><td style="padding:4px 0;">${escapeHtml(service || '-')}</td></tr>
           <tr><td style="padding:4px 12px 4px 0; color:#6b7280;">Budget</td><td style="padding:4px 0;">${escapeHtml(budget || '-')}</td></tr>
         </table>
         <div style="margin-top:16px;">
@@ -74,7 +99,7 @@ export async function POST(req: Request) {
       subject,
       text: textLines.join('\n'),
       html,
-      reply_to: email || undefined,
+      reply_to: email,
     });
 
     if (result.error) {

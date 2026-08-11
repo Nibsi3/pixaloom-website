@@ -74,7 +74,7 @@ export function ProjectsShowcase() {
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover transition-opacity duration-500"
-                  priority
+                  loading="eager"
                 />
               </div>
 

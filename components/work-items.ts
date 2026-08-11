@@ -253,7 +253,7 @@ The platform combines structured CAPS-aligned content, interactive lessons, prac
       'Recurring & scheduled invoices with automated cron processing',
       'Dashboard overview showing revenue, pending invoices, and customer/product counts',
       'Workspace-based data separation for multi-tenant support',
-      'Safe email sending: invoices revert to draft if email fails',
+      'Safe email sending: invoices retain their previous status if email fails',
       'Marketing site with resources and calculators',
     ],
     stack: [
@@ -500,7 +500,7 @@ The platform combines structured CAPS-aligned content, interactive lessons, prac
     fallback: '/work/nexai.svg',
     meta: 'AI · Backend · Integrations',
     scope:
-      'Draft portfolio copy: An AI calling product for a US-based client. The build focused on reliable backend integrations, clean data flow, and a stable foundation for scaling call volume.',
+      'An AI calling product for a US-based client, focused on reliable backend integrations, clean data flow and a stable foundation for scaling call volume.',
     highlights: [
       'API integrations and backend endpoints for product workflows',
       'Structured logging + error handling to keep production stable',
@@ -537,18 +537,18 @@ The platform combines structured CAPS-aligned content, interactive lessons, prac
     fallback: '/work/ai-testing.svg',
     meta: 'Robotics · QA · Platforms',
     scope:
-      'Draft portfolio copy: A European robotics QA team needed a web platform to manage AI test runs, results, and review workflows. The focus was on repeatable testing and clean reporting.',
+      'A European robotics QA platform for managing AI test runs, results and review workflows, with an emphasis on repeatable testing and clear reporting.',
     highlights: [
       'Dashboard-style UI for test results and trend tracking',
       'Backend endpoints for storing and querying test runs',
-      'Role-based admin access for internal workflows',
+      'Role-based admin access for operational workflows',
       'Exportable reporting foundations for stakeholders',
     ],
     stack: ['Web app', 'API routes', 'Database-backed storage', 'Auth-ready admin tooling'],
     facts: [
-      { label: 'Type', value: 'Internal platform + reporting' },
+      { label: 'Type', value: 'Operations platform + reporting' },
       { label: 'Focus', value: 'Repeatable testing workflows' },
-      { label: 'Users', value: 'Internal teams + admins' },
+      { label: 'Users', value: 'Operations teams + admins' },
     ],
     sections: [
       {

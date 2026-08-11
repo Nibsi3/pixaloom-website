@@ -1,121 +1,71 @@
-import type { Metadata } from 'next';
-import Script from 'next/script';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import { StellarBackground } from '@/components/stellar-background';
-import { LoadingScreen } from '@/components/loading-screen';
+import { JsonLd } from '@/components/json-ld';
+import { absoluteUrl, site } from '@/lib/site';
+import { allCoverageAreas } from '@/lib/locations';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: 'Pixaloom — Web Design & Development',
-    template: '%s · Pixaloom',
-  },
-  description:
-    'Modern, conversion-first websites and web apps. Performance-focused, SEO-ready, and designed to generate leads.',
-  applicationName: 'Pixaloom',
-  category: 'technology',
-  icons: {
-    icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/icon.png', type: 'image/png' },
-    ],
-  },
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    type: 'website',
-    url: '/',
-    title: 'Pixaloom — Web Design & Development',
-    description:
-      'Modern, conversion-first websites and web apps. Performance-focused, SEO-ready, and designed to generate leads.',
-    siteName: 'Pixaloom',
-    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Pixaloom — Web Design & Development' }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Pixaloom — Web Design & Development',
-    description:
-      'Modern, conversion-first websites and web apps. Performance-focused, SEO-ready, and designed to generate leads.',
-    images: ['/twitter-image'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-      'max-video-preview': -1,
-    },
-  },
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0b0b0b',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': siteUrl,
-    name: 'Pixaloom',
-    url: siteUrl,
-    description:
-      'Modern, conversion-first websites and web apps. Performance-focused, SEO-ready, and designed to generate leads.',
-    sameAs: ['https://github.com/Nibsi3'],
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'George',
-      addressRegion: 'Western Cape',
-      addressCountry: 'ZA',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: -33.963,
-      longitude: 22.4617,
-    },
-    areaServed: [
-      { '@type': 'City', name: 'George' },
-      { '@type': 'City', name: 'Wilderness' },
-      { '@type': 'City', name: 'Knysna' },
-      { '@type': 'City', name: 'Mossel Bay' },
-      { '@type': 'City', name: 'Plettenberg Bay' },
-      { '@type': 'City', name: 'Oudtshoorn' },
-      { '@type': 'AdministrativeArea', name: 'Garden Route' },
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  title: { default: 'Web Design South Africa | Pixaloom', template: '%s | Pixaloom' },
+  description: site.description,
+  applicationName: site.name,
+  category: 'Web design and development',
+  keywords: ['web design South Africa', 'website design company', 'web development South Africa', 'ecommerce website development', 'SEO company South Africa'],
+  authors: [{ name: 'Pixaloom', url: site.url }],
+  creator: 'Pixaloom',
+  publisher: 'Pixaloom',
+  alternates: { canonical: '/' },
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
+  icons: {
+    icon: [
+      { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/icon.png', type: 'image/png', sizes: '512x512' },
     ],
-    knowsAbout: [
-      'Web Design',
-      'Web Development',
-      'Next.js',
-      'React',
-      'SEO',
-      'Ecommerce',
-      'Lead Generation',
-    ],
-    priceRange: '$$',
-  };
+    apple: [{ url: '/apple-touch-icon.png', type: 'image/png', sizes: '180x180' }],
+  },
+  openGraph: {
+    type: 'website', locale: 'en_ZA', url: '/', siteName: site.name,
+    title: 'Web Design South Africa | Pixaloom',
+    description: site.description,
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Pixaloom web design company in South Africa' }],
+  },
+  twitter: { card: 'summary_large_image', title: 'Web Design South Africa | Pixaloom', description: site.description, images: ['/twitter-image'] },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
+};
 
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['Organization', 'ProfessionalService'], '@id': `${site.url}/#organization`, name: site.name, url: site.url,
+      logo: { '@type': 'ImageObject', url: absoluteUrl('/icon.png'), width: 512, height: 512 },
+      image: absoluteUrl('/opengraph-image'), email: site.email, telephone: site.phoneInternational,
+      description: site.description,
+      foundingLocation: { '@type': 'Place', name: 'George, Western Cape' },
+      address: { '@type': 'PostalAddress', addressLocality: 'George', addressRegion: 'Western Cape', addressCountry: 'ZA' },
+      areaServed: [{ '@type': 'Country', name: 'South Africa' }, ...allCoverageAreas.map((name) => ({ '@type': 'City', name }))],
+      contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: site.phoneInternational, email: site.email, areaServed: 'ZA', availableLanguage: ['English', 'Afrikaans'] },
+      sameAs: ['https://github.com/Nibsi3'],
+    },
+    { '@type': 'WebSite', '@id': `${site.url}/#website`, url: site.url, name: site.name, inLanguage: 'en-ZA', publisher: { '@id': `${site.url}/#organization` } },
+  ],
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-transparent">
-        <Script
-          id="json-ld"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <LoadingScreen />
-        <StellarBackground />
-        <div
-          className="pointer-events-none fixed inset-0 z-10 opacity-[0.12] contrast-150"
-          style={{ backgroundImage: "url('/noise.svg')" }}
-          aria-hidden="true"
-        />
-        <div className="relative z-20">{children}</div>
+    <html lang="en-ZA" data-scroll-behavior="smooth">
+      <body>
+        <a className="skip-link" href="#main-content">Skip to content</a>
+        <JsonLd id="organization-schema" data={organizationSchema} />
+        <div className="site-frame">{children}</div>
       </body>
     </html>
   );

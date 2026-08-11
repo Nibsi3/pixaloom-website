@@ -7,6 +7,7 @@ export type BlogPost = {
   category: string;
   readTime: string;
   tags: string[];
+  sources?: { title: string; publisher: string; url: string }[];
 };
 
 export const blogPosts: BlogPost[] = [
@@ -1855,3 +1856,54 @@ export const blogCategories = [
   'Marketing',
   'Security',
 ] as const;
+
+const publishedSlugs = new Set([
+  'why-george-businesses-need-modern-website',
+  'next-js-vs-wordpress-south-africa',
+  'seo-tips-garden-route-businesses',
+  'how-much-does-website-cost-south-africa',
+  'website-speed-matters-south-africa',
+  'lead-generation-website-design',
+  'google-business-profile-george',
+  'ecommerce-website-south-africa',
+  'mobile-first-design-importance',
+  'ssl-https-website-security',
+  'content-marketing-small-business',
+  'web-app-vs-website-difference',
+  'george-tourism-website-best-practices',
+  'website-maintenance-importance',
+  'structured-data-schema-markup-seo',
+  'choosing-web-developer-george',
+]);
+
+const googleSearchSource = { title: 'SEO Starter Guide', publisher: 'Google Search Central', url: 'https://developers.google.com/search/docs/fundamentals/seo-starter-guide' };
+const coreWebVitalsSource = { title: 'Web Vitals', publisher: 'web.dev', url: 'https://web.dev/articles/vitals' };
+const structuredDataSource = { title: 'Introduction to structured data', publisher: 'Google Search Central', url: 'https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data' };
+const businessProfileSource = { title: 'Guidelines for representing your business on Google', publisher: 'Google Business Profile Help', url: 'https://support.google.com/business/answer/3038177' };
+const accessibilitySource = { title: 'Web Content Accessibility Guidelines 2.2', publisher: 'W3C', url: 'https://www.w3.org/TR/WCAG22/' };
+const securitySource = { title: 'Transport Layer Security Cheat Sheet', publisher: 'OWASP', url: 'https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html' };
+const nextSource = { title: 'Next.js documentation', publisher: 'Next.js', url: 'https://nextjs.org/docs' };
+const wordpressSource = { title: 'WordPress documentation', publisher: 'WordPress.org', url: 'https://wordpress.org/documentation/' };
+
+const sourcesBySlug: Record<string, BlogPost['sources']> = {
+  'why-george-businesses-need-modern-website': [googleSearchSource, coreWebVitalsSource, businessProfileSource],
+  'next-js-vs-wordpress-south-africa': [nextSource, wordpressSource, coreWebVitalsSource],
+  'seo-tips-garden-route-businesses': [googleSearchSource, businessProfileSource, structuredDataSource],
+  'how-much-does-website-cost-south-africa': [accessibilitySource, coreWebVitalsSource, googleSearchSource],
+  'website-speed-matters-south-africa': [coreWebVitalsSource, googleSearchSource],
+  'lead-generation-website-design': [accessibilitySource, coreWebVitalsSource],
+  'google-business-profile-george': [businessProfileSource, googleSearchSource],
+  'ecommerce-website-south-africa': [securitySource, accessibilitySource, coreWebVitalsSource],
+  'mobile-first-design-importance': [coreWebVitalsSource, accessibilitySource],
+  'ssl-https-website-security': [securitySource, googleSearchSource],
+  'content-marketing-small-business': [googleSearchSource, businessProfileSource],
+  'web-app-vs-website-difference': [nextSource, accessibilitySource],
+  'george-tourism-website-best-practices': [accessibilitySource, coreWebVitalsSource, businessProfileSource],
+  'website-maintenance-importance': [securitySource, coreWebVitalsSource],
+  'structured-data-schema-markup-seo': [structuredDataSource, googleSearchSource],
+  'choosing-web-developer-george': [accessibilitySource, coreWebVitalsSource, securitySource],
+};
+
+export const publishedBlogPosts = blogPosts
+  .filter((post) => publishedSlugs.has(post.slug))
+  .map((post) => ({ ...post, sources: sourcesBySlug[post.slug] ?? [googleSearchSource] }));

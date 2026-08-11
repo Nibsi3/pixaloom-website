@@ -1,44 +1,28 @@
 import type { MetadataRoute } from 'next';
+import { publishedBlogPosts } from '@/components/blog-posts';
 import { workItems } from '@/components/work-items';
-import { blogPosts } from '@/components/blog-posts';
+import { provinces } from '@/lib/locations';
+import { services } from '@/lib/services';
+import { absoluteUrl } from '@/lib/site';
+
+const lastModified = new Date('2026-08-11');
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-
-  const workPages: MetadataRoute.Sitemap = workItems.map((item) => ({
-    url: `${baseUrl}/work/${item.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }));
-
-  const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }));
+  const core = [
+    ['', 1, 'weekly'],
+    ['/services', .95, 'monthly'],
+    ['/projects', .85, 'monthly'],
+    ['/locations', .9, 'monthly'],
+    ['/about', .7, 'yearly'],
+    ['/blog', .8, 'weekly'],
+    ['/contact', .7, 'yearly'],
+  ] as const;
 
   return [
-    {
-      url: baseUrl + '/',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    {
-      url: baseUrl + '/projects',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: baseUrl + '/blog',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    ...workPages,
-    ...blogPages,
+    ...core.map(([path, priority, changeFrequency]) => ({ url: absoluteUrl(path || '/'), lastModified, changeFrequency, priority })),
+    ...services.map((item) => ({ url: absoluteUrl(`/services/${item.slug}`), lastModified, changeFrequency: 'monthly' as const, priority: .9 })),
+    ...provinces.map((item) => ({ url: absoluteUrl(`/locations/${item.slug}`), lastModified, changeFrequency: 'monthly' as const, priority: .8 })),
+    ...workItems.map((item) => ({ url: absoluteUrl(`/work/${item.slug}`), lastModified, changeFrequency: 'yearly' as const, priority: .65 })),
+    ...publishedBlogPosts.map((post) => ({ url: absoluteUrl(`/blog/${post.slug}`), lastModified: new Date(post.date), changeFrequency: 'yearly' as const, priority: .65 })),
   ];
 }

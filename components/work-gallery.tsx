@@ -35,7 +35,6 @@ export function WorkGallery({ title, heroPng, heroFallback, gallery }: Props) {
             width={1600}
             height={900}
             className="h-full w-full object-cover"
-            priority={false}
           />
         </div>
       </div>

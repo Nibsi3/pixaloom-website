@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export const size = {
   width: 1200,
@@ -19,7 +19,7 @@ export default function OpenGraphImage() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'radial-gradient(1200px 630px at 20% 0%, rgba(47,129,247,0.35) 0%, rgba(13,17,23,0.9) 55%, rgba(13,17,23,1) 100%)',
+          background: 'radial-gradient(900px 630px at 75% 30%, rgba(93,112,255,0.55) 0%, rgba(17,19,24,0.96) 58%, rgba(17,19,24,1) 100%)',
           padding: 64,
           color: '#f0f6fc',
         }}
@@ -30,7 +30,7 @@ export default function OpenGraphImage() {
               width: 44,
               height: 44,
               borderRadius: 12,
-              background: 'rgba(240,246,252,0.06)',
+              background: '#ff5c35',
               border: '1px solid rgba(240,246,252,0.14)',
               display: 'flex',
               alignItems: 'center',
@@ -40,23 +40,23 @@ export default function OpenGraphImage() {
               letterSpacing: 1,
             }}
           >
-            px
+            PX
           </div>
           <div style={{ fontSize: 22, fontWeight: 600, opacity: 0.92 }}>Pixaloom</div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           <div style={{ fontSize: 64, fontWeight: 700, lineHeight: 1.05, letterSpacing: -1 }}>
-            Web Design & Development
+            Websites that win business.
           </div>
           <div style={{ fontSize: 26, lineHeight: 1.35, opacity: 0.86, maxWidth: 980 }}>
-            Modern, conversion-first websites and web apps. Performance-focused, SEO-ready, and built to generate leads.
+            Strategy, design and development for ambitious South African businesses.
           </div>
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            {['Next.js', 'React', 'TypeScript', 'Tailwind', 'SEO', 'Performance'].map((t) => (
+            {['Web design', 'Ecommerce', 'SEO', 'Web apps', 'South Africa'].map((t) => (
               <div
                 key={t}
                 style={{
