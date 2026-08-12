@@ -4,6 +4,7 @@ import type { CSSProperties } from 'react';
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { ArrowDown, ArrowLeft, ExternalLink } from 'lucide-react';
+import { CinematicBackgroundVideo } from '@/components/cinematic-background-video';
 import { useCinematicHeroSnap } from '@/components/use-cinematic-hero-snap';
 
 type ProjectCircleHeroProps = {
@@ -70,9 +71,7 @@ export function ProjectCircleHero({ accent, category, index, liveUrl, meta, name
     >
       <div className="reference-stage project-case-stage">
         <div className="reference-media project-case-media" aria-hidden="true">
-          <video autoPlay muted loop playsInline preload="auto" poster="/video/pixaloom-ambient-poster.jpg">
-            <source src="/video/pixaloom-ambient.mp4" type="video/mp4" />
-          </video>
+          <CinematicBackgroundVideo />
         </div>
         <div className="reference-scrim project-case-scrim" aria-hidden="true" />
 

@@ -1,4 +1,4 @@
-"""Generate Pixaloom's original, seamless abstract hero motion loop."""
+"""Generate Pixaloom's original, seamless high-definition hero motion loop."""
 
 from pathlib import Path
 
@@ -6,12 +6,12 @@ import cv2
 import numpy as np
 
 
-WIDTH = 960
-HEIGHT = 540
-FPS = 24
+WIDTH = 1440
+HEIGHT = 810
+FPS = 30
 DURATION = 10
-OUTPUT = Path('/tmp/pixaloom-ambient-source.mov')
-POSTER = Path(__file__).resolve().parents[1] / 'public/video/pixaloom-ambient-poster.jpg'
+OUTPUT = Path('/tmp/pixaloom-ambient-hd-source.mp4')
+POSTER = Path(__file__).resolve().parents[1] / 'public/video/pixaloom-ambient-poster-v2.jpg'
 
 
 def gaussian(x: np.ndarray, y: np.ndarray, cx: float, cy: float, sx: float, sy: float) -> np.ndarray:
@@ -26,7 +26,8 @@ def main() -> None:
     x = np.linspace(-1.0, 1.0, WIDTH, dtype=np.float32)[None, :]
     y = np.linspace(-0.62, 0.62, HEIGHT, dtype=np.float32)[:, None]
     rng = np.random.default_rng(29)
-    grain = rng.normal(0, 1, (HEIGHT, WIDTH)).astype(np.float32)
+    grain_a = rng.normal(0, 1, (HEIGHT, WIDTH)).astype(np.float32)
+    grain_b = rng.normal(0, 1, (HEIGHT, WIDTH)).astype(np.float32)
 
     for frame_number in range(FPS * DURATION):
         phase = 2 * np.pi * frame_number / (FPS * DURATION)
@@ -47,14 +48,17 @@ def main() -> None:
         image[..., 2] = 6 + blue * 47 + rust * 9 + pearl * 31
         image += veil[..., None] * np.array([30, 39, 49], dtype=np.float32)
         image += rings[..., None] * np.array([12, 18, 24], dtype=np.float32)
-        image += grain[..., None] * 1.35
+        # A slowly evolving, perfectly looping grain field avoids a static
+        # digital texture while keeping the motion calm enough to compress.
+        grain = grain_a * np.cos(phase) + grain_b * np.sin(phase)
+        image += grain[..., None] * 1.05
 
         vignette = 1 - 0.58 * np.clip((x ** 2 + (y * 1.2) ** 2), 0, 1)
         image *= vignette[..., None]
         finished_frame = np.uint8(np.clip(image, 0, 255))
         if frame_number == 0:
             POSTER.parent.mkdir(parents=True, exist_ok=True)
-            cv2.imwrite(str(POSTER), finished_frame, [cv2.IMWRITE_JPEG_QUALITY, 90])
+            cv2.imwrite(str(POSTER), finished_frame, [cv2.IMWRITE_JPEG_QUALITY, 92])
         writer.write(finished_frame)
 
     writer.release()

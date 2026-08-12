@@ -30,22 +30,23 @@ const collectionThemes = [
 
 const homeSchema = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
-  '@id': `${site.url}/#business`,
-  name: site.name,
+  '@type': 'WebPage',
+  '@id': `${site.url}/#webpage`,
   url: site.url,
-  image: absoluteUrl('/opengraph-image'),
-  email: site.email,
-  telephone: site.phoneInternational,
-  priceRange: 'R10,000–R250,000+',
-  address: { '@type': 'PostalAddress', addressLocality: 'George', addressRegion: 'Western Cape', addressCountry: 'ZA' },
-  areaServed: { '@type': 'Country', name: 'South Africa' },
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Web design and digital services',
-    itemListElement: services.map((service) => ({
-      '@type': 'Offer',
-      itemOffered: { '@type': 'Service', name: service.name, url: absoluteUrl(`/services/${service.slug}`) },
+  name: 'Web Design South Africa | Pixaloom',
+  description: site.description,
+  inLanguage: 'en-ZA',
+  isPartOf: { '@id': `${site.url}/#website` },
+  about: { '@id': `${site.url}/#organization` },
+  primaryImageOfPage: { '@type': 'ImageObject', url: absoluteUrl('/opengraph-image') },
+  mainEntity: {
+    '@type': 'ItemList',
+    name: 'Pixaloom web design and digital services',
+    itemListElement: services.map((service, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: service.name,
+      url: absoluteUrl(`/services/${service.slug}`),
     })),
   },
 };
@@ -72,7 +73,7 @@ function ArchiveCollection({ item, index }: { item: WorkItem; index: number }) {
 
       <div className="exhibit-art">
         <div className="exhibit-aura" aria-hidden="true" />
-        <Link className="exhibit-window exhibit-window-main" href={`/work/${item.slug}`} aria-label={`View ${item.name}`} data-depth="0.045">
+        <Link className="exhibit-window exhibit-window-main" href={`/work/${item.slug}`} aria-label={`View ${item.name} — Pixaloom / ${item.slug}`} data-depth="0.045">
           <span className="exhibit-browser-bar"><i /><i /><i /><em>pixaloom / {item.slug}</em></span>
           <span className="exhibit-screen" style={{ position: 'relative' }}>
             <Image src={item.png} alt={`${item.name} project interface`} fill quality={92} sizes="(max-width: 720px) 100vw, 72vw" />
@@ -109,6 +110,33 @@ export default function HomePage() {
           </div>
           <div className="reference-collections">
             {archiveWork.map((item, index) => <ArchiveCollection item={item} index={index} key={item.slug} />)}
+          </div>
+        </section>
+
+        <section className="home-capabilities" aria-labelledby="home-capabilities-title">
+          <div className="home-capabilities-heading">
+            <p>What we build · South Africa</p>
+            <div>
+              <h2 id="home-capabilities-title">Web design, ecommerce, SEO and software—<em>one coherent system.</em></h2>
+              <p>Pixaloom is an independent web design and development studio in George, Western Cape. We work with ambitious businesses across South Africa to create fast, search-ready digital experiences that turn attention into action.</p>
+            </div>
+          </div>
+          <ol className="home-capabilities-list">
+            {services.map((service, index) => (
+              <li key={service.slug}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <Link href={`/services/${service.slug}`}>
+                  <strong>{service.name}</strong>
+                  <p>{service.promise}</p>
+                  <ArrowUpRight size={15} />
+                </Link>
+              </li>
+            ))}
+          </ol>
+          <div className="home-capabilities-foot">
+            <p>Based in George · Working nationwide</p>
+            <Link href="/locations">Explore South African coverage <ArrowUpRight size={14} /></Link>
+            <Link href="/contact">Start a project <ArrowUpRight size={14} /></Link>
           </div>
         </section>
 

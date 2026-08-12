@@ -19,14 +19,21 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
     if (!section) return;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+
     let animationFrame = 0;
     let releaseTimer = 0;
     let gestureLocked = false;
     let touchStartY: number | null = null;
     let lastScrollY = window.scrollY;
+    let heroBoundary = 0;
 
-    const heroEnd = () => Math.max(0, section.offsetTop + section.offsetHeight - window.innerHeight);
-    const inHeroSequence = () => window.scrollY >= -3 && window.scrollY <= heroEnd() + 3;
+    const updateBoundary = () => {
+      const rect = section.getBoundingClientRect();
+      heroBoundary = Math.max(0, window.scrollY + rect.top + rect.height - window.innerHeight);
+    };
+    const heroEnd = () => heroBoundary;
+    const inHeroSequence = () => window.scrollY >= -3 && window.scrollY <= heroBoundary + 3;
 
     const scheduleRelease = (delay = 180) => {
       window.clearTimeout(releaseTimer);
@@ -39,7 +46,7 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
       const start = window.scrollY;
       const distance = target - start;
 
-      if (Math.abs(distance) < 2 || reducedMotion) {
+      if (Math.abs(distance) < 2) {
         window.scrollTo(0, target);
         scheduleRelease();
         return;
@@ -150,6 +157,10 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
       lastScrollY = current;
     };
 
+    updateBoundary();
+    const resizeObserver = new ResizeObserver(updateBoundary);
+    resizeObserver.observe(section);
+    window.addEventListener('resize', updateBoundary);
     window.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('touchstart', onTouchStart, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: false });
@@ -159,6 +170,8 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
     return () => {
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
       window.clearTimeout(releaseTimer);
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateBoundary);
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);

@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "audit:seo": "node scripts/seo-audit.mjs",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit"
   },

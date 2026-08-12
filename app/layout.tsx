@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { JsonLd } from '@/components/json-ld';
 import { absoluteUrl, site } from '@/lib/site';
-import { allCoverageAreas } from '@/lib/locations';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -51,7 +50,12 @@ const organizationSchema = {
       description: site.description,
       foundingLocation: { '@type': 'Place', name: 'George, Western Cape' },
       address: { '@type': 'PostalAddress', addressLocality: 'George', addressRegion: 'Western Cape', addressCountry: 'ZA' },
-      areaServed: [{ '@type': 'Country', name: 'South Africa' }, ...allCoverageAreas.map((name) => ({ '@type': 'City', name }))],
+      areaServed: [
+        { '@type': 'City', name: 'George' },
+        { '@type': 'AdministrativeArea', name: 'Western Cape' },
+        { '@type': 'Country', name: 'South Africa' },
+      ],
+      knowsAbout: ['Web design', 'Web development', 'Ecommerce', 'Technical SEO', 'Web application development'],
       contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: site.phoneInternational, email: site.email, areaServed: 'ZA', availableLanguage: ['English', 'Afrikaans'] },
       sameAs: ['https://github.com/Nibsi3'],
     },

@@ -8,7 +8,7 @@ import { Header } from '@/components/header';
 import { JsonLd } from '@/components/json-ld';
 import { ProjectCircleHero } from '@/components/project-circle-hero';
 import { workItems } from '@/components/work-items';
-import { absoluteUrl, pageMetadata, site } from '@/lib/site';
+import { absoluteUrl, pageMetadata, site, truncateDescription } from '@/lib/site';
 
 export function generateStaticParams() { return workItems.map(({ slug }) => ({ slug })); }
 
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const item = workItems.find((project) => project.slug === slug);
   if (!item) return {};
-  const description = item.scope.replace(/\s+/g, ' ').slice(0, 160);
+  const description = truncateDescription(item.scope);
   return pageMetadata({ title: `${item.name} Case Study`, description, path: `/work/${slug}`, image: item.png });
 }
 
@@ -39,9 +39,22 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
   const nextProject = orderedCaseStudies[(index + 1) % orderedCaseStudies.length];
   const gallery = item.gallery?.length ? item.gallery : [item.png];
   const schema = {
-    '@context': 'https://schema.org', '@type': 'CreativeWork', '@id': absoluteUrl(`/work/${slug}#case-study`), name: `${item.name} case study`, description: item.scope,
-    creator: { '@id': `${site.url}/#organization` }, provider: { '@id': `${site.url}/#organization` }, url: absoluteUrl(`/work/${slug}`), mainEntityOfPage: absoluteUrl(`/work/${slug}`), image: absoluteUrl(item.png),
-    about: item.stack.map((name) => ({ '@type': 'Thing', name })), inLanguage: 'en-ZA',
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CreativeWork', '@id': absoluteUrl(`/work/${slug}#case-study`), name: `${item.name} case study`, description: item.scope,
+        creator: { '@id': `${site.url}/#organization` }, provider: { '@id': `${site.url}/#organization` }, url: absoluteUrl(`/work/${slug}`), mainEntityOfPage: absoluteUrl(`/work/${slug}`), image: absoluteUrl(item.png),
+        about: item.stack.map((name) => ({ '@type': 'Thing', name })), inLanguage: 'en-ZA',
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+          { '@type': 'ListItem', position: 2, name: 'Work', item: absoluteUrl('/projects') },
+          { '@type': 'ListItem', position: 3, name: item.name, item: absoluteUrl(`/work/${slug}`) },
+        ],
+      },
+    ],
   };
 
   return (

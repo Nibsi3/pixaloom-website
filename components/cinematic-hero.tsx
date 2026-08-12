@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { useEffect, useRef } from 'react';
+import { CinematicBackgroundVideo } from '@/components/cinematic-background-video';
 import { useCinematicHeroSnap } from '@/components/use-cinematic-hero-snap';
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
@@ -16,31 +17,33 @@ export function CinematicHero() {
     if (!section) return;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const depthLayers = Array.from(document.querySelectorAll<HTMLElement>('[data-depth]'));
+    const depthLayers = Array.from(document.querySelectorAll<HTMLElement>('[data-depth]')).flatMap((layer) => {
+      const anchor = layer.closest<HTMLElement>('[data-depth-section]');
+      return anchor ? [{ anchor, layer, speed: Number(layer.dataset.depth || 0.08) }] : [];
+    });
+    const activeDepthLayers = new Set<(typeof depthLayers)[number]>();
     let animationFrame = 0;
+    let scrollDistance = Math.max(1, section.getBoundingClientRect().height - window.innerHeight);
 
     const update = () => {
       const rect = section.getBoundingClientRect();
-      const scrollDistance = Math.max(1, section.offsetHeight - window.innerHeight);
       const progress = reducedMotion ? (rect.top < 0 ? 1 : 0) : clamp(-rect.top / scrollDistance);
+      const viewportCentre = window.innerHeight / 2;
+      const depthUpdates = Array.from(activeDepthLayers, ({ anchor, layer, speed }) => {
+        const anchorRect = anchor.getBoundingClientRect();
+        const distance = viewportCentre - (anchorRect.top + anchorRect.height / 2);
+        return { layer, value: `${clamp(distance * speed, -135, 135).toFixed(2)}px` };
+      });
 
+      // Batch every geometry read before writes so scrolling never forces a
+      // synchronous layout between individual layers.
       section.style.setProperty('--hero-progress', progress.toFixed(4));
       section.style.setProperty('--portal-size', `${17 + progress * 99}%`);
       section.style.setProperty('--portal-y', `${(1 - progress) * -2.5}vh`);
       section.style.setProperty('--intro-opacity', `${1 - clamp(progress / 0.36)}`);
       section.style.setProperty('--feature-opacity', `${clamp((progress - 0.3) / 0.3)}`);
       section.style.setProperty('--feature-copy-y', `${(1 - clamp((progress - 0.28) / 0.38)) * 45}px`);
-
-      const viewportCentre = window.innerHeight / 2;
-      for (const layer of depthLayers) {
-        const anchor = layer.closest<HTMLElement>('[data-depth-section]');
-        if (!anchor) continue;
-        const anchorRect = anchor.getBoundingClientRect();
-        if (anchorRect.bottom < -300 || anchorRect.top > window.innerHeight + 300) continue;
-        const speed = Number(layer.dataset.depth || 0.08);
-        const distance = viewportCentre - (anchorRect.top + anchorRect.height / 2);
-        layer.style.setProperty('--depth-y', `${clamp(distance * speed, -135, 135).toFixed(2)}px`);
-      }
+      for (const { layer, value } of depthUpdates) layer.style.setProperty('--depth-y', value);
 
       animationFrame = 0;
     };
@@ -49,13 +52,31 @@ export function CinematicHero() {
       if (!animationFrame) animationFrame = window.requestAnimationFrame(update);
     };
 
-    update();
+    const depthObserver = new IntersectionObserver((entries) => {
+      for (const observed of entries) {
+        for (const depthLayer of depthLayers) {
+          if (depthLayer.anchor !== observed.target) continue;
+          if (observed.isIntersecting) activeDepthLayers.add(depthLayer);
+          else activeDepthLayers.delete(depthLayer);
+        }
+      }
+      requestUpdate();
+    }, { rootMargin: '300px 0px' });
+    for (const { anchor } of depthLayers) depthObserver.observe(anchor);
+
+    const resizeObserver = new ResizeObserver(() => {
+      scrollDistance = Math.max(1, section.getBoundingClientRect().height - window.innerHeight);
+      requestUpdate();
+    });
+    resizeObserver.observe(section);
+
+    requestUpdate();
     window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
     return () => {
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
+      depthObserver.disconnect();
+      resizeObserver.disconnect();
       window.removeEventListener('scroll', requestUpdate);
-      window.removeEventListener('resize', requestUpdate);
     };
   }, []);
 
@@ -63,9 +84,7 @@ export function CinematicHero() {
     <section ref={sectionRef} className="reference-hero" aria-labelledby="hero-title">
       <div className="reference-stage">
         <div className="reference-media" aria-hidden="true" style={{ position: 'absolute' }}>
-          <video autoPlay muted loop playsInline preload="auto" poster="/video/pixaloom-ambient-poster.jpg">
-            <source src="/video/pixaloom-ambient.mp4" type="video/mp4" />
-          </video>
+          <CinematicBackgroundVideo />
         </div>
         <div className="reference-scrim" aria-hidden="true" />
 
@@ -76,16 +95,16 @@ export function CinematicHero() {
             <i>&amp;</i>
             <strong>Culture</strong>
           </h1>
-          <span className="portal-caption">Websites · Products · Experiences</span>
+          <span className="portal-caption">Web design · Products · South Africa</span>
           <Link className="portal-scroll" href="#featured-state">
             <span>Scroll down</span><ArrowDown size={12} />
           </Link>
         </div>
 
         <div className="featured-copy" id="featured-state">
-          <p className="featured-kicker">Pixaloom · Independent digital studio</p>
+          <p className="featured-kicker">Pixaloom · South African web design studio</p>
           <h2>Push <em>the</em><br />Possible</h2>
-          <p className="featured-intro">We build digital experiences with enough clarity to work and enough character to be remembered.</p>
+          <p className="featured-intro">We design and build fast websites, ecommerce stores and digital products with enough character to be remembered.</p>
           <div className="featured-project">
             <span>Strategy · Design · Engineering</span>
             <strong>Made in South Africa</strong>

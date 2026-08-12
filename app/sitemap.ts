@@ -3,7 +3,7 @@ import { publishedBlogPosts } from '@/components/blog-posts';
 import { workItems } from '@/components/work-items';
 import { provinces } from '@/lib/locations';
 import { services } from '@/lib/services';
-import { absoluteUrl } from '@/lib/site';
+import { absoluteUrl, site } from '@/lib/site';
 
 const lastModified = new Date('2026-08-11');
 
@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ] as const;
 
   return [
-    ...core.map(([path, priority, changeFrequency]) => ({ url: absoluteUrl(path || '/'), lastModified, changeFrequency, priority })),
+    ...core.map(([path, priority, changeFrequency]) => ({ url: path ? absoluteUrl(path) : site.url, lastModified, changeFrequency, priority })),
     ...services.map((item) => ({ url: absoluteUrl(`/services/${item.slug}`), lastModified, changeFrequency: 'monthly' as const, priority: .9 })),
     ...provinces.map((item) => ({ url: absoluteUrl(`/locations/${item.slug}`), lastModified, changeFrequency: 'monthly' as const, priority: .8 })),
     ...workItems.map((item) => ({ url: absoluteUrl(`/work/${item.slug}`), lastModified, changeFrequency: 'yearly' as const, priority: .65 })),

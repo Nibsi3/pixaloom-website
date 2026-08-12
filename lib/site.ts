@@ -23,6 +23,16 @@ export function absoluteUrl(path = '/') {
   return new URL(path, site.url).toString();
 }
 
+export function truncateDescription(value: string, maximumLength = 155) {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+  if (normalized.length <= maximumLength) return normalized;
+
+  const candidate = normalized.slice(0, maximumLength + 1);
+  const wordBoundary = candidate.lastIndexOf(' ');
+  const shortened = candidate.slice(0, wordBoundary > maximumLength * 0.75 ? wordBoundary : maximumLength);
+  return `${shortened.replace(/[,:;.!?\s]+$/u, '')}…`;
+}
+
 export function pageMetadata({
   title,
   description,
@@ -37,24 +47,25 @@ export function pageMetadata({
   image?: string;
 }): Metadata {
   const socialTitle = `${title} | ${site.name}`;
+  const summary = truncateDescription(description);
   return {
-    title,
-    description,
-    alternates: { canonical: path },
+    title: path === '/' ? { absolute: socialTitle } : title,
+    description: summary,
+    alternates: { canonical: absoluteUrl(path) },
     openGraph: {
       type,
       locale: 'en_ZA',
       siteName: site.name,
       title: socialTitle,
-      description,
-      url: path,
-      images: [{ url: image, alt: socialTitle }],
+      description: summary,
+      url: absoluteUrl(path),
+      images: [{ url: absoluteUrl(image), alt: socialTitle }],
     },
     twitter: {
       card: 'summary_large_image',
       title: socialTitle,
-      description,
-      images: [image === '/opengraph-image' ? '/twitter-image' : image],
+      description: summary,
+      images: [absoluteUrl(image === '/opengraph-image' ? '/twitter-image' : image)],
     },
   };
 }
