@@ -28,14 +28,24 @@ export function ProjectCircleHero({ accent, category, index, liveUrl, meta, name
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+    const stage = section.querySelector<HTMLElement>('.reference-stage');
+    if (!stage) return;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let animationFrame = 0;
+    let scrollDistance = 1;
+    let stickyTop = 0;
+
+    const measure = () => {
+      const sectionRect = section.getBoundingClientRect();
+      const stageRect = stage.getBoundingClientRect();
+      scrollDistance = Math.max(1, sectionRect.height - stageRect.height);
+      stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
+    };
 
     const update = () => {
       const rect = section.getBoundingClientRect();
-      const scrollDistance = Math.max(1, section.offsetHeight - window.innerHeight);
-      const progress = reducedMotion ? (rect.top < 0 ? 1 : 0) : clamp(-rect.top / scrollDistance);
+      const progress = reducedMotion ? (rect.top < stickyTop ? 1 : 0) : clamp((stickyTop - rect.top) / scrollDistance);
 
       // These are intentionally identical to CinematicHero so the project
       // portal follows the homepage frame-for-frame.
@@ -52,13 +62,20 @@ export function ProjectCircleHero({ accent, category, index, liveUrl, meta, name
       if (!animationFrame) animationFrame = window.requestAnimationFrame(update);
     };
 
+    const resizeObserver = new ResizeObserver(() => {
+      measure();
+      requestUpdate();
+    });
+    resizeObserver.observe(section);
+    resizeObserver.observe(stage);
+
+    measure();
     update();
     window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
     return () => {
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
+      resizeObserver.disconnect();
       window.removeEventListener('scroll', requestUpdate);
-      window.removeEventListener('resize', requestUpdate);
     };
   }, []);
 

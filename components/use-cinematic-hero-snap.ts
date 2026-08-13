@@ -19,7 +19,13 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
     if (!section) return;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reducedMotion) return;
+    const usesTouchInput = window.matchMedia('(hover: none), (pointer: coarse), (any-pointer: coarse)').matches
+      || navigator.maxTouchPoints > 0;
+
+    // Touch browsers already provide momentum scrolling. Replacing that
+    // gesture with a scripted scroll makes the two animations fight and is
+    // especially unstable while mobile browser chrome is resizing.
+    if (reducedMotion || usesTouchInput) return;
 
     let animationFrame = 0;
     let releaseTimer = 0;

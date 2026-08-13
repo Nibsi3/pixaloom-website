@@ -15,6 +15,8 @@ export function CinematicHero() {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+    const stage = section.querySelector<HTMLElement>('.reference-stage');
+    if (!stage) return;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const depthLayers = Array.from(document.querySelectorAll<HTMLElement>('[data-depth]')).flatMap((layer) => {
@@ -23,11 +25,19 @@ export function CinematicHero() {
     });
     const activeDepthLayers = new Set<(typeof depthLayers)[number]>();
     let animationFrame = 0;
-    let scrollDistance = Math.max(1, section.getBoundingClientRect().height - window.innerHeight);
+    let scrollDistance = 1;
+    let stickyTop = 0;
+
+    const measure = () => {
+      const sectionRect = section.getBoundingClientRect();
+      const stageRect = stage.getBoundingClientRect();
+      scrollDistance = Math.max(1, sectionRect.height - stageRect.height);
+      stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
+    };
 
     const update = () => {
       const rect = section.getBoundingClientRect();
-      const progress = reducedMotion ? (rect.top < 0 ? 1 : 0) : clamp(-rect.top / scrollDistance);
+      const progress = reducedMotion ? (rect.top < stickyTop ? 1 : 0) : clamp((stickyTop - rect.top) / scrollDistance);
       const viewportCentre = window.innerHeight / 2;
       const depthUpdates = Array.from(activeDepthLayers, ({ anchor, layer, speed }) => {
         const anchorRect = anchor.getBoundingClientRect();
@@ -65,11 +75,13 @@ export function CinematicHero() {
     for (const { anchor } of depthLayers) depthObserver.observe(anchor);
 
     const resizeObserver = new ResizeObserver(() => {
-      scrollDistance = Math.max(1, section.getBoundingClientRect().height - window.innerHeight);
+      measure();
       requestUpdate();
     });
     resizeObserver.observe(section);
+    resizeObserver.observe(stage);
 
+    measure();
     requestUpdate();
     window.addEventListener('scroll', requestUpdate, { passive: true });
     return () => {
