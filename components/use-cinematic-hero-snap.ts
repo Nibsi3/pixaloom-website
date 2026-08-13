@@ -30,7 +30,7 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
     let animationFrame = 0;
     let releaseTimer = 0;
     let gestureLocked = false;
-    let touchStartY: number | null = null;
+    let touchMode = false;
     let lastScrollY = window.scrollY;
     let heroBoundary = 0;
 
@@ -93,6 +93,8 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
     };
 
     const onWheel = (event: WheelEvent) => {
+      if (touchMode) return;
+
       if (gestureLocked) {
         event.preventDefault();
         scheduleRelease();
@@ -103,31 +105,26 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
       if (beginChapterTransition(event.deltaY > 0 ? 1 : -1)) event.preventDefault();
     };
 
-    const onTouchStart = (event: TouchEvent) => {
-      touchStartY = event.touches[0]?.clientY ?? null;
-    };
-
-    const onTouchMove = (event: TouchEvent) => {
-      const currentY = event.touches[0]?.clientY;
-      if (touchStartY === null || currentY === undefined) return;
-
-      if (gestureLocked) {
-        event.preventDefault();
-        return;
+    const onTouchStart = () => {
+      // Capability detection is intentionally backed up by the real input
+      // event. If a browser misreports its pointer, the first touch disables
+      // chapter snapping for the rest of this page view.
+      touchMode = true;
+      gestureLocked = false;
+      window.clearTimeout(releaseTimer);
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
       }
-
-      const delta = touchStartY - currentY;
-      if (Math.abs(delta) < 8) return;
-      if (beginChapterTransition(delta > 0 ? 1 : -1)) event.preventDefault();
-    };
-
-    const onTouchEnd = () => {
-      touchStartY = null;
-      if (gestureLocked) scheduleRelease(260);
     };
 
     const onScroll = () => {
       const current = window.scrollY;
+      if (touchMode) {
+        lastScrollY = current;
+        return;
+      }
+
       const start = 0;
       const end = heroEnd();
 
@@ -169,8 +166,6 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
     window.addEventListener('resize', updateBoundary);
     window.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: false });
-    window.addEventListener('touchend', onTouchEnd, { passive: true });
     window.addEventListener('scroll', onScroll, { passive: true });
 
     return () => {
@@ -180,8 +175,6 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
       window.removeEventListener('resize', updateBoundary);
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('touchend', onTouchEnd);
       window.removeEventListener('scroll', onScroll);
     };
   }, [sectionRef]);
