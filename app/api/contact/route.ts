@@ -99,7 +99,7 @@ export async function POST(req: Request) {
       subject,
       text: textLines.join('\n'),
       html,
-      reply_to: email,
+      replyTo: email,
     });
 
     if (result.error) {
