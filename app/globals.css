@@ -476,8 +476,9 @@ img { max-width: 100%; }
   --feature-opacity: 0;
   --feature-copy-y: 45px;
   position: relative;
-  /* One viewport of scroll powers the chapter; desktop wheel advances it in one gesture. */
-  height: 220svh;
+  /* The reveal is time-based, so this only needs enough sticky runway to hold the
+     opened frame briefly — a taller hero just reads as scrolling with nothing happening. */
+  height: 140svh;
   background: #030303;
 }
 .reference-stage {
@@ -837,7 +838,7 @@ img { max-width: 100%; }
   .reference-hero {
     --portal-origin-x: 50%;
     --portal-origin-y: 50%;
-    height: 220svh;
+    height: 135svh;
   }
   .reference-stage { top: 66px; height: calc(100svh - 66px); min-height: 500px; }
   .reference-media { inset: -2%; transform: translate3d(0,0,0) scale(calc(1.07 - var(--hero-progress) * .07)); }

@@ -6,10 +6,14 @@ import ReactDOM from 'react-dom';
 export const cinematicPoster = '/video/pixaloom-ambient-poster-v2.jpg';
 
 const mobileFilm = '/video/pixaloom-ambient-mobile-v2.webm';
-const desktopFilm = '/video/pixaloom-ambient.mp4';
+const desktopFilm = '/video/pixaloom-ambient-hd-v2.webm';
+/** H.264 fallback for browsers without VP9; both films are 1920x1080. */
+const fallbackFilm = '/video/pixaloom-ambient.mp4';
 
-function pickFilmSrc() {
-  if (typeof window === 'undefined') return desktopFilm;
+function pickFilmSrc(video: HTMLVideoElement) {
+  // VP9 keeps the film sharp at a fraction of the size on these soft gradients,
+  // so it is preferred wherever it plays and mp4 only covers the rest.
+  if (!video.canPlayType('video/webm; codecs="vp9"')) return fallbackFilm;
   return window.matchMedia('(max-width: 720px)').matches ? mobileFilm : desktopFilm;
 }
 
@@ -25,7 +29,7 @@ export function CinematicBackgroundVideo() {
     // looping under prefers-reduced-motion instead of being stripped and paused.
     // Single explicit src — nested <source media> tags were winning over src on
     // desktop Chromium and leaving autoplay stuck on the poster.
-    const desired = pickFilmSrc();
+    const desired = pickFilmSrc(video);
     if (video.currentSrc !== new URL(desired, window.location.origin).href) {
       video.src = desired;
       video.load();
@@ -72,7 +76,6 @@ export function CinematicBackgroundVideo() {
       playsInline
       preload="auto"
       poster={cinematicPoster}
-      src={desktopFilm}
     />
   );
 }

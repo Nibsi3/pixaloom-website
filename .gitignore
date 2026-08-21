@@ -6,5 +6,6 @@ out
 .env.local
 .DS_Store
 *.log
+__pycache__/
 
 _reference/
