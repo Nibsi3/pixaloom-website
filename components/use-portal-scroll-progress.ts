@@ -4,19 +4,11 @@ import type { RefObject } from 'react';
 import { useEffect } from 'react';
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
-
-const REVEAL_DURATION_MS = 1100;
-const MIN_REVEAL_SECONDS = REVEAL_DURATION_MS / 1000;
-const easeInOutCubic = (value: number) => (
-  value < 0.5 ? 4 * value ** 3 : 1 - ((-2 * value + 2) ** 3) / 2
-);
+const REVEAL_DURATION_MS = 1050;
 
 /**
- * Drives cinematic portal CSS variables from scroll position.
- *
- * One desktop wheel gesture advances the full chapter through a controlled
- * animation. Touch devices retain native scroll. The capped rAF fallback also
- * protects keyboard/programmatic scrolling from hard-cutting between states.
+ * Turns the hero into a two-state chapter. JS only changes the state; CSS owns
+ * the actual circle/copy transition, so wheel rendering cannot skip its frames.
  */
 export function usePortalScrollProgress(
   sectionRef: RefObject<HTMLElement | null>,
@@ -29,7 +21,7 @@ export function usePortalScrollProgress(
     if (!stage) return;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    section.dataset.portalDriver = reducedMotion ? 'reduced' : 'js';
+    section.dataset.portalDriver = 'css-state';
 
     const depthLayers = withDepth
       ? Array.from(document.querySelectorAll<HTMLElement>('[data-depth]')).flatMap((layer) => {
@@ -41,12 +33,11 @@ export function usePortalScrollProgress(
 
     let scrollDistance = 1;
     let stickyTop = 0;
-    let loopId = 0;
     let heroVisible = true;
-    let displayProgress = 0;
-    let lastTime = performance.now();
-    let chapterAnimationId = 0;
-    let chapterAnimating = false;
+    let revealed = false;
+    let transitioning = false;
+    let transitionTimer = 0;
+    let readyFrame = 0;
 
     const measure = () => {
       scrollDistance = Math.max(
@@ -56,14 +47,7 @@ export function usePortalScrollProgress(
       stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
     };
 
-    const applyProgress = (progress: number) => {
-      section.style.setProperty('--hero-progress', progress.toFixed(4));
-      section.style.setProperty('--portal-size', `${17 + progress * 99}%`);
-      section.style.setProperty('--portal-y', `${(1 - progress) * -2.5}vh`);
-      section.style.setProperty('--intro-opacity', `${1 - clamp(progress / 0.36)}`);
-      section.style.setProperty('--feature-opacity', `${clamp((progress - 0.3) / 0.3)}`);
-      section.style.setProperty('--feature-copy-y', `${(1 - clamp((progress - 0.28) / 0.38)) * 45}px`);
-
+    const applyDepth = () => {
       if (!withDepth || activeDepthLayers.size === 0) return;
 
       const viewportCentre = window.innerHeight / 2;
@@ -76,84 +60,49 @@ export function usePortalScrollProgress(
 
     const readTarget = () => {
       const rect = section.getBoundingClientRect();
-      if (reducedMotion) return rect.top < stickyTop ? 1 : 0;
       return clamp((stickyTop - rect.top) / scrollDistance);
     };
 
-    const animateChapter = (destination: 0 | 1) => {
-      window.cancelAnimationFrame(chapterAnimationId);
-      chapterAnimating = true;
+    const setChapter = (nextRevealed: boolean) => {
+      if (transitioning || revealed === nextRevealed) return;
+      revealed = nextRevealed;
+      transitioning = !reducedMotion;
+      section.classList.toggle('is-revealed', revealed);
+      section.classList.toggle('is-transitioning', transitioning);
 
-      const startTime = performance.now();
-      const startY = window.scrollY;
-      const startProgress = displayProgress;
-      const sectionTop = startY + section.getBoundingClientRect().top;
-      const endY = sectionTop - stickyTop + destination * scrollDistance;
-
-      const frame = (now: number) => {
-        const elapsed = clamp((now - startTime) / REVEAL_DURATION_MS);
-        const eased = easeInOutCubic(elapsed);
-        displayProgress = startProgress + (destination - startProgress) * eased;
-        applyProgress(displayProgress);
-        window.scrollTo(0, startY + (endY - startY) * eased);
-
-        if (elapsed < 1) {
-          chapterAnimationId = window.requestAnimationFrame(frame);
-        } else {
-          displayProgress = destination;
-          applyProgress(destination);
-          chapterAnimating = false;
-          lastTime = now;
-        }
-      };
-
-      chapterAnimationId = window.requestAnimationFrame(frame);
+      window.clearTimeout(transitionTimer);
+      transitionTimer = window.setTimeout(() => {
+        const sectionTop = window.scrollY + section.getBoundingClientRect().top;
+        const destination = sectionTop - stickyTop + (revealed ? scrollDistance : 0);
+        window.scrollTo({ top: destination, behavior: 'auto' });
+        transitioning = false;
+        section.classList.remove('is-transitioning');
+      }, reducedMotion ? 0 : REVEAL_DURATION_MS);
     };
 
     const onWheel = (event: WheelEvent) => {
-      // If a browser emits a wheel event, it has a mouse/trackpad-style input.
-      // Do not gate this on pointer media queries: touch-capable laptops often
-      // report a coarse pointer and previously bypassed the chapter animation.
       if (reducedMotion || !heroVisible) return;
 
-      if (chapterAnimating) {
+      if (transitioning) {
         event.preventDefault();
         return;
       }
 
-      const target = readTarget();
-      const wantsNext = event.deltaY > 4 && target < 0.98;
-      const wantsPrevious = event.deltaY < -4 && target > 0.02;
+      const wantsNext = event.deltaY > 0 && !revealed;
+      const wantsPrevious = event.deltaY < 0 && revealed;
       if (!wantsNext && !wantsPrevious) return;
 
       event.preventDefault();
-      animateChapter(wantsNext ? 1 : 0);
+      setChapter(wantsNext);
     };
 
-    const update = (now: number) => {
-      const dt = Math.min(0.064, Math.max(0, (now - lastTime) / 1000));
-      lastTime = now;
-
-      if (chapterAnimating) return;
+    const onScroll = () => {
+      applyDepth();
+      if (transitioning || !heroVisible) return;
       const target = readTarget();
-
-      if (reducedMotion) {
-        displayProgress = target;
-      } else {
-        const delta = target - displayProgress;
-        const maxStep = dt / MIN_REVEAL_SECONDS;
-        if (Math.abs(delta) <= maxStep) displayProgress = target;
-        else displayProgress += Math.sign(delta) * maxStep;
-      }
-
-      applyProgress(displayProgress);
-    };
-
-    const loop = (now: number) => {
-      // Keep easing even briefly after the hero leaves so a late jump still finishes.
-      if (heroVisible || Math.abs(readTarget() - displayProgress) > 0.001) update(now);
-      else lastTime = now;
-      loopId = window.requestAnimationFrame(loop);
+      // Touch, keyboard and scrollbar fallback. Wheel reaches this via onWheel.
+      if (!revealed && target > 0.08) setChapter(true);
+      else if (revealed && target < 0.92) setChapter(false);
     };
 
     const visibilityObserver = new IntersectionObserver((entries) => {
@@ -161,6 +110,7 @@ export function usePortalScrollProgress(
     }, { rootMargin: '30% 0px' });
     visibilityObserver.observe(section);
     window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     const depthObserver = withDepth
       ? new IntersectionObserver((entries) => {
@@ -185,17 +135,21 @@ export function usePortalScrollProgress(
     resizeObserver.observe(stage);
 
     measure();
-    displayProgress = readTarget();
-    applyProgress(displayProgress);
-    loopId = window.requestAnimationFrame(loop);
+    revealed = readTarget() >= 0.5;
+    section.classList.toggle('is-revealed', revealed);
+    readyFrame = window.requestAnimationFrame(() => {
+      section.classList.add('portal-ready');
+    });
 
     return () => {
-      window.cancelAnimationFrame(loopId);
-      window.cancelAnimationFrame(chapterAnimationId);
+      window.cancelAnimationFrame(readyFrame);
+      window.clearTimeout(transitionTimer);
       window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('scroll', onScroll);
       visibilityObserver.disconnect();
       depthObserver?.disconnect();
       resizeObserver.disconnect();
+      section.classList.remove('portal-ready', 'is-revealed', 'is-transitioning');
       delete section.dataset.portalDriver;
     };
   }, [sectionRef, withDepth]);

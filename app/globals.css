@@ -590,10 +590,40 @@ img { max-width: 100%; }
 .featured-project > a { width: fit-content; display: flex; align-items: center; gap: 6px; padding-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,.55); font-size: .48rem; letter-spacing: .11em; text-transform: uppercase; }
 
 /*
- * Portal reveal motion is driven in JS via ViewTimeline (compositor) with a
- * time-capped rAF fallback — see use-portal-scroll-progress.ts.
- * CSS custom properties below are the fallback paint path.
+ * Portal chapter: JS only toggles .is-revealed; CSS owns every visual frame.
+ * This avoids scroll-position jumps skipping the actual circle animation.
  */
+.reference-hero.portal-ready .reference-media {
+  transition:
+    -webkit-clip-path 1.05s cubic-bezier(.76,0,.24,1),
+    clip-path 1.05s cubic-bezier(.76,0,.24,1),
+    transform 1.05s cubic-bezier(.76,0,.24,1);
+}
+.reference-hero.portal-ready .portal-copy {
+  transition: opacity .38s ease;
+}
+.reference-hero.portal-ready .featured-copy {
+  transition: opacity .48s ease, transform .65s cubic-bezier(.22,1,.36,1);
+}
+.reference-hero.portal-ready .reference-scrim {
+  transition: opacity 1.05s ease;
+}
+.reference-hero.is-revealed .reference-media {
+  -webkit-clip-path: circle(116% at var(--portal-origin-x) var(--portal-origin-y));
+  clip-path: circle(116% at var(--portal-origin-x) var(--portal-origin-y));
+  transform: translate3d(0,0,0) scale(1);
+}
+.reference-hero.is-revealed .portal-copy {
+  opacity: 0;
+}
+.reference-hero.is-revealed .featured-copy {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+  transition-delay: .34s, .3s;
+}
+.reference-hero.is-revealed .reference-scrim {
+  opacity: .3;
+}
 
 .reference-archive { padding: 145px 0 40px; overflow: hidden; background: #030303; }
 .reference-archive-intro { position: relative; width: min(1360px,calc(100% - 84px)); min-height: 390px; margin: 0 auto; border-top: 1px solid var(--fine-line); padding-top: 24px; }
