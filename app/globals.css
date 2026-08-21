@@ -247,7 +247,8 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+/* Instant scrolling — smooth CSS scrolling fights the portal progress driver. */
+html { scroll-behavior: auto; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 button, input, textarea, select { font: inherit; }
