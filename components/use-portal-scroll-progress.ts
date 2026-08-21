@@ -4,11 +4,18 @@ import type { RefObject } from 'react';
 import { useEffect } from 'react';
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
-const REVEAL_DURATION_MS = 1050;
+
+/** Scrolled-into-hero distance (px) that opens the portal, and that closes it again. */
+const OPEN_AFTER_PX = 36;
+const CLOSE_BEFORE_PX = 10;
 
 /**
- * Turns the hero into a two-state chapter. JS only changes the state; CSS owns
- * the actual circle/copy transition, so wheel rendering cannot skip its frames.
+ * Opens the cinematic portal as soon as the visitor scrolls into the hero.
+ *
+ * Scrolling is never hijacked: JS only toggles `.is-revealed` and CSS plays the
+ * circle/copy transition, so the reveal always runs at full duration instead of
+ * being scrubbed by scroll position. The state resets near the top of the hero,
+ * so scrolling back up and down replays the animation every time.
  */
 export function usePortalScrollProgress(
   sectionRef: RefObject<HTMLElement | null>,
@@ -31,19 +38,13 @@ export function usePortalScrollProgress(
       : [];
     const activeDepthLayers = new Set<(typeof depthLayers)[number]>();
 
-    let scrollDistance = 1;
     let stickyTop = 0;
     let heroVisible = true;
     let revealed = false;
-    let transitioning = false;
-    let transitionTimer = 0;
     let readyFrame = 0;
+    let scrollFrame = 0;
 
     const measure = () => {
-      scrollDistance = Math.max(
-        window.innerHeight * 1.2,
-        section.offsetHeight - stage.offsetHeight,
-      );
       stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
     };
 
@@ -58,58 +59,36 @@ export function usePortalScrollProgress(
       }
     };
 
-    const readTarget = () => {
-      const rect = section.getBoundingClientRect();
-      return clamp((stickyTop - rect.top) / scrollDistance);
-    };
+    /** How far the page has scrolled into the hero, in pixels. */
+    const readOffset = () => stickyTop - section.getBoundingClientRect().top;
 
-    const setChapter = (nextRevealed: boolean) => {
-      if (transitioning || revealed === nextRevealed) return;
-      revealed = nextRevealed;
-      transitioning = !reducedMotion;
+    const setRevealed = (next: boolean) => {
+      if (revealed === next) return;
+      revealed = next;
       section.classList.toggle('is-revealed', revealed);
-      section.classList.toggle('is-transitioning', transitioning);
-
-      window.clearTimeout(transitionTimer);
-      transitionTimer = window.setTimeout(() => {
-        const sectionTop = window.scrollY + section.getBoundingClientRect().top;
-        const destination = sectionTop - stickyTop + (revealed ? scrollDistance : 0);
-        window.scrollTo({ top: destination, behavior: 'auto' });
-        transitioning = false;
-        section.classList.remove('is-transitioning');
-      }, reducedMotion ? 0 : REVEAL_DURATION_MS);
     };
 
-    const onWheel = (event: WheelEvent) => {
-      if (reducedMotion || !heroVisible) return;
-
-      if (transitioning) {
-        event.preventDefault();
-        return;
-      }
-
-      const wantsNext = event.deltaY > 0 && !revealed;
-      const wantsPrevious = event.deltaY < 0 && revealed;
-      if (!wantsNext && !wantsPrevious) return;
-
-      event.preventDefault();
-      setChapter(wantsNext);
+    const syncState = () => {
+      const offset = readOffset();
+      // Hysteresis keeps the state stable while the transition plays.
+      if (!revealed && offset > OPEN_AFTER_PX) setRevealed(true);
+      else if (revealed && offset < CLOSE_BEFORE_PX) setRevealed(false);
     };
 
     const onScroll = () => {
-      applyDepth();
-      if (transitioning || !heroVisible) return;
-      const target = readTarget();
-      // Touch, keyboard and scrollbar fallback. Wheel reaches this via onWheel.
-      if (!revealed && target > 0.08) setChapter(true);
-      else if (revealed && target < 0.92) setChapter(false);
+      if (scrollFrame) return;
+      scrollFrame = window.requestAnimationFrame(() => {
+        scrollFrame = 0;
+        if (!heroVisible) return;
+        applyDepth();
+        syncState();
+      });
     };
 
     const visibilityObserver = new IntersectionObserver((entries) => {
       heroVisible = entries.some((entry) => entry.isIntersecting);
     }, { rootMargin: '30% 0px' });
     visibilityObserver.observe(section);
-    window.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('scroll', onScroll, { passive: true });
 
     const depthObserver = withDepth
@@ -135,21 +114,23 @@ export function usePortalScrollProgress(
     resizeObserver.observe(stage);
 
     measure();
-    revealed = readTarget() >= 0.5;
+    // Match the current scroll position before transitions are enabled so a
+    // mid-page refresh does not replay, then let scrolling drive it from there.
+    revealed = readOffset() > OPEN_AFTER_PX;
     section.classList.toggle('is-revealed', revealed);
     readyFrame = window.requestAnimationFrame(() => {
       section.classList.add('portal-ready');
+      syncState();
     });
 
     return () => {
       window.cancelAnimationFrame(readyFrame);
-      window.clearTimeout(transitionTimer);
-      window.removeEventListener('wheel', onWheel);
+      window.cancelAnimationFrame(scrollFrame);
       window.removeEventListener('scroll', onScroll);
       visibilityObserver.disconnect();
       depthObserver?.disconnect();
       resizeObserver.disconnect();
-      section.classList.remove('portal-ready', 'is-revealed', 'is-transitioning');
+      section.classList.remove('portal-ready', 'is-revealed');
       delete section.dataset.portalDriver;
     };
   }, [sectionRef, withDepth]);
