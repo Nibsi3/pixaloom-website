@@ -26,7 +26,20 @@ export function CinematicHero() {
             <strong>Culture</strong>
           </h1>
           <span className="portal-caption">Web design · Products · South Africa</span>
-          <Link className="portal-scroll" href="#featured-state">
+          <Link
+            className="portal-scroll"
+            href="#work-archive"
+            onClick={(event) => {
+              event.preventDefault();
+              const section = sectionRef.current;
+              if (!section) return;
+              const stage = section.querySelector<HTMLElement>('.reference-stage');
+              const distance = stage
+                ? Math.max(window.innerHeight * 0.9, section.offsetHeight - stage.offsetHeight)
+                : window.innerHeight;
+              window.scrollTo({ top: window.scrollY + distance, behavior: 'auto' });
+            }}
+          >
             <span>Scroll down</span><ArrowDown size={12} />
           </Link>
         </div>
