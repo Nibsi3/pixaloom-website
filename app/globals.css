@@ -476,8 +476,9 @@ img { max-width: 100%; }
   --feature-opacity: 0;
   --feature-copy-y: 45px;
   position: relative;
-  /* Tall runway so one desktop wheel/trackpad flick cannot skip the reveal. */
-  height: 280svh;
+  /* The reveal is time-based, so this only needs enough sticky runway to hold the
+     opened frame briefly — a taller hero just reads as scrolling with nothing happening. */
+  height: 140svh;
   background: #030303;
 }
 .reference-stage {
@@ -588,6 +589,42 @@ img { max-width: 100%; }
 .featured-project > span { color: rgba(255,255,255,.62); font-size: .45rem; letter-spacing: .12em; text-transform: uppercase; }
 .featured-project > strong { font-family: "Iowan Old Style",Baskerville,serif; font-size: 1.2rem; font-weight: 400; }
 .featured-project > a { width: fit-content; display: flex; align-items: center; gap: 6px; padding-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,.55); font-size: .48rem; letter-spacing: .11em; text-transform: uppercase; }
+
+/*
+ * Portal chapter: JS only toggles .is-revealed; CSS owns every visual frame.
+ * This avoids scroll-position jumps skipping the actual circle animation.
+ */
+.reference-hero.portal-ready .reference-media {
+  transition:
+    -webkit-clip-path 1.05s cubic-bezier(.76,0,.24,1),
+    clip-path 1.05s cubic-bezier(.76,0,.24,1),
+    transform 1.05s cubic-bezier(.76,0,.24,1);
+}
+.reference-hero.portal-ready .portal-copy {
+  transition: opacity .38s ease;
+}
+.reference-hero.portal-ready .featured-copy {
+  transition: opacity .48s ease, transform .65s cubic-bezier(.22,1,.36,1);
+}
+.reference-hero.portal-ready .reference-scrim {
+  transition: opacity 1.05s ease;
+}
+.reference-hero.is-revealed .reference-media {
+  -webkit-clip-path: circle(116% at var(--portal-origin-x) var(--portal-origin-y));
+  clip-path: circle(116% at var(--portal-origin-x) var(--portal-origin-y));
+  transform: translate3d(0,0,0) scale(1);
+}
+.reference-hero.is-revealed .portal-copy {
+  opacity: 0;
+}
+.reference-hero.is-revealed .featured-copy {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+  transition-delay: .34s, .3s;
+}
+.reference-hero.is-revealed .reference-scrim {
+  opacity: .3;
+}
 
 .reference-archive { padding: 145px 0 40px; overflow: hidden; background: #030303; }
 .reference-archive-intro { position: relative; width: min(1360px,calc(100% - 84px)); min-height: 390px; margin: 0 auto; border-top: 1px solid var(--fine-line); padding-top: 24px; }
@@ -798,7 +835,11 @@ img { max-width: 100%; }
 }
 
 @media (max-width: 720px) {
-  .reference-hero { --portal-origin-x: 50%; --portal-origin-y: 50%; height: 220svh; }
+  .reference-hero {
+    --portal-origin-x: 50%;
+    --portal-origin-y: 50%;
+    height: 135svh;
+  }
   .reference-stage { top: 66px; height: calc(100svh - 66px); min-height: 500px; }
   .reference-media { inset: -2%; transform: translate3d(0,0,0) scale(calc(1.07 - var(--hero-progress) * .07)); }
   .reference-media video { object-position: center; }
@@ -868,6 +909,16 @@ img { max-width: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
   *,*::before,*::after { scroll-behavior: auto!important; animation-duration: .01ms!important; animation-iteration-count: 1!important; transition-duration: .01ms!important; }
+
+  /* The portal reveal is the hero's content rather than incidental motion, so it
+     keeps its transition here — the blanket rule above otherwise collapsed it to
+     .01ms and made the circle cut straight to the open state. */
+  .reference-hero.portal-ready .reference-media,
+  .reference-hero.portal-ready .portal-copy,
+  .reference-hero.portal-ready .featured-copy,
+  .reference-hero.portal-ready .reference-scrim {
+    transition-duration: .9s!important;
+  }
 }
 
 /* Cinematic portfolio system — reference-led, distinctly Pixaloom */
