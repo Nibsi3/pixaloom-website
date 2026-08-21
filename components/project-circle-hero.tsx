@@ -1,11 +1,11 @@
 'use client';
 
 import type { CSSProperties } from 'react';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import Link from 'next/link';
 import { ArrowDown, ArrowLeft, ExternalLink } from 'lucide-react';
 import { CinematicBackgroundVideo } from '@/components/cinematic-background-video';
-import { useCinematicHeroSnap } from '@/components/use-cinematic-hero-snap';
+import { usePortalScrollProgress } from '@/components/use-portal-scroll-progress';
 
 type ProjectCircleHeroProps = {
   accent: string;
@@ -18,66 +18,10 @@ type ProjectCircleHeroProps = {
   summary: string;
 };
 
-const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
-
 export function ProjectCircleHero({ accent, category, index, liveUrl, meta, name, outcomes, summary }: ProjectCircleHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
-  useCinematicHeroSnap(sectionRef);
+  usePortalScrollProgress(sectionRef, false);
   const titleLength = name.length > 20 ? 'xlong' : name.length > 9 ? 'long' : name.length > 7 ? 'medium' : 'standard';
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const stage = section.querySelector<HTMLElement>('.reference-stage');
-    if (!stage) return;
-
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let animationFrame = 0;
-    let scrollDistance = 1;
-    let stickyTop = 0;
-
-    const measure = () => {
-      const sectionRect = section.getBoundingClientRect();
-      const stageRect = stage.getBoundingClientRect();
-      scrollDistance = Math.max(1, sectionRect.height - stageRect.height);
-      stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
-    };
-
-    const update = () => {
-      const rect = section.getBoundingClientRect();
-      const progress = reducedMotion ? (rect.top < stickyTop ? 1 : 0) : clamp((stickyTop - rect.top) / scrollDistance);
-
-      // These are intentionally identical to CinematicHero so the project
-      // portal follows the homepage frame-for-frame.
-      section.style.setProperty('--hero-progress', progress.toFixed(4));
-      section.style.setProperty('--portal-size', `${17 + progress * 99}%`);
-      section.style.setProperty('--portal-y', `${(1 - progress) * -2.5}vh`);
-      section.style.setProperty('--intro-opacity', `${1 - clamp(progress / 0.36)}`);
-      section.style.setProperty('--feature-opacity', `${clamp((progress - 0.3) / 0.3)}`);
-      section.style.setProperty('--feature-copy-y', `${(1 - clamp((progress - 0.28) / 0.38)) * 45}px`);
-      animationFrame = 0;
-    };
-
-    const requestUpdate = () => {
-      if (!animationFrame) animationFrame = window.requestAnimationFrame(update);
-    };
-
-    const resizeObserver = new ResizeObserver(() => {
-      measure();
-      requestUpdate();
-    });
-    resizeObserver.observe(section);
-    resizeObserver.observe(stage);
-
-    measure();
-    update();
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    return () => {
-      if (animationFrame) window.cancelAnimationFrame(animationFrame);
-      resizeObserver.disconnect();
-      window.removeEventListener('scroll', requestUpdate);
-    };
-  }, []);
 
   return (
     <section
