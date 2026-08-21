@@ -5,21 +5,15 @@ import { useEffect } from 'react';
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
 
-function supportsViewTimeline() {
-  return typeof CSS !== 'undefined' && CSS.supports('animation-timeline', 'view()');
-}
+/** A full 0→1 reveal always takes at least this long, even if scroll jumps in one notch. */
+const MIN_REVEAL_SECONDS = 0.9;
 
 /**
- * Drives cinematic portal progress from scroll.
+ * Drives cinematic portal CSS variables from scroll position.
  *
- * Prefer CSS scroll-driven animations (see globals.css) — they scrub on the
- * compositor, so desktop wheel/trackpad scrolling still shows the circle open
- * instead of jumping from intro → feature when the main thread skips frames.
- *
- * This hook:
- * - no-ops progress writes when view() timelines are active
- * - keeps a rAF + lerp fallback for browsers without scroll-driven animations
- * - still updates optional depth parallax layers
+ * Scroll only sets a *target*. Display progress catches up at a capped rate so a
+ * single desktop wheel/trackpad jump still plays the circle open (~0.9s) instead
+ * of cutting straight from intro copy to the feature state.
  */
 export function usePortalScrollProgress(
   sectionRef: RefObject<HTMLElement | null>,
@@ -32,13 +26,7 @@ export function usePortalScrollProgress(
     if (!stage) return;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const cssTimeline = !reducedMotion && supportsViewTimeline();
-
-    if (cssTimeline) {
-      section.dataset.portalDriver = 'css';
-    } else {
-      section.dataset.portalDriver = reducedMotion ? 'reduced' : 'js';
-    }
+    section.dataset.portalDriver = reducedMotion ? 'reduced' : 'js';
 
     const depthLayers = withDepth
       ? Array.from(document.querySelectorAll<HTMLElement>('[data-depth]')).flatMap((layer) => {
@@ -53,11 +41,12 @@ export function usePortalScrollProgress(
     let loopId = 0;
     let heroVisible = true;
     let displayProgress = 0;
+    let lastTime = performance.now();
 
     const measure = () => {
       scrollDistance = Math.max(
-        window.innerHeight * 0.9,
-        section.getBoundingClientRect().height - stage.getBoundingClientRect().height,
+        window.innerHeight * 1.2,
+        section.offsetHeight - stage.offsetHeight,
       );
       stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
     };
@@ -69,10 +58,9 @@ export function usePortalScrollProgress(
       section.style.setProperty('--intro-opacity', `${1 - clamp(progress / 0.36)}`);
       section.style.setProperty('--feature-opacity', `${clamp((progress - 0.3) / 0.3)}`);
       section.style.setProperty('--feature-copy-y', `${(1 - clamp((progress - 0.28) / 0.38)) * 45}px`);
-    };
 
-    const applyDepth = () => {
       if (!withDepth || activeDepthLayers.size === 0) return;
+
       const viewportCentre = window.innerHeight / 2;
       for (const { anchor, layer, speed } of activeDepthLayers) {
         const anchorRect = anchor.getBoundingClientRect();
@@ -81,37 +69,40 @@ export function usePortalScrollProgress(
       }
     };
 
-    const update = () => {
-      if (!cssTimeline) {
-        const rect = section.getBoundingClientRect();
-        const target = reducedMotion
-          ? (rect.top < stickyTop ? 1 : 0)
-          : clamp((stickyTop - rect.top) / scrollDistance);
-
-        if (reducedMotion) {
-          displayProgress = target;
-        } else {
-          const delta = target - displayProgress;
-          const smoothing = Math.abs(delta) > 0.12 ? 0.08 : 0.18;
-          displayProgress += delta * smoothing;
-          if (Math.abs(delta) < 0.001) displayProgress = target;
-        }
-
-        applyProgress(displayProgress);
-      }
-
-      applyDepth();
+    const readTarget = () => {
+      const rect = section.getBoundingClientRect();
+      if (reducedMotion) return rect.top < stickyTop ? 1 : 0;
+      return clamp((stickyTop - rect.top) / scrollDistance);
     };
 
-    const loop = () => {
-      if (heroVisible) update();
+    const update = (now: number) => {
+      const dt = Math.min(0.064, Math.max(0, (now - lastTime) / 1000));
+      lastTime = now;
+
+      const target = readTarget();
+
+      if (reducedMotion) {
+        displayProgress = target;
+      } else {
+        const delta = target - displayProgress;
+        const maxStep = dt / MIN_REVEAL_SECONDS;
+        if (Math.abs(delta) <= maxStep) displayProgress = target;
+        else displayProgress += Math.sign(delta) * maxStep;
+      }
+
+      applyProgress(displayProgress);
+    };
+
+    const loop = (now: number) => {
+      // Keep easing even briefly after the hero leaves so a late jump still finishes.
+      if (heroVisible || Math.abs(readTarget() - displayProgress) > 0.001) update(now);
+      else lastTime = now;
       loopId = window.requestAnimationFrame(loop);
     };
 
     const visibilityObserver = new IntersectionObserver((entries) => {
       heroVisible = entries.some((entry) => entry.isIntersecting);
-      if (heroVisible) update();
-    }, { rootMargin: '20% 0px' });
+    }, { rootMargin: '30% 0px' });
     visibilityObserver.observe(section);
 
     const depthObserver = withDepth
@@ -132,19 +123,13 @@ export function usePortalScrollProgress(
 
     const resizeObserver = new ResizeObserver(() => {
       measure();
-      update();
     });
     resizeObserver.observe(section);
     resizeObserver.observe(stage);
 
     measure();
-    if (!cssTimeline) {
-      const rect = section.getBoundingClientRect();
-      displayProgress = reducedMotion
-        ? (rect.top < stickyTop ? 1 : 0)
-        : clamp((stickyTop - rect.top) / scrollDistance);
-      applyProgress(displayProgress);
-    }
+    displayProgress = readTarget();
+    applyProgress(displayProgress);
     loopId = window.requestAnimationFrame(loop);
 
     return () => {
