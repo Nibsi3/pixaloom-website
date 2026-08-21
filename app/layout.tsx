@@ -65,7 +65,7 @@ const organizationSchema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-ZA" data-scroll-behavior="smooth">
+    <html lang="en-ZA" data-scroll-behavior="auto">
       <body>
         <a className="skip-link" href="#main-content">Skip to content</a>
         <JsonLd id="organization-schema" data={organizationSchema} />
