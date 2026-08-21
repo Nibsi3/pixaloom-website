@@ -497,7 +497,6 @@ img { max-width: 100%; }
   transform: translate3d(0,var(--portal-y),0) scale(calc(1.07 - var(--hero-progress) * .07));
   will-change: clip-path,transform;
   backface-visibility: hidden;
-  contain: paint;
 }
 .reference-media video {
   width: 100%;

@@ -8,6 +8,11 @@ const easeInOutCubic = (value: number) => value < 0.5
   ? 4 * value * value * value
   : 1 - Math.pow(-2 * value + 2, 3) / 2;
 
+/** Instant scroll — `html { scroll-behavior: smooth }` must not fight the rAF portal drive. */
+const scrollInstant = (top: number) => {
+  window.scrollTo({ top, left: 0, behavior: 'auto' });
+};
+
 /**
  * Turns the cinematic opening into a deliberate two-stop sequence. Momentum
  * from the gesture that starts a reveal is absorbed until that gesture ends,
@@ -53,7 +58,7 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
       const distance = target - start;
 
       if (Math.abs(distance) < 2) {
-        window.scrollTo(0, target);
+        scrollInstant(target);
         scheduleRelease();
         return;
       }
@@ -63,12 +68,12 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
 
       const step = (now: number) => {
         const progress = clamp((now - startedAt) / duration, 0, 1);
-        window.scrollTo(0, start + distance * easeInOutCubic(progress));
+        scrollInstant(start + distance * easeInOutCubic(progress));
         if (progress < 1) {
           animationFrame = window.requestAnimationFrame(step);
         } else {
           animationFrame = 0;
-          window.scrollTo(0, target);
+          scrollInstant(target);
           scheduleRelease();
         }
       };
@@ -97,7 +102,9 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
 
       if (gestureLocked) {
         event.preventDefault();
-        scheduleRelease();
+        // Keep the lock alive while the chapter animation is still running;
+        // only start the release countdown once the scripted scroll finishes.
+        if (!animationFrame) scheduleRelease();
         return;
       }
 
@@ -132,27 +139,27 @@ export function useCinematicHeroSnap(sectionRef: RefObject<HTMLElement | null>) 
       // browser/assistive scrolling paths that apply a large position jump
       // directly and would otherwise leap over the cinematic chapter.
       if (!gestureLocked && lastScrollY <= start + 4 && current > start + 4) {
-        window.scrollTo(0, start);
+        scrollInstant(start);
         lastScrollY = start;
         beginChapterTransition(1);
         return;
       }
 
       if (!gestureLocked && lastScrollY >= end - 4 && lastScrollY <= end + 4 && current < end - 4) {
-        window.scrollTo(0, end);
+        scrollInstant(end);
         lastScrollY = end;
         beginChapterTransition(-1);
         return;
       }
 
       if (gestureLocked && current > end + 4) {
-        window.scrollTo(0, end);
+        scrollInstant(end);
         lastScrollY = end;
         return;
       }
 
       if (gestureLocked && current < start - 4) {
-        window.scrollTo(0, start);
+        scrollInstant(start);
         lastScrollY = start;
         return;
       }
