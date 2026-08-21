@@ -908,6 +908,16 @@ img { max-width: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
   *,*::before,*::after { scroll-behavior: auto!important; animation-duration: .01ms!important; animation-iteration-count: 1!important; transition-duration: .01ms!important; }
+
+  /* The portal reveal is the hero's content rather than incidental motion, so it
+     keeps its transition here — the blanket rule above otherwise collapsed it to
+     .01ms and made the circle cut straight to the open state. */
+  .reference-hero.portal-ready .reference-media,
+  .reference-hero.portal-ready .portal-copy,
+  .reference-hero.portal-ready .featured-copy,
+  .reference-hero.portal-ready .reference-scrim {
+    transition-duration: .9s!important;
+  }
 }
 
 /* Cinematic portfolio system — reference-led, distinctly Pixaloom */

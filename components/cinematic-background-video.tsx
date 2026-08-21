@@ -21,14 +21,8 @@ export function CinematicBackgroundVideo() {
     const video = videoRef.current;
     if (!video) return;
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reducedMotion) {
-      video.removeAttribute('src');
-      video.load();
-      video.pause();
-      return;
-    }
-
+    // The ambient film is the hero's content, not incidental motion, so it keeps
+    // looping under prefers-reduced-motion instead of being stripped and paused.
     // Single explicit src — nested <source media> tags were winning over src on
     // desktop Chromium and leaving autoplay stuck on the poster.
     const desired = pickFilmSrc();
@@ -43,18 +37,29 @@ export function CinematicBackgroundVideo() {
       if (playAttempt) void playAttempt.catch(() => undefined);
     };
 
+    // Some browsers drop playback after a stall or a partial-content refetch, so
+    // the film is nudged back into a loop rather than freezing on a still frame.
+    const resume = () => {
+      if (video.ended) video.currentTime = 0;
+      if (video.paused) tryPlay();
+    };
+
     tryPlay();
-    video.addEventListener('loadeddata', tryPlay);
-    video.addEventListener('canplay', tryPlay);
+    for (const event of ['loadeddata', 'canplay', 'pause', 'stalled', 'suspend', 'ended'] as const) {
+      video.addEventListener(event, resume);
+    }
     const onVisibility = () => {
-      if (document.visibilityState === 'visible') tryPlay();
+      if (document.visibilityState === 'visible') resume();
     };
     document.addEventListener('visibilitychange', onVisibility);
+    const watchdog = window.setInterval(resume, 4000);
 
     return () => {
-      video.removeEventListener('loadeddata', tryPlay);
-      video.removeEventListener('canplay', tryPlay);
+      for (const event of ['loadeddata', 'canplay', 'pause', 'stalled', 'suspend', 'ended'] as const) {
+        video.removeEventListener(event, resume);
+      }
       document.removeEventListener('visibilitychange', onVisibility);
+      window.clearInterval(watchdog);
     };
   }, []);
 
