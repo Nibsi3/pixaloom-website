@@ -5,10 +5,21 @@ import { useEffect } from 'react';
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
 
+function supportsViewTimeline() {
+  return typeof CSS !== 'undefined' && CSS.supports('animation-timeline', 'view()');
+}
+
 /**
- * Drives cinematic portal CSS variables from scroll position.
- * Progress is lerped every frame so a single large desktop wheel/trackpad
- * jump still plays as a visible circle reveal instead of an instant cut.
+ * Drives cinematic portal progress from scroll.
+ *
+ * Prefer CSS scroll-driven animations (see globals.css) — they scrub on the
+ * compositor, so desktop wheel/trackpad scrolling still shows the circle open
+ * instead of jumping from intro → feature when the main thread skips frames.
+ *
+ * This hook:
+ * - no-ops progress writes when view() timelines are active
+ * - keeps a rAF + lerp fallback for browsers without scroll-driven animations
+ * - still updates optional depth parallax layers
  */
 export function usePortalScrollProgress(
   sectionRef: RefObject<HTMLElement | null>,
@@ -21,6 +32,13 @@ export function usePortalScrollProgress(
     if (!stage) return;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const cssTimeline = !reducedMotion && supportsViewTimeline();
+
+    if (cssTimeline) {
+      section.dataset.portalDriver = 'css';
+    } else {
+      section.dataset.portalDriver = reducedMotion ? 'reduced' : 'js';
+    }
 
     const depthLayers = withDepth
       ? Array.from(document.querySelectorAll<HTMLElement>('[data-depth]')).flatMap((layer) => {
@@ -51,9 +69,10 @@ export function usePortalScrollProgress(
       section.style.setProperty('--intro-opacity', `${1 - clamp(progress / 0.36)}`);
       section.style.setProperty('--feature-opacity', `${clamp((progress - 0.3) / 0.3)}`);
       section.style.setProperty('--feature-copy-y', `${(1 - clamp((progress - 0.28) / 0.38)) * 45}px`);
+    };
 
+    const applyDepth = () => {
       if (!withDepth || activeDepthLayers.size === 0) return;
-
       const viewportCentre = window.innerHeight / 2;
       for (const { anchor, layer, speed } of activeDepthLayers) {
         const anchorRect = anchor.getBoundingClientRect();
@@ -63,23 +82,25 @@ export function usePortalScrollProgress(
     };
 
     const update = () => {
-      const rect = section.getBoundingClientRect();
-      const target = reducedMotion
-        ? (rect.top < stickyTop ? 1 : 0)
-        : clamp((stickyTop - rect.top) / scrollDistance);
+      if (!cssTimeline) {
+        const rect = section.getBoundingClientRect();
+        const target = reducedMotion
+          ? (rect.top < stickyTop ? 1 : 0)
+          : clamp((stickyTop - rect.top) / scrollDistance);
 
-      if (reducedMotion) {
-        displayProgress = target;
-      } else {
-        // Heavier easing when catching up to a large jump (desktop wheel notches /
-        // trackpad flicks), lighter when already close for responsive scrubbing.
-        const delta = target - displayProgress;
-        const smoothing = Math.abs(delta) > 0.12 ? 0.08 : 0.18;
-        displayProgress += delta * smoothing;
-        if (Math.abs(delta) < 0.001) displayProgress = target;
+        if (reducedMotion) {
+          displayProgress = target;
+        } else {
+          const delta = target - displayProgress;
+          const smoothing = Math.abs(delta) > 0.12 ? 0.08 : 0.18;
+          displayProgress += delta * smoothing;
+          if (Math.abs(delta) < 0.001) displayProgress = target;
+        }
+
+        applyProgress(displayProgress);
       }
 
-      applyProgress(displayProgress);
+      applyDepth();
     };
 
     const loop = () => {
@@ -117,12 +138,13 @@ export function usePortalScrollProgress(
     resizeObserver.observe(stage);
 
     measure();
-    // Seed from the real scroll position so a mid-page refresh does not animate from 0.
-    const rect = section.getBoundingClientRect();
-    displayProgress = reducedMotion
-      ? (rect.top < stickyTop ? 1 : 0)
-      : clamp((stickyTop - rect.top) / scrollDistance);
-    applyProgress(displayProgress);
+    if (!cssTimeline) {
+      const rect = section.getBoundingClientRect();
+      displayProgress = reducedMotion
+        ? (rect.top < stickyTop ? 1 : 0)
+        : clamp((stickyTop - rect.top) / scrollDistance);
+      applyProgress(displayProgress);
+    }
     loopId = window.requestAnimationFrame(loop);
 
     return () => {
@@ -130,6 +152,7 @@ export function usePortalScrollProgress(
       visibilityObserver.disconnect();
       depthObserver?.disconnect();
       resizeObserver.disconnect();
+      delete section.dataset.portalDriver;
     };
   }, [sectionRef, withDepth]);
 }

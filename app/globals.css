@@ -477,8 +477,12 @@ img { max-width: 100%; }
   --feature-copy-y: 45px;
   position: relative;
   /* Tall runway so one desktop wheel/trackpad flick cannot skip the reveal. */
-  height: 280svh;
+  height: 320svh;
   background: #030303;
+  /* Named view timeline for compositor-driven portal scrub (see @supports below). */
+  view-timeline-name: --portal-hero;
+  view-timeline-axis: block;
+  view-timeline-inset: 76px 0 0 0;
 }
 .reference-stage {
   position: sticky;
@@ -588,6 +592,58 @@ img { max-width: 100%; }
 .featured-project > span { color: rgba(255,255,255,.62); font-size: .45rem; letter-spacing: .12em; text-transform: uppercase; }
 .featured-project > strong { font-family: "Iowan Old Style",Baskerville,serif; font-size: 1.2rem; font-weight: 400; }
 .featured-project > a { width: fit-content; display: flex; align-items: center; gap: 6px; padding-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,.55); font-size: .48rem; letter-spacing: .11em; text-transform: uppercase; }
+
+/*
+ * Compositor-scrubbed portal reveal. JS scroll → style updates often skip
+ * paints during desktop wheel scrolling (intro then feature with no in-between).
+ * Named view timeline on .reference-hero maps sticky runway progress → clip/opacity.
+ */
+@keyframes portal-media-scrub {
+  from {
+    -webkit-clip-path: circle(17% at var(--portal-origin-x) var(--portal-origin-y));
+    clip-path: circle(17% at var(--portal-origin-x) var(--portal-origin-y));
+    transform: translate3d(0, -2.5vh, 0) scale(1.07);
+  }
+  to {
+    -webkit-clip-path: circle(116% at var(--portal-origin-x) var(--portal-origin-y));
+    clip-path: circle(116% at var(--portal-origin-x) var(--portal-origin-y));
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes portal-intro-scrub {
+  0% { opacity: 1; }
+  34% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes portal-feature-scrub {
+  0% { opacity: 0; transform: translate3d(0, 45px, 0); }
+  28% { opacity: 0; transform: translate3d(0, 45px, 0); }
+  58% { opacity: 1; transform: translate3d(0, 0, 0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes portal-scrim-scrub {
+  from { opacity: .72; }
+  to { opacity: .3; }
+}
+
+@supports (animation-timeline: view()) {
+  .reference-hero .reference-media,
+  .reference-hero .portal-copy,
+  .reference-hero .featured-copy,
+  .reference-hero .reference-scrim {
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --portal-hero;
+    animation-range: exit-crossing 0% exit 100%;
+  }
+  .reference-hero .reference-media {
+    animation-name: portal-media-scrub;
+    will-change: clip-path, transform;
+  }
+  .reference-hero .portal-copy { animation-name: portal-intro-scrub; }
+  .reference-hero .featured-copy { animation-name: portal-feature-scrub; }
+  .reference-hero .reference-scrim { animation-name: portal-scrim-scrub; }
+}
 
 .reference-archive { padding: 145px 0 40px; overflow: hidden; background: #030303; }
 .reference-archive-intro { position: relative; width: min(1360px,calc(100% - 84px)); min-height: 390px; margin: 0 auto; border-top: 1px solid var(--fine-line); padding-top: 24px; }
@@ -798,7 +854,12 @@ img { max-width: 100%; }
 }
 
 @media (max-width: 720px) {
-  .reference-hero { --portal-origin-x: 50%; --portal-origin-y: 50%; height: 220svh; }
+  .reference-hero {
+    --portal-origin-x: 50%;
+    --portal-origin-y: 50%;
+    height: 240svh;
+    view-timeline-inset: 66px 0 0 0;
+  }
   .reference-stage { top: 66px; height: calc(100svh - 66px); min-height: 500px; }
   .reference-media { inset: -2%; transform: translate3d(0,0,0) scale(calc(1.07 - var(--hero-progress) * .07)); }
   .reference-media video { object-position: center; }
@@ -864,6 +925,12 @@ img { max-width: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
   .reference-media,.featured-copy,.collection-image,.collection-copy,.exhibit-window { will-change: auto; }
+  .reference-hero .reference-media,
+  .reference-hero .portal-copy,
+  .reference-hero .featured-copy,
+  .reference-hero .reference-scrim {
+    animation: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

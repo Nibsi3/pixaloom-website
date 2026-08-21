@@ -37,7 +37,8 @@ export function CinematicHero() {
               const distance = stage
                 ? Math.max(window.innerHeight * 0.9, section.offsetHeight - stage.offsetHeight)
                 : window.innerHeight;
-              window.scrollTo({ top: window.scrollY + distance, behavior: 'auto' });
+              // Smooth scroll so the CSS view-timeline portal can scrub visibly.
+              window.scrollTo({ top: window.scrollY + distance, behavior: 'smooth' });
             }}
           >
             <span>Scroll down</span><ArrowDown size={12} />
