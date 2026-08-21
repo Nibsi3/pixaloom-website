@@ -6,10 +6,9 @@ import { useEffect } from 'react';
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
 
 /**
- * Drives the cinematic portal CSS variables from scroll position.
- * Samples on every animation frame while the hero is on screen so desktop
- * trackpad/wheel scrolling still advances the portal even when scroll events
- * are sparse or suppressed.
+ * Drives cinematic portal CSS variables from scroll position.
+ * Progress is lerped every frame so a single large desktop wheel/trackpad
+ * jump still plays as a visible circle reveal instead of an instant cut.
  */
 export function usePortalScrollProgress(
   sectionRef: RefObject<HTMLElement | null>,
@@ -35,18 +34,17 @@ export function usePortalScrollProgress(
     let stickyTop = 0;
     let loopId = 0;
     let heroVisible = true;
+    let displayProgress = 0;
 
     const measure = () => {
-      scrollDistance = Math.max(1, section.getBoundingClientRect().height - stage.getBoundingClientRect().height);
+      scrollDistance = Math.max(
+        window.innerHeight * 0.9,
+        section.getBoundingClientRect().height - stage.getBoundingClientRect().height,
+      );
       stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
     };
 
-    const update = () => {
-      const rect = section.getBoundingClientRect();
-      const progress = reducedMotion
-        ? (rect.top < stickyTop ? 1 : 0)
-        : clamp((stickyTop - rect.top) / scrollDistance);
-
+    const applyProgress = (progress: number) => {
       section.style.setProperty('--hero-progress', progress.toFixed(4));
       section.style.setProperty('--portal-size', `${17 + progress * 99}%`);
       section.style.setProperty('--portal-y', `${(1 - progress) * -2.5}vh`);
@@ -62,6 +60,26 @@ export function usePortalScrollProgress(
         const distance = viewportCentre - (anchorRect.top + anchorRect.height / 2);
         layer.style.setProperty('--depth-y', `${clamp(distance * speed, -135, 135).toFixed(2)}px`);
       }
+    };
+
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const target = reducedMotion
+        ? (rect.top < stickyTop ? 1 : 0)
+        : clamp((stickyTop - rect.top) / scrollDistance);
+
+      if (reducedMotion) {
+        displayProgress = target;
+      } else {
+        // Heavier easing when catching up to a large jump (desktop wheel notches /
+        // trackpad flicks), lighter when already close for responsive scrubbing.
+        const delta = target - displayProgress;
+        const smoothing = Math.abs(delta) > 0.12 ? 0.08 : 0.18;
+        displayProgress += delta * smoothing;
+        if (Math.abs(delta) < 0.001) displayProgress = target;
+      }
+
+      applyProgress(displayProgress);
     };
 
     const loop = () => {
@@ -99,7 +117,12 @@ export function usePortalScrollProgress(
     resizeObserver.observe(stage);
 
     measure();
-    update();
+    // Seed from the real scroll position so a mid-page refresh does not animate from 0.
+    const rect = section.getBoundingClientRect();
+    displayProgress = reducedMotion
+      ? (rect.top < stickyTop ? 1 : 0)
+      : clamp((stickyTop - rect.top) / scrollDistance);
+    applyProgress(displayProgress);
     loopId = window.requestAnimationFrame(loop);
 
     return () => {
