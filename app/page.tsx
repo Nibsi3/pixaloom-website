@@ -73,8 +73,7 @@ function ArchiveCollection({ item, index }: { item: WorkItem; index: number }) {
 
       <div className="exhibit-art">
         <div className="exhibit-aura" aria-hidden="true" />
-        <Link className="exhibit-window exhibit-window-main" href={`/work/${item.slug}`} aria-label={`View ${item.name} — Pixaloom / ${item.slug}`} data-depth="0.045">
-          <span className="exhibit-browser-bar"><i /><i /><i /><em>pixaloom / {item.slug}</em></span>
+        <Link className="exhibit-window exhibit-window-main" href={`/work/${item.slug}`} aria-label={`View ${item.name}`} data-depth="0.045">
           <span className="exhibit-screen" style={{ position: 'relative' }}>
             <Image src={item.png} alt={`${item.name} project interface`} fill quality={92} sizes="(max-width: 720px) 100vw, 72vw" />
           </span>
