@@ -476,8 +476,8 @@ img { max-width: 100%; }
   --feature-opacity: 0;
   --feature-copy-y: 45px;
   position: relative;
-  /* Tall runway so one desktop wheel/trackpad flick cannot skip the reveal. */
-  height: 360svh;
+  /* One viewport of scroll powers the chapter; desktop wheel advances it in one gesture. */
+  height: 220svh;
   background: #030303;
 }
 .reference-stage {
@@ -807,7 +807,7 @@ img { max-width: 100%; }
   .reference-hero {
     --portal-origin-x: 50%;
     --portal-origin-y: 50%;
-    height: 260svh;
+    height: 220svh;
   }
   .reference-stage { top: 66px; height: calc(100svh - 66px); min-height: 500px; }
   .reference-media { inset: -2%; transform: translate3d(0,0,0) scale(calc(1.07 - var(--hero-progress) * .07)); }

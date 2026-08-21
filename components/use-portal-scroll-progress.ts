@@ -5,15 +5,18 @@ import { useEffect } from 'react';
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
 
-/** A full 0→1 reveal always takes at least this long, even if scroll jumps in one notch. */
-const MIN_REVEAL_SECONDS = 0.9;
+const REVEAL_DURATION_MS = 1100;
+const MIN_REVEAL_SECONDS = REVEAL_DURATION_MS / 1000;
+const easeInOutCubic = (value: number) => (
+  value < 0.5 ? 4 * value ** 3 : 1 - ((-2 * value + 2) ** 3) / 2
+);
 
 /**
  * Drives cinematic portal CSS variables from scroll position.
  *
- * Scroll only sets a *target*. Display progress catches up at a capped rate so a
- * single desktop wheel/trackpad jump still plays the circle open (~0.9s) instead
- * of cutting straight from intro copy to the feature state.
+ * One desktop wheel gesture advances the full chapter through a controlled
+ * animation. Touch devices retain native scroll. The capped rAF fallback also
+ * protects keyboard/programmatic scrolling from hard-cutting between states.
  */
 export function usePortalScrollProgress(
   sectionRef: RefObject<HTMLElement | null>,
@@ -42,6 +45,8 @@ export function usePortalScrollProgress(
     let heroVisible = true;
     let displayProgress = 0;
     let lastTime = performance.now();
+    let chapterAnimationId = 0;
+    let chapterAnimating = false;
 
     const measure = () => {
       scrollDistance = Math.max(
@@ -75,10 +80,59 @@ export function usePortalScrollProgress(
       return clamp((stickyTop - rect.top) / scrollDistance);
     };
 
+    const animateChapter = (destination: 0 | 1) => {
+      window.cancelAnimationFrame(chapterAnimationId);
+      chapterAnimating = true;
+
+      const startTime = performance.now();
+      const startY = window.scrollY;
+      const startProgress = displayProgress;
+      const sectionTop = startY + section.getBoundingClientRect().top;
+      const endY = sectionTop - stickyTop + destination * scrollDistance;
+
+      const frame = (now: number) => {
+        const elapsed = clamp((now - startTime) / REVEAL_DURATION_MS);
+        const eased = easeInOutCubic(elapsed);
+        displayProgress = startProgress + (destination - startProgress) * eased;
+        applyProgress(displayProgress);
+        window.scrollTo(0, startY + (endY - startY) * eased);
+
+        if (elapsed < 1) {
+          chapterAnimationId = window.requestAnimationFrame(frame);
+        } else {
+          displayProgress = destination;
+          applyProgress(destination);
+          chapterAnimating = false;
+          lastTime = now;
+        }
+      };
+
+      chapterAnimationId = window.requestAnimationFrame(frame);
+    };
+
+    const isDesktopPointer = !window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    const onWheel = (event: WheelEvent) => {
+      if (reducedMotion || !isDesktopPointer || !heroVisible) return;
+
+      if (chapterAnimating) {
+        event.preventDefault();
+        return;
+      }
+
+      const target = readTarget();
+      const wantsNext = event.deltaY > 4 && target < 0.98;
+      const wantsPrevious = event.deltaY < -4 && target > 0.02;
+      if (!wantsNext && !wantsPrevious) return;
+
+      event.preventDefault();
+      animateChapter(wantsNext ? 1 : 0);
+    };
+
     const update = (now: number) => {
       const dt = Math.min(0.064, Math.max(0, (now - lastTime) / 1000));
       lastTime = now;
 
+      if (chapterAnimating) return;
       const target = readTarget();
 
       if (reducedMotion) {
@@ -104,6 +158,7 @@ export function usePortalScrollProgress(
       heroVisible = entries.some((entry) => entry.isIntersecting);
     }, { rootMargin: '30% 0px' });
     visibilityObserver.observe(section);
+    window.addEventListener('wheel', onWheel, { passive: false });
 
     const depthObserver = withDepth
       ? new IntersectionObserver((entries) => {
@@ -134,6 +189,8 @@ export function usePortalScrollProgress(
 
     return () => {
       window.cancelAnimationFrame(loopId);
+      window.cancelAnimationFrame(chapterAnimationId);
+      window.removeEventListener('wheel', onWheel);
       visibilityObserver.disconnect();
       depthObserver?.disconnect();
       resizeObserver.disconnect();
