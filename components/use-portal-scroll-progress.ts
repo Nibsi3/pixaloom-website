@@ -110,9 +110,11 @@ export function usePortalScrollProgress(
       chapterAnimationId = window.requestAnimationFrame(frame);
     };
 
-    const isDesktopPointer = !window.matchMedia('(hover: none), (pointer: coarse)').matches;
     const onWheel = (event: WheelEvent) => {
-      if (reducedMotion || !isDesktopPointer || !heroVisible) return;
+      // If a browser emits a wheel event, it has a mouse/trackpad-style input.
+      // Do not gate this on pointer media queries: touch-capable laptops often
+      // report a coarse pointer and previously bypassed the chapter animation.
+      if (reducedMotion || !heroVisible) return;
 
       if (chapterAnimating) {
         event.preventDefault();
