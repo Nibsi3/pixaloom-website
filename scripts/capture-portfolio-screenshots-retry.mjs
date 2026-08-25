@@ -11,23 +11,27 @@ const ROOT = path.resolve(process.cwd());
 const OUT = path.join(ROOT, 'public');
 const CHROME = '/usr/local/bin/google-chrome';
 const VIEWPORT = { width: 1600, height: 1000, deviceScaleFactor: 2 };
+const CAPS_TUTOR_BASE = process.env.CAPS_TUTOR_BASE || 'http://127.0.0.1:9002';
 
 const JOBS = [
   // Illumi already captured — skip unless missing
   {
     key: 'capstutor',
     dir: 'pixa_pics/capstutor',
-    cover: 'work/capstutor.png',
+    cover: 'work/capstutor.jpg',
     replaceOld: true,
+    // Real product is Nibsi3/caps-tutor. Do not recapture www.capstutor.co.za.
     shots: [
-      { name: 'capstutor-homepage.png', url: 'https://www.capstutor.co.za/' },
-      { name: 'capstutor-modes.png', url: 'https://www.capstutor.co.za/capstutor-modes.html' },
-      { name: 'capstutor-exercises.png', url: 'https://www.capstutor.co.za/capstutor-exercises.html' },
-      { name: 'capstutor-analytics.png', url: 'https://www.capstutor.co.za/capstutor-analytics.html' },
-      { name: 'capstutor-caps.png', url: 'https://www.capstutor.co.za/capstutor-caps.html' },
-      { name: 'capstutor-ieb.png', url: 'https://www.capstutor.co.za/capstutor-ieb.html' },
-      { name: 'capstutor-pricing.png', url: 'https://www.capstutor.co.za/#pricing' },
-      { name: 'capstutor-trial.png', url: 'https://www.capstutor.co.za/trial-started.html' },
+      { name: 'capstutor-homepage.jpg', url: `${CAPS_TUTOR_BASE}/` },
+      { name: 'capstutor-how-it-works.jpg', url: `${CAPS_TUTOR_BASE}/how-it-works` },
+      { name: 'capstutor-subjects.jpg', url: `${CAPS_TUTOR_BASE}/all-subjects` },
+      { name: 'capstutor-syllabus.jpg', url: `${CAPS_TUTOR_BASE}/caps-syllabus` },
+      { name: 'capstutor-login.jpg', url: `${CAPS_TUTOR_BASE}/login` },
+      { name: 'capstutor-register.jpg', url: `${CAPS_TUTOR_BASE}/register` },
+      { name: 'capstutor-blog.jpg', url: `${CAPS_TUTOR_BASE}/blog` },
+      { name: 'capstutor-news.jpg', url: `${CAPS_TUTOR_BASE}/news` },
+      { name: 'capstutor-contact.jpg', url: `${CAPS_TUTOR_BASE}/contact` },
+      { name: 'capstutor-exam-tips.jpg', url: `${CAPS_TUTOR_BASE}/exam-tips` },
     ],
   },
   {
@@ -166,7 +170,14 @@ async function capture(page, shot, dest) {
     throw new Error('Still on Cloudflare challenge');
   }
 
-  await page.screenshot({ path: dest, type: 'png', fullPage: false, captureBeyondViewport: false });
+  const isJpeg = /\.jpe?g$/i.test(shot.name);
+  await page.screenshot({
+    path: dest,
+    type: isJpeg ? 'jpeg' : 'png',
+    quality: isJpeg ? 78 : undefined,
+    fullPage: false,
+    captureBeyondViewport: false,
+  });
   const size = (await fs.stat(dest)).size;
   console.log(`  OK ${shot.name} (${Math.round(size / 1024)}KB) — ${title}`);
   return true;

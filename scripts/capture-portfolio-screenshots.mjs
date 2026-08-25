@@ -10,6 +10,8 @@ import puppeteer from 'puppeteer-core';
 const ROOT = path.resolve(process.cwd());
 const OUT = path.join(ROOT, 'public');
 const CHROME = process.env.CHROME_PATH || '/usr/local/bin/google-chrome';
+// Real product is github.com/Nibsi3/caps-tutor — not www.capstutor.co.za.
+const CAPS_TUTOR_BASE = process.env.CAPS_TUTOR_BASE || 'http://127.0.0.1:9002';
 
 const VIEWPORT = { width: 1600, height: 1000, deviceScaleFactor: 2 };
 
@@ -33,16 +35,20 @@ const PROJECTS = {
   },
   capstutor: {
     dir: 'pixa_pics/capstutor',
-    cover: 'work/capstutor.png',
+    cover: 'work/capstutor.jpg',
+    // Real product is Nibsi3/caps-tutor. Do not recapture www.capstutor.co.za.
+    // Run a local checkout (default port 9002) or set CAPS_TUTOR_BASE.
     shots: [
-      { name: 'capstutor-homepage.png', url: 'https://www.capstutor.co.za/', waitMs: 3000 },
-      { name: 'capstutor-features.png', url: 'https://www.capstutor.co.za/features', waitMs: 2500 },
-      { name: 'capstutor-pricing.png', url: 'https://www.capstutor.co.za/pricing', waitMs: 2500 },
-      { name: 'capstutor-about.png', url: 'https://www.capstutor.co.za/about', waitMs: 2500 },
-      { name: 'capstutor-contact.png', url: 'https://www.capstutor.co.za/contact', waitMs: 2500 },
-      { name: 'capstutor-login.png', url: 'https://www.capstutor.co.za/login', waitMs: 2500 },
-      { name: 'capstutor-signup.png', url: 'https://www.capstutor.co.za/signup', waitMs: 2500 },
-      { name: 'capstutor-blog.png', url: 'https://www.capstutor.co.za/blog', waitMs: 2500 },
+      { name: 'capstutor-homepage.jpg', url: `${CAPS_TUTOR_BASE}/`, waitMs: 4000 },
+      { name: 'capstutor-how-it-works.jpg', url: `${CAPS_TUTOR_BASE}/how-it-works`, waitMs: 2500 },
+      { name: 'capstutor-subjects.jpg', url: `${CAPS_TUTOR_BASE}/all-subjects`, waitMs: 3000 },
+      { name: 'capstutor-syllabus.jpg', url: `${CAPS_TUTOR_BASE}/caps-syllabus`, waitMs: 2500 },
+      { name: 'capstutor-login.jpg', url: `${CAPS_TUTOR_BASE}/login`, waitMs: 2500 },
+      { name: 'capstutor-register.jpg', url: `${CAPS_TUTOR_BASE}/register`, waitMs: 2500 },
+      { name: 'capstutor-blog.jpg', url: `${CAPS_TUTOR_BASE}/blog`, waitMs: 2500 },
+      { name: 'capstutor-news.jpg', url: `${CAPS_TUTOR_BASE}/news`, waitMs: 2500 },
+      { name: 'capstutor-contact.jpg', url: `${CAPS_TUTOR_BASE}/contact`, waitMs: 2500 },
+      { name: 'capstutor-exam-tips.jpg', url: `${CAPS_TUTOR_BASE}/exam-tips`, waitMs: 2500 },
     ],
   },
   pawsonroute: {
@@ -197,6 +203,7 @@ async function settlePage(page, waitMs = 2000) {
         el.style.setProperty('display', 'none', 'important');
       });
     }
+    document.querySelectorAll('nextjs-portal, [data-next-badge-root]').forEach((el) => el.remove());
   }).catch(() => {});
 }
 
@@ -213,9 +220,11 @@ async function captureShot(page, shot, destAbs) {
     console.warn(`  SKIP ${shot.name} — title suggests missing page: ${title}`);
     return false;
   }
+  const isJpeg = /\.jpe?g$/i.test(shot.name);
   await page.screenshot({
     path: destAbs,
-    type: 'png',
+    type: isJpeg ? 'jpeg' : 'png',
+    quality: isJpeg ? 78 : undefined,
     fullPage: Boolean(shot.fullPage),
     captureBeyondViewport: false,
   });
