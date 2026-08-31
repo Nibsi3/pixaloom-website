@@ -78,7 +78,7 @@ export default function WebsiteCostPage() {
             </div>
             <p className="minimal-kicker">South Africa · Planning ranges · 2026</p>
             <h1>
-              Website cost in<br />
+              Website cost in<br />{' '}
               <em>South Africa.</em>
             </h1>
             <div className="minimal-hero-foot">
@@ -108,7 +108,7 @@ export default function WebsiteCostPage() {
                 <p>What the number buys</p>
               </div>
               <h2>
-                Price follows the<br />
+                Price follows the<br />{' '}
                 <em>job to be done.</em>
               </h2>
             </div>
@@ -158,7 +158,7 @@ export default function WebsiteCostPage() {
           <div className="minimal-shell">
             <p className="minimal-kicker">Next step</p>
             <h2>
-              Bring the business context.<br />
+              Bring the business context.<br />{' '}
               <em>We’ll return a real range.</em>
             </h2>
             <div className="minimal-inline-links">
