@@ -77,10 +77,7 @@ export default function WebsiteCostPage() {
               <span>Website cost</span>
             </div>
             <p className="minimal-kicker">South Africa · Planning ranges · 2026</p>
-            <h1>
-              Website cost in<br />{' '}
-              <em>South Africa.</em>
-            </h1>
+            <h1>Website cost in<br /> <em>South Africa.</em></h1>
             <div className="minimal-hero-foot">
               <p>
                 Most serious South African business websites sit well above cheap template pricing and well below enterprise software. Use the estimator to shape a range, then we will quote the actual work.
@@ -107,10 +104,7 @@ export default function WebsiteCostPage() {
                 <span>02</span>
                 <p>What the number buys</p>
               </div>
-              <h2>
-                Price follows the<br />{' '}
-                <em>job to be done.</em>
-              </h2>
+              <h2>Price follows the<br /> <em>job to be done.</em></h2>
             </div>
             <ol className="minimal-principle-list">
               <li>
@@ -157,10 +151,7 @@ export default function WebsiteCostPage() {
         <section className="minimal-close">
           <div className="minimal-shell">
             <p className="minimal-kicker">Next step</p>
-            <h2>
-              Bring the business context.<br />{' '}
-              <em>We’ll return a real range.</em>
-            </h2>
+            <h2>Bring the business context.<br /> <em>We’ll return a real range.</em></h2>
             <div className="minimal-inline-links">
               <Link href="/contact">
                 Start a project <ArrowRight size={15} />
