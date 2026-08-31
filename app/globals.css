@@ -589,8 +589,9 @@ img { max-width: 100%; }
   display: block;
   margin-left: 0;
   color: rgba(255,255,255,.68);
-  font-size: .48em;
+  font-size: .52em;
   font-weight: 400;
+  letter-spacing: -.04em;
 }
 .featured-intro { position: absolute; left: 7%; bottom: 4.5%; max-width: 310px; margin: 0; color: rgba(255,255,255,.78); font-size: .63rem; line-height: 1.65; }
 .featured-project { position: absolute; right: 4%; bottom: 4.5%; min-width: 220px; padding-left: 17px; border-left: 1px solid rgba(255,255,255,.4); display: grid; gap: 6px; }
