@@ -32,7 +32,7 @@ export default function AboutPage() {
       <div className="minimal-shell">
         <div className="minimal-crumb"><Link href="/">Home</Link><span>/</span><span>About</span></div>
         <p className="minimal-kicker">Independent · George, South Africa</p>
-        <h1>Small by design.<br /><em>Serious about the result.</em></h1>
+        <h1>Small by design.<br /> <em>Serious about the result.</em></h1>
         <div className="minimal-hero-foot">
           <p>Pixaloom is a focused web design and development studio. Strategy, design, engineering and technical SEO stay connected from the first conversation to launch.</p>
           <span>One studio · One accountable team</span>
@@ -44,7 +44,7 @@ export default function AboutPage() {
       <div className="minimal-shell minimal-statement-grid">
         <div className="minimal-section-mark"><span>01</span><p>Why Pixaloom exists</p></div>
         <div>
-          <h2>One line of<br /><em>accountability.</em></h2>
+          <h2>One line of<br /> <em>accountability.</em></h2>
           <div className="minimal-prose">
             <p>A business should not need three agencies and six handovers to launch a clear, effective website. Pixaloom brings commercial thinking, interface design, development and search foundations into one focused process.</p>
             <p>That means fewer gaps between what was promised, what was designed and what actually ships. Specialist help is brought in deliberately—not hidden behind layers of account management.</p>
@@ -63,6 +63,6 @@ export default function AboutPage() {
       </div>
     </section>
 
-    <section className="minimal-close"><div className="minimal-shell"><p className="minimal-kicker">A studio close to the work</p><h2>Bring the ambition.<br /><em>We’ll bring the focus.</em></h2><Link href="/contact">Start a project <ArrowRight size={15} /></Link></div></section>
+    <section className="minimal-close"><div className="minimal-shell"><p className="minimal-kicker">A studio close to the work</p><h2>Bring the ambition.<br /> <em>We’ll bring the focus.</em></h2><Link href="/contact">Start a project <ArrowRight size={15} /></Link></div></section>
   </main><Footer /></>;
 }

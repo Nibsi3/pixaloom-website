@@ -2,6 +2,7 @@ export type Service = {
   slug: string;
   name: string;
   shortName: string;
+  seoTitle: string;
   eyebrow: string;
   description: string;
   promise: string;
@@ -17,6 +18,7 @@ export const services: Service[] = [
     slug: 'website-design',
     name: 'Website Design & Development',
     shortName: 'Website design',
+    seoTitle: 'Website Design Company South Africa',
     eyebrow: 'Make the right first impression',
     description:
       'Strategic, mobile-first websites for South African businesses that need to look credible, explain their value clearly and turn visits into calls, messages and qualified enquiries.',
@@ -40,6 +42,7 @@ export const services: Service[] = [
     slug: 'ecommerce-websites',
     name: 'Ecommerce Website Development',
     shortName: 'Ecommerce',
+    seoTitle: 'Ecommerce Website Development SA',
     eyebrow: 'Turn product interest into revenue',
     description:
       'High-performance online stores designed for South African buying behaviour, mobile checkout and the operational reality of payments, shipping, inventory and product content.',
@@ -63,6 +66,7 @@ export const services: Service[] = [
     slug: 'seo',
     name: 'SEO & Content Systems',
     shortName: 'SEO',
+    seoTitle: 'SEO Company South Africa',
     eyebrow: 'Build durable, compounding visibility',
     description:
       'Technical SEO, information architecture and useful content systems that help the right South African customers discover your business without shortcuts that put your domain at risk.',
@@ -86,6 +90,7 @@ export const services: Service[] = [
     slug: 'web-app-development',
     name: 'Custom Web App Development',
     shortName: 'Web applications',
+    seoTitle: 'Custom Web App Development SA',
     eyebrow: 'Turn a manual process into a useful product',
     description:
       'Custom portals, dashboards, internal tools and software products built for real workflows—not impressive demos that become expensive to maintain.',
@@ -109,6 +114,7 @@ export const services: Service[] = [
     slug: 'website-care',
     name: 'Website Care & Optimisation',
     shortName: 'Website care',
+    seoTitle: 'Website Care South Africa',
     eyebrow: 'Keep the site working after launch',
     description:
       'Ongoing updates, performance checks, security maintenance and conversion improvements for businesses that need a dependable web partner.',

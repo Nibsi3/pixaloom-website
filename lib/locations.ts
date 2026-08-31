@@ -79,3 +79,20 @@ export function getProvince(slug: string) {
 }
 
 export const allCoverageAreas = provinces.flatMap((province) => province.towns);
+
+export const localHubs = [
+  {
+    slug: 'george',
+    name: 'George',
+    href: '/locations/george',
+    label: 'Studio base',
+    summary: 'The Pixaloom studio is in George. This is the page for Garden Route businesses that want a local partner without a template site.',
+  },
+  {
+    slug: 'garden-route',
+    name: 'Garden Route',
+    href: '/locations/garden-route',
+    label: 'Home region',
+    summary: 'Websites for tourism, hospitality, trades and professional services from Mossel Bay through Knysna and Plettenberg Bay.',
+  },
+] as const;

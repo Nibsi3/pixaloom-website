@@ -31,7 +31,7 @@ export default function ServicesPage() {
       <div className="minimal-shell">
         <div className="minimal-crumb"><Link href="/">Home</Link><span>/</span><span>Services</span></div>
         <p className="minimal-kicker">Strategy · Design · Engineering · Search</p>
-        <h1>Digital work<br /><em>that earns its place.</em></h1>
+        <h1>Web design &amp; SEO<br /> <em>that earns its place.</em></h1>
         <div className="minimal-hero-foot"><p>Connected web design, ecommerce, SEO and software development for South African businesses that want clearer positioning, better performance and measurable outcomes.</p><span>Five connected capabilities</span></div>
       </div>
     </section>
@@ -50,7 +50,7 @@ export default function ServicesPage() {
     <section className="minimal-statement">
       <div className="minimal-shell minimal-statement-grid">
         <div className="minimal-section-mark"><span>02</span><p>One connected system</p></div>
-        <div><h2>Not separate<br /><em>departments.</em></h2><div className="minimal-prose"><p>A site can look impressive and still be difficult to find, slow to use or vague about what to do next. Pixaloom considers positioning, content, interface, engineering, search and conversion as one system from the beginning.</p><p>That gives every visual decision a commercial reason and every technical decision a clear owner.</p></div></div>
+        <div><h2>Not separate<br /> <em>departments.</em></h2><div className="minimal-prose"><p>A site can look impressive and still be difficult to find, slow to use or vague about what to do next. Pixaloom considers positioning, content, interface, engineering, search and conversion as one system from the beginning.</p><p>That gives every visual decision a commercial reason and every technical decision a clear owner.</p></div></div>
       </div>
     </section>
 
@@ -61,6 +61,6 @@ export default function ServicesPage() {
       </div>
     </section>
 
-    <section className="minimal-close"><div className="minimal-shell"><p className="minimal-kicker">Start with the problem</p><h2>Not sure which service fits?<br /><em>We’ll make it clear.</em></h2><Link href="/contact">Talk it through <ArrowRight size={15} /></Link></div></section>
+    <section className="minimal-close"><div className="minimal-shell"><p className="minimal-kicker">Start with the problem</p><h2>Not sure which service fits?<br /> <em>We’ll make it clear.</em></h2><div className="minimal-inline-links"><Link href="/contact">Talk it through <ArrowRight size={15} /></Link><Link href="/website-cost">Estimate website cost <ArrowUpRight size={14} /></Link></div></div></section>
   </main><Footer /></>;
 }

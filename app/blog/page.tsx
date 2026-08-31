@@ -26,7 +26,7 @@ export default function BlogPage() {
       <div className="minimal-shell">
         <div className="minimal-crumb"><Link href="/">Home</Link><span>/</span><span>Journal</span></div>
         <p className="minimal-kicker">Strategy · Design · Development · SEO</p>
-        <h1>Useful thinking.<br /><em>No trend theatre.</em></h1>
+        <h1>Useful thinking.<br /> <em>No trend theatre.</em></h1>
         <div className="minimal-hero-foot"><p>Research-backed guidance shaped by hands-on South African website, ecommerce and search work. Sources and practical context are included with every published article.</p><span>{publishedBlogPosts.length} reviewed articles</span></div>
       </div>
     </section>

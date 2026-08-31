@@ -39,7 +39,7 @@ export default function ProjectsPage() {
       <div className="minimal-shell">
         <div className="minimal-crumb"><Link href="/">Home</Link><span>/</span><span>Works</span></div>
         <p className="minimal-kicker">Pixaloom archive · 2024—2026</p>
-        <h1>Work with a pulse.<br /><em>Products with purpose.</em></h1>
+        <h1>Work with a pulse.<br /> <em>Products with purpose.</em></h1>
         <div className="minimal-hero-foot"><p>A living collection of websites, ecommerce stores, platforms and practical digital products created for ambitious South African organisations.</p><span>{totalProjects} selected projects</span></div>
       </div>
     </section>
