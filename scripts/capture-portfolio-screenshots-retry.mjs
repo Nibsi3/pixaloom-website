@@ -15,22 +15,6 @@ const VIEWPORT = { width: 1600, height: 1000, deviceScaleFactor: 2 };
 const JOBS = [
   // Illumi already captured — skip unless missing
   {
-    key: 'capstutor',
-    dir: 'pixa_pics/capstutor',
-    cover: 'work/capstutor.png',
-    replaceOld: true,
-    shots: [
-      { name: 'capstutor-homepage.png', url: 'https://www.capstutor.co.za/' },
-      { name: 'capstutor-modes.png', url: 'https://www.capstutor.co.za/capstutor-modes.html' },
-      { name: 'capstutor-exercises.png', url: 'https://www.capstutor.co.za/capstutor-exercises.html' },
-      { name: 'capstutor-analytics.png', url: 'https://www.capstutor.co.za/capstutor-analytics.html' },
-      { name: 'capstutor-caps.png', url: 'https://www.capstutor.co.za/capstutor-caps.html' },
-      { name: 'capstutor-ieb.png', url: 'https://www.capstutor.co.za/capstutor-ieb.html' },
-      { name: 'capstutor-pricing.png', url: 'https://www.capstutor.co.za/#pricing' },
-      { name: 'capstutor-trial.png', url: 'https://www.capstutor.co.za/trial-started.html' },
-    ],
-  },
-  {
     key: 'physiope',
     dir: 'pixa_pics/physiope',
     cover: 'work/physiope.png',

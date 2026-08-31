@@ -18,6 +18,7 @@ const nextConfig = {
       { source: '/watercolor', destination: 'https://www.pixaloom.co.za/projects', permanent: true },
       { source: '/tandem', destination: 'https://www.pixaloom.co.za/projects', permanent: true },
       { source: '/car', destination: 'https://www.pixaloom.co.za/projects', permanent: true },
+      { source: '/work/caps-tutor', destination: '/work/covercrete', permanent: true },
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'pixaloom.co.za' }],

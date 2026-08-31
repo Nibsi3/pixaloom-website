@@ -31,20 +31,6 @@ const PROJECTS = {
       { name: 'illumi-app-login.png', url: 'https://app.illumi.co.za/login', waitMs: 2500 },
     ],
   },
-  capstutor: {
-    dir: 'pixa_pics/capstutor',
-    cover: 'work/capstutor.png',
-    shots: [
-      { name: 'capstutor-homepage.png', url: 'https://www.capstutor.co.za/', waitMs: 3000 },
-      { name: 'capstutor-features.png', url: 'https://www.capstutor.co.za/features', waitMs: 2500 },
-      { name: 'capstutor-pricing.png', url: 'https://www.capstutor.co.za/pricing', waitMs: 2500 },
-      { name: 'capstutor-about.png', url: 'https://www.capstutor.co.za/about', waitMs: 2500 },
-      { name: 'capstutor-contact.png', url: 'https://www.capstutor.co.za/contact', waitMs: 2500 },
-      { name: 'capstutor-login.png', url: 'https://www.capstutor.co.za/login', waitMs: 2500 },
-      { name: 'capstutor-signup.png', url: 'https://www.capstutor.co.za/signup', waitMs: 2500 },
-      { name: 'capstutor-blog.png', url: 'https://www.capstutor.co.za/blog', waitMs: 2500 },
-    ],
-  },
   pawsonroute: {
     dir: 'pixa_pics/pawsonroute',
     cover: 'work/pawsonroute.png',
