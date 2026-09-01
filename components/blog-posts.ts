@@ -169,7 +169,9 @@ Think about it this way: if your average customer is worth R5,000 to your busine
 
 We focus on ROI, not just pretty designs. Every site we build is engineered to convert visitors into leads. We include SEO foundations, fast performance, and clear conversion paths as standard — because a website that doesn't generate business is just an expensive business card.
 
-**Get a custom quote** tailored to your business goals. No templates, no guesswork.`,
+**Get a custom quote** tailored to your business goals. No templates, no guesswork.
+
+If you want a planning number before the conversation, use the [South African website cost estimator](/website-cost).`,
     date: '2026-02-04',
     category: 'Business',
     readTime: '5 min read',

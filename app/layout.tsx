@@ -50,6 +50,7 @@ const organizationSchema = {
       description: site.description,
       foundingLocation: { '@type': 'Place', name: 'George, Western Cape' },
       address: { '@type': 'PostalAddress', addressLocality: 'George', addressRegion: 'Western Cape', addressCountry: 'ZA' },
+      geo: { '@type': 'GeoCoordinates', latitude: site.geo.latitude, longitude: site.geo.longitude },
       areaServed: [
         { '@type': 'City', name: 'George' },
         { '@type': 'AdministrativeArea', name: 'Western Cape' },

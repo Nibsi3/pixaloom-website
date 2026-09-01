@@ -27,7 +27,6 @@ export function usePortalScrollProgress(
     const stage = section.querySelector<HTMLElement>('.reference-stage');
     if (!stage) return;
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     section.dataset.portalDriver = 'css-state';
 
     const depthLayers = withDepth

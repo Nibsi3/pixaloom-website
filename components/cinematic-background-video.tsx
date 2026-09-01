@@ -74,7 +74,7 @@ export function CinematicBackgroundVideo() {
       muted
       loop
       playsInline
-      preload="auto"
+      preload="metadata"
       poster={cinematicPoster}
     />
   );

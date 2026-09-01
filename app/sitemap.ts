@@ -5,7 +5,7 @@ import { provinces } from '@/lib/locations';
 import { services } from '@/lib/services';
 import { absoluteUrl, site } from '@/lib/site';
 
-const lastModified = new Date('2026-08-11');
+const lastModified = new Date(site.contentRevised);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const core = [
@@ -13,6 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ['/services', .95, 'monthly'],
     ['/projects', .85, 'monthly'],
     ['/locations', .9, 'monthly'],
+    ['/locations/george', .95, 'monthly'],
+    ['/locations/garden-route', .9, 'monthly'],
+    ['/website-cost', .92, 'monthly'],
     ['/about', .7, 'yearly'],
     ['/blog', .8, 'weekly'],
     ['/contact', .7, 'yearly'],

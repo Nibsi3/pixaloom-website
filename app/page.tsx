@@ -38,6 +38,7 @@ const homeSchema = {
   inLanguage: 'en-ZA',
   isPartOf: { '@id': `${site.url}/#website` },
   about: { '@id': `${site.url}/#organization` },
+  dateModified: site.contentRevised,
   primaryImageOfPage: { '@type': 'ImageObject', url: absoluteUrl('/opengraph-image') },
   mainEntity: {
     '@type': 'ItemList',
@@ -104,7 +105,7 @@ export default function HomePage() {
         <section className="reference-archive" id="work-archive">
           <div className="reference-archive-intro">
             <p>Selected works · 2024—2026</p>
-            <h2>Digital work,<br /><em>composed with intent.</em></h2>
+            <h2>Digital work,<br /> <em>composed with intent.</em></h2>
             <Link href="/projects">All projects <ArrowDown size={13} /></Link>
           </div>
           <div className="reference-collections">
@@ -134,7 +135,8 @@ export default function HomePage() {
           </ol>
           <div className="home-capabilities-foot">
             <p>Based in George · Working nationwide</p>
-            <Link href="/locations">Explore South African coverage <ArrowUpRight size={14} /></Link>
+            <Link href="/locations/george">Web design in George <ArrowUpRight size={14} /></Link>
+            <Link href="/website-cost">Website cost in South Africa <ArrowUpRight size={14} /></Link>
             <Link href="/contact">Start a project <ArrowUpRight size={14} /></Link>
           </div>
         </section>

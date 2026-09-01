@@ -19,12 +19,12 @@ export function CinematicHero() {
         <div className="reference-scrim" aria-hidden="true" />
 
         <div className="portal-copy">
-          <h1 id="hero-title">
+          <p className="portal-wordmark" aria-hidden="true">
             <span>between</span>
             <strong>Code</strong>
             <i>&amp;</i>
             <strong>Culture</strong>
-          </h1>
+          </p>
           <span className="portal-caption">Web design · Products · South Africa</span>
           <Link
             className="portal-scroll"
@@ -46,12 +46,12 @@ export function CinematicHero() {
         </div>
 
         <div className="featured-copy" id="featured-state">
-          <p className="featured-kicker">Pixaloom · South African web design studio</p>
-          <h2>Push <em>the</em><br />Possible</h2>
-          <p className="featured-intro">We design and build fast websites, ecommerce stores and digital products with enough character to be remembered.</p>
+          <p className="featured-kicker">Pixaloom · Web design studio in George</p>
+          <h1 id="hero-title">Web design<br /> <em>for South Africa.</em></h1>
+          <p className="featured-intro">We design and build fast websites, ecommerce stores and digital products from George—with enough character to be remembered.</p>
           <div className="featured-project">
             <span>Strategy · Design · Engineering</span>
-            <strong>Made in South Africa</strong>
+            <strong>Made in George, South Africa</strong>
             <Link href="/projects">View portfolio <ArrowUpRight size={13} /></Link>
           </div>
         </div>
