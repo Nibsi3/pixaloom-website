@@ -17,7 +17,7 @@ export const metadata: Metadata = pageMetadata({
   path: '/',
 });
 
-const archiveSlugs = ['illumi', 'nordflam', 'buildvolume', 'caps-tutor'];
+const archiveSlugs = ['illumi', 'nordflam', 'buildvolume', 'covercrete'];
 const archiveWork = archiveSlugs
   .map((slug) => workItems.find((item) => item.slug === slug))
   .filter((item): item is WorkItem => Boolean(item));
@@ -25,7 +25,7 @@ const collectionThemes = [
   { accent: '#9b8fc4', label: 'Business, made lighter' },
   { accent: '#b46f50', label: 'Warmth, made tangible' },
   { accent: '#8093b2', label: 'Making, made possible' },
-  { accent: '#6f82bd', label: 'Learning, reimagined' },
+  { accent: '#9b875e', label: 'Surfaces, made seamless' },
 ];
 
 const homeSchema = {

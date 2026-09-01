@@ -17,7 +17,7 @@ const projectAccents = [
   '#9a6ead', '#4d8e86', '#b48445', '#4e88a5', '#8b5f99', '#536eac',
   '#b45f54', '#9b875e', '#4d8b93', '#a87646', '#658557', '#935e83',
 ];
-const priorityOrder = ['illumi', 'nordflam', 'buildvolume', 'caps-tutor'];
+const priorityOrder = ['illumi', 'nordflam', 'buildvolume', 'covercrete'];
 const orderedCaseStudies = [
   ...priorityOrder.map((prioritySlug) => workItems.find((project) => project.slug === prioritySlug)).filter((project): project is (typeof workItems)[number] => Boolean(project)),
   ...workItems.filter((project) => !priorityOrder.includes(project.slug)),
