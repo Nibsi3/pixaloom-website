@@ -17,15 +17,14 @@ export const metadata: Metadata = pageMetadata({
   path: '/',
 });
 
-const archiveSlugs = ['illumi', 'nordflam', 'buildvolume', 'covercrete'];
+const archiveSlugs = ['nordflam', 'buildvolume', 'illumi'];
 const archiveWork = archiveSlugs
   .map((slug) => workItems.find((item) => item.slug === slug))
   .filter((item): item is WorkItem => Boolean(item));
 const collectionThemes = [
-  { accent: '#9b8fc4', label: 'Business, made lighter' },
   { accent: '#b46f50', label: 'Warmth, made tangible' },
   { accent: '#8093b2', label: 'Making, made possible' },
-  { accent: '#9b875e', label: 'Surfaces, made seamless' },
+  { accent: '#9b8fc4', label: 'Business, made lighter' },
 ];
 
 const homeSchema = {

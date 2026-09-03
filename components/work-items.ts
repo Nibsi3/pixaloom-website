@@ -14,7 +14,7 @@ export type WorkItem = {
   url?: string;
 };
 
-export const workItems: WorkItem[] = [
+const allWorkItems: WorkItem[] = [
   {
     slug: 'paws-on-route',
     name: 'Paws On Route',
@@ -917,3 +917,7 @@ export const workItems: WorkItem[] = [
     ],
   },
 ];
+
+// Keep paused case studies out of every public index, sitemap, and route.
+const pausedWorkSlugs = new Set(['george-herald']);
+export const workItems = allWorkItems.filter((item) => !pausedWorkSlugs.has(item.slug));
