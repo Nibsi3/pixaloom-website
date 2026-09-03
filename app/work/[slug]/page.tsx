@@ -8,6 +8,8 @@ import { Header } from '@/components/header';
 import { JsonLd } from '@/components/json-ld';
 import { ProjectCircleHero } from '@/components/project-circle-hero';
 import { workItems } from '@/components/work-items';
+import { contentModified } from '@/lib/content-dates';
+import { projectMediaDescription, projectService, projectVersion } from '@/lib/project-evidence';
 import { absoluteUrl, pageMetadata, site, truncateDescription } from '@/lib/site';
 
 export function generateStaticParams() { return workItems.map(({ slug }) => ({ slug })); }
@@ -28,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const item = workItems.find((project) => project.slug === slug);
   if (!item) return {};
   const description = truncateDescription(item.scope);
-  return pageMetadata({ title: `${item.name} Case Study`, description, path: `/work/${slug}`, image: item.png });
+  return pageMetadata({ title: `${item.name} — ${item.category || 'Website'} Project`, description, path: `/work/${slug}`, image: item.png });
 }
 
 export default async function WorkPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -45,6 +47,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
         '@type': 'CreativeWork', '@id': absoluteUrl(`/work/${slug}#case-study`), name: `${item.name} case study`, description: item.scope,
         creator: { '@id': `${site.url}/#organization` }, provider: { '@id': `${site.url}/#organization` }, url: absoluteUrl(`/work/${slug}`), mainEntityOfPage: absoluteUrl(`/work/${slug}`), image: absoluteUrl(item.png),
         about: item.stack.map((name) => ({ '@type': 'Thing', name })), inLanguage: 'en-ZA',
+        dateModified: contentModified(`/work/${slug}`),
       },
       {
         '@type': 'BreadcrumbList',
@@ -77,7 +80,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
         <section className="case-brief">
           <div className="site-container case-brief-grid">
             <div><p className="micro-label">The assignment</p><h2>Build the useful thing.<br /><em>Then make it unforgettable.</em></h2></div>
-            <div className="case-copy"><p>{item.scope}</p></div>
+            <div className="case-copy"><p>{item.scope}</p><p className="project-provenance">{projectVersion(item)}. This study describes the version shown in the saved captures; an external site may have changed since that work. Interface examples are not verified sales or ranking results. Updated <time dateTime={contentModified(`/work/${slug}`)}>3 September 2026</time>.</p>{!item.url ? <p>No public demo is linked for this study. <Link href="/contact">Ask about the demonstrated scope</Link>.</p> : null}</div>
           </div>
           {item.facts?.length ? <dl className="site-container case-fact-row">{item.facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl> : null}
         </section>
@@ -87,8 +90,8 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
           <div className="site-container gallery-mosaic">
             {gallery.slice(0, 6).map((image, imageIndex) => (
               <figure className={`gallery-shot gallery-shot-${(imageIndex % 5) + 1}`} key={image}>
-                <Image src={image} alt={`${item.name} screen ${imageIndex + 1}`} fill sizes="(max-width: 760px) 100vw, 60vw" />
-                <figcaption>{String(imageIndex + 1).padStart(2, '0')} · {item.name}</figcaption>
+                <Image src={image} alt={projectMediaDescription(item, image)} fill sizes="(max-width: 760px) 100vw, 60vw" />
+                <figcaption>{projectMediaDescription(item, image)}</figcaption>
               </figure>
             ))}
           </div>
@@ -105,6 +108,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
 
         <section className="case-stack"><div className="site-container case-brief-grid"><div><p className="micro-label">Technology</p><h2>The machinery<br />behind the magic.</h2></div><div className="stack-cloud">{item.stack.map((technology) => <span key={technology}>{technology}</span>)}</div></div></section>
 
+        <section className="content-section"><div className="site-container cta-panel"><h2>Planning something with a similar scope?</h2><Link href={`/services/${projectService(item)}`} className="button button-light">Explore the relevant service <ArrowRight size={18} /></Link><Link href="/contact" className="text-link">Discuss your brief</Link></div></section>
         <Link href={`/work/${nextProject.slug}`} className="next-project">
           <span>Next project · {nextProject.category}</span><strong>{nextProject.name}</strong><ArrowRight size={27} />
         </Link>

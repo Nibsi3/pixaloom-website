@@ -51,8 +51,6 @@ const allWorkItems: WorkItem[] = [
     gallery: [
       '/pixa_pics/pawsonroute/pawsonroute-homepage.jpg',
       '/pixa_pics/pawsonroute/pawsonroute-services.png',
-      '/pixa_pics/pawsonroute/pawsonroute-about.png',
-      '/pixa_pics/pawsonroute/pawsonroute-contact.png',
     ],
   },
   {
@@ -348,6 +346,7 @@ const allWorkItems: WorkItem[] = [
   {
     slug: 'spotlight',
     name: 'Spotlight',
+    url: 'https://www.spot-light.co.za/',
     category: 'Web App',
     png: '/work/spotlight.jpg',
     fallback: '/work/spotlight.svg',
@@ -461,6 +460,7 @@ const allWorkItems: WorkItem[] = [
   {
     slug: 'haval',
     name: 'Haval South Africa',
+    url: 'https://thorp.havaldemo.co.za/',
     category: 'Automotive',
     png: '/work/haval.png',
     fallback: '/work/haval.svg',
@@ -696,7 +696,6 @@ const allWorkItems: WorkItem[] = [
       '/pixa_pics/covercrete/covercrete-gallery.jpg',
       '/pixa_pics/covercrete/covercrete-about.png',
       '/pixa_pics/covercrete/covercrete-contact.png',
-      '/pixa_pics/covercrete/covercrete-shop.png',
     ],
   },
   {

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { JsonLd } from '@/components/json-ld';
+import { ConversionTracking } from '@/components/conversion-tracking';
 import { absoluteUrl, site } from '@/lib/site';
 
 export const viewport: Viewport = {
@@ -44,13 +45,12 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': ['Organization', 'ProfessionalService'], '@id': `${site.url}/#organization`, name: site.name, url: site.url,
+      '@type': 'Organization', '@id': `${site.url}/#organization`, name: site.name, url: site.url,
       logo: { '@type': 'ImageObject', url: absoluteUrl('/icon.png'), width: 512, height: 512 },
       image: absoluteUrl('/opengraph-image'), email: site.email, telephone: site.phoneInternational,
       description: site.description,
       foundingLocation: { '@type': 'Place', name: 'George, Western Cape' },
       address: { '@type': 'PostalAddress', addressLocality: 'George', addressRegion: 'Western Cape', addressCountry: 'ZA' },
-      geo: { '@type': 'GeoCoordinates', latitude: site.geo.latitude, longitude: site.geo.longitude },
       areaServed: [
         { '@type': 'City', name: 'George' },
         { '@type': 'AdministrativeArea', name: 'Western Cape' },
@@ -61,6 +61,7 @@ const organizationSchema = {
       sameAs: ['https://github.com/Nibsi3'],
     },
     { '@type': 'WebSite', '@id': `${site.url}/#website`, url: site.url, name: site.name, inLanguage: 'en-ZA', publisher: { '@id': `${site.url}/#organization` } },
+    { '@type': 'Person', '@id': `${site.url}/about#cameron-falck`, name: site.editor, url: absoluteUrl('/about'), worksFor: { '@id': `${site.url}/#organization` } },
   ],
 };
 
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <a className="skip-link" href="#main-content">Skip to content</a>
         <JsonLd id="organization-schema" data={organizationSchema} />
         <div className="site-frame">{children}</div>
+        <ConversionTracking />
       </body>
     </html>
   );

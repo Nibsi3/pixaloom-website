@@ -54,9 +54,10 @@ export default function AboutPage() {
       </div>
     </section>
 
+    <section className="minimal-statement" id="cameron-falck"><div className="minimal-shell minimal-statement-grid"><div className="minimal-section-mark"><span>02</span><p>Who is behind the work</p></div><div><h2>Cameron Falck.</h2><div className="minimal-prose"><p>Cameron Falck is the person behind Pixaloom, a web design and development studio based in George, South Africa. Use the studio contact details to discuss project scope, delivery responsibilities or a correction to our published material.</p><p>Our portfolio describes interface and implementation work. Public previews and archived captures are identified, and we do not treat a screenshot as proof of a commercial result. Project-specific roles, permissions and references can be discussed before a proposal is agreed.</p><p>Journal articles are published by Pixaloom. Updates show when their content changed; a new deployment does not refresh every article date.</p><Link href="/contact" className="text-link">Contact Cameron at Pixaloom</Link></div></div></div></section>
     <section className="minimal-index-section">
       <div className="minimal-shell">
-        <div className="minimal-index-heading"><div className="minimal-section-mark"><span>02</span><p>Working principles</p></div><h2>What you can<br />hold us to.</h2></div>
+        <div className="minimal-index-heading"><div className="minimal-section-mark"><span>03</span><p>Working principles</p></div><h2>What you can<br />hold us to.</h2></div>
         <ol className="minimal-principle-list">
           {principles.map(([title, text], index) => <li key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></li>)}
         </ol>

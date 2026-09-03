@@ -100,7 +100,7 @@ export function estimateWebsiteCost(
   scale: ProjectScaleId,
   extras: readonly ProjectExtraId[],
 ): WebsiteCostEstimate {
-  const uniqueExtras = [...new Set(extras)];
+  const uniqueExtras = [...new Set(extras)].filter(extra => !(kind === 'ecommerce' && extra === 'payments'));
   let [min, max] = baseRange[kind][scale];
   for (const extra of uniqueExtras) {
     min += extraRange[extra][0];
@@ -116,7 +116,7 @@ export function estimateWebsiteCost(
     min,
     max,
     timeline: timeline[scale],
-    summary: `A ${scale} ${kindLabel} of this shape usually lands between ${formatRandRange(min, max)}, with delivery ${timeline[scale]}.${extraNote} The figure is a planning range, not a quote.`,
+    summary: `Our indicative build range for a ${scale} ${kindLabel} is ${formatRandRange(min, max)}, with delivery ${timeline[scale]}.${extraNote} ${kind === 'ecommerce' ? 'One standard hosted payment integration is already included. ' : ''}This is a planning allowance, not a quote or a national market average.`,
   };
 }
 
@@ -126,4 +126,17 @@ export function formatRand(value: number) {
 
 export function formatRandRange(min: number, max: number) {
   return `${formatRand(min)}–${formatRand(max)}`;
+}
+
+export function estimateContactUrl(kind: ProjectKindId, scale: ProjectScaleId, extras: readonly ProjectExtraId[]) {
+  return `/contact?${new URLSearchParams({ kind, scale, extras: [...new Set(extras)].filter(extra => !(kind === 'ecommerce' && extra === 'payments')).join(',') })}`;
+}
+
+export function estimateBriefFromParams(params: URLSearchParams) {
+  const kind = projectKinds.find(item => item.id === params.get('kind'));
+  const scale = projectScales.find(item => item.id === params.get('scale'));
+  if (!kind || !scale) return '';
+  const extras = projectExtras.filter(item => (params.get('extras') || '').split(',').includes(item.id) && !(kind.id === 'ecommerce' && item.id === 'payments'));
+  const estimate = estimateWebsiteCost(kind.id, scale.id, extras.map(item => item.id));
+  return `Website planning brief\nProject: ${kind.label}\nScale: ${scale.label}\nAdditional features: ${extras.map(item => item.label).join(', ') || 'None selected'}${kind.id === 'ecommerce' ? '\nStandard hosted payment integration included' : ''}\nIndicative build allowance: ${formatRandRange(estimate.min, estimate.max)} (excluding VAT where applicable and recurring third-party charges; not a quote)\n\nMy business and goals:\n`;
 }

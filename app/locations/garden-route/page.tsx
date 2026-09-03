@@ -34,7 +34,7 @@ const faqs = [
   {
     question: 'Do you have offices in Knysna, Mossel Bay and Plettenberg Bay?',
     answer:
-      'No. Pixaloom is based in George and works across the Garden Route remotely, with in-person meetings when they earn their travel. Listing every town as a fake branch would be dishonest and is the kind of doorway pattern search engines already discount.',
+      'Pixaloom is based in George. We work with Garden Route businesses remotely and arrange in-person meetings by agreement. Contact us with your location and project requirements.',
   },
   {
     question: 'What makes a Garden Route website different?',
@@ -106,14 +106,15 @@ export default function GardenRoutePage() {
             </div>
             <div className="body-copy">
               <p>
-                Garden Route demand spikes with school holidays, whale season and December traffic, then has to keep producing local work in the quiet months. A brochure that only looks good in a screenshot fails both jobs. The useful version is fast, specific about place, honest about availability, and easy to update when rates or menus change.
+                Tourism and accommodation briefs need clear availability, arrival information and a dependable booking handover. Local-service briefs need accurate coverage, useful project evidence and an enquiry route someone actually monitors. We identify that primary journey before drawing the homepage.
               </p>
               <p>
-                Pixaloom is based in George, so this is home ground rather than a national agency parachuting in. Knysna, Wilderness, Mossel Bay and Plett are service areas—not cloned city pages with the same paragraph and a swapped heading.
+                Work runs from our George studio through shared previews, focused calls and agreed approval milestones. Bring the existing site, who updates prices or availability, and the services you want to grow. We scope content, photography, integrations and handover separately so each has a clear owner.
               </p>
               <Link href="/locations/george" className="text-link">
                 Visit the George studio page <ArrowRight size={15} />
               </Link>
+              <p>For a local service structure, see <Link href="/work/paws-on-route">Paws On Route</Link>. For a different kind of product, see the <Link href="/work/spotlight">Spotlight map interface study</Link>. These examples show the described work, not a promise of booking or ranking results.</p>
             </div>
           </div>
         </section>

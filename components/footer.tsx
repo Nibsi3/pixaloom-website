@@ -15,6 +15,7 @@ export function Footer() {
           {primaryNavigation.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
           <Link href="/locations/george">George</Link>
           <Link href="/website-cost">Website cost</Link>
+          <Link href="/privacy">Privacy</Link>
         </nav>
         <a href={`mailto:${site.email}`}>Contact <ArrowUpRight size={12} /></a>
       </div>
@@ -22,6 +23,7 @@ export function Footer() {
         <span>© {new Date().getFullYear()} Pixaloom · {site.location}</span>
         <Link href="/locations/george">Web design in George</Link>
         <Link href="/locations">Working across South Africa</Link>
+        <Link href="/privacy">Privacy notice</Link>
         <a href="#main-content">Back to top ↑</a>
       </div>
     </footer>

@@ -4,6 +4,10 @@ node_modules
 out
 .env
 .env.local
+.env.*
+!.env.example
+.test-build/
+audits/
 .DS_Store
 *.log
 __pycache__/

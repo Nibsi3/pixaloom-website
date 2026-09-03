@@ -1,3 +1,5 @@
+import { journalRevisions } from '@/lib/journal-revisions';
+
 export type BlogPost = {
   slug: string;
   title: string;
@@ -1908,4 +1910,9 @@ const sourcesBySlug: Record<string, BlogPost['sources']> = {
 
 export const publishedBlogPosts = blogPosts
   .filter((post) => publishedSlugs.has(post.slug))
-  .map((post) => ({ ...post, sources: sourcesBySlug[post.slug] ?? [googleSearchSource] }));
+  .map((post) => {
+    const revision = journalRevisions[post.slug];
+    if (!revision) throw new Error(`Missing editorial revision: ${post.slug}`);
+    const sources = sourcesBySlug[post.slug] ?? [googleSearchSource];
+    return { ...post, ...revision, readTime: `${Math.max(2, Math.ceil(revision.content.split(/\s+/).length / 200))} min read`, sources: post.slug === 'structured-data-schema-markup-seo' ? [...sources, { title: 'Search documentation updates', publisher: 'Google Search Central', url: 'https://developers.google.com/search/updates' }] : sources };
+  });

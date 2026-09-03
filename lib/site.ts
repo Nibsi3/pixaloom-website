@@ -8,8 +8,7 @@ export const site = {
   phoneInternational: '+27662995533',
   whatsapp: 'https://wa.me/27662995533',
   location: 'George, Western Cape, South Africa',
-  geo: { latitude: -33.964, longitude: 22.46 },
-  contentRevised: '2026-08-31',
+  editor: 'Cameron Falck',
   description:
     'South African web design company building fast, conversion-focused websites, ecommerce stores and custom web applications with SEO built in.',
 } as const;

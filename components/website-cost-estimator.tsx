@@ -3,8 +3,10 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import { trackEvent } from '@/lib/events';
 import {
   estimateWebsiteCost,
+  estimateContactUrl,
   formatRandRange,
   projectExtras,
   projectKinds,
@@ -70,11 +72,12 @@ export function WebsiteCostEstimator() {
               type="button"
               key={item.id}
               className="cost-chip"
-              aria-pressed={extras.includes(item.id)}
+              aria-pressed={extras.includes(item.id) || (kind === 'ecommerce' && item.id === 'payments')}
+              disabled={kind === 'ecommerce' && item.id === 'payments'}
               onClick={() => toggleExtra(item.id)}
             >
               <strong>{item.label}</strong>
-              <span>{item.hint}</span>
+              <span>{kind === 'ecommerce' && item.id === 'payments' ? 'Standard integration included in store base' : item.hint}</span>
             </button>
           ))}
         </div>
@@ -85,7 +88,8 @@ export function WebsiteCostEstimator() {
         <p className="cost-result-figure">{formatRandRange(estimate.min, estimate.max)}</p>
         <p className="cost-result-copy">{estimate.summary}</p>
         <p className="cost-result-time">Typical delivery {estimate.timeline} after discovery, depending on content, feedback and third-party access.</p>
-        <Link href="/contact">Get a scoped quote <ArrowUpRight size={15} /></Link>
+        <p className="cost-result-time">Build allowances exclude VAT where applicable, domains, hosting, email, software subscriptions, payment fees and ongoing care. Final scope, tax treatment, content responsibilities and timelines are confirmed in writing.</p>
+        <Link href={estimateContactUrl(kind, scale, extras)} onClick={() => trackEvent('estimate_quote_click')}>Get a scoped quote <ArrowUpRight size={15} /></Link>
       </div>
     </div>
   );

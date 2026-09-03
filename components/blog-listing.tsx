@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Container } from '@/components/ui/container';
-import { blogPosts, blogCategories } from '@/components/blog-posts';
+import { publishedBlogPosts as blogPosts, blogCategories } from '@/components/blog-posts';
 import { cn } from '@/components/utils';
 
 export function BlogListing() {

@@ -13,10 +13,9 @@ export function CinematicHero() {
   return (
     <section ref={sectionRef} className="reference-hero" aria-labelledby="hero-title">
       <div className="reference-stage">
-        <div className="reference-media" aria-hidden="true" style={{ position: 'absolute' }}>
-          <CinematicBackgroundVideo />
-        </div>
+        <CinematicBackgroundVideo />
         <div className="reference-scrim" aria-hidden="true" />
+        <div className="hero-offer"><p>Websites, ecommerce &amp; web apps.</p><span>Built in George. Working across South Africa.</span><Link href="/contact">Discuss your project <ArrowUpRight size={14} /></Link></div>
 
         <div className="portal-copy">
           <p className="portal-wordmark" aria-hidden="true">
@@ -38,7 +37,7 @@ export function CinematicHero() {
                 ? Math.max(window.innerHeight * 0.9, section.offsetHeight - stage.offsetHeight)
                 : window.innerHeight;
               // Smooth scroll so the CSS view-timeline portal can scrub visibly.
-              window.scrollTo({ top: window.scrollY + distance, behavior: 'smooth' });
+              window.scrollTo({ top: window.scrollY + distance, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
             }}
           >
             <span>Scroll down</span><ArrowDown size={12} />

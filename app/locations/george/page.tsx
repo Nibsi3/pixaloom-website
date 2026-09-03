@@ -37,17 +37,17 @@ const proof = [
   {
     href: '/work/team-colours',
     name: 'Team Colours',
-    text: 'A George ecommerce catalogue built for product discovery, SEO and conversion.',
+    text: 'An ecommerce catalogue interface with product hierarchy and a clear shopping journey.',
   },
   {
-    href: '/work/george-herald',
-    name: 'George Herald',
-    text: 'A local news presence that has to stay fast, readable and easy to update.',
+    href: '/work/paws-on-route',
+    name: 'Paws On Route',
+    text: 'A George pet-care website with separate services and direct contact routes.',
   },
   {
     href: '/work/vicbay',
     name: 'VicBay',
-    text: 'A nearby Garden Route property of place—proof that local context belongs in the design, not as an afterthought.',
+    text: 'An apparel ecommerce interface study. The current public website may differ from the version shown.',
   },
 ];
 
@@ -55,31 +55,19 @@ const schema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'ProfessionalService',
-      '@id': absoluteUrl('/locations/george#local-business'),
-      name: 'Pixaloom — web design in George',
+      '@type': 'Service',
+      '@id': absoluteUrl('/locations/george#service'),
+      name: 'Website design in George',
       url: absoluteUrl('/locations/george'),
       image: absoluteUrl('/opengraph-image'),
       email: site.email,
       telephone: site.phoneInternational,
-      priceRange: 'ZAR',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'George',
-        addressRegion: 'Western Cape',
-        addressCountry: 'ZA',
-      },
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: site.geo.latitude,
-        longitude: site.geo.longitude,
-      },
       areaServed: [
         { '@type': 'City', name: 'George' },
         { '@type': 'AdministrativeArea', name: 'Garden Route' },
         { '@type': 'AdministrativeArea', name: 'Western Cape' },
       ],
-      parentOrganization: { '@id': `${site.url}/#organization` },
+      provider: { '@id': `${site.url}/#organization` },
     },
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -123,15 +111,15 @@ export default function GeorgePage() {
         <section className="content-section">
           <div className="site-container content-grid">
             <div>
-              <p className="eyebrow">Why a George page exists</p>
-              <h2>A real studio, not a doorway town.</h2>
+              <p className="eyebrow">Start with the local enquiry</p>
+              <h2>Clear services. Useful proof. Easy contact.</h2>
             </div>
             <div className="body-copy">
               <p>
-                George is the regional centre of the Garden Route: professional services around York Street, tourism and hospitality toward Wilderness and Victoria Bay, trades and construction serving new suburbs, and owner-run retailers who still win a lot of work by word of mouth. Those businesses now lose customers to whoever is easier to find on Google and WhatsApp.
+                For a local service business, the first website conversation is practical: which services do customers ask about, where do you travel, and what do they need to know before requesting a quote or appointment? We turn those answers into pages with clear scope, genuine examples and a direct contact route.
               </p>
               <p>
-                A useful George website is not a Cape Town template with the town name swapped in. It has to respect mobile data, load-shedding-shaped browsing habits, bilingual customers, and the fact that many enquiries still happen on the phone. That is the work we do from here.
+                For a retailer, we work through catalogue and stock responsibilities. For a tourism operator, we clarify availability and the booking handover. We agree language requirements with the business, test mobile journeys and keep useful existing URLs during a redesign. Our studio is in George; meetings are arranged by agreement.
               </p>
               <div className="pill-list">
                 {['Tourism and hospitality', 'Trades and construction', 'Professional services', 'Retail and ecommerce', 'Local media and institutions'].map((item) => (
@@ -146,8 +134,8 @@ export default function GeorgePage() {
           <div className="site-container">
             <div className="section-heading-row">
               <div>
-                <p className="eyebrow">Work from this town</p>
-                <h2>Proof, not a generic claims list.</h2>
+                <p className="eyebrow">Relevant project examples</p>
+                <h2>Examine the work and its scope.</h2>
               </div>
             </div>
             <div className="location-card-grid">

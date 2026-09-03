@@ -37,7 +37,7 @@ const homeSchema = {
   inLanguage: 'en-ZA',
   isPartOf: { '@id': `${site.url}/#website` },
   about: { '@id': `${site.url}/#organization` },
-  dateModified: site.contentRevised,
+  dateModified: '2026-09-03',
   primaryImageOfPage: { '@type': 'ImageObject', url: absoluteUrl('/opengraph-image') },
   mainEntity: {
     '@type': 'ItemList',

@@ -7,12 +7,13 @@ import { JsonLd } from '@/components/json-ld';
 import { WebsiteCostEstimator } from '@/components/website-cost-estimator';
 import { breadcrumbSchema, faqPageSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
+import { contentModified } from '@/lib/content-dates';
 
 const pageDescription =
   'A practical 2026 planning range for South African websites, ecommerce stores and web apps—plus an estimator you can adjust before requesting a Pixaloom quote.';
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Website Cost in South Africa',
+  title: 'Website Cost Estimator South Africa',
   description: pageDescription,
   path: '/website-cost',
 });
@@ -21,7 +22,7 @@ const faqs = [
   {
     question: 'How much does a website cost in South Africa in 2026?',
     answer:
-      'A custom business website typically starts around R35,000. Ecommerce, integrations and software products cost more because the work includes catalogue structure, payments, operations and testing—not only page design. Template sites advertised under R10,000 exist; they rarely include original design, technical SEO or a conversion path you can measure.',
+      'Pixaloom’s focused custom business-website planning allowance starts at R35,000, excluding optional extras, VAT where applicable and recurring third-party charges. This is our indicative scope-based allowance, not a national average. The written quote follows discovery.',
   },
   {
     question: 'Why do quotes vary so widely?',
@@ -52,7 +53,7 @@ const schema = {
       inLanguage: 'en-ZA',
       isPartOf: { '@id': `${site.url}/#website` },
       about: { '@id': `${site.url}/#organization` },
-      dateModified: site.contentRevised,
+      dateModified: contentModified('/website-cost'),
     },
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -80,7 +81,7 @@ export default function WebsiteCostPage() {
             <h1>Website cost in<br /> <em>South Africa.</em></h1>
             <div className="minimal-hero-foot">
               <p>
-                Most serious South African business websites sit well above cheap template pricing and well below enterprise software. Use the estimator to shape a range, then we will quote the actual work.
+                Build a Pixaloom planning allowance from your project type, scale and optional features. These are our indicative ranges—not national market averages or a binding quotation.
               </p>
               <span>Ranges, not theatre</span>
             </div>
@@ -110,22 +111,22 @@ export default function WebsiteCostPage() {
               <li>
                 <span>01</span>
                 <h3>Business websites</h3>
-                <p>Typically R35,000–R140,000. The difference is page count, proof, locations, copy and how tightly the site is built around enquiry.</p>
+                <p>Pixaloom base allowances: R35,000–R140,000 before extras and VAT where applicable. Content, templates and enquiry requirements determine the scope.</p>
               </li>
               <li>
                 <span>02</span>
                 <h3>Ecommerce</h3>
-                <p>Typically R60,000–R240,000. Catalogue structure, payments, shipping, product content and operations dominate the budget—not the homepage animation.</p>
+                <p>Pixaloom base allowances: R60,000–R240,000 before extras and VAT where applicable. One standard hosted payment integration is included; merchant fees and custom integrations are separate.</p>
               </li>
               <li>
                 <span>03</span>
                 <h3>Custom web apps</h3>
-                <p>Typically R80,000 and up. Software needs accounts, data, permissions and a first release that is small enough to ship.</p>
+                <p>Pixaloom base allowances start at R80,000 before extras and VAT where applicable. Accounts, permissions, data and integration requirements need discovery.</p>
               </li>
               <li>
                 <span>04</span>
-                <h3>What we do not sell</h3>
-                <p>R2,000–R8,000 template WordPress packages. They exist; they are not how Pixaloom works, and they are rarely cheaper once you add the missing design, SEO and support.</p>
+                <h3>What needs a separate allowance</h3>
+                <p>Domains, hosting, email delivery, paid software, payment fees and ongoing care. Content production, migrations and non-standard integrations must be confirmed in the written scope.</p>
               </li>
             </ol>
           </div>

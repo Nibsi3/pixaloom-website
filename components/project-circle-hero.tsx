@@ -31,9 +31,7 @@ export function ProjectCircleHero({ accent, category, index, liveUrl, meta, name
       aria-labelledby="project-circle-title"
     >
       <div className="reference-stage project-case-stage">
-        <div className="reference-media project-case-media" aria-hidden="true">
-          <CinematicBackgroundVideo />
-        </div>
+        <CinematicBackgroundVideo mediaClassName="reference-media project-case-media" />
         <div className="reference-scrim project-case-scrim" aria-hidden="true" />
 
         <div className="portal-copy project-case-intro">
@@ -56,7 +54,7 @@ export function ProjectCircleHero({ accent, category, index, liveUrl, meta, name
             <p>Project {String(index + 1).padStart(2, '0')} · What we delivered</p>
             <h2>{name}</h2>
             <p className="project-circle-summary">{summary}</p>
-            {liveUrl ? <a href={liveUrl} target="_blank" rel="noreferrer">Visit live project <ExternalLink size={13} /></a> : <span className="project-circle-engagement">Selected engagement</span>}
+            {liveUrl ? <a href={liveUrl} target="_blank" rel="noreferrer">{liveUrl.includes('.vercel.app') || liveUrl.includes('havaldemo.co.za') ? 'Visit project preview' : 'Visit public website'} <ExternalLink size={13} /></a> : <span className="project-circle-engagement">Archived interface study</span>}
           </div>
           <div className="project-circle-outcomes">
             <p>Selected outcomes</p>

@@ -48,7 +48,7 @@ export function usePortalScrollProgress(
     };
 
     const applyDepth = () => {
-      if (!withDepth || activeDepthLayers.size === 0) return;
+      if (!withDepth || activeDepthLayers.size === 0 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       const viewportCentre = window.innerHeight / 2;
       for (const { anchor, layer, speed } of activeDepthLayers) {

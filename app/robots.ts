@@ -4,7 +4,8 @@ import { site } from '@/lib/site';
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: '*', allow: '/', disallow: ['/api/', '/os', '/jokes'] },
+      // Public experiments must be crawlable for their noindex tags to work.
+      { userAgent: '*', allow: '/', disallow: ['/api/'] },
     ],
     sitemap: `${site.url}/sitemap.xml`,
     host: site.url,
