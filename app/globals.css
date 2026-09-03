@@ -935,10 +935,10 @@ img { max-width: 100%; }
 .reference-hero:not(.project-case-hero) .featured-kicker { top: 30%; }
 .motion-toggle { position: absolute; right: 3%; top: 3%; z-index: 12; padding: 10px 13px; min-height: 44px; border: 1px solid #85857e; border-radius: 24px; color: #f0ede4; background: #131313; font-size: .7rem; cursor: pointer; }
 .motion-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
-.service-budget,.project-provenance { line-height: 1.8; color: var(--muted); }
+.service-budget,.project-provenance { line-height: 1.8; color: #aaa8a1; }
 .article-project-evidence { margin: 32px 0; }
 .article-project-evidence img { width: 100%; height: auto; border: 1px solid var(--line); }
-.article-project-evidence figcaption { font-size: .8rem; line-height: 1.7; margin-top: 12px; color: var(--muted); }
+.article-project-evidence figcaption { font-size: .8rem; line-height: 1.7; margin-top: 12px; color: #aaa8a1; }
 .article-body a,.article-sources a,.article-project-evidence a,.case-copy a { text-decoration: underline; text-underline-offset: 4px; overflow-wrap: anywhere; }
 .gallery-shot figcaption { max-width: calc(100% - 32px); line-height: 1.5; }
 @media (max-width: 720px) {

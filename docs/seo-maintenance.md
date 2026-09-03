@@ -8,6 +8,8 @@ Implemented: safe article formatting and contextual links; revised copy for all 
 
 All 66 previously rendered gallery captures were visually reviewed. Three were excluded from public galleries: Paws' empty about-image area, its placeholder contact page, and Covercrete's empty shop. Source files remain in the repository. The other 63 have descriptions based on visible content, including files whose names do not match their pictured page. Original captures are reused in relevant articles; no synthetic client imagery was created.
 
+Post-release PageSpeed testing identified low-contrast supporting copy on the service page. Budget paragraphs, project-provenance copy and article-image captions now use the dark theme's readable supporting-text colour, with a regression check against the actual dark surfaces. Compatible dependency patches also address the reported [Browserslist advisory](https://github.com/advisories/GHSA-c83g-rgw3-j3cx) and [selector-parser advisory](https://github.com/advisories/GHSA-w9m9-85wc-3x92); this is not a claim of a complete security assessment.
+
 ## Owner-dependent completion gates
 
 1. **Delivered enquiries:** configure the real email credential and verified sender, then authorise one test to the business inbox. Check acceptance and actual delivery separately. Configure an alerting destination if automated failure alerts are required.

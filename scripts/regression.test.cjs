@@ -34,6 +34,19 @@ const { verifiedDescriptions, projectMediaDescription } = require('../lib/projec
 const sitemap = require('../app/sitemap.ts').default;
 const robots = require('../app/robots.ts').default;
 const valid = { name: 'Test Person', email: 'test@example.com', message: 'This is a synthetic unit test, not a real enquiry.' };
+test('new supporting text uses a readable colour on the dark content surfaces', () => {
+  const css = fs.readFileSync(path.join(root, 'app/globals.css'), 'utf8');
+  const luminance = hex => {
+    const rgb = hex.match(/[a-f\d]{2}/gi).map(value => parseInt(value, 16) / 255).map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    return rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+  };
+  for (const selector of ['.service-budget,.project-provenance', '.article-project-evidence figcaption']) {
+    const rule = css.slice(css.indexOf(selector)).split('}')[0];
+    const color = rule.match(/color:\s*(#[a-f\d]{6})/i)?.[1];
+    assert.ok(color, `${selector} needs an explicit dark-surface colour`);
+    for (const background of ['#030303', '#080808', '#151515']) assert.ok((luminance(color) + 0.05) / (luminance(background) + 0.05) >= 4.5);
+  }
+});
 test('every published gallery capture has a visually reviewed description and a real asset', () => {
   const images = workItems.flatMap(item => (item.gallery?.length ? item.gallery.slice(0, 6) : [item.png]).map(src => ({ item, src })));
   assert.equal(images.length, 63);
