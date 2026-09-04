@@ -1,4 +1,14 @@
-export const serviceEvidence: Record<string, { title: string; paragraphs: string[]; projects: string[]; guide: string; budget: string; acceptance: string[] }> = {
+type ServiceEvidence = {
+  title: string;
+  paragraphs: string[];
+  projects: string[];
+  guide: string;
+  related?: { href: string; label: string }[];
+  budget: string;
+  acceptance: string[];
+};
+
+export const serviceEvidence: Record<string, ServiceEvidence> = {
   'website-design': {
     title: 'A website built around the next useful conversation.',
     paragraphs: [
@@ -7,6 +17,7 @@ export const serviceEvidence: Record<string, { title: string; paragraphs: string
       'WordPress can suit teams that need familiar content editing. A custom Next.js build can suit a more distinctive interface or application integration. We choose with you after reviewing editing responsibilities, hosting, content migration and the cost of maintaining the result.',
       'Bring your existing URL, priority services, available photography and examples of suitable enquiries. We define what content you supply, what we produce and who signs off each stage. A redesign includes an inventory of useful existing URLs and an explicit redirect plan.',
     ], projects: ['paws-on-route', 'covercrete'], guide: 'choosing-web-developer-george',
+    related: [{ href: '/locations/george', label: 'Website design in George' }, { href: '/locations/garden-route', label: 'Garden Route website delivery' }],
     budget: 'Our focused custom business-website planning allowance is R35,000–R55,000 before optional features and VAT where applicable. Hosting, domains and recurring software are separate. The final quote follows discovery; this is not a market-wide average.',
     acceptance: ['Representative mobile and desktop journeys checked', 'Contact validation, failure states and actual email delivery tested', 'Important redirects, canonical URLs and sitemap verified', 'Editing, account ownership and handover responsibilities documented'],
   },
@@ -40,6 +51,7 @@ export const serviceEvidence: Record<string, { title: string; paragraphs: string
       'Content work focuses on the actual offer, real project evidence and useful buying questions. Local pages must reflect genuine coverage and a distinct reader need. We do not invent offices, manufacture reviews or guarantee a ranking position.',
       'The Paws On Route project illustrates service-led page structure, not a measured SEO uplift. For your business we establish a starting point and agree which outcomes matter: relevant non-brand discovery, working enquiries and qualified conversations. Indexing and ranking decisions remain with the search engine.',
     ], projects: ['paws-on-route'], guide: 'seo-tips-garden-route-businesses',
+    related: [{ href: '/locations/george', label: 'Local search support in George' }, { href: '/locations/garden-route', label: 'SEO across the Garden Route' }],
     budget: 'SEO starts with a scoped assessment of your site and access to relevant search data. We quote the assessment and implementation separately where appropriate. There is no fixed ranking package or guaranteed number of leads.',
     acceptance: ['URL-level findings and priorities documented', 'Crawl, metadata and internal-link fixes rechecked after deployment', 'Search Console submissions and exclusions reviewed', 'Contact intent, accepted enquiries and qualified leads distinguished'],
   },

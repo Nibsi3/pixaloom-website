@@ -27,6 +27,26 @@ Post-release PageSpeed testing identified low-contrast supporting copy on the se
 - Correct existing legitimate listings after the owner confirms the operating model and contact details. Keep old and corrected values privately.
 - Assess relevant mentions and qualified enquiries over time, not raw link counts alone.
 
+## Search growth map
+
+Use one primary page per search intent so the site does not make several URLs compete for the same query.
+
+| Intent | Primary page | Supporting pages |
+| --- | --- | --- |
+| web design George; website design George; web developer George | `/locations/george` | Website design service and George developer guide |
+| web design Garden Route | `/locations/garden-route` | George page and Garden Route SEO guide |
+| website design South Africa | `/services/website-design` | Province pages and project studies |
+| SEO services for local businesses | `/services/seo` | George and Garden Route pages |
+| ecommerce website South Africa | `/services/ecommerce-websites` | Ecommerce guide and relevant project studies |
+
+Review the exact query/page pairs weekly in Search Console over comparable 28-day and three-month windows. Record impressions, clicks, click-through rate and average position privately. Check whether Google is choosing the intended page, annotate substantive releases, and avoid reacting to a single day's movement. A request for indexing is a discovery prompt, not a ranking tactic or a guarantee.
+
+Prioritise accurate, owner-approved profiles and genuinely useful mentions: an eligible Google Business Profile, the George Business Chamber, reputable Garden Route business directories and permissioned client references. Verify current terms and fees before applying. Avoid reciprocal-link directories, paid ranking links and duplicated listings.
+
+Suggested review request: “Would you be comfortable leaving an honest Google review about the work and your experience? Please use your own words and mention only details you are happy to make public.” Do not offer an incentive, pre-write the review or request only positive feedback.
+
+Suggested partner mention request: “We have published a project page that clearly describes our role and links to your organisation. If it is useful to your customers, would you consider linking to it from your supplier, partners or news page? No problem if it is not a natural fit.”
+
 ## Release and recrawl acceptance
 
 - Tests, lint, typecheck and production build pass. Crawl the canonical site after hosting completes.

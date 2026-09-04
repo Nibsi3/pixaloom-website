@@ -125,6 +125,19 @@ test('published content is revised, linked and dates agree with sitemap', () => 
   for (const service of services) { assert.ok(serviceEvidence[service.slug]); for (const slug of serviceEvidence[service.slug].projects) assert.ok(workItems.some(item => item.slug === slug)); }
   for (const province of provinces) assert.ok(regionalBriefs[province.slug]);
 });
+test('George intent and service-to-location links are explicit', () => {
+  const george = fs.readFileSync(path.join(root, 'app/locations/george/page.tsx'), 'utf8');
+  assert.match(george, /Web design in/);
+  assert.match(george, /website designer or web developer in George/i);
+  assert.match(george, /href="\/services\/website-design"/);
+  for (const slug of ['website-design', 'seo']) {
+    assert.ok(serviceEvidence[slug].related?.some(link => link.href === '/locations/george'));
+  }
+  const entries = sitemap();
+  for (const pathName of ['/locations/george', '/services/website-design', '/services/seo']) {
+    assert.equal(entries.find(item => item.url.endsWith(pathName)).lastModified, '2026-09-04');
+  }
+});
 test('paused work and experiments stay out of sitemap; robots permits noindex discovery', () => {
   assert.equal(sitemap().length, 57);
   assert.equal(workItems.length, 16);

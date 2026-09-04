@@ -31,6 +31,11 @@ const faqs = [
     answer:
       'Yes. We audit useful URLs, protect what already earns traffic and plan redirects before the new site launches. Redesigns should not throw away search equity for a visual refresh.',
   },
+  {
+    question: 'What should I ask a website designer in George?',
+    answer:
+      'Ask who owns the domain, hosting and source code; how content, redirects and enquiry delivery will be tested; and what is included after launch. A useful proposal should connect those responsibilities to your actual services and customers, not only show a visual concept.',
+  },
 ];
 
 const proof = [
@@ -120,6 +125,9 @@ export default function GeorgePage() {
               </p>
               <p>
                 For a retailer, we work through catalogue and stock responsibilities. For a tourism operator, we clarify availability and the booking handover. We agree language requirements with the business, test mobile journeys and keep useful existing URLs during a redesign. Our studio is in George; meetings are arranged by agreement.
+              </p>
+              <p>
+                If you are comparing a <Link href="/services/website-design">website designer or web developer in George</Link>, look beyond the first mock-up. The practical differences are who will shape the content, test real enquiries, protect existing search visibility and remain accountable for the launch.
               </p>
               <div className="pill-list">
                 {['Tourism and hospitality', 'Trades and construction', 'Professional services', 'Retail and ecommerce', 'Local media and institutions'].map((item) => (

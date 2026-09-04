@@ -3,9 +3,9 @@
 const pageDates: Record<string, string> = {
   '/': '2026-09-03', '/about': '2026-09-03', '/blog': '2026-09-03',
   '/contact': '2026-09-03', '/privacy': '2026-09-03', '/website-cost': '2026-09-03',
-  '/locations/george': '2026-09-03', '/locations/garden-route': '2026-09-03',
-  '/services/website-design': '2026-09-03', '/services/ecommerce-websites': '2026-09-03',
-  '/services/seo': '2026-09-03', '/services/web-app-development': '2026-09-03', '/services/website-care': '2026-09-03',
+  '/locations/george': '2026-09-04', '/locations/garden-route': '2026-09-03',
+  '/services/website-design': '2026-09-04', '/services/ecommerce-websites': '2026-09-03',
+  '/services/seo': '2026-09-04', '/services/web-app-development': '2026-09-03', '/services/website-care': '2026-09-03',
   '/locations/western-cape': '2026-09-03', '/locations/gauteng': '2026-09-03', '/locations/kwazulu-natal': '2026-09-03',
   '/locations/eastern-cape': '2026-09-03', '/locations/free-state': '2026-09-03', '/locations/limpopo': '2026-09-03',
   '/locations/mpumalanga': '2026-09-03', '/locations/north-west': '2026-09-03', '/locations/northern-cape': '2026-09-03',
