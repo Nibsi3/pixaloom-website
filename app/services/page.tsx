@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { RescueIntro } from '@/components/rescue-intro';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
@@ -46,6 +47,8 @@ export default function ServicesPage() {
         </div>
       </div>
     </section>
+
+    <RescueIntro />
 
     <section className="minimal-statement">
       <div className="minimal-shell minimal-statement-grid">

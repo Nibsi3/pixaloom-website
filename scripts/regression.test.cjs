@@ -139,7 +139,7 @@ test('George intent and service-to-location links are explicit', () => {
   }
 });
 test('paused work and experiments stay out of sitemap; robots permits noindex discovery', () => {
-  assert.equal(sitemap().length, 57);
+  assert.equal(sitemap().length, 58);
   assert.equal(workItems.length, 16);
   assert.ok(!workItems.some(item => item.slug === 'george-herald'));
   assert.ok(!sitemap().some(item => /george-herald|caps-tutor|\/os$|\/jokes$/.test(item.url)));
@@ -165,4 +165,24 @@ test('host policies avoid unrelated redirects and broadly cacheable API response
   const preview = headers.find(item => item.has?.some(rule => rule.type === 'host' && rule.value.includes('vercel')));
   const pattern = new RegExp(`^${preview.has[0].value}$`);
   assert.ok(pattern.test('pixaloom-website.vercel.app')); assert.ok(!pattern.test('www.pixaloom.co.za'));
+});
+
+
+test('rescue enquiries validate diagnostic fields and reject credential-bearing links', () => {
+  const rescue = { ...valid, service: 'AI Website & App Rescue', platform: 'Lovable', expected: 'Login should open the dashboard', appUrl: 'https://example.com', repository: 'https://github.com/example/private' };
+  assert.equal(validateContact(rescue).ok, true);
+  for (const change of [{ platform: '' }, { expected: '' }, { expected: 2 }, { appUrl: 'javascript:alert(1)' }, { repository: 'https://user:secret@example.com/repo' }, { errorLink: 'not a link' }, { deadline: 'x'.repeat(101) }]) assert.equal(validateContact({ ...rescue, ...change }).ok, false);
+});
+test('rescue enquiry reaches the established inbox with complete diagnostic context', async () => {
+  process.env.RESEND_API_KEY = 'unit-test-only';
+  providerResult = { data: { id: 'rescue-test' }, error: null };
+  try {
+    const response = await POST(request({ ...valid, service: 'AI Website & App Rescue', platform: 'Bolt', expected: 'Save the new account', appUrl: 'https://example.com', repository: 'https://github.com/example/private', deadline: 'Next month' }));
+    assert.equal(response.status, 200);
+    const message = sent.at(-1);
+    assert.equal(message.to, 'info@pixaloom.co.za');
+    assert.match(message.text, /Platform: Bolt/);
+    assert.match(message.text, /Expected result: Save the new account/);
+    assert.match(message.text, /Desired deadline: Next month/);
+  } finally { delete process.env.RESEND_API_KEY; }
 });

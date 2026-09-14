@@ -1403,3 +1403,13 @@ body { padding: 0; background: #030303; color: var(--cream); font-family: Inter,
   .cost-choice,.cost-choice:nth-child(2n),.cost-choice-grid-three .cost-choice:nth-child(3n) { border-right: 0; }
   .cost-choice strong { font-size: 1.4rem; }
 }
+
+/* Focused rescue service reference; existing portfolio remains intact. */
+.rescue-intro { padding:64px 0; background:#0c0d10; color:#e5e2da; border-block:1px solid #333; }
+.rescue-intro-grid { display:grid; grid-template-columns:.6fr 1.4fr; gap:40px; }
+.rescue-intro .rescue-kicker { font-size:12px; color:#b8c3db; text-transform:uppercase; letter-spacing:.12em; }
+.rescue-intro h2 { font-family:"Iowan Old Style",Baskerville,serif; font-size:clamp(36px,4vw,58px); line-height:1.05; font-weight:400; letter-spacing:-.04em; margin:0 0 22px; }
+.rescue-intro h2 em { color:#b7bfd0; }
+.rescue-intro p:not(.rescue-kicker) { max-width:650px; color:#c0beb8; font-size:16px; line-height:1.7; }
+.rescue-intro .rescue-link { display:inline-flex; gap:10px; align-items:center; color:#d5def1; font-size:15px; text-decoration:underline; text-underline-offset:5px; margin-top:18px; }
+@media(max-width:760px){.rescue-intro-grid{grid-template-columns:1fr;gap:16px}.rescue-intro{padding:44px 0}}

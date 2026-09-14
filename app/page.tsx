@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import type { CSSProperties } from 'react';
+import { RescueIntro } from '@/components/rescue-intro';
 import { CinematicHero } from '@/components/cinematic-hero';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
@@ -100,6 +101,7 @@ export default function HomePage() {
         <JsonLd id="home-schema" data={homeSchema} />
 
         <CinematicHero />
+        <RescueIntro />
 
         <section className="reference-archive" id="work-archive">
           <div className="reference-archive-intro">

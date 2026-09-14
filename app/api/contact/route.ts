@@ -35,8 +35,8 @@ export async function POST(req: Request) {
     console.error(JSON.stringify({ event: 'enquiry_unavailable', reason: 'email_not_configured' }));
     return json({ ok: false, error: contactUnavailable }, 503);
   }
-  const { name, email, company, phone, service, budget, message } = checked.data;
-  const fields = { Name: name, Email: email, Company: company, Phone: phone, Service: service, Budget: budget, Message: message };
+  const { name, email, company, phone, service, budget, message, platform, appUrl, expected, errorLink, repository, deadline } = checked.data;
+  const fields = { Name: name, Email: email, Company: company, Phone: phone, Service: service, Budget: budget, Message: message, ...(service === 'AI Website & App Rescue' ? { Platform: platform, 'App URL': appUrl, 'Expected result': expected, 'Error or screenshot link': errorLink, Repository: repository, 'Desired deadline': deadline } : {}) };
   try {
     const result = await new Resend(process.env.RESEND_API_KEY).emails.send({
       from: process.env.RESEND_FROM || 'Pixaloom Website <website@pixaloom.co.za>',
