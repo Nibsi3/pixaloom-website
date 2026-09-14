@@ -20,7 +20,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.562.0",
     "motion": "^12.25.0",
-    "next": "^16.3.0",
+    "next": "^16.3.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "resend": "^6.19.0",
@@ -29,7 +29,7 @@
     "three": "^0.182.0"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^16.3.0",
+    "@next/eslint-plugin-next": "^16.3.3",
     "@types/node": "^20.11.30",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
