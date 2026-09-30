@@ -184,6 +184,10 @@ test('production release targets the existing Cloudflare Worker', () => {
   assert.equal(config.main, '.open-next/worker.js');
   assert.equal(config.assets.binding, 'ASSETS');
   assert.equal(config.keep_vars, true);
+  assert.deepEqual(config.routes, [
+    { pattern: 'pixaloom.co.za', custom_domain: true },
+    { pattern: 'www.pixaloom.co.za', custom_domain: true },
+  ]);
   assert.match(packageJson.scripts['deploy:cloudflare'], /opennextjs-cloudflare deploy --keep-vars/);
   assert.match(readme, /Do not deploy the application to Hostinger/);
 });
