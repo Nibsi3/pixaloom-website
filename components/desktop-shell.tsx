@@ -466,7 +466,10 @@ function WeatherApp() {
     fetch('/api/weather')
       .then((r) => r.json())
       .then((d) => {
-        if (d.ok) setWeatherData({ temp: d.temperatureC, city: d.city, wind: d.windKmh });
+        const result = d as { ok?: boolean; temperatureC?: number; city?: string; windKmh?: number };
+        if (result.ok && typeof result.temperatureC === 'number' && typeof result.city === 'string' && typeof result.windKmh === 'number') {
+          setWeatherData({ temp: result.temperatureC, city: result.city, wind: result.windKmh });
+        }
       })
       .catch(() => {})
       .finally(() => setLoading(false));

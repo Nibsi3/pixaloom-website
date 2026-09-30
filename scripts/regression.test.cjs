@@ -176,6 +176,17 @@ test('host policies avoid unrelated redirects and broadly cacheable API response
   const pattern = new RegExp(`^${preview.has[0].value}$`);
   assert.ok(pattern.test('pixaloom-website.vercel.app')); assert.ok(!pattern.test('www.pixaloom.co.za'));
 });
+test('production release targets the existing Cloudflare Worker', () => {
+  const config = JSON.parse(fs.readFileSync(path.join(root, 'wrangler.jsonc'), 'utf8'));
+  const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+  const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
+  assert.equal(config.name, 'pixaloom-website');
+  assert.equal(config.main, '.open-next/worker.js');
+  assert.equal(config.assets.binding, 'ASSETS');
+  assert.equal(config.keep_vars, true);
+  assert.match(packageJson.scripts['deploy:cloudflare'], /opennextjs-cloudflare deploy --keep-vars/);
+  assert.match(readme, /Do not deploy the application to Hostinger/);
+});
 
 
 test('rescue enquiries validate diagnostic fields and reject credential-bearing links', () => {

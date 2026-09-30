@@ -41,6 +41,8 @@ See [SEO maintenance and owner checklist](docs/seo-maintenance.md) for completio
 
 ## Production release
 
-Production is a Hostinger Node.js application, not a static export. Deploy a source-only archive from the exact reviewed Git commit, excluding `.next`, `node_modules`, ignored files and secrets. Confirm the hosting build completes, then crawl production and check headers, enquiry readiness, navigation, representative images and estimator handoff. A successful upload is not a successful deployment.
+Production runs as the existing `pixaloom-website` Cloudflare Worker through the OpenNext adapter. The apex and `www` custom domains belong to that Worker. Do not deploy the application to Hostinger.
+
+From the exact reviewed and pushed commit, run `npm ci`, the validation commands above, `npm run deploy:cloudflare`, and confirm Wrangler reports the `pixaloom-website` deployment. The Wrangler configuration keeps dashboard-managed variables and secrets. After deployment, verify `https://www.pixaloom.co.za` resolves through Cloudflare, crawl the canonical site, and check headers, enquiry readiness, navigation, representative images and estimator handoff. A successful upload or build is not a successful production release.
 
 Browser tests should cover a narrow viewport, keyboard navigation, pause/play, a readable first frame, and reduced-motion preferences. Reset temporary viewport overrides after testing.

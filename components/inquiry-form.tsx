@@ -18,7 +18,7 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   useEffect(() => {
     const controller = new AbortController();
     fetch('/api/contact', { signal: controller.signal, cache: 'no-store' })
-      .then(response => response.json()).then(result => setAvailable(result.available === true)).catch(() => undefined);
+      .then(response => response.json()).then(result => setAvailable((result as { available?: boolean }).available === true)).catch(() => undefined);
     const brief = estimateBriefFromParams(new URLSearchParams(window.location.search));
     if (brief && messageRef.current) messageRef.current.value = brief;
     return () => controller.abort();

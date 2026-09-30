@@ -1,6 +1,10 @@
 node_modules
 .next
+.open-next
+.wrangler
+cloudflare-env.d.ts
 *.tsbuildinfo
+*.cpuprofile
 out
 .env
 .env.local
