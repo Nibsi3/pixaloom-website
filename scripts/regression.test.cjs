@@ -138,6 +138,16 @@ test('George intent and service-to-location links are explicit', () => {
     assert.equal(entries.find(item => item.url.endsWith(pathName)).lastModified, '2026-09-04');
   }
 });
+test('website pricing intent receives a direct answer and the legacy pricing URL', async () => {
+  const page = fs.readFileSync(path.join(root, 'app/website-cost/page.tsx'), 'utf8');
+  assert.match(page, /Website Design Prices South Africa \(2026\)/);
+  assert.match(page, /Five-page business website/);
+  assert.match(page, /R35,000–R55,000/);
+  assert.match(page, /Monthly website costs/);
+  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-09-30');
+  const pricingRedirect = (await require('../next.config.js').redirects()).find(item => item.source === '/pricing');
+  assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
+});
 test('paused work and experiments stay out of sitemap; robots permits noindex discovery', () => {
   assert.equal(sitemap().length, 58);
   assert.equal(workItems.length, 16);

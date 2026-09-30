@@ -36,6 +36,7 @@ Use one primary page per search intent so the site does not make several URLs co
 | web design George; website design George; web developer George | `/locations/george` | Website design service and George developer guide |
 | web design Garden Route | `/locations/garden-route` | George page and Garden Route SEO guide |
 | website design South Africa | `/services/website-design` | Province pages and project studies |
+| website prices South Africa; five-page website price; website monthly cost | `/website-cost` | Website cost guide and website design service |
 | SEO services for local businesses | `/services/seo` | George and Garden Route pages |
 | ecommerce website South Africa | `/services/ecommerce-websites` | Ecommerce guide and relevant project studies |
 

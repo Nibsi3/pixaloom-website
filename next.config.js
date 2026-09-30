@@ -11,7 +11,7 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      { source: '/pricing', destination: 'https://www.pixaloom.co.za/services', permanent: true },
+      { source: '/pricing', destination: 'https://www.pixaloom.co.za/website-cost', permanent: true },
       { source: '/shop', destination: 'https://www.pixaloom.co.za/services/ecommerce-websites', permanent: true },
       { source: '/payment', destination: 'https://www.pixaloom.co.za/services/ecommerce-websites', permanent: true },
       { source: '/the-canyon', destination: 'https://www.pixaloom.co.za/projects', permanent: true },

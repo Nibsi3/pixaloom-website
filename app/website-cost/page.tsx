@@ -10,10 +10,10 @@ import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import { contentModified } from '@/lib/content-dates';
 
 const pageDescription =
-  'A practical 2026 planning range for South African websites, ecommerce stores and web apps—plus an estimator you can adjust before requesting a Pixaloom quote.';
+  'See Pixaloom website design prices for South Africa in 2026, including a five-page business site, ecommerce, web apps and recurring costs.';
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Website Cost Estimator South Africa',
+  title: 'Website Design Prices South Africa (2026)',
   description: pageDescription,
   path: '/website-cost',
 });
@@ -39,6 +39,16 @@ const faqs = [
     answer:
       'Discovery, information architecture, custom responsive design, development, on-page SEO foundations, analytics, launch support and a handover your team can own. Hosting, domains and third-party software are billed separately so costs stay transparent.',
   },
+  {
+    question: 'How much is a five-page website in South Africa?',
+    answer:
+      'Pixaloom plans a focused five-page custom business website at R35,000–R55,000 before optional features and VAT where applicable. That range assumes one clear audience, one primary enquiry path and content that can be shaped within five core pages. A written scope confirms the actual templates, content and integrations.',
+  },
+  {
+    question: 'What does a website cost per month?',
+    answer:
+      'The build is a project fee. Monthly or annual costs can include hosting, domain renewal, email, software licences and an optional care plan. We list these separately in the quote because they depend on traffic, editing, support and third-party providers.',
+  },
 ];
 
 const schema = {
@@ -48,7 +58,7 @@ const schema = {
       '@type': 'WebPage',
       '@id': absoluteUrl('/website-cost#webpage'),
       url: absoluteUrl('/website-cost'),
-      name: 'Website Cost in South Africa | Pixaloom',
+      name: 'Website Design Prices in South Africa (2026) | Pixaloom',
       description: pageDescription,
       inLanguage: 'en-ZA',
       isPartOf: { '@id': `${site.url}/#website` },
@@ -78,20 +88,55 @@ export default function WebsiteCostPage() {
               <span>Website cost</span>
             </div>
             <p className="minimal-kicker">South Africa · Planning ranges · 2026</p>
-            <h1>Website cost in<br /> <em>South Africa.</em></h1>
+            <h1>Website design prices<br /> <em>in South Africa.</em></h1>
             <div className="minimal-hero-foot">
               <p>
-                Build a Pixaloom planning allowance from your project type, scale and optional features. These are our indicative ranges—not national market averages or a binding quotation.
+                Compare Pixaloom’s 2026 website prices, see what changes the cost and build a planning allowance for your scope. These are our own indicative ranges—not national market averages or a binding quotation.
               </p>
               <span>Ranges, not theatre</span>
             </div>
           </div>
         </section>
 
+        <section className="minimal-index-section">
+          <div className="minimal-shell">
+            <div className="minimal-index-heading">
+              <div className="minimal-section-mark">
+                <span>01</span>
+                <p>Price list</p>
+              </div>
+              <h2>Start with the closest<br /> <em>scope, then refine it.</em></h2>
+            </div>
+            <ol className="minimal-principle-list">
+              <li>
+                <span>01</span>
+                <h3>Five-page business website</h3>
+                <p>R35,000–R55,000. Five core pages, custom responsive design, one primary enquiry journey, on-page SEO foundations, analytics and launch handover.</p>
+              </li>
+              <li>
+                <span>02</span>
+                <h3>Growing business website</h3>
+                <p>R55,000–R85,000. More page templates, services, proof, locations or content depth, with conversion measurement from launch.</p>
+              </li>
+              <li>
+                <span>03</span>
+                <h3>Ecommerce website</h3>
+                <p>R60,000–R240,000. The range depends on catalogue size, product data, shipping, operations and integrations. One standard hosted payment integration is included.</p>
+              </li>
+              <li>
+                <span>04</span>
+                <h3>Custom web application</h3>
+                <p>From R80,000. Accounts, permissions, data models, workflows and external systems are scoped through discovery before a delivery range is confirmed.</p>
+              </li>
+            </ol>
+            <p className="service-budget">Build prices exclude VAT where applicable, domains, hosting, email, software subscriptions, payment fees and ongoing care. They describe Pixaloom’s current planning allowances, not an industry-wide average.</p>
+          </div>
+        </section>
+
         <section className="minimal-statement">
           <div className="minimal-shell">
             <div className="minimal-section-mark">
-              <span>01</span>
+              <span>02</span>
               <p>Estimator</p>
             </div>
             <WebsiteCostEstimator />
@@ -102,31 +147,31 @@ export default function WebsiteCostPage() {
           <div className="minimal-shell">
             <div className="minimal-index-heading">
               <div className="minimal-section-mark">
-                <span>02</span>
-                <p>What the number buys</p>
+                <span>03</span>
+                <p>What changes the price</p>
               </div>
               <h2>Price follows the<br /> <em>job to be done.</em></h2>
             </div>
             <ol className="minimal-principle-list">
               <li>
                 <span>01</span>
-                <h3>Business websites</h3>
-                <p>Pixaloom base allowances: R35,000–R140,000 before extras and VAT where applicable. Content, templates and enquiry requirements determine the scope.</p>
+                <h3>Pages and templates</h3>
+                <p>Five pages can share a simple structure. Larger sites may need distinct service, location, article, product or resource templates, each with its own content and quality checks.</p>
               </li>
               <li>
                 <span>02</span>
-                <h3>Ecommerce</h3>
-                <p>Pixaloom base allowances: R60,000–R240,000 before extras and VAT where applicable. One standard hosted payment integration is included; merchant fees and custom integrations are separate.</p>
+                <h3>Content and migration</h3>
+                <p>Writing, photography, product data and moving useful content from an existing site all affect the workload. A redesign also needs a URL inventory and redirect plan.</p>
               </li>
               <li>
                 <span>03</span>
-                <h3>Custom web apps</h3>
-                <p>Pixaloom base allowances start at R80,000 before extras and VAT where applicable. Accounts, permissions, data and integration requirements need discovery.</p>
+                <h3>Features and integrations</h3>
+                <p>Bookings, payments, multilingual content, editable content and links to stock, accounting or CRM systems are priced from the actual workflow.</p>
               </li>
               <li>
                 <span>04</span>
-                <h3>What needs a separate allowance</h3>
-                <p>Domains, hosting, email delivery, paid software, payment fees and ongoing care. Content production, migrations and non-standard integrations must be confirmed in the written scope.</p>
+                <h3>Monthly website costs</h3>
+                <p>Hosting, domain renewal, email, software licences and optional care are recurring costs. The quote lists them separately from the build so ownership and future commitments stay clear.</p>
               </li>
             </ol>
           </div>
