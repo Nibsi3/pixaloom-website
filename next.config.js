@@ -18,12 +18,6 @@ const nextConfig = {
       { source: '/watercolor', destination: 'https://www.pixaloom.co.za/projects', permanent: true },
       { source: '/tandem', destination: 'https://www.pixaloom.co.za/projects', permanent: true },
       { source: '/car', destination: 'https://www.pixaloom.co.za/projects', permanent: true },
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'pixaloom.co.za' }],
-        destination: 'https://www.pixaloom.co.za/:path*',
-        permanent: true,
-      },
     ];
   },
   async headers() {

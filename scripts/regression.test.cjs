@@ -192,6 +192,12 @@ test('production release targets the existing Cloudflare Worker', () => {
   assert.match(readme, /Do not deploy the application to Hostinger/);
 });
 
+test('Cloudflare serves both production hosts without a host-matcher loop', async () => {
+  const redirects = await require('../next.config.js').redirects();
+  assert.ok(!redirects.some(item => item.has?.some(rule => rule.type === 'host')));
+  assert.match(fs.readFileSync(path.join(root, 'app/privacy/page.tsx'), 'utf8'), /hosted on Cloudflare/);
+});
+
 
 test('rescue enquiries validate diagnostic fields and reject credential-bearing links', () => {
   const rescue = { ...valid, service: 'AI Website & App Rescue', platform: 'Lovable', expected: 'Login should open the dashboard', appUrl: 'https://example.com', repository: 'https://github.com/example/private' };
