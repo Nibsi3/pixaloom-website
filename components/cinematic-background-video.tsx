@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import ReactDOM from 'react-dom';
+import imageLoader from '@/lib/image-loader';
 
-export const cinematicPoster = '/video/pixaloom-ambient-poster-v2.jpg';
+export const cinematicPoster = imageLoader({ src: '/video/pixaloom-ambient-poster-v2.jpg', width: 1920 });
 const motionQuery = '(prefers-reduced-motion: reduce)';
 type Connection = EventTarget & { saveData?: boolean; effectiveType?: string };
 

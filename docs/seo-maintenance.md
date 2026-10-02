@@ -10,6 +10,8 @@ The release crawler now checks HTTP index directives, direct sitemap responses, 
 
 The speed audit found that the unbound Cloudflare image optimizer returned original PNGs for every requested size. Responsive WebP files are now generated at build time and served as fingerprinted static assets. At 828 pixels wide, the NORDflam cover is 15,732 bytes instead of 950,038 bytes, and BuildVolume is 15,292 instead of 965,155 bytes. The header and footer share a 1,392-byte logo. Static bundles and generated images receive immutable caching. Background motion waits for critical assets, respects reduced-motion and data-saving preferences, and pauses offscreen; scroll effects batch layout reads. Mobile portfolio descriptions are now 16px, and archive indices have higher contrast.
 
+The opening video poster also uses the generated WebP pipeline: the 1920px asset is 16,824 bytes rather than the 41,255-byte JPEG. Its high-priority preload and video poster share the same fingerprinted URL.
+
 Host matching is explicitly anchored because the deployed OpenNext matcher applies raw regular expressions. This prevents the apex rule from matching the canonical `www` host and creating a redirect loop. The production crawl validates both hosts after release.
 
 ## September 2026 remediation
