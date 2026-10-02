@@ -15,7 +15,9 @@ npm start
 npm run audit:seo -- http://localhost:3000
 ```
 
-The crawl checks all sitemap pages, internal links, metadata, canonicals, H1s and JSON-LD syntax. Tests cover input validation, safe article rendering, estimator handoff, gallery descriptions, sitemap dates, paused projects and indexability policies. Email delivery is mocked; tests do not send messages.
+The crawl checks all sitemap pages, internal links, metadata, canonicals, H1s, JSON-LD, social images, noindex/404 policies and permanent redirects. Tests cover input validation, safe article rendering, estimator handoff, gallery descriptions, sitemap dates, paused projects, host matching and responsive image output. Email delivery is mocked; tests do not send messages.
+
+`dev`, `build`, `test` and `typecheck` prepare responsive WebP images with Sharp. The custom Next.js image loader serves these fingerprinted files directly from Cloudflare static assets; it does not rely on an Images subscription or the unconfigured runtime image optimizer. Originals stay in `public/`. Generated `public/optimized/` and `lib/generated-image-manifest.json` are ignored and regenerated on clean builds. Run `npm run images:build` after adding or replacing an image during development. Image quality is centrally set to 85 in that script; changing the recipe or original creates new cache-safe URLs.
 
 If a local installation only has Next.js WASM bindings and lacks native SWC, use `npm run build -- --webpack` locally. Hosting still uses the normal `npm run build`; validate that build separately.
 
@@ -33,9 +35,9 @@ Application logs contain allowlisted action names only. `enquiry_accepted` means
 - Published work is filtered in `components/work-items.ts`; every rendered gallery image needs a visually checked entry in `lib/project-evidence.ts`.
 - Current journal copy lives in `lib/journal-revisions.ts`. Render only `publishedBlogPosts`. Preserve original publication dates; update the modification date only after a substantive revision.
 - Update only relevant entries in `lib/content-dates.ts`. Do not refresh every sitemap date on deploy.
-- `/os` and `/jokes` are crawlable but noindexed. Vercel hosts receive `X-Robots-Tag: noindex, nofollow`; the production canonical is `https://www.pixaloom.co.za`.
+- `/os` and `/jokes` are crawlable but noindexed. Vercel and `workers.dev` preview hosts receive `X-Robots-Tag: noindex, nofollow`; apex requests permanently redirect to the production canonical `https://www.pixaloom.co.za`.
 - Retired CAPS Tutor and George Herald URLs return 404. Do not redirect unrelated case studies or restore paused work to eliminate an exclusion report.
-- Fingerprinted Next.js assets use framework-managed immutable caching. HTML, APIs, sitemap and robots have separate policies.
+- Cloudflare static assets use `public/_headers` for long-lived caching of fingerprinted Next.js bundles and decorative media. HTML, APIs, sitemap and robots retain separate policies.
 
 See [SEO maintenance and owner checklist](docs/seo-maintenance.md) for completion gates and release acceptance.
 
@@ -46,3 +48,5 @@ Production runs as the existing `pixaloom-website` Cloudflare Worker through the
 From the exact reviewed and pushed commit, run `npm ci`, the validation commands above, `npm run deploy:cloudflare`, and confirm Wrangler reports the `pixaloom-website` deployment. The Wrangler configuration keeps dashboard-managed variables and secrets. After deployment, verify `https://www.pixaloom.co.za` resolves through Cloudflare, crawl the canonical site, and check headers, enquiry readiness, navigation, representative images and estimator handoff. A successful upload or build is not a successful production release.
 
 Browser tests should cover a narrow viewport, keyboard navigation, pause/play, a readable first frame, and reduced-motion preferences. Reset temporary viewport overrides after testing.
+
+For a local Cloudflare runtime check after an OpenNext build, use `npx wrangler dev --local-upstream www.pixaloom.co.za`. Wrangler otherwise infers the apex from the first route and every request correctly exercises the apex redirect. The SEO audit accepts local redirect origins when Wrangler rewrites response headers, while production audits require the canonical origin.

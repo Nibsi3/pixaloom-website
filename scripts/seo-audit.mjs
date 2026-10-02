@@ -3,6 +3,7 @@ const canonicalOrigin = new URL(
 );
 const crawlOrigin = new URL(process.argv[2] || canonicalOrigin);
 const requestTimeoutMs = 20_000;
+const requestConcurrency = 6;
 
 const failures = [];
 const warnings = [];
@@ -46,13 +47,34 @@ function pageUrl(value) {
   return new URL(`${canonical.pathname}${canonical.search}`, crawlOrigin);
 }
 
-async function get(value) {
+async function mapConcurrent(items, callback) {
+  const results = new Array(items.length);
+  let cursor = 0;
+  await Promise.all(Array.from({ length: Math.min(requestConcurrency, items.length) }, async () => {
+    while (cursor < items.length) {
+      const index = cursor++;
+      results[index] = await callback(items[index]);
+    }
+  }));
+  return results;
+}
+
+async function get(value, redirect = "manual") {
   const response = await fetch(value, {
     headers: { "user-agent": "Pixaloom technical SEO audit" },
-    redirect: "follow",
+    redirect,
     signal: AbortSignal.timeout(requestTimeoutMs),
   });
   return { response, text: await response.text() };
+}
+
+function blocksIndexing(metas, response) {
+  const directives = [
+    response.headers.get("x-robots-tag") || "",
+    ...metas.filter(({ attrs }) => /^(robots|googlebot)$/i.test(attrs.name || ""))
+      .map(({ attrs }) => attrs.content || ""),
+  ];
+  return directives.some((value) => /\b(?:noindex|none)\b/i.test(value));
 }
 
 function fail(message) {
@@ -84,15 +106,23 @@ async function audit() {
   if (!sitemapResponse.ok) fail(`sitemap.xml returned ${sitemapResponse.status}`);
   if (!/^user-agent:\s*\*/im.test(robots)) fail("robots.txt has no wildcard user-agent group");
   if (/disallow:\s*\/$/im.test(robots)) fail("robots.txt blocks the entire site");
-  if (!/^sitemap:\s*https?:\/\//im.test(robots)) warn("robots.txt does not advertise the sitemap");
+  const advertisedSitemaps = [...robots.matchAll(/^sitemap:\s*(\S+)/gim)].map((match) => match[1]);
+  if (!advertisedSitemaps.some((url) => normalizeUrl(url) === normalizeUrl("/sitemap.xml"))) {
+    fail("robots.txt does not advertise the canonical sitemap");
+  }
 
   const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) =>
     decodeHtml(match[1]),
   );
   if (!sitemapUrls.length) fail("sitemap.xml contains no URLs");
+  if (new Set(sitemapUrls.map(normalizeUrl)).size !== sitemapUrls.length) fail("sitemap.xml contains duplicate URLs");
+  for (const url of sitemapUrls) {
+    if (new URL(url).origin !== canonicalOrigin.origin) fail(`sitemap URL uses a noncanonical origin: ${url}`);
+  }
+  const imageUrls = new Set([...sitemap.matchAll(/<image:loc>(.*?)<\/image:loc>/g)]
+    .map((match) => decodeHtml(match[1])));
 
-  const pages = await Promise.all(
-    sitemapUrls.map(async (canonicalUrl) => {
+  const pages = await mapConcurrent(sitemapUrls, async (canonicalUrl) => {
       const target = pageUrl(canonicalUrl);
       const { response, text: html } = await get(target);
       const path = new URL(canonicalUrl).pathname;
@@ -101,8 +131,8 @@ async function audit() {
       const links = elements(html, "link");
       const description = metas.find(({ attrs }) => attrs.name?.toLowerCase() === "description")
         ?.attrs.content;
-      const robotsMeta = metas.find(({ attrs }) => attrs.name?.toLowerCase() === "robots")
-        ?.attrs.content;
+      const metaValue = (name) => metas.find(({ attrs }) =>
+        (attrs.name || attrs.property)?.toLowerCase() === name)?.attrs.content;
       const canonical = links.find(({ attrs }) =>
         attrs.rel?.toLowerCase().split(/\s+/).includes("canonical"),
       )?.attrs.href;
@@ -113,6 +143,7 @@ async function audit() {
       )];
 
       if (response.status !== 200) fail(`${path}: returned ${response.status}`);
+      if (!response.headers.get("content-type")?.includes("text/html")) fail(`${path}: response is not HTML`);
       if (!title) fail(`${path}: missing title`);
       if (!description) fail(`${path}: missing meta description`);
       if (!canonical) fail(`${path}: missing canonical URL`);
@@ -121,7 +152,25 @@ async function audit() {
       }
       if (h1Count !== 1) fail(`${path}: expected one H1, found ${h1Count}`);
       if (language !== "en-ZA") fail(`${path}: html lang is ${language || "missing"}`);
-      if (/noindex/i.test(robotsMeta || "")) fail(`${path}: sitemap URL is marked noindex`);
+      if (blocksIndexing(metas, response)) fail(`${path}: sitemap URL is marked noindex in metadata or HTTP headers`);
+      if (normalizeUrl(metaValue("og:url") || "/") !== normalizeUrl(canonicalUrl)) {
+        fail(`${path}: Open Graph URL does not match its canonical`);
+      }
+      for (const key of ["og:title", "og:description", "og:url", "og:image", "og:image:alt", "twitter:title", "twitter:description", "twitter:image", "twitter:image:alt"]) {
+        if (!metaValue(key)) fail(`${path}: missing ${key}`);
+      }
+      if (metaValue("twitter:card") !== "summary_large_image") fail(`${path}: missing large social preview card`);
+      for (const key of ["og:image", "twitter:image"]) {
+        const value = metaValue(key);
+        if (value) {
+          const url = new URL(value, canonicalOrigin);
+          if (url.origin !== canonicalOrigin.origin) fail(`${path}: ${key} uses a noncanonical origin`);
+          else imageUrls.add(url.href);
+        }
+      }
+      for (const { attrs } of elements(html, "img")) {
+        if (!("alt" in attrs)) fail(`${path}: image is missing alt text: ${attrs.src}`);
+      }
       if (!jsonLdBlocks.length) warn(`${path}: no JSON-LD found`);
       for (const [, json] of jsonLdBlocks) {
         try {
@@ -143,7 +192,7 @@ async function audit() {
         .flatMap((href) => {
           if (/^(?:mailto:|tel:|javascript:|#)/i.test(href)) return [];
           try {
-            const url = new URL(href, canonicalOrigin);
+            const url = new URL(href, canonicalUrl);
             return url.origin === canonicalOrigin.origin ? [url] : [];
           } catch {
             fail(`${path}: malformed link ${href}`);
@@ -152,8 +201,7 @@ async function audit() {
         });
 
       return { path, title, description, internalLinks };
-    }),
-  );
+    });
 
   for (const [value, paths] of duplicateValues(pages, "title")) {
     fail(`duplicate title on ${paths.join(", ")}: ${value}`);
@@ -166,8 +214,8 @@ async function audit() {
   for (const page of pages) {
     for (const url of page.internalLinks) linkedUrls.set(normalizeUrl(url), url);
   }
-  await Promise.all(
-    [...linkedUrls.values()].map(async (url) => {
+  const crawledUrls = new Set(sitemapUrls.map(normalizeUrl));
+  await mapConcurrent([...linkedUrls.values()].filter((url) => !crawledUrls.has(normalizeUrl(url))), async (url) => {
       const target = pageUrl(url);
       const response = await fetch(target, {
         headers: { "user-agent": "Pixaloom technical SEO audit" },
@@ -175,11 +223,65 @@ async function audit() {
         signal: AbortSignal.timeout(requestTimeoutMs),
       });
       if (response.status >= 400) fail(`internal link ${url.pathname} returned ${response.status}`);
-    }),
-  );
+      await response.body?.cancel();
+    });
+
+  await mapConcurrent([...imageUrls], async (url) => {
+    const source = new URL(url, canonicalOrigin);
+    const target = source.origin === canonicalOrigin.origin ? pageUrl(source) : source;
+    const response = await fetch(target, {
+      method: "HEAD",
+      redirect: "manual",
+      signal: AbortSignal.timeout(requestTimeoutMs),
+    });
+    if (response.status !== 200) fail(`image ${source.pathname} returned ${response.status}`);
+    if (!response.headers.get("content-type")?.startsWith("image/")) fail(`image ${source.pathname} has a non-image content type`);
+    if (blocksIndexing([], response)) fail(`image ${source.pathname} is marked noindex`);
+  });
+
+  await mapConcurrent(["/os", "/jokes"], async (path) => {
+    const { response, text: html } = await get(pageUrl(path));
+    if (response.status !== 200) fail(`${path}: experiment returned ${response.status}`);
+    if (!blocksIndexing(elements(html, "meta"), response)) fail(`${path}: experiment is missing noindex`);
+    if (crawledUrls.has(normalizeUrl(path))) fail(`${path}: experiment is included in sitemap`);
+  });
+  await mapConcurrent(["/seo-audit-missing-page", "/work/seo-audit-missing-project", "/blog/seo-audit-missing-post", "/services/seo-audit-missing-service", "/locations/seo-audit-missing-place"], async (path) => {
+    const { response } = await get(pageUrl(path));
+    if (response.status !== 404) fail(`${path}: missing page returned ${response.status}, expected 404`);
+  });
+  const redirectCases = [
+    [pageUrl("/pricing?utm_source=seo-audit&topic=web%20design"), "/website-cost"],
+    [pageUrl("/shop"), "/services/ecommerce-websites"],
+  ];
+  if (crawlOrigin.origin === canonicalOrigin.origin && canonicalOrigin.hostname.startsWith("www.")) {
+    const apexOrigin = new URL(canonicalOrigin);
+    apexOrigin.hostname = apexOrigin.hostname.slice(4);
+    for (const path of ["/", "/services/website-design"]) {
+      redirectCases.push([new URL(`${path}?utm_source=seo-audit&topic=web%20design`, apexOrigin), path]);
+    }
+  }
+  await mapConcurrent(redirectCases, async ([target, destination]) => {
+    const { response } = await get(target);
+    if (![301, 308].includes(response.status)) {
+      fail(`${target.href}: expected a permanent redirect, received ${response.status}`);
+      return;
+    }
+    const location = response.headers.get("location");
+    if (!location) { fail(`${target.href}: redirect is missing Location`); return; }
+    const redirected = new URL(location, target);
+    // Wrangler's local proxy rewrites its configured upstream origin in Location.
+    const localProxyRedirect = ["localhost", "127.0.0.1", "[::1]"].includes(crawlOrigin.hostname)
+      && redirected.origin === crawlOrigin.origin;
+    if ((!localProxyRedirect && redirected.origin !== canonicalOrigin.origin) || redirected.pathname !== destination) {
+      fail(`${target.href}: redirects to ${redirected.href}, expected canonical ${destination}`);
+    }
+    for (const [key, value] of target.searchParams) {
+      if (redirected.searchParams.get(key) !== value) fail(`${target.href}: redirect lost query parameter ${key}`);
+    }
+  });
 
   console.log(
-    `Audited ${pages.length} sitemap pages and ${linkedUrls.size} unique internal links at ${crawlOrigin.origin}.`,
+    `Audited ${pages.length} sitemap pages, ${linkedUrls.size} unique internal links, ${imageUrls.size} images, redirects, experiment noindex and missing-page status at ${crawlOrigin.origin}.`,
   );
   for (const message of warnings) console.warn(`WARN  ${message}`);
   for (const message of failures) console.error(`FAIL  ${message}`);

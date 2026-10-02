@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const item = workItems.find((project) => project.slug === slug);
   if (!item) return {};
   const description = truncateDescription(item.scope);
-  return pageMetadata({ title: `${item.name} — ${item.category || 'Website'} Project`, description, path: `/work/${slug}`, image: item.png });
+  return pageMetadata({ title: `${item.name} — ${item.category || 'Website'} Project`, description, path: `/work/${slug}`, image: item.png, imageAlt: projectMediaDescription(item, item.png) });
 }
 
 export default async function WorkPage({ params }: { params: Promise<{ slug: string }> }) {

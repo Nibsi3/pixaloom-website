@@ -19,7 +19,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = publishedBlogPosts.find(p => p.slug === slug);
   if (!post) return {};
   const project = workItems.find(item => item.slug === post.project);
-  const metadata = pageMetadata({ title: post.title, description: post.excerpt, path: `/blog/${slug}`, type: 'article', image: project?.gallery?.[0] });
+  const image = project?.gallery?.[0];
+  const metadata = pageMetadata({ title: post.title, description: post.excerpt, path: `/blog/${slug}`, type: 'article', image, imageAlt: project && image ? projectMediaDescription(project, image) : undefined });
   return { ...metadata, openGraph: { ...metadata.openGraph, type: 'article', publishedTime: post.date, modifiedTime: post.modified, authors: [site.name], tags: post.tags } };
 }
 const dateLabel = (date: string) => new Intl.DateTimeFormat('en-ZA', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(date));

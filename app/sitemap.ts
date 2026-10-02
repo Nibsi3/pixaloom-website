@@ -27,7 +27,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...core.map(([path, priority, changeFrequency]) => ({ url: path ? absoluteUrl(path) : site.url, lastModified: contentModified(path), changeFrequency, priority })),
     ...services.map((item) => ({ url: absoluteUrl(`/services/${item.slug}`), lastModified: contentModified(`/services/${item.slug}`), changeFrequency: 'monthly' as const, priority: .9 })),
     ...provinces.map((item) => ({ url: absoluteUrl(`/locations/${item.slug}`), lastModified: contentModified(`/locations/${item.slug}`), changeFrequency: 'monthly' as const, priority: .8 })),
-    ...workItems.map((item) => ({ url: absoluteUrl(`/work/${item.slug}`), lastModified: contentModified(`/work/${item.slug}`), changeFrequency: 'yearly' as const, priority: .65 })),
-    ...publishedBlogPosts.map((post) => ({ url: absoluteUrl(`/blog/${post.slug}`), lastModified: post.modified, changeFrequency: 'yearly' as const, priority: .65 })),
+    ...workItems.map((item) => ({
+      url: absoluteUrl(`/work/${item.slug}`),
+      lastModified: contentModified(`/work/${item.slug}`),
+      changeFrequency: 'yearly' as const,
+      priority: .65,
+      images: (item.gallery?.length ? item.gallery.slice(0, 6) : [item.png]).map((image) => absoluteUrl(image)),
+    })),
+    ...publishedBlogPosts.map((post) => {
+      const image = workItems.find((item) => item.slug === post.project)?.gallery?.[0];
+      return {
+        url: absoluteUrl(`/blog/${post.slug}`),
+        lastModified: post.modified,
+        changeFrequency: 'yearly' as const,
+        priority: .65,
+        ...(image ? { images: [absoluteUrl(image)] } : {}),
+      };
+    }),
   ];
 }

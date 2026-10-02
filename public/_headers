@@ -1,0 +1,15 @@
+# Cloudflare Workers serves these public files directly; its defaults revalidate each request.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/optimized/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/video/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/noise.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+/pixaloom-mark-100.webp
+  Cache-Control: public, max-age=86400

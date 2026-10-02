@@ -36,6 +36,7 @@ export function usePortalScrollProgress(
         })
       : [];
     const activeDepthLayers = new Set<(typeof depthLayers)[number]>();
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     let stickyTop = 0;
     let heroVisible = true;
@@ -48,13 +49,18 @@ export function usePortalScrollProgress(
     };
 
     const applyDepth = () => {
-      if (!withDepth || activeDepthLayers.size === 0 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!withDepth || activeDepthLayers.size === 0 || reducedMotion.matches) return;
 
       const viewportCentre = window.innerHeight / 2;
-      for (const { anchor, layer, speed } of activeDepthLayers) {
+      // Read geometry together before writing transforms, avoiding a layout
+      // read/write cycle for every visible layer on each scroll frame.
+      const positions = Array.from(activeDepthLayers, ({ anchor, layer, speed }) => {
         const anchorRect = anchor.getBoundingClientRect();
         const distance = viewportCentre - (anchorRect.top + anchorRect.height / 2);
-        layer.style.setProperty('--depth-y', `${clamp(distance * speed, -135, 135).toFixed(2)}px`);
+        return { layer, y: clamp(distance * speed, -135, 135).toFixed(2) };
+      });
+      for (const { layer, y } of positions) {
+        layer.style.setProperty('--depth-y', `${y}px`);
       }
     };
 
@@ -67,25 +73,25 @@ export function usePortalScrollProgress(
       section.classList.toggle('is-revealed', revealed);
     };
 
-    const syncState = () => {
-      const offset = readOffset();
+    const syncState = (offset = readOffset()) => {
       // Hysteresis keeps the state stable while the transition plays.
       if (!revealed && offset > OPEN_AFTER_PX) setRevealed(true);
       else if (revealed && offset < CLOSE_BEFORE_PX) setRevealed(false);
     };
 
     const onScroll = () => {
-      if (scrollFrame) return;
+      if (scrollFrame || (!heroVisible && activeDepthLayers.size === 0)) return;
       scrollFrame = window.requestAnimationFrame(() => {
         scrollFrame = 0;
-        if (!heroVisible) return;
+        const offset = heroVisible ? readOffset() : undefined;
         applyDepth();
-        syncState();
+        if (offset !== undefined) syncState(offset);
       });
     };
 
     const visibilityObserver = new IntersectionObserver((entries) => {
       heroVisible = entries.some((entry) => entry.isIntersecting);
+      onScroll();
     }, { rootMargin: '30% 0px' });
     visibilityObserver.observe(section);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -99,6 +105,7 @@ export function usePortalScrollProgress(
               else activeDepthLayers.delete(depthLayer);
             }
           }
+          onScroll();
         }, { rootMargin: '300px 0px' })
       : null;
 

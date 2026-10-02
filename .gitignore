@@ -12,6 +12,8 @@ out
 !.env.example
 .test-build/
 audits/
+public/optimized/
+lib/generated-image-manifest.json
 .DS_Store
 *.log
 __pycache__/

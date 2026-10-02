@@ -40,12 +40,14 @@ export function pageMetadata({
   path,
   type = 'website',
   image = '/opengraph-image',
+  imageAlt = 'Pixaloom: web design, ecommerce, SEO and web apps for South African businesses',
 }: {
   title: string;
   description: string;
   path: string;
   type?: 'website' | 'article';
   image?: string;
+  imageAlt?: string;
 }): Metadata {
   const socialTitle = `${title} | ${site.name}`;
   const summary = truncateDescription(description);
@@ -60,13 +62,17 @@ export function pageMetadata({
       title: socialTitle,
       description: summary,
       url: absoluteUrl(path),
-      images: [{ url: absoluteUrl(image), alt: socialTitle }],
+      images: [{
+        url: absoluteUrl(image),
+        alt: imageAlt,
+        ...(image === '/opengraph-image' ? { width: 1200, height: 630 } : {}),
+      }],
     },
     twitter: {
       card: 'summary_large_image',
       title: socialTitle,
       description: summary,
-      images: [absoluteUrl(image === '/opengraph-image' ? '/twitter-image' : image)],
+      images: [{ url: absoluteUrl(image === '/opengraph-image' ? '/twitter-image' : image), alt: imageAlt }],
     },
   };
 }

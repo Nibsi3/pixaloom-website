@@ -1,5 +1,17 @@
 # SEO maintenance and owner checklist
 
+## October 2026 audit
+
+The production baseline on 2 October covered 58 sitemap pages and 58 unique internal links. Titles, descriptions, self-canonicals, HTML language, H1s and JSON-LD passed the existing crawler. The deeper check also verified social-image responses, intentional experiment noindex and real 404 responses across the dynamic route families. Social previews were missing Twitter image alternatives; the shared metadata helper now supplies them, with project-specific descriptions and dimensions for the default card.
+
+The sitemap now identifies the 63 reviewed project captures and the relevant images shown in journal articles. Image discovery follows [Google's image-sitemap guidance](https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps); inclusion does not guarantee indexing. Content modification dates remain tied to substantive page edits.
+
+The release crawler now checks HTTP index directives, direct sitemap responses, canonical sitemap advertisement, social metadata and image responses, real missing-page statuses, experiment noindex, and permanent redirects with query preservation. Requests are limited to six at once and already-crawled pages are reused. Run `npm run audit:seo -- http://localhost:3000` against a local production build, then `npm run audit:seo` after deployment. The live run also checks apex-to-www redirects.
+
+The speed audit found that the unbound Cloudflare image optimizer returned original PNGs for every requested size. Responsive WebP files are now generated at build time and served as fingerprinted static assets. At 828 pixels wide, the NORDflam cover is 15,732 bytes instead of 950,038 bytes, and BuildVolume is 15,292 instead of 965,155 bytes. The header and footer share a 1,392-byte logo. Static bundles and generated images receive immutable caching. Background motion waits for critical assets, respects reduced-motion and data-saving preferences, and pauses offscreen; scroll effects batch layout reads. Mobile portfolio descriptions are now 16px, and archive indices have higher contrast.
+
+Host matching is explicitly anchored because the deployed OpenNext matcher applies raw regular expressions. This prevents the apex rule from matching the canonical `www` host and creating a redirect loop. The production crawl validates both hosts after release.
+
 ## September 2026 remediation
 
 This release improves discoverability, honest content, internal linking and enquiry reliability without replacing the three featured homepage projects or inventing testimonials and commercial results.

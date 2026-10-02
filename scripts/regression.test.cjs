@@ -33,6 +33,7 @@ const { serviceEvidence } = require('../lib/service-evidence.ts');
 const { verifiedDescriptions, projectMediaDescription } = require('../lib/project-evidence.ts');
 const sitemap = require('../app/sitemap.ts').default;
 const robots = require('../app/robots.ts').default;
+const { pageMetadata } = require('../lib/site.ts');
 const valid = { name: 'Test Person', email: 'test@example.com', message: 'This is a synthetic unit test, not a real enquiry.' };
 test('new supporting text uses a readable colour on the dark content surfaces', () => {
   const css = fs.readFileSync(path.join(root, 'app/globals.css'), 'utf8');
@@ -157,6 +158,30 @@ test('paused work and experiments stay out of sitemap; robots permits noindex di
   const home = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
   assert.match(home, /\['nordflam', 'buildvolume', 'illumi'\]/);
 });
+test('image sitemap exposes the reviewed public captures with valid canonical URLs', () => {
+  const imageUrls = new Set(sitemap().flatMap(entry => entry.images || []));
+  assert.equal(imageUrls.size, 63);
+  for (const value of imageUrls) {
+    const url = new URL(value);
+    assert.equal(url.origin, 'https://www.pixaloom.co.za');
+    assert.doesNotMatch(value, /\s/);
+    const imagePath = decodeURIComponent(url.pathname);
+    assert.ok(verifiedDescriptions[imagePath], `Unreviewed capture in sitemap: ${imagePath}`);
+    assert.ok(fs.existsSync(path.join(root, 'public', imagePath)));
+  }
+});
+test('social previews keep descriptive image alternatives and correct default dimensions', () => {
+  const metadata = pageMetadata({ title: 'Test page', description: 'A useful page description.', path: '/test', image: '/work/illumi.png', imageAlt: 'Illumi invoice interface' });
+  assert.equal(metadata.openGraph.images[0].alt, 'Illumi invoice interface');
+  assert.equal(metadata.twitter.images[0].alt, 'Illumi invoice interface');
+  assert.equal(metadata.openGraph.images[0].width, undefined);
+  assert.equal(metadata.twitter.images[0].url, 'https://www.pixaloom.co.za/work/illumi.png');
+  const defaults = pageMetadata({ title: 'Home', description: 'A useful page description.', path: '/' });
+  assert.equal(defaults.openGraph.images[0].width, 1200);
+  assert.equal(defaults.openGraph.images[0].height, 630);
+  assert.equal(defaults.twitter.images[0].url, 'https://www.pixaloom.co.za/twitter-image');
+  assert.ok(defaults.twitter.images[0].alt);
+});
 test('first-party events reject arbitrary messages and log only allowlisted names', async () => {
   const info = console.info; const logs = []; console.info = value => logs.push(value);
   try {
@@ -194,8 +219,32 @@ test('production release targets the existing Cloudflare Worker', () => {
 
 test('Cloudflare serves both production hosts without a host-matcher loop', async () => {
   const redirects = await require('../next.config.js').redirects();
-  assert.ok(!redirects.some(item => item.has?.some(rule => rule.type === 'host')));
+  const hostRedirects = redirects.filter(item => item.has?.some(rule => rule.type === 'host'));
+  assert.equal(hostRedirects.length, 2);
+  for (const redirect of hostRedirects) {
+    const hostRule = redirect.has.find(rule => rule.type === 'host');
+    // OpenNext tests the supplied regexp directly, without Next's implicit anchors.
+    const matcher = new RegExp(hostRule.value);
+    assert.ok(matcher.test('pixaloom.co.za'));
+    for (const host of ['www.pixaloom.co.za', 'preview.pixaloom.co.za', 'pixaloom-website.example.workers.dev', 'pixaloom-website.vercel.app', 'localhost:3000', 'pixaloom.co.za.example.com', 'pixaloomXcoYza']) {
+      assert.ok(!matcher.test(host), `Canonical redirect must not match ${host}`);
+    }
+    assert.ok(redirect.destination.startsWith('https://www.pixaloom.co.za'));
+    assert.equal(redirect.permanent, true);
+  }
   assert.match(fs.readFileSync(path.join(root, 'app/privacy/page.tsx'), 'utf8'), /hosted on Cloudflare/);
+});
+test('preview noindex headers match only the intended hosting domains', async () => {
+  const headers = await require('../next.config.js').headers();
+  const previews = headers.filter(item => item.headers.some(header => header.key === 'X-Robots-Tag'));
+  assert.equal(previews.length, 2);
+  for (const preview of previews) {
+    const matcher = new RegExp(preview.has.find(rule => rule.type === 'host').value);
+    const provider = preview.has[0].value.includes('workers') ? 'workers.dev' : 'vercel.app';
+    assert.ok(matcher.test(`pixaloom-website.example.${provider}`));
+    for (const host of ['www.pixaloom.co.za', 'pixaloom.co.za', 'localhost:3000', `preview.${provider}.example.com`]) assert.ok(!matcher.test(host));
+    assert.ok(preview.headers.some(header => /noindex/.test(header.value)));
+  }
 });
 
 

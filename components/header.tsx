@@ -8,7 +8,7 @@ export function Header() {
     <header className="site-header">
       <div className="header-inner">
         <Link href="/" className="brand" aria-label="Pixaloom Digital studio home">
-          <Image className="brand-logo" src="/pixaloom-mark.png" alt="" width={400} height={280} loading="eager" />
+          <Image className="brand-logo" src="/pixaloom-mark-100.webp" alt="" width={100} height={70} unoptimized loading="eager" />
           <span className="sr-only">Pixaloom</span>
           <span className="brand-studio">Digital studio</span>
         </Link>

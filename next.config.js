@@ -5,6 +5,8 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   images: {
+    loader: 'custom',
+    loaderFile: './lib/image-loader.ts',
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 2592000,
     qualities: [75, 90, 92, 95],
@@ -18,6 +20,18 @@ const nextConfig = {
       { source: '/watercolor', destination: 'https://www.pixaloom.co.za/projects', permanent: true },
       { source: '/tandem', destination: 'https://www.pixaloom.co.za/projects', permanent: true },
       { source: '/car', destination: 'https://www.pixaloom.co.za/projects', permanent: true },
+      {
+        source: '/',
+        destination: 'https://www.pixaloom.co.za',
+        permanent: true,
+        has: [{ type: 'host', value: '^pixaloom\\.co\\.za$' }],
+      },
+      {
+        source: '/:path*',
+        destination: 'https://www.pixaloom.co.za/:path*',
+        permanent: true,
+        has: [{ type: 'host', value: '^pixaloom\\.co\\.za$' }],
+      },
     ];
   },
   async headers() {
@@ -38,7 +52,12 @@ const nextConfig = {
       },
       {
         source: '/:path*',
-        has: [{ type: 'host', value: '.*\\.vercel\\.app' }],
+        has: [{ type: 'host', value: '^.+\\.vercel\\.app$' }],
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: '^.+\\.workers\\.dev$' }],
         headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
       },
       {
