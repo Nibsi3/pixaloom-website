@@ -2,7 +2,7 @@
 // Unknown legacy modification dates are omitted, not replaced with build time.
 const pageDates: Record<string, string> = {
   '/': '2026-09-14', '/services': '2026-09-14', '/ai-website-app-rescue': '2026-09-14', '/about': '2026-09-03', '/blog': '2026-09-03',
-  '/contact': '2026-09-03', '/privacy': '2026-09-03', '/website-cost': '2026-09-30',
+  '/contact': '2026-09-03', '/privacy': '2026-10-02', '/website-cost': '2026-09-30',
   '/locations/george': '2026-09-04', '/locations/garden-route': '2026-09-03',
   '/services/website-design': '2026-09-04', '/services/ecommerce-websites': '2026-09-03',
   '/services/seo': '2026-09-04', '/services/web-app-development': '2026-09-14', '/services/website-care': '2026-09-14',

@@ -1,11 +1,11 @@
-import { Resend } from 'resend';
 import { contactUnavailable, escapeHtml, validateContact } from '@/lib/contact';
+import { getEmailConfig, sendEmail } from '@/lib/email';
 
 const json = (data: object, status = 200) => Response.json(data, { status, headers: { 'Cache-Control': 'no-store' } });
 
 // Readiness only: does not send email or expose configuration values.
 export async function GET() {
-  const available = Boolean(process.env.RESEND_API_KEY);
+  const available = Boolean(getEmailConfig());
   return json({ available }, available ? 200 : 503);
 }
 
@@ -31,20 +31,18 @@ export async function POST(req: Request) {
   const checked = validateContact(input);
   if (!checked.ok) return json({ ok: false, error: checked.error }, 400);
   if (checked.bot) return json({ ok: true });
-  if (!process.env.RESEND_API_KEY) {
+  if (!getEmailConfig()) {
     console.error(JSON.stringify({ event: 'enquiry_unavailable', reason: 'email_not_configured' }));
     return json({ ok: false, error: contactUnavailable }, 503);
   }
   const { name, email, company, phone, service, budget, message, platform, appUrl, expected, errorLink, repository, deadline } = checked.data;
   const fields = { Name: name, Email: email, Company: company, Phone: phone, Service: service, Budget: budget, Message: message, ...(service === 'AI Website & App Rescue' ? { Platform: platform, 'App URL': appUrl, 'Expected result': expected, 'Error or screenshot link': errorLink, Repository: repository, 'Desired deadline': deadline } : {}) };
   try {
-    const result = await new Resend(process.env.RESEND_API_KEY).emails.send({
-      from: process.env.RESEND_FROM || 'Pixaloom Website <website@pixaloom.co.za>',
+    await sendEmail({
       to: 'info@pixaloom.co.za', replyTo: email, subject: `Pixaloom enquiry — ${name}`,
       text: Object.entries(fields).map(([label, value]) => `${label}: ${value || '-'}`).join('\n\n'),
       html: Object.entries(fields).map(([label, value]) => `<p><strong>${label}</strong><br/>${escapeHtml(value || '-').replaceAll('\n', '<br/>')}</p>`).join(''),
     });
-    if (result.error || !result.data?.id) throw new Error('delivery_failed');
     console.info(JSON.stringify({ event: 'enquiry_accepted' }));
     return json({ ok: true });
   } catch {

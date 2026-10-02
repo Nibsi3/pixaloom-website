@@ -1,4 +1,4 @@
-const { test } = require('node:test');
+const { test, after } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -16,9 +16,41 @@ Module._resolveFilename = function (request, parent, ...rest) {
 for (const extension of ['.ts', '.tsx']) require.extensions[extension] = (module, filename) => {
   module._compile(ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true } }).outputText, filename);
 };
-let providerResult = { data: { id: 'test-message-id' }, error: null };
-let sent = [];
-require.cache[require.resolve('resend')] = { exports: { Resend: class { emails = { send: async message => { sent.push(message); return providerResult; } }; } } };
+// A test must explicitly provide a fetch fixture. Never fall through to a real
+// provider, even if the developer's shell happens to have email credentials.
+const originalFetch = globalThis.fetch;
+globalThis.fetch = async () => { throw new Error('Unexpected network request in regression test'); };
+after(() => { globalThis.fetch = originalFetch; });
+
+function emailHarness(t, overrides = {}) {
+  const values = { BYTESEND_API_KEY: 'unit-test-only', BYTESEND_FROM: undefined, BYTESEND_BASE_URL: undefined, ...overrides };
+  const previous = Object.fromEntries(Object.keys(values).map(key => [key, process.env[key]]));
+  for (const [key, value] of Object.entries(values)) {
+    if (value === undefined) delete process.env[key];
+    else process.env[key] = value;
+  }
+  t.after(() => {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  });
+  const fixture = {
+    calls: [], logs: [], timeouts: [],
+    respond: async () => Response.json({ emailId: 'test-message-id' }, { status: 200 }),
+  };
+  t.mock.method(AbortSignal, 'timeout', milliseconds => {
+    fixture.timeouts.push(milliseconds);
+    return new AbortController().signal;
+  });
+  t.mock.method(globalThis, 'fetch', async (url, options) => {
+    fixture.calls.push({ url: String(url), options, message: JSON.parse(options.body) });
+    return fixture.respond();
+  });
+  t.mock.method(console, 'info', value => fixture.logs.push(value));
+  t.mock.method(console, 'error', value => fixture.logs.push(value));
+  return fixture;
+}
 const { validateContact, escapeHtml } = require('../lib/contact.ts');
 const { ArticleContent, safeHref } = require('../components/article-content.tsx');
 const { estimateWebsiteCost, estimateContactUrl, estimateBriefFromParams } = require('../lib/website-cost.ts');
@@ -65,9 +97,12 @@ test('contact validates unknown input and field limits without throwing', () => 
   assert.equal(validateContact({ website: 'bot.example' }).bot, true);
   assert.equal(escapeHtml('<script>"&'), '&lt;script&gt;&quot;&amp;');
 });
-test('readiness and invalid requests never send mail or expose a secret name', async () => {
-  delete process.env.RESEND_API_KEY;
-  assert.equal((await GET()).status, 503);
+test('readiness and invalid requests never send mail or expose a secret name', async t => {
+  const fixture = emailHarness(t, { BYTESEND_API_KEY: undefined });
+  const readiness = await GET();
+  assert.equal(readiness.status, 503);
+  assert.deepEqual(await readiness.json(), { available: false });
+  assert.equal(readiness.headers.get('cache-control'), 'no-store');
   assert.equal((await POST(request('{}'))).status, 400);
   assert.equal((await POST(request('{'))).status, 400);
   assert.equal((await POST(request(null))).status, 400);
@@ -77,23 +112,102 @@ test('readiness and invalid requests never send mail or expose a secret name', a
   assert.equal((await POST(request({ website: 'bot.example' }))).status, 200);
   const unavailable = await POST(request(valid));
   assert.equal(unavailable.status, 503);
-  assert.doesNotMatch(await unavailable.text(), /RESEND|API_KEY|process\.env/);
-  assert.equal(sent.length, 0);
+  assert.doesNotMatch(await unavailable.text(), /BYTESEND|API_KEY|process\.env/);
+  assert.equal(fixture.calls.length, 0);
+  assert.equal(fixture.timeouts.length, 0);
 });
-test('only provider acceptance is success; failures are generic and logs contain no PII', async () => {
-  process.env.RESEND_API_KEY = 'unit-test-only';
-  const originalInfo = console.info, originalError = console.error; const logs = [];
-  console.info = console.error = value => logs.push(value);
-  try {
-    assert.equal((await GET()).status, 200);
-    assert.equal((await POST(request({ ...valid, message: '<script>alert(1)</script> Test a real-looking message.' }))).status, 200);
-    assert.equal(sent.length, 1); assert.equal(sent[0].replyTo, valid.email);
-    assert.doesNotMatch(sent[0].html, /<script>/);
-    providerResult = { data: null, error: { message: 'SECRET_PROVIDER_DETAIL' } };
-    const failure = await POST(request(valid)); assert.equal(failure.status, 502);
-    assert.doesNotMatch(await failure.text(), /SECRET_PROVIDER_DETAIL/);
-    assert.doesNotMatch(logs.join(' '), /test@example|Test Person|unit-test-only|SECRET_PROVIDER_DETAIL/);
-  } finally { console.info = originalInfo; console.error = originalError; delete process.env.RESEND_API_KEY; }
+test('ByteSend acceptance uses authenticated bounded HTTP and preserves safe enquiry content', async t => {
+  const fixture = emailHarness(t);
+  const readiness = await GET();
+  assert.equal(readiness.status, 200);
+  assert.deepEqual(await readiness.json(), { available: true });
+  assert.equal(fixture.calls.length, 0, 'Readiness must never send email');
+  const response = await POST(request({ ...valid, message: '<script>alert(1)</script> Test a real-looking message.' }));
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { ok: true });
+  assert.equal(response.headers.get('cache-control'), 'no-store');
+  assert.equal(fixture.calls.length, 1);
+  const { url, options, message } = fixture.calls[0];
+  assert.equal(url, 'https://bytesend.cloud/api/v1/emails');
+  assert.equal(options.method, 'POST');
+  const headers = new Headers(options.headers);
+  assert.equal(headers.get('authorization'), 'Bearer unit-test-only');
+  assert.equal(headers.get('content-type'), 'application/json');
+  assert.equal(options.redirect, 'error');
+  assert.equal(options.cache, 'no-store');
+  assert.ok(options.signal instanceof AbortSignal);
+  assert.deepEqual(fixture.timeouts, [10000]);
+  assert.equal(message.from, 'Pixaloom Website <website@pixaloom.co.za>');
+  assert.equal(message.to, 'info@pixaloom.co.za');
+  assert.equal(message.replyTo, valid.email);
+  assert.match(message.subject, /Test Person/);
+  assert.match(message.text, /<script>alert\(1\)<\/script>/);
+  assert.match(message.html, /&lt;script&gt;/);
+  assert.doesNotMatch(message.html, /<script>/);
+  assert.ok(fixture.logs.some(value => JSON.parse(value).event === 'enquiry_accepted'));
+  assert.doesNotMatch(fixture.logs.join(' '), /test@example|Test Person|unit-test-only/);
+});
+
+test('ByteSend supports the configured HTTPS origin and authorised sender', async t => {
+  const fixture = emailHarness(t, { BYTESEND_BASE_URL: 'https://mail.example.com/', BYTESEND_FROM: 'Pixaloom Studio <hello@pixaloom.co.za>' });
+  assert.equal((await POST(request(valid))).status, 200);
+  assert.equal(fixture.calls.length, 1);
+  assert.equal(fixture.calls[0].url, 'https://mail.example.com/api/v1/emails');
+  assert.equal(fixture.calls[0].message.from, 'Pixaloom Studio <hello@pixaloom.co.za>');
+  assert.equal(fixture.calls[0].message.to, 'info@pixaloom.co.za');
+});
+
+test('invalid ByteSend configuration stays unavailable without a network request', async t => {
+  const invalidConfigurations = [
+    { name: 'empty key', values: { BYTESEND_API_KEY: '' } },
+    { name: 'blank key', values: { BYTESEND_API_KEY: '   ' } },
+    { name: 'sender header injection', values: { BYTESEND_FROM: 'hello@pixaloom.co.za\r\nBcc: attacker@example.com' } },
+    ...[
+      ['HTTP origin', 'http://mail.example.com'], ['origin with path', 'https://mail.example.com/api'],
+      ['origin with query', 'https://mail.example.com?key=secret'], ['origin with fragment', 'https://mail.example.com#secret'],
+      ['embedded credentials', 'https://user:secret@mail.example.com'], ['malformed origin', 'not a URL'],
+    ].map(([name, BYTESEND_BASE_URL]) => ({ name, values: { BYTESEND_BASE_URL } })),
+  ];
+  for (const config of invalidConfigurations) {
+    await t.test(config.name, async child => {
+      const fixture = emailHarness(child, config.values);
+      assert.equal((await GET()).status, 503);
+      const response = await POST(request(valid));
+      assert.equal(response.status, 503);
+      assert.doesNotMatch(await response.text(), /BYTESEND|API_KEY|secret|unit-test-only/);
+      assert.equal(fixture.calls.length, 0);
+    });
+  }
+});
+
+test('provider HTTP, timeout and malformed acceptance failures stay generic and never retry', async t => {
+  const scenarios = [
+    ...[401, 403, 429, 500].map(status => ({ name: `HTTP ${status}`, respond: async () => Response.json({ error: 'SECRET_PROVIDER_DETAIL' }, { status }) })),
+    { name: 'network rejection', respond: async () => { throw new TypeError('SECRET_PROVIDER_DETAIL'); } },
+    { name: 'timeout', respond: async () => { throw new DOMException('SECRET_PROVIDER_DETAIL', 'TimeoutError'); } },
+    { name: 'malformed JSON', respond: async () => new Response('SECRET_PROVIDER_DETAIL', { status: 200 }) },
+    { name: 'empty response', respond: async () => new Response(null, { status: 204 }) },
+    ...[{}, { emailId: '' }, { emailId: '   ' }, { emailId: 42 }, null, { data: { id: 'obsolete-provider-shape' } }]
+      .map((body, index) => ({ name: `unconfirmed acceptance ${index}`, respond: async () => Response.json(body) })),
+  ];
+  for (const scenario of scenarios) {
+    await t.test(scenario.name, async child => {
+      const fixture = emailHarness(child);
+      fixture.respond = scenario.respond;
+      const response = await POST(request(valid));
+      assert.equal(response.status, 502);
+      assert.equal(response.headers.get('cache-control'), 'no-store');
+      const body = await response.json();
+      assert.equal(body.ok, false);
+      assert.match(body.error, /info@pixaloom\.co\.za/);
+      assert.doesNotMatch(JSON.stringify(body), /SECRET_PROVIDER_DETAIL|test@example|Test Person|unit-test-only/);
+      assert.equal(fixture.calls.length, 1, 'A provider failure must not resend the enquiry');
+      assert.deepEqual(fixture.timeouts, [10000]);
+      assert.ok(fixture.logs.some(value => JSON.parse(value).event === 'enquiry_failed'));
+      assert.ok(!fixture.logs.some(value => JSON.parse(value).event === 'enquiry_accepted'));
+      assert.doesNotMatch(fixture.logs.join(' '), /SECRET_PROVIDER_DETAIL|test@example|Test Person|unit-test-only/);
+    });
+  }
 });
 test('safe markdown renders links, headings and mixed lists without executing HTML', () => {
   const html = renderToStaticMarkup(React.createElement(ArticleContent, { content: '## Planning\nText **with emphasis** and [a service](/services/seo).\n- First\n- Second\n\n### Details\n1. One\n2. Two\n\n<script>alert(1)</script>\n[Unsafe](javascript:evil)' }));
@@ -253,16 +367,20 @@ test('rescue enquiries validate diagnostic fields and reject credential-bearing 
   assert.equal(validateContact(rescue).ok, true);
   for (const change of [{ platform: '' }, { expected: '' }, { expected: 2 }, { appUrl: 'javascript:alert(1)' }, { repository: 'https://user:secret@example.com/repo' }, { errorLink: 'not a link' }, { deadline: 'x'.repeat(101) }]) assert.equal(validateContact({ ...rescue, ...change }).ok, false);
 });
-test('rescue enquiry reaches the established inbox with complete diagnostic context', async () => {
-  process.env.RESEND_API_KEY = 'unit-test-only';
-  providerResult = { data: { id: 'rescue-test' }, error: null };
-  try {
-    const response = await POST(request({ ...valid, service: 'AI Website & App Rescue', platform: 'Bolt', expected: 'Save the new account', appUrl: 'https://example.com', repository: 'https://github.com/example/private', deadline: 'Next month' }));
-    assert.equal(response.status, 200);
-    const message = sent.at(-1);
-    assert.equal(message.to, 'info@pixaloom.co.za');
-    assert.match(message.text, /Platform: Bolt/);
-    assert.match(message.text, /Expected result: Save the new account/);
-    assert.match(message.text, /Desired deadline: Next month/);
-  } finally { delete process.env.RESEND_API_KEY; }
+test('rescue enquiry reaches the established inbox with complete diagnostic context', async t => {
+  const fixture = emailHarness(t);
+  const response = await POST(request({ ...valid, service: 'AI Website & App Rescue', platform: 'Bolt', expected: 'Save the new account', appUrl: 'https://example.com', errorLink: 'https://example.com/screenshot', repository: 'https://github.com/example/private', deadline: 'Next month' }));
+  assert.equal(response.status, 200);
+  assert.equal(fixture.calls.length, 1);
+  const message = fixture.calls[0].message;
+  assert.equal(message.to, 'info@pixaloom.co.za');
+  assert.equal(message.replyTo, valid.email);
+  for (const [label, value] of Object.entries({
+    Service: 'AI Website & App Rescue', Platform: 'Bolt', 'Expected result': 'Save the new account',
+    'App URL': 'https://example.com', 'Error or screenshot link': 'https://example.com/screenshot',
+    Repository: 'https://github.com/example/private', 'Desired deadline': 'Next month',
+  })) {
+    assert.ok(message.text.includes(`${label}: ${value}`), `${label} must reach the enquiry inbox`);
+    assert.ok(message.html.includes(escapeHtml(value)), `${label} must appear in the HTML alternative`);
+  }
 });
