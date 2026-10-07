@@ -29,6 +29,7 @@ export const serviceEvidence: Record<string, ServiceEvidence> = {
       'During discovery we identify who owns the merchant account and where product data comes from. We confirm the provider’s current capabilities and eligibility rather than assuming every payment method is available. One standard hosted payment integration is included in the ecommerce base allowance; custom reconciliation and other integrations are scoped separately.',
       'The launch checklist covers failed and delayed payments as well as a successful order. We define stock handling, delivery regions, customer notifications and the staff handover. Your business supplies and approves its commercial policies, prices and legally appropriate terms.',
     ], projects: ['nordflam', 'buildvolume'], guide: 'ecommerce-website-south-africa',
+    related: [{ href: '/product-catalogue-websites', label: 'Technical product catalogues and supplier enquiries' }],
     budget: 'The focused store planning allowance is R60,000–R95,000, including one standard hosted payment integration. It excludes VAT where applicable, merchant transaction fees, hosting and recurring subscriptions. Catalogue import complexity and bespoke integrations affect the written quote.',
     acceptance: ['Catalogue and variants checked with representative data', 'Payment success, failure and duplicate notifications tested', 'Shipping, stock and order emails verified', 'Store administration and recurring charges documented'],
   },

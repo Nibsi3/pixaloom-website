@@ -5,6 +5,8 @@ import { Footer } from '@/components/footer';
 import { InquiryForm } from '@/components/inquiry-form';
 import { JsonLd } from '@/components/json-ld';
 import { rescueFaqs, rescuePackages } from '@/lib/ai-rescue';
+import { rescueSpecialisms } from '@/lib/niche-services';
+import { breadcrumbSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import './rescue.css';
 
@@ -25,11 +27,31 @@ const steps = [
   ['Fix, test and launch', 'We preserve a recovery path, make the agreed changes and test the affected journey. Deployment follows your authorised workflow.'],
   ['Know what changed', 'Receive a short handover with test results, the change record, the live URL where included and any known limitations.'],
 ];
+const rescueSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      '@id': absoluteUrl('/ai-website-app-rescue#service'),
+      name: 'AI Website & App Rescue',
+      serviceType: 'Website and web application troubleshooting and deployment',
+      url: absoluteUrl('/ai-website-app-rescue'),
+      provider: { '@id': `${site.url}/#organization` },
+      areaServed: { '@type': 'Country', name: 'South Africa' },
+      description: 'Diagnosis, agreed fixes, focused testing and deployment support for existing AI-built websites and web applications.',
+    },
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Services', path: '/services' },
+      { name: 'AI Website & App Rescue', path: '/ai-website-app-rescue' },
+    ]),
+  ],
+};
 export default function RescuePage() {
   return <><Header /><main id="main-content" className="rescue-page">
-    <JsonLd id="rescue-service-schema" data={{ '@context': 'https://schema.org', '@type': 'Service', name: 'AI Website & App Rescue', serviceType: 'Website and web application troubleshooting and deployment', url: absoluteUrl('/ai-website-app-rescue'), provider: { '@id': `${site.url}/#organization` }, description: 'Diagnosis, agreed fixes, focused testing and deployment support for existing AI-built websites and web applications.' }} />
+    <JsonLd id="rescue-service-schema" data={rescueSchema} />
     <section className="rescue-hero rescue-shell">
-      <nav className="rescue-breadcrumb" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><Link href="/services">Services</Link></nav>
+      <nav className="rescue-breadcrumb" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><Link href="/services">Services</Link><span>/</span><span aria-current="page">AI Website &amp; App Rescue</span></nav>
       <p className="rescue-kicker">AI Website &amp; App Rescue by Pixaloom</p>
       <h1>Built it with AI?<br /><em>Let’s get it live.</em></h1>
       <p className="rescue-lead">Stuck with broken login, payment errors or a deployment that keeps failing? We help fix and finish AI-built websites and web apps, so you can move from preview to a working launch.</p>
@@ -41,6 +63,7 @@ export default function RescuePage() {
       <p className="rescue-kicker">From stuck to a clear next step</p><h2>You’ve built something.<br />Now make it work.</h2>
       <p className="rescue-copy">For founders with a stalled MVP, business owners with broken forms and creators spending more AI credits on the same error. Whether you call it AI building or vibe coding, you do not need to diagnose the technical cause yourself. We establish what is actually needed before promising a launch.</p>
       <div className="rescue-problems">{problems.map(([title, detail]) => <article key={title}><h3>{title}</h3><p>{detail}</p></article>)}</div>
+      <div className="rescue-problems">{rescueSpecialisms.map(item => <article key={item.path}><h3>{item.name}</h3><p>{item.description}</p><Link className="rescue-link" href={item.path}>Read the focused diagnosis guide <ArrowUpRight size={16} /></Link></article>)}</div>
       <p className="rescue-caption">Depending on the project: React, Next.js, TypeScript, Supabase, Firebase, PostgreSQL, Cloudflare, Vercel, Netlify, Railway and third-party APIs. These are examples of work we assess, not claims of certification or platform partnership.</p>
     </div></section>
     <section className="rescue-section" id="packages"><div className="rescue-shell">

@@ -1,11 +1,13 @@
 // Change individual entries only when that page's substantive content changes.
 // Unknown legacy modification dates are omitted, not replaced with build time.
 const pageDates: Record<string, string> = {
-  '/': '2026-09-14', '/services': '2026-09-14', '/ai-website-app-rescue': '2026-09-14', '/about': '2026-09-03', '/blog': '2026-09-03',
+  '/': '2026-10-07', '/services': '2026-10-07', '/ai-website-app-rescue': '2026-10-07', '/about': '2026-09-03', '/blog': '2026-09-03',
+  '/product-catalogue-websites': '2026-10-07',
+  '/ai-website-app-rescue/supabase-login-data': '2026-10-07', '/ai-website-app-rescue/preview-to-production': '2026-10-07',
   '/contact': '2026-09-03', '/privacy': '2026-10-02', '/website-cost': '2026-09-30',
   '/locations/george': '2026-09-04', '/locations/garden-route': '2026-09-03',
-  '/services/website-design': '2026-09-04', '/services/ecommerce-websites': '2026-09-03',
-  '/services/seo': '2026-09-04', '/services/web-app-development': '2026-09-14', '/services/website-care': '2026-09-14',
+  '/services/website-design': '2026-09-04', '/services/ecommerce-websites': '2026-10-07',
+  '/services/seo': '2026-09-04', '/services/web-app-development': '2026-10-07', '/services/website-care': '2026-10-07',
   '/locations/western-cape': '2026-09-03', '/locations/gauteng': '2026-09-03', '/locations/kwazulu-natal': '2026-09-03',
   '/locations/eastern-cape': '2026-09-03', '/locations/free-state': '2026-09-03', '/locations/limpopo': '2026-09-03',
   '/locations/mpumalanga': '2026-09-03', '/locations/north-west': '2026-09-03', '/locations/northern-cape': '2026-09-03',

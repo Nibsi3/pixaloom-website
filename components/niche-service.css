@@ -1,0 +1,29 @@
+.niche-service-page .rescue-hero h1 { max-width:1000px; font-size:clamp(48px,5.5vw,76px); }
+.niche-prose { max-width:920px; }
+.niche-secondary { margin:20px 0 0 24px; }
+.niche-table-scroll { max-width:100%; overflow-x:auto; margin:28px 0; }
+.niche-table-scroll:focus-visible { outline:2px solid #c4d4f4; outline-offset:4px; }
+.niche-table-scroll table { width:100%; border-collapse:collapse; text-align:left; font-size:15px; }
+.niche-table-scroll caption { text-align:left; color:#c0beb8; padding-bottom:18px; }
+.niche-table-scroll th,.niche-table-scroll td { border-bottom:1px solid #444; padding:18px 16px; vertical-align:top; line-height:1.6; min-width:180px; }
+.niche-table-scroll th { color:#e5e2da; font-weight:500; }
+.niche-table-scroll td { color:#c0beb8; }
+.niche-scope { margin-top:32px; }
+.niche-proof { margin:0 0 24px; }
+.niche-proof-image { position:relative; aspect-ratio:16/10; background:#111; }
+.niche-proof-image img { object-fit:contain; }
+.niche-proof figcaption { color:#b2b0aa; font-size:13px; line-height:1.6; margin-top:12px; }
+.niche-sources { border-top:1px solid #444; padding-top:28px; margin-top:36px; }
+.niche-sources p { color:#c0beb8; }
+.niche-sources li { margin:16px 0; }
+.niche-sources a { overflow-wrap:anywhere; }
+.niche-brief { margin-bottom:30px; }
+.niche-brief p { color:#c0beb8; }
+.niche-brief fieldset { border:1px solid #444; padding:24px; margin:28px 0; }
+.niche-brief legend { padding:0 8px; }
+.niche-brief fieldset label { display:grid; grid-template-columns:minmax(0,1fr) 180px; align-items:center; gap:20px; padding:14px 0; line-height:1.6; }
+.niche-brief select,.niche-brief textarea { background:#151515; color:#e5e2da; border:1px solid #666; padding:12px; border-radius:4px; font:inherit; font-size:16px; }
+.niche-brief-output { display:grid; gap:12px; margin-bottom:24px; }
+.niche-brief textarea { width:100%; min-height:270px; resize:vertical; line-height:1.6; }
+.niche-brief select:focus-visible,.niche-brief textarea:focus-visible,.niche-brief button:focus-visible { outline:2px solid #c4d4f4; outline-offset:4px; }
+@media(max-width:760px) { .niche-secondary{display:flex;margin:22px 0 0}.niche-brief fieldset{padding:16px}.niche-brief fieldset label{grid-template-columns:1fr;gap:8px}.niche-brief select{width:100%}.niche-table-scroll th,.niche-table-scroll td{min-width:170px} }

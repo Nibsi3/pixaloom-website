@@ -6,6 +6,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
 import { services } from '@/lib/services';
+import { catalogueService } from '@/lib/niche-services';
 import { absoluteUrl, pageMetadata } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata({ title: 'Web Design & SEO Services', description: 'Website design, ecommerce, SEO, web application development and ongoing website care for businesses across South Africa.', path: '/services' });
@@ -45,6 +46,7 @@ export default function ServicesPage() {
             <span>0{index + 1}</span><h2>{service.name}</h2><p>{service.description}</p><ArrowUpRight size={16} />
           </Link>)}
         </div>
+        <div className="minimal-inline-links"><Link href={catalogueService.path}>Technical product catalogues for suppliers <ArrowUpRight size={16} /></Link></div>
       </div>
     </section>
 
