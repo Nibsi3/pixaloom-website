@@ -209,7 +209,7 @@ async function audit() {
           fail(`${path}: structured dateModified ${entity.dateModified} disagrees with sitemap lastmod ${modified}`);
         }
       }
-      if (/^\/(?:services|locations|work|blog)\/.+/.test(path) || path === "/ai-website-app-rescue") {
+      if (/^\/(?:services|locations|work|blog|ai-website-app-rescue)\/.+/.test(path) || ["/ai-website-app-rescue", "/product-catalogue-websites"].includes(path)) {
         const breadcrumb = schemaEntities.find((entity) => entity["@type"] === "BreadcrumbList");
         const items = breadcrumb?.itemListElement;
         if (!Array.isArray(items) || items.length < 2) fail(`${path}: missing structured breadcrumb trail`);
@@ -298,7 +298,7 @@ async function audit() {
     if (!blocksIndexing(elements(html, "meta"), response)) fail(`${path}: experiment is missing noindex`);
     if (crawledUrls.has(normalizeUrl(path))) fail(`${path}: experiment is included in sitemap`);
   });
-  await mapConcurrent(["/seo-audit-missing-page", "/work/seo-audit-missing-project", "/blog/seo-audit-missing-post", "/services/seo-audit-missing-service", "/locations/seo-audit-missing-place"], async (path) => {
+  await mapConcurrent(["/seo-audit-missing-page", "/work/seo-audit-missing-project", "/blog/seo-audit-missing-post", "/services/seo-audit-missing-service", "/locations/seo-audit-missing-place", "/ai-website-app-rescue/seo-audit-missing-specialism"], async (path) => {
     const { response } = await get(pageUrl(path));
     if (response.status !== 404) fail(`${path}: missing page returned ${response.status}, expected 404`);
   });

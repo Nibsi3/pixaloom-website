@@ -62,6 +62,7 @@ const { services } = require('../lib/services.ts');
 const { provinces } = require('../lib/locations.ts');
 const { regionalBriefs } = require('../lib/regional-briefs.ts');
 const { serviceEvidence } = require('../lib/service-evidence.ts');
+const { nicheServices, getRescueSpecialism, buildNicheBrief } = require('../lib/niche-services.ts');
 const { verifiedDescriptions, projectMediaDescription } = require('../lib/project-evidence.ts');
 const sitemap = require('../app/sitemap.ts').default;
 const robots = require('../app/robots.ts').default;
@@ -264,13 +265,39 @@ test('website pricing intent receives a direct answer and the legacy pricing URL
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });
 test('paused work and experiments stay out of sitemap; robots permits noindex discovery', () => {
-  assert.equal(sitemap().length, 58);
+  assert.equal(sitemap().length, 61);
   assert.equal(workItems.length, 16);
   assert.ok(!workItems.some(item => item.slug === 'george-herald'));
   assert.ok(!sitemap().some(item => /george-herald|caps-tutor|\/os$|\/jokes$/.test(item.url)));
   assert.deepEqual(robots().rules[0].disallow, ['/api/']);
   const home = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
   assert.match(home, /\['nordflam', 'buildvolume', 'illumi'\]/);
+});
+test('a project brief distinguishes unchecked work from self-reported checks without certifying readiness', () => {
+  const service = nicheServices[0];
+  const untouched = buildNicheBrief(service, {});
+  assert.equal(untouched.split('\n').filter(line => line.startsWith('Not checked:')).length, service.checks.length);
+  const mixed = buildNicheBrief(service, {
+    [service.checks[0].id]: 'ready', [service.checks[1].id]: 'attention',
+    [service.checks[2].id]: 'outside', unrelated: 'ready',
+  });
+  assert.match(mixed, /Checked by me:/);
+  assert.match(mixed, /Needs attention:/);
+  assert.match(mixed, /Outside my scope:/);
+  assert.doesNotMatch(mixed, /unrelated/);
+  assert.match(mixed, /not a Pixaloom audit or confirmation of readiness/);
+  assert.match(mixed, /Do not include credentials/);
+});
+test('niche routes are uniquely discoverable and unknown rescue slugs have no content', () => {
+  const entries = sitemap();
+  for (const service of nicheServices) {
+    const matches = entries.filter(entry => new URL(entry.url).pathname === service.path);
+    assert.equal(matches.length, 1);
+    assert.equal(matches[0].lastModified, '2026-10-07');
+    assert.ok(service.proof.every(proof => workItems.some(item => item.slug === proof.slug)));
+  }
+  assert.equal(getRescueSpecialism('not-a-real-service'), undefined);
+  assert.equal(getRescueSpecialism('supabase-login-data').path, '/ai-website-app-rescue/supabase-login-data');
 });
 test('image sitemap exposes the reviewed public captures with valid canonical URLs', () => {
   const imageUrls = new Set(sitemap().flatMap(entry => entry.images || []));

@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer';
 import { InquiryForm } from '@/components/inquiry-form';
 import { JsonLd } from '@/components/json-ld';
 import { rescueFaqs, rescuePackages } from '@/lib/ai-rescue';
+import { rescueSpecialisms } from '@/lib/niche-services';
 import { breadcrumbSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import './rescue.css';
@@ -62,6 +63,7 @@ export default function RescuePage() {
       <p className="rescue-kicker">From stuck to a clear next step</p><h2>You’ve built something.<br />Now make it work.</h2>
       <p className="rescue-copy">For founders with a stalled MVP, business owners with broken forms and creators spending more AI credits on the same error. Whether you call it AI building or vibe coding, you do not need to diagnose the technical cause yourself. We establish what is actually needed before promising a launch.</p>
       <div className="rescue-problems">{problems.map(([title, detail]) => <article key={title}><h3>{title}</h3><p>{detail}</p></article>)}</div>
+      <div className="rescue-problems">{rescueSpecialisms.map(item => <article key={item.path}><h3>{item.name}</h3><p>{item.description}</p><Link className="rescue-link" href={item.path}>Read the focused diagnosis guide <ArrowUpRight size={16} /></Link></article>)}</div>
       <p className="rescue-caption">Depending on the project: React, Next.js, TypeScript, Supabase, Firebase, PostgreSQL, Cloudflare, Vercel, Netlify, Railway and third-party APIs. These are examples of work we assess, not claims of certification or platform partnership.</p>
     </div></section>
     <section className="rescue-section" id="packages"><div className="rescue-shell">

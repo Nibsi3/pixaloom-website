@@ -3,6 +3,7 @@ import { publishedBlogPosts } from '@/components/blog-posts';
 import { workItems } from '@/components/work-items';
 import { provinces } from '@/lib/locations';
 import { services } from '@/lib/services';
+import { nicheServices } from '@/lib/niche-services';
 import { absoluteUrl, site } from '@/lib/site';
 
 import { contentModified } from '@/lib/content-dates';
@@ -26,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...core.map(([path, priority, changeFrequency]) => ({ url: path ? absoluteUrl(path) : site.url, lastModified: contentModified(path), changeFrequency, priority })),
     ...services.map((item) => ({ url: absoluteUrl(`/services/${item.slug}`), lastModified: contentModified(`/services/${item.slug}`), changeFrequency: 'monthly' as const, priority: .9 })),
+    ...nicheServices.map(item => ({ url: absoluteUrl(item.path), lastModified: contentModified(item.path), changeFrequency: 'monthly' as const, priority: .85 })),
     ...provinces.map((item) => ({ url: absoluteUrl(`/locations/${item.slug}`), lastModified: contentModified(`/locations/${item.slug}`), changeFrequency: 'monthly' as const, priority: .8 })),
     ...workItems.map((item) => ({
       url: absoluteUrl(`/work/${item.slug}`),
