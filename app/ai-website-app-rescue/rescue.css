@@ -1,7 +1,7 @@
 .rescue-page { background:#080808; color:#e5e2da; }
 .rescue-shell { width:min(1160px,calc(100% - 64px)); margin-inline:auto; }
 .rescue-hero { padding-block:64px 72px; }
-.rescue-breadcrumb { display:flex; gap:12px; font-size:13px; color:#b3b2ac; margin-bottom:52px; }
+.rescue-breadcrumb { display:flex; flex-wrap:wrap; gap:12px; font-size:13px; color:#b3b2ac; margin-bottom:52px; }
 .rescue-kicker { text-transform:uppercase; letter-spacing:.14em; font-size:12px; color:#b8c3db; margin:0 0 24px; }
 .rescue-page h1,.rescue-page h2,.rescue-intro h2 { font-family:"Iowan Old Style",Baskerville,serif; font-weight:400; letter-spacing:-.045em; }
 .rescue-page h1 { font-size:clamp(52px,7vw,94px); line-height:1.02; max-width:900px; margin:0 0 30px; }

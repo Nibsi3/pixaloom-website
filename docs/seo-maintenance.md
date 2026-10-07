@@ -2,6 +2,12 @@
 
 ## October 2026 audit
 
+### 7 October source review
+
+The existing production-build crawl passed 58 sitemap pages, 58 unique internal links and 79 image responses. Deeper checks exposed a homepage structured-data modification date that disagreed with its sitemap, a missing structured breadcrumb on the AI rescue detail page, and plain author names in Open Graph article metadata across all 16 journal pages. The homepage now reads its existing date from the shared content-date registry, article social metadata identifies the studio's About URL, and the rescue page exposes matching visible and structured breadcrumbs plus its existing South African service area. Publication dates, pricing, project order, paused work and enquiry delivery are preserved.
+
+The crawler now checks those semantic relationships and whether every sitemap page can be reached by following links from the homepage. These additions reproduced 18 failures on the unchanged baseline build; they are release checks, not evidence of ranking losses or a promise of improved rankings. The shell environment currently cannot reach the production domain or Cloudflare's deployment API, so a local crawl must not be presented as a verified live deployment. Search Console performance, field Core Web Vitals and Business Profile state still require the relevant account data.
+
 The production baseline on 2 October covered 58 sitemap pages and 58 unique internal links. Titles, descriptions, self-canonicals, HTML language, H1s and JSON-LD passed the existing crawler. The deeper check also verified social-image responses, intentional experiment noindex and real 404 responses across the dynamic route families. Social previews were missing Twitter image alternatives; the shared metadata helper now supplies them, with project-specific descriptions and dimensions for the default card.
 
 The sitemap now identifies the 63 reviewed project captures and the relevant images shown in journal articles. Image discovery follows [Google's image-sitemap guidance](https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps); inclusion does not guarantee indexing. Content modification dates remain tied to substantive page edits.

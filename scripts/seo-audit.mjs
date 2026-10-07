@@ -114,6 +114,10 @@ async function audit() {
   const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) =>
     decodeHtml(match[1]),
   );
+  const sitemapDates = new Map([...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, entry]) => [
+    normalizeUrl(decodeHtml(entry.match(/<loc>(.*?)<\/loc>/)?.[1] || "/")),
+    entry.match(/<lastmod>(.*?)<\/lastmod>/)?.[1],
+  ]));
   if (!sitemapUrls.length) fail("sitemap.xml contains no URLs");
   if (new Set(sitemapUrls.map(normalizeUrl)).size !== sitemapUrls.length) fail("sitemap.xml contains duplicate URLs");
   for (const url of sitemapUrls) {
@@ -160,6 +164,14 @@ async function audit() {
         if (!metaValue(key)) fail(`${path}: missing ${key}`);
       }
       if (metaValue("twitter:card") !== "summary_large_image") fail(`${path}: missing large social preview card`);
+      for (const { attrs } of metas.filter(({ attrs }) => attrs.property === "article:author")) {
+        try {
+          const author = new URL(attrs.content);
+          if (!["https:", "http:"].includes(author.protocol)) throw new Error("Not a web URL");
+        } catch {
+          fail(`${path}: article:author must identify a profile URL, received ${attrs.content}`);
+        }
+      }
       for (const key of ["og:image", "twitter:image"]) {
         const value = metaValue(key);
         if (value) {
@@ -172,11 +184,42 @@ async function audit() {
         if (!("alt" in attrs)) fail(`${path}: image is missing alt text: ${attrs.src}`);
       }
       if (!jsonLdBlocks.length) warn(`${path}: no JSON-LD found`);
+      const schemaEntities = [];
       for (const [, json] of jsonLdBlocks) {
         try {
-          JSON.parse(json);
+          const data = JSON.parse(json);
+          for (const block of Array.isArray(data) ? data : [data]) {
+            if (!block || typeof block !== "object") throw new Error("Invalid schema object");
+            const entities = Array.isArray(block["@graph"]) ? block["@graph"] : [block];
+            if (entities.some((entity) => !entity || typeof entity !== "object")) throw new Error("Invalid schema entity");
+            schemaEntities.push(...entities);
+          }
         } catch {
           fail(`${path}: invalid JSON-LD`);
+        }
+      }
+      const modified = sitemapDates.get(normalizeUrl(canonicalUrl));
+      for (const entity of schemaEntities) {
+        if (entity.dateModified && typeof entity.dateModified !== "string") {
+          fail(`${path}: structured dateModified must be an ISO date string`);
+          continue;
+        }
+        if (entity.dateModified && entity.url && normalizeUrl(entity.url) === normalizeUrl(canonicalUrl)
+          && modified && entity.dateModified.slice(0, 10) !== modified.slice(0, 10)) {
+          fail(`${path}: structured dateModified ${entity.dateModified} disagrees with sitemap lastmod ${modified}`);
+        }
+      }
+      if (/^\/(?:services|locations|work|blog)\/.+/.test(path) || path === "/ai-website-app-rescue") {
+        const breadcrumb = schemaEntities.find((entity) => entity["@type"] === "BreadcrumbList");
+        const items = breadcrumb?.itemListElement;
+        if (!Array.isArray(items) || items.length < 2) fail(`${path}: missing structured breadcrumb trail`);
+        else {
+          if (items.some((item, index) => item?.position !== index + 1 || !item?.name || !item?.item)) {
+            fail(`${path}: breadcrumb items need consecutive positions, names and URLs`);
+          }
+          if (normalizeUrl(items.at(-1)?.item || "/") !== normalizeUrl(canonicalUrl)) {
+            fail(`${path}: breadcrumb does not end at its canonical page`);
+          }
         }
       }
       if (title && (title.length < 10 || title.length > 65)) {
@@ -215,6 +258,16 @@ async function audit() {
     for (const url of page.internalLinks) linkedUrls.set(normalizeUrl(url), url);
   }
   const crawledUrls = new Set(sitemapUrls.map(normalizeUrl));
+  const pageGraph = new Map(pages.map((page) => [normalizeUrl(page.path), page.internalLinks.map(normalizeUrl)]));
+  const reachable = new Set();
+  const pending = [normalizeUrl("/")];
+  while (pending.length) {
+    const url = pending.pop();
+    if (reachable.has(url)) continue;
+    reachable.add(url);
+    for (const linked of pageGraph.get(url) || []) if (!reachable.has(linked)) pending.push(linked);
+  }
+  for (const url of crawledUrls) if (!reachable.has(url)) fail(`sitemap page ${new URL(url).pathname} has no link path from the homepage`);
   await mapConcurrent([...linkedUrls.values()].filter((url) => !crawledUrls.has(normalizeUrl(url))), async (url) => {
       const target = pageUrl(url);
       const response = await fetch(target, {
