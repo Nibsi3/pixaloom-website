@@ -139,6 +139,7 @@ export default function HomePage() {
             <p>Based in George · Working nationwide</p>
             <Link href="/locations/george">Web design in George <ArrowUpRight size={14} /></Link>
             <Link href="/website-cost">Website cost in South Africa <ArrowUpRight size={14} /></Link>
+            <Link href="/website-offer">Websites for R3000 <ArrowUpRight size={14} /></Link>
             <Link href="/contact">Start a project <ArrowUpRight size={14} /></Link>
           </div>
         </section>

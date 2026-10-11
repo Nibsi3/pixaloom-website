@@ -22,6 +22,41 @@ const originalFetch = globalThis.fetch;
 globalThis.fetch = async () => { throw new Error('Unexpected network request in regression test'); };
 after(() => { globalThis.fetch = originalFetch; });
 
+test('offer handoff only accepts its exact identifier and preserves existing journeys', () => {
+  const { inquiryPrefill, websiteOffer } = require('../lib/website-offer.ts');
+  const params = new URLSearchParams('offer=website-r3000');
+  assert.deepEqual(inquiryPrefill(params), { message: '', service: websiteOffer.service, budget: 'R3000' });
+  for (const query of ['', 'offer=unknown', 'offer=website-r3000&offer=unknown', 'service=R3000&budget=R3000']) {
+    assert.deepEqual(inquiryPrefill(new URLSearchParams(query)), { message: '', service: '', budget: '' });
+  }
+  assert.equal(inquiryPrefill(params, true).service, '');
+  const { estimateContactUrl } = require('../lib/website-cost.ts');
+  const estimator = new URLSearchParams(estimateContactUrl('business', 'focused', []).split('?')[1]);
+  const before = inquiryPrefill(estimator);
+  assert.ok(before.message.includes('Website planning brief'));
+  estimator.set('offer', 'website-r3000');
+  assert.deepEqual(inquiryPrefill(estimator), before);
+});
+
+test('R3000 enquiry keeps the exact offer and budget in the mocked delivery', async t => {
+  const fixture = emailHarness(t);
+  const response = await POST(request({ ...valid, service: 'R3000 website offer', budget: 'R3000' }));
+  assert.equal(response.status, 200);
+  assert.equal(fixture.calls.length, 1);
+  assert.ok(fixture.calls[0].message.text.includes('Service: R3000 website offer'));
+  assert.ok(fixture.calls[0].message.text.includes('Budget: R3000'));
+});
+
+test('case-study display dates agree with sitemap and structured content dates', () => {
+  const { contentModified, contentDateLabel } = require('../lib/content-dates.ts');
+  for (const slug of ['nordflam', 'buildvolume']) {
+    assert.equal(contentModified(`/work/${slug}`), '2026-10-11');
+    assert.equal(contentDateLabel(`/work/${slug}`), '11 October 2026');
+  }
+  assert.equal(contentDateLabel('/work/illumi'), '3 September 2026');
+  assert.equal(contentDateLabel('/unknown'), undefined);
+});
+
 function emailHarness(t, overrides = {}) {
   const values = { BYTESEND_API_KEY: 'unit-test-only', BYTESEND_FROM: undefined, BYTESEND_BASE_URL: undefined, ...overrides };
   const previous = Object.fromEntries(Object.keys(values).map(key => [key, process.env[key]]));
@@ -265,7 +300,7 @@ test('website pricing intent receives a direct answer and the legacy pricing URL
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });
 test('paused work and experiments stay out of sitemap; robots permits noindex discovery', () => {
-  assert.equal(sitemap().length, 61);
+  assert.equal(sitemap().length, 62);
   assert.equal(workItems.length, 16);
   assert.ok(!workItems.some(item => item.slug === 'george-herald'));
   assert.ok(!sitemap().some(item => /george-herald|caps-tutor|\/os$|\/jokes$/.test(item.url)));

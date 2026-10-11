@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/events';
-import { estimateBriefFromParams } from '@/lib/website-cost';
+import { inquiryPrefill, websiteOffer } from '@/lib/website-offer';
 import { contactUnavailable } from '@/lib/contact';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
@@ -14,15 +14,19 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   const [error, setError] = useState('');
   const [available, setAvailable] = useState<boolean | null>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const serviceRef = useRef<HTMLSelectElement>(null);
+  const budgetRef = useRef<HTMLSelectElement>(null);
   const started = useRef(false);
   useEffect(() => {
     const controller = new AbortController();
     fetch('/api/contact', { signal: controller.signal, cache: 'no-store' })
       .then(response => response.json()).then(result => setAvailable((result as { available?: boolean }).available === true)).catch(() => undefined);
-    const brief = estimateBriefFromParams(new URLSearchParams(window.location.search));
-    if (brief && messageRef.current) messageRef.current.value = brief;
+    const prefill = inquiryPrefill(new URLSearchParams(window.location.search), rescue);
+    if (prefill.message && messageRef.current && !messageRef.current.value) messageRef.current.value = prefill.message;
+    if (prefill.service && serviceRef.current && !serviceRef.current.value) serviceRef.current.value = prefill.service;
+    if (prefill.budget && budgetRef.current && !budgetRef.current.value) budgetRef.current.value = prefill.budget;
     return () => controller.abort();
-  }, []);
+  }, [rescue]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -73,8 +77,8 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
           <label><span>Website or app URL</span><input name="appUrl" type="url" maxLength={500} placeholder="https://…" /></label>
         </> : <><label><span>Phone</span><input name="phone" type="tel" autoComplete="tel" maxLength={30} placeholder="+27 ..." /></label>
         <label><span>Company</span><input name="company" autoComplete="organization" maxLength={120} placeholder="Business or brand" /></label>
-        <label><span>What do you need?</span><select name="service" defaultValue=""><option value="" disabled>Select a service</option><option>Website design</option><option>Ecommerce website</option><option>SEO and content</option><option>Custom web application</option><option>Website care</option><option>AI rescue enquiry</option><option>Not sure yet</option></select></label>
-        <label><span>Indicative budget</span><select name="budget" defaultValue=""><option value="" disabled>Select a range</option><option>R10k–R25k</option><option>R25k–R50k</option><option>R50k–R100k</option><option>R100k+</option><option>Need guidance</option></select></label></>}
+        <label><span>What do you need?</span><select ref={serviceRef} name="service" defaultValue=""><option value="" disabled>Select a service</option><option>{websiteOffer.service}</option><option>Website design</option><option>Ecommerce website</option><option>SEO and content</option><option>Custom web application</option><option>Website care</option><option>AI rescue enquiry</option><option>Not sure yet</option></select></label>
+        <label><span>Indicative budget</span><select ref={budgetRef} name="budget" defaultValue=""><option value="" disabled>Select a range</option><option>{websiteOffer.budget}</option><option>R10k-R25k</option><option>R25k-R50k</option><option>R50k-R100k</option><option>R100k+</option><option>Need guidance</option></select></label></>}
         <label className="span-2"><span>{rescue ? 'What is broken? *' : 'What outcome are you looking for? *'}</span><textarea ref={messageRef} name="message" required minLength={20} maxLength={3000} placeholder={rescue ? "Describe what fails and how to reproduce it. Redact any secrets." : "Tell us about the business, the problem and what success should look like."} /></label>
         {rescue ? <>
           <label className="span-2"><span>What should happen instead? *</span><textarea name="expected" required minLength={5} maxLength={1000} placeholder="Describe the expected result." /></label>

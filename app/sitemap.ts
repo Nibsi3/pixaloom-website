@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ['/locations/george', .95, 'monthly'],
     ['/locations/garden-route', .9, 'monthly'],
     ['/website-cost', .92, 'monthly'],
+    ['/website-offer', .9, 'monthly'],
     ['/about', .7, 'yearly'],
     ['/blog', .8, 'weekly'],
     ['/contact', .7, 'yearly'],
