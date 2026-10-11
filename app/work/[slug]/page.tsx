@@ -8,7 +8,8 @@ import { Header } from '@/components/header';
 import { JsonLd } from '@/components/json-ld';
 import { ProjectCircleHero } from '@/components/project-circle-hero';
 import { workItems } from '@/components/work-items';
-import { contentModified } from '@/lib/content-dates';
+import { contentDateLabel, contentModified } from '@/lib/content-dates';
+import { catalogueService } from '@/lib/niche-services';
 import { projectMediaDescription, projectService, projectVersion } from '@/lib/project-evidence';
 import { absoluteUrl, pageMetadata, site, truncateDescription } from '@/lib/site';
 
@@ -80,7 +81,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
         <section className="case-brief">
           <div className="site-container case-brief-grid">
             <div><p className="micro-label">The assignment</p><h2>Build the useful thing.<br /><em>Then make it unforgettable.</em></h2></div>
-            <div className="case-copy"><p>{item.scope}</p><p className="project-provenance">{projectVersion(item)}. This study describes the version shown in the saved captures; an external site may have changed since that work. Interface examples are not verified sales or ranking results. Updated <time dateTime={contentModified(`/work/${slug}`)}>3 September 2026</time>.</p>{!item.url ? <p>No public demo is linked for this study. <Link href="/contact">Ask about the demonstrated scope</Link>.</p> : null}</div>
+            <div className="case-copy"><p>{item.scope}</p><p className="project-provenance">{projectVersion(item)}. This study describes the version shown in the saved captures; an external site may have changed since that work. Interface examples are not verified sales or ranking results. Updated <time dateTime={contentModified(`/work/${slug}`)}>{contentDateLabel(`/work/${slug}`)}</time>.</p>{!item.url ? <p>No public demo is linked for this study. <Link href="/contact">Ask about the demonstrated scope</Link>.</p> : null}</div>
           </div>
           {item.facts?.length ? <dl className="site-container case-fact-row">{item.facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl> : null}
         </section>
@@ -108,7 +109,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
 
         <section className="case-stack"><div className="site-container case-brief-grid"><div><p className="micro-label">Technology</p><h2>The machinery<br />behind the magic.</h2></div><div className="stack-cloud">{item.stack.map((technology) => <span key={technology}>{technology}</span>)}</div></div></section>
 
-        <section className="content-section"><div className="site-container cta-panel"><h2>Planning something with a similar scope?</h2><Link href={`/services/${projectService(item)}`} className="button button-light">Explore the relevant service <ArrowRight size={18} /></Link><Link href="/contact" className="text-link">Discuss your brief</Link></div></section>
+        <section className="content-section"><div className="site-container cta-panel"><h2>Planning something with a similar scope?</h2><Link href={`/services/${projectService(item)}`} className="button button-light">Explore the relevant service <ArrowRight size={18} /></Link>{catalogueService.proof.some(proof => proof.slug === slug) ? <Link href="/product-catalogue-websites" className="text-link">Explore technical product catalogue websites</Link> : null}<Link href="/contact" className="text-link">Discuss your brief</Link></div></section>
         <Link href={`/work/${nextProject.slug}`} className="next-project">
           <span>Next project · {nextProject.category}</span><strong>{nextProject.name}</strong><ArrowRight size={27} />
         </Link>
