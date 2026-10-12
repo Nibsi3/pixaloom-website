@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { trackEvent } from '@/lib/events';
 import { inquiryPrefill, websiteOffer } from '@/lib/website-offer';
 import { contactUnavailable } from '@/lib/contact';
+import { rescueNeeds } from '@/lib/ai-rescue';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
@@ -73,15 +74,16 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
         <label><span>Work email *</span><input name="email" type="email" autoComplete="email" required maxLength={120} placeholder="you@company.co.za" /></label>
         {rescue ? <>
           <input type="hidden" name="service" value="AI Website & App Rescue" />
+          <label className="span-2"><span>Where do you need help?</span><select name="rescueNeed" defaultValue=""><option value="" disabled>Select a next step</option>{rescueNeeds.map(need => <option key={need}>{need}</option>)}</select></label>
           <label><span>Platform or tool used *</span><input name="platform" required maxLength={80} placeholder="e.g. Lovable, Bolt, Replit or not sure" /></label>
           <label><span>Website or app URL</span><input name="appUrl" type="url" maxLength={500} placeholder="https://…" /></label>
         </> : <><label><span>Phone</span><input name="phone" type="tel" autoComplete="tel" maxLength={30} placeholder="+27 ..." /></label>
         <label><span>Company</span><input name="company" autoComplete="organization" maxLength={120} placeholder="Business or brand" /></label>
         <label><span>What do you need?</span><select ref={serviceRef} name="service" defaultValue=""><option value="" disabled>Select a service</option><option>{websiteOffer.service}</option><option>Website design</option><option>Ecommerce website</option><option>SEO and content</option><option>Custom web application</option><option>Website care</option><option>AI rescue enquiry</option><option>Not sure yet</option></select></label>
         <label><span>Indicative budget</span><select ref={budgetRef} name="budget" defaultValue=""><option value="" disabled>Select a range</option><option>{websiteOffer.budget}</option><option>R10k-R25k</option><option>R25k-R50k</option><option>R50k-R100k</option><option>R100k+</option><option>Need guidance</option></select></label></>}
-        <label className="span-2"><span>{rescue ? 'What is broken? *' : 'What outcome are you looking for? *'}</span><textarea ref={messageRef} name="message" required minLength={20} maxLength={3000} placeholder={rescue ? "Describe what fails and how to reproduce it. Redact any secrets." : "Tell us about the business, the problem and what success should look like."} /></label>
+        <label className="span-2"><span>{rescue ? 'What is unfinished, broken or blocking launch? *' : 'What outcome are you looking for? *'}</span><textarea ref={messageRef} name="message" required minLength={20} maxLength={3000} placeholder={rescue ? "Tell us what you have built and where you are stuck. For an error, describe how it happens. Redact any secrets." : "Tell us about the business, the problem and what success should look like."} /></label>
         {rescue ? <>
-          <label className="span-2"><span>What should happen instead? *</span><textarea name="expected" required minLength={5} maxLength={1000} placeholder="Describe the expected result." /></label>
+          <label className="span-2"><span>What should the finished project do? *</span><textarea name="expected" required minLength={5} maxLength={1000} placeholder="Describe the outcome or working journey you need." /></label>
           <label><span>Error or screenshot link</span><input name="errorLink" type="url" maxLength={500} placeholder="Optional https:// link, with secrets removed" /></label>
           <label><span>Repository URL</span><input name="repository" type="url" maxLength={500} placeholder="Optional; private repositories are welcome" /></label>
           <label className="span-2"><span>Desired deadline</span><input name="deadline" maxLength={100} placeholder="Optional; timing is confirmed after review" /></label>

@@ -10,10 +10,11 @@ export const site = {
   location: 'George, Western Cape, South Africa',
   editor: 'Cameron Falck',
   description:
-    'South African web design company building fast, conversion-focused websites, ecommerce stores and custom web applications with SEO built in.',
+    'Pixaloom helps finish, connect and launch AI-built websites and apps, alongside custom web development for South African businesses. Project review comes first.',
 } as const;
 
 export const primaryNavigation = [
+  { href: '/ai-website-app-rescue', label: 'AI project help' },
   { href: '/about', label: 'About' },
   { href: '/projects', label: 'Works' },
   { href: '/services', label: 'Services' },

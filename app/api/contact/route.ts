@@ -35,8 +35,8 @@ export async function POST(req: Request) {
     console.error(JSON.stringify({ event: 'enquiry_unavailable', reason: 'email_not_configured' }));
     return json({ ok: false, error: contactUnavailable }, 503);
   }
-  const { name, email, company, phone, service, budget, message, platform, appUrl, expected, errorLink, repository, deadline } = checked.data;
-  const fields = { Name: name, Email: email, Company: company, Phone: phone, Service: service, Budget: budget, Message: message, ...(service === 'AI Website & App Rescue' ? { Platform: platform, 'App URL': appUrl, 'Expected result': expected, 'Error or screenshot link': errorLink, Repository: repository, 'Desired deadline': deadline } : {}) };
+  const { name, email, company, phone, service, budget, message, platform, appUrl, expected, errorLink, repository, deadline, rescueNeed } = checked.data;
+  const fields = { Name: name, Email: email, Company: company, Phone: phone, Service: service, Budget: budget, Message: message, ...(service === 'AI Website & App Rescue' ? { 'Help needed': rescueNeed, Platform: platform, 'App URL': appUrl, 'Expected result': expected, 'Error or screenshot link': errorLink, Repository: repository, 'Desired deadline': deadline } : {}) };
   try {
     await sendEmail({
       to: 'info@pixaloom.co.za', replyTo: email, subject: `Pixaloom enquiry — ${name}`,

@@ -427,18 +427,20 @@ test('preview noindex headers match only the intended hosting domains', async ()
 test('rescue enquiries validate diagnostic fields and reject credential-bearing links', () => {
   const rescue = { ...valid, service: 'AI Website & App Rescue', platform: 'Lovable', expected: 'Login should open the dashboard', appUrl: 'https://example.com', repository: 'https://github.com/example/private' };
   assert.equal(validateContact(rescue).ok, true);
+  for (const rescueNeed of require('../lib/ai-rescue.ts').rescueNeeds) assert.equal(validateContact({ ...rescue, rescueNeed }).ok, true);
+  for (const rescueNeed of ['unlisted option', 'x'.repeat(81), 123]) assert.equal(validateContact({ ...rescue, rescueNeed }).ok, false);
   for (const change of [{ platform: '' }, { expected: '' }, { expected: 2 }, { appUrl: 'javascript:alert(1)' }, { repository: 'https://user:secret@example.com/repo' }, { errorLink: 'not a link' }, { deadline: 'x'.repeat(101) }]) assert.equal(validateContact({ ...rescue, ...change }).ok, false);
 });
 test('rescue enquiry reaches the established inbox with complete diagnostic context', async t => {
   const fixture = emailHarness(t);
-  const response = await POST(request({ ...valid, service: 'AI Website & App Rescue', platform: 'Bolt', expected: 'Save the new account', appUrl: 'https://example.com', errorLink: 'https://example.com/screenshot', repository: 'https://github.com/example/private', deadline: 'Next month' }));
+  const response = await POST(request({ ...valid, service: 'AI Website & App Rescue', rescueNeed: 'Finish missing features', platform: 'Bolt', expected: 'Save the new account', appUrl: 'https://example.com', errorLink: 'https://example.com/screenshot', repository: 'https://github.com/example/private', deadline: 'Next month' }));
   assert.equal(response.status, 200);
   assert.equal(fixture.calls.length, 1);
   const message = fixture.calls[0].message;
   assert.equal(message.to, 'info@pixaloom.co.za');
   assert.equal(message.replyTo, valid.email);
   for (const [label, value] of Object.entries({
-    Service: 'AI Website & App Rescue', Platform: 'Bolt', 'Expected result': 'Save the new account',
+    Service: 'AI Website & App Rescue', 'Help needed': 'Finish missing features', Platform: 'Bolt', 'Expected result': 'Save the new account',
     'App URL': 'https://example.com', 'Error or screenshot link': 'https://example.com/screenshot',
     Repository: 'https://github.com/example/private', 'Desired deadline': 'Next month',
   })) {
