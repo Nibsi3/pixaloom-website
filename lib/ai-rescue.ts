@@ -1,3 +1,11 @@
+export const aiRescueService = {
+  path: '/ai-website-app-rescue',
+  name: 'AI Website & App Rescue',
+  description: 'Help finishing AI-built websites and apps, connecting login, data, payments and other services, and working through launch blockers. Assessment and a clear scope come first.',
+};
+
+export const rescueNeeds = ['Finish missing features', 'Connect login or data', 'Connect forms, email, payments or APIs', 'Deploy or launch the project', 'Fix something that broke', 'Not sure yet'] as const;
+
 export const rescuePackages = [
   { name: 'Quick Fix', price: 'R1,490', scope: 'One clearly defined problem.', detail: 'Diagnosis of the agreed issue, implementation, focused testing and a short handover with a Git commit or equivalent change record where supported.' },
   { name: 'Ship It', price: 'R3,990', scope: 'An existing app, ready for its agreed launch.', detail: 'One deployment environment, environment configuration, one domain connection and up to two agreed launch blockers. We test one core journey and hand over a working URL when the reviewed project is suitable.' },

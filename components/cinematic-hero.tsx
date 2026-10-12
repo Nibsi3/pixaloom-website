@@ -15,7 +15,7 @@ export function CinematicHero() {
       <div className="reference-stage">
         <CinematicBackgroundVideo />
         <div className="reference-scrim" aria-hidden="true" />
-        <div className="hero-offer"><p>Websites, ecommerce &amp; web apps.</p><span>Built in George. Working across South Africa.</span><Link href="/contact">Discuss your project <ArrowUpRight size={14} /></Link></div>
+        <div className="hero-offer"><p>Built it with AI? Let&apos;s get it live.</p><span>A brief initial review. Clear scope before paid work.</span><Link href="/ai-website-app-rescue#diagnosis">Get a free app diagnosis <ArrowUpRight size={14} /></Link></div>
 
         <div className="portal-copy">
           <p className="portal-wordmark" aria-hidden="true">
@@ -24,7 +24,7 @@ export function CinematicHero() {
             <i>&amp;</i>
             <strong>Culture</strong>
           </p>
-          <span className="portal-caption">Web design · Products · South Africa</span>
+          <span className="portal-caption">AI project help · Web development · South Africa</span>
           <Link
             className="portal-scroll"
             href="#work-archive"
@@ -45,11 +45,11 @@ export function CinematicHero() {
         </div>
 
         <div className="featured-copy" id="featured-state">
-          <p className="featured-kicker">Pixaloom · Web design studio in George</p>
-          <h1 id="hero-title">Web design<br /> <em>for South Africa.</em></h1>
-          <p className="featured-intro">We design and build fast websites, ecommerce stores and digital products from George—with enough character to be remembered.</p>
+          <p className="featured-kicker">Pixaloom · AI project help from George, South Africa</p>
+          <h1 id="hero-title">Built it with AI?<br /> <em>Let&apos;s get it live.</em></h1>
+          <p className="featured-intro">We help founders and business owners finish AI-built websites and apps, connect the services they need and work through launch blockers.</p>
           <div className="featured-project">
-            <span>Strategy · Design · Engineering</span>
+            <span>Finish · Connect · Launch</span>
             <strong>Made in George, South Africa</strong>
             <Link href="/projects">View portfolio <ArrowUpRight size={13} /></Link>
           </div>

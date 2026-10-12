@@ -10,16 +10,18 @@ import { Header } from '@/components/header';
 import { JsonLd } from '@/components/json-ld';
 import { workItems, type WorkItem } from '@/components/work-items';
 import { services } from '@/lib/services';
+import { aiRescueService } from '@/lib/ai-rescue';
 import { contentModified } from '@/lib/content-dates';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Web Design South Africa',
-  description: 'Pixaloom designs fast, distinctive websites, ecommerce stores and web applications for ambitious South African businesses.',
+  title: 'AI Project Help & Web Development South Africa',
+  description: site.description,
   path: '/',
 });
 
 const archiveSlugs = ['nordflam', 'buildvolume', 'illumi'];
+const homeServices = [aiRescueService, ...services.map(service => ({ name: service.name, path: `/services/${service.slug}`, description: service.promise }))];
 const archiveWork = archiveSlugs
   .map((slug) => workItems.find((item) => item.slug === slug))
   .filter((item): item is WorkItem => Boolean(item));
@@ -34,7 +36,7 @@ const homeSchema = {
   '@type': 'WebPage',
   '@id': `${site.url}/#webpage`,
   url: site.url,
-  name: 'Web Design South Africa | Pixaloom',
+  name: 'AI Project Help & Web Development South Africa | Pixaloom',
   description: site.description,
   inLanguage: 'en-ZA',
   isPartOf: { '@id': `${site.url}/#website` },
@@ -43,12 +45,12 @@ const homeSchema = {
   primaryImageOfPage: { '@type': 'ImageObject', url: absoluteUrl('/opengraph-image') },
   mainEntity: {
     '@type': 'ItemList',
-    name: 'Pixaloom web design and digital services',
-    itemListElement: services.map((service, index) => ({
+    name: 'Pixaloom AI project help and digital services',
+    itemListElement: homeServices.map((service, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       name: service.name,
-      url: absoluteUrl(`/services/${service.slug}`),
+      url: absoluteUrl(service.path),
     })),
   },
 };
@@ -119,17 +121,17 @@ export default function HomePage() {
           <div className="home-capabilities-heading">
             <p>What we build · South Africa</p>
             <div>
-              <h2 id="home-capabilities-title">Web design, ecommerce, SEO and software—<em>one coherent system.</em></h2>
-              <p>Pixaloom is an independent web design and development studio in George, Western Cape. We work with ambitious businesses across South Africa to create fast, search-ready digital experiences that turn attention into action.</p>
+              <h2 id="home-capabilities-title">AI project help, backed by <em>web development.</em></h2>
+              <p>Our focus is helping people finish, connect and launch projects started with AI. Based in George, Western Cape, Pixaloom also builds custom websites, ecommerce stores and web applications for businesses across South Africa.</p>
             </div>
           </div>
           <ol className="home-capabilities-list">
-            {services.map((service, index) => (
-              <li key={service.slug}>
+            {homeServices.map((service, index) => (
+              <li key={service.path}>
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                <Link href={`/services/${service.slug}`}>
+                <Link href={service.path}>
                   <strong>{service.name}</strong>
-                  <p>{service.promise}</p>
+                  <p>{service.description}</p>
                   <ArrowUpRight size={15} />
                 </Link>
               </li>

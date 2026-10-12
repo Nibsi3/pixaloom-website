@@ -6,10 +6,13 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
 import { services } from '@/lib/services';
+import { aiRescueService } from '@/lib/ai-rescue';
 import { catalogueService } from '@/lib/niche-services';
 import { absoluteUrl, pageMetadata } from '@/lib/site';
 
-export const metadata: Metadata = pageMetadata({ title: 'Web Design & SEO Services', description: 'Website design, ecommerce, SEO, web application development and ongoing website care for businesses across South Africa.', path: '/services' });
+export const metadata: Metadata = pageMetadata({ title: 'AI App Help, Web Development & SEO Services', description: 'Explore AI website and app rescue, custom web development, ecommerce, SEO and website care from Pixaloom in South Africa.', path: '/services' });
+
+const serviceLinks = [aiRescueService, ...services.map(service => ({ name: service.name, path: `/services/${service.slug}`, description: service.description }))];
 
 const delivery = [
   ['Discover', 'Commercial goals, users, constraints and proof.'],
@@ -22,7 +25,7 @@ const servicesSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Pixaloom digital services',
-  itemListElement: services.map((service, index) => ({ '@type': 'ListItem', position: index + 1, name: service.name, url: absoluteUrl(`/services/${service.slug}`) })),
+  itemListElement: serviceLinks.map((service, index) => ({ '@type': 'ListItem', position: index + 1, name: service.name, url: absoluteUrl(service.path) })),
 };
 
 export default function ServicesPage() {
@@ -33,8 +36,8 @@ export default function ServicesPage() {
       <div className="minimal-shell">
         <div className="minimal-crumb"><Link href="/">Home</Link><span>/</span><span>Services</span></div>
         <p className="minimal-kicker">Strategy · Design · Engineering · Search</p>
-        <h1>Web design &amp; SEO<br /> <em>that earns its place.</em></h1>
-        <div className="minimal-hero-foot"><p>Connected web design, ecommerce, SEO and software development for South African businesses that want clearer positioning, better performance and measurable outcomes.</p><span>Five connected capabilities</span></div>
+        <h1>AI project help.<br /> <em>Web development.</em></h1>
+        <div className="minimal-hero-foot"><p>Finish an AI-built project, connect the services it needs or work through launch blockers. Our wider web design, ecommerce, SEO and development services support businesses across South Africa.</p><span>Assessment through to agreed delivery</span></div>
       </div>
     </section>
 
@@ -42,7 +45,7 @@ export default function ServicesPage() {
       <div className="minimal-shell">
         <div className="minimal-section-mark"><span>01</span><p>Capabilities</p></div>
         <div className="minimal-service-list">
-          {services.map((service, index) => <Link href={`/services/${service.slug}`} key={service.slug}>
+          {serviceLinks.map((service, index) => <Link href={service.path} key={service.path}>
             <span>0{index + 1}</span><h2>{service.name}</h2><p>{service.description}</p><ArrowUpRight size={16} />
           </Link>)}
         </div>

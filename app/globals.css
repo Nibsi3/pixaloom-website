@@ -770,6 +770,11 @@ img { max-width: 100%; }
 .reference-footer-brand { padding-left: 42px; display: flex; align-items: center; }
 .reference-footer-brand img { width: 62px; height: auto; mix-blend-mode: screen; }
 .reference-footer-row nav { display: flex; border-inline: 1px solid var(--fine-line); }
+@media (min-width: 721px) and (max-width: 1080px) {
+  .reference-footer-row { grid-template-columns: 1fr auto; }
+  .reference-footer-row nav { display: none; }
+  .reference-footer-row > a:last-child { min-width: 130px; }
+}
 .reference-footer-row nav a { min-width: 102px; display: grid; place-items: center; border-right: 1px solid var(--fine-line); color: #888883; font-size: .52rem; letter-spacing: .12em; text-transform: uppercase; }
 .reference-footer-row nav a:last-child { border-right: 0; }
 .reference-footer-row > a:last-child { display: flex; justify-content: center; align-items: center; gap: 7px; color: #aaa8a1; font-size: .52rem; letter-spacing: .12em; text-transform: uppercase; }

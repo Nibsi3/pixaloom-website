@@ -12,7 +12,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: 'Web Design South Africa | Pixaloom', template: '%s | Pixaloom' },
+  title: { default: 'AI Project Help & Web Development South Africa | Pixaloom', template: '%s | Pixaloom' },
   description: site.description,
   applicationName: site.name,
   category: 'Web design and development',
@@ -33,11 +33,11 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website', locale: 'en_ZA', url: '/', siteName: site.name,
-    title: 'Web Design South Africa | Pixaloom',
+    title: 'AI Project Help & Web Development South Africa | Pixaloom',
     description: site.description,
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Pixaloom web design company in South Africa' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Web Design South Africa | Pixaloom', description: site.description, images: ['/twitter-image'] },
+  twitter: { card: 'summary_large_image', title: 'AI Project Help & Web Development South Africa | Pixaloom', description: site.description, images: ['/twitter-image'] },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
 };
 
@@ -56,7 +56,7 @@ const organizationSchema = {
         { '@type': 'AdministrativeArea', name: 'Western Cape' },
         { '@type': 'Country', name: 'South Africa' },
       ],
-      knowsAbout: ['Web design', 'Web development', 'Ecommerce', 'Technical SEO', 'Web application development'],
+      knowsAbout: ['AI-built website and app completion', 'Web application integration and deployment', 'Web design', 'Web development', 'Ecommerce', 'Technical SEO', 'Web application development'],
       contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: site.phoneInternational, email: site.email, areaServed: 'ZA', availableLanguage: ['English', 'Afrikaans'] },
       sameAs: ['https://github.com/Nibsi3'],
     },
