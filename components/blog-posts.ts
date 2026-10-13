@@ -14,6 +14,16 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'ai-app-launch-checklist',
+    title: 'AI App Launch Checklist: From Preview to Production',
+    excerpt: 'Test login, saved data, forms, payments and deployment before launching an AI-built app. A practical checklist with clear pass conditions.',
+    content: '',
+    date: '2026-10-13',
+    category: 'App development',
+    readTime: '6 min read',
+    tags: ['AI app launch', 'App rescue', 'Production testing'],
+  },
+  {
     slug: 'why-george-businesses-need-modern-website',
     title: 'Why Every George Business Needs a Modern Website in 2026',
     excerpt:
@@ -1862,6 +1872,7 @@ export const blogCategories = [
 ] as const;
 
 const publishedSlugs = new Set([
+  'ai-app-launch-checklist',
   'why-george-businesses-need-modern-website',
   'next-js-vs-wordpress-south-africa',
   'seo-tips-garden-route-businesses',
@@ -1890,6 +1901,11 @@ const nextSource = { title: 'Next.js documentation', publisher: 'Next.js', url: 
 const wordpressSource = { title: 'WordPress documentation', publisher: 'WordPress.org', url: 'https://wordpress.org/documentation/' };
 
 const sourcesBySlug: Record<string, BlogPost['sources']> = {
+  'ai-app-launch-checklist': [
+    { title: 'Production checklist', publisher: 'Supabase', url: 'https://supabase.com/docs/guides/deployment/going-into-prod' },
+    { title: 'Authentication redirect URLs', publisher: 'Supabase', url: 'https://supabase.com/docs/guides/auth/redirect-urls' },
+    googleSearchSource,
+  ],
   'why-george-businesses-need-modern-website': [googleSearchSource, coreWebVitalsSource, businessProfileSource],
   'next-js-vs-wordpress-south-africa': [nextSource, wordpressSource, coreWebVitalsSource],
   'seo-tips-garden-route-businesses': [googleSearchSource, businessProfileSource, structuredDataSource],

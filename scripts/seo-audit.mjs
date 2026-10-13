@@ -1,7 +1,16 @@
+import { mkdir, writeFile } from 'node:fs/promises';
+import { dirname } from 'node:path';
+import { brokenFragments, linkGraph, mainContent, plainText, schemaDates } from './seo-analysis.mjs';
+
+const args = process.argv.slice(2);
+const reportIndex = args.indexOf('--report');
+const reportPath = reportIndex === -1 ? undefined : args[reportIndex + 1];
+if (reportIndex !== -1 && (!reportPath || reportPath.startsWith('--'))) throw new Error('--report needs an output JSON path');
+const positional = reportIndex === -1 ? args : args.filter((_, index) => index !== reportIndex && index !== reportIndex + 1);
 const canonicalOrigin = new URL(
   process.env.CANONICAL_ORIGIN || "https://www.pixaloom.co.za",
 );
-const crawlOrigin = new URL(process.argv[2] || canonicalOrigin);
+const crawlOrigin = new URL(positional[0] || canonicalOrigin);
 const requestTimeoutMs = 20_000;
 const requestConcurrency = 6;
 
@@ -60,12 +69,14 @@ async function mapConcurrent(items, callback) {
 }
 
 async function get(value, redirect = "manual") {
+  const start = performance.now();
   const response = await fetch(value, {
     headers: { "user-agent": "Pixaloom technical SEO audit" },
     redirect,
     signal: AbortSignal.timeout(requestTimeoutMs),
   });
-  return { response, text: await response.text() };
+  const ttfbMs = Math.round(performance.now() - start);
+  return { response, text: await response.text(), ttfbMs };
 }
 
 function blocksIndexing(metas, response) {
@@ -114,12 +125,14 @@ async function audit() {
   const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) =>
     decodeHtml(match[1]),
   );
-  const sitemapDates = new Map([...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, entry]) => [
-    normalizeUrl(decodeHtml(entry.match(/<loc>(.*?)<\/loc>/)?.[1] || "/")),
-    entry.match(/<lastmod>(.*?)<\/lastmod>/)?.[1],
-  ]));
   if (!sitemapUrls.length) fail("sitemap.xml contains no URLs");
   if (new Set(sitemapUrls.map(normalizeUrl)).size !== sitemapUrls.length) fail("sitemap.xml contains duplicate URLs");
+  const modifiedDates = new Map([...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, entry]) => {
+    const url = decodeHtml(entry.match(/<loc>(.*?)<\/loc>/)?.[1]);
+    const modified = entry.match(/<lastmod>(.*?)<\/lastmod>/)?.[1];
+    if (modified && (!Number.isFinite(Date.parse(modified)) || Date.parse(modified) > Date.now())) fail(`${url}: invalid or future sitemap lastmod ${modified}`);
+    return [normalizeUrl(url), modified];
+  }));
   for (const url of sitemapUrls) {
     if (new URL(url).origin !== canonicalOrigin.origin) fail(`sitemap URL uses a noncanonical origin: ${url}`);
   }
@@ -128,7 +141,7 @@ async function audit() {
 
   const pages = await mapConcurrent(sitemapUrls, async (canonicalUrl) => {
       const target = pageUrl(canonicalUrl);
-      const { response, text: html } = await get(target);
+      const { response, text: html, ttfbMs } = await get(target);
       const path = new URL(canonicalUrl).pathname;
       const title = decodeHtml(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]);
       const metas = elements(html, "meta");
@@ -194,11 +207,14 @@ async function audit() {
             if (entities.some((entity) => !entity || typeof entity !== "object")) throw new Error("Invalid schema entity");
             schemaEntities.push(...entities);
           }
+          for (const date of schemaDates(data)) {
+            if (typeof date.modified !== 'string' || !Number.isFinite(Date.parse(date.modified)) || Date.parse(date.modified) > Date.now()) fail(`${path}: invalid or future schema dateModified ${date.modified}`);
+          }
         } catch {
           fail(`${path}: invalid JSON-LD`);
         }
       }
-      const modified = sitemapDates.get(normalizeUrl(canonicalUrl));
+      const modified = modifiedDates.get(normalizeUrl(canonicalUrl));
       for (const entity of schemaEntities) {
         if (entity.dateModified && typeof entity.dateModified !== "string") {
           fail(`${path}: structured dateModified must be an ISO date string`);
@@ -233,7 +249,7 @@ async function audit() {
         .map((match) => attributes(match[0]).href)
         .filter(Boolean)
         .flatMap((href) => {
-          if (/^(?:mailto:|tel:|javascript:|#)/i.test(href)) return [];
+          if (/^(?:mailto:|tel:|javascript:)/i.test(href)) return [];
           try {
             const url = new URL(href, canonicalUrl);
             return url.origin === canonicalOrigin.origin ? [url] : [];
@@ -243,7 +259,23 @@ async function audit() {
           }
         });
 
-      return { path, title, description, internalLinks };
+      const main = mainContent(html);
+      if (!main) fail(`${path}: missing main landmark`);
+      // Main-body links include breadcrumb links; global header/footer links are excluded.
+      const contentLinks = elements(main, 'a').flatMap(({ attrs }) => {
+        try {
+          const url = new URL(attrs.href, canonicalUrl);
+          return attrs.href && url.origin === canonicalOrigin.origin ? [url.pathname] : [];
+        } catch { return []; }
+      });
+      const ids = [...html.matchAll(/\bid=["']([^"']+)["']/g)].map(match => decodeHtml(match[1]));
+      const h1 = plainText(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] || '');
+      return { path, title, description, h1, internalLinks, contentLinks, ids,
+        status: response.status, canonical, lastModified: modifiedDates.get(normalizeUrl(canonicalUrl)),
+        mainWords: plainText(main).split(/\s+/).filter(Boolean).length,
+        htmlBytes: Buffer.byteLength(html), ttfbMs,
+        cacheStatus: response.headers.get('cf-cache-status'),
+        searchConsoleMetaVerification: Boolean(metaValue('google-site-verification')) };
     });
 
   for (const [value, paths] of duplicateValues(pages, "title")) {
@@ -252,22 +284,19 @@ async function audit() {
   for (const [value, paths] of duplicateValues(pages, "description")) {
     fail(`duplicate description on ${paths.join(", ")}: ${value}`);
   }
+  for (const failure of brokenFragments(pages)) fail(failure);
+  const graph = linkGraph(pages);
+  for (const page of graph) {
+    if (page.depth === null) fail(`${page.path}: sitemap page is unreachable by links from the homepage`);
+    else if (page.depth > 3) warn(`${page.path}: ${page.depth} clicks from homepage`);
+    if (page.path.startsWith('/blog/') && page.contextualIncoming.length < 2) warn(`${page.path}: only ${page.contextualIncoming.length} main-body referring page(s)`);
+  }
 
   const linkedUrls = new Map();
   for (const page of pages) {
     for (const url of page.internalLinks) linkedUrls.set(normalizeUrl(url), url);
   }
   const crawledUrls = new Set(sitemapUrls.map(normalizeUrl));
-  const pageGraph = new Map(pages.map((page) => [normalizeUrl(page.path), page.internalLinks.map(normalizeUrl)]));
-  const reachable = new Set();
-  const pending = [normalizeUrl("/")];
-  while (pending.length) {
-    const url = pending.pop();
-    if (reachable.has(url)) continue;
-    reachable.add(url);
-    for (const linked of pageGraph.get(url) || []) if (!reachable.has(linked)) pending.push(linked);
-  }
-  for (const url of crawledUrls) if (!reachable.has(url)) fail(`sitemap page ${new URL(url).pathname} has no link path from the homepage`);
   await mapConcurrent([...linkedUrls.values()].filter((url) => !crawledUrls.has(normalizeUrl(url))), async (url) => {
       const target = pageUrl(url);
       const response = await fetch(target, {
@@ -339,6 +368,18 @@ async function audit() {
   for (const message of warnings) console.warn(`WARN  ${message}`);
   for (const message of failures) console.error(`FAIL  ${message}`);
   console.log(`${failures.length} failure(s), ${warnings.length} warning(s).`);
+  if (reportPath) {
+    await mkdir(dirname(reportPath), { recursive: true });
+    await writeFile(reportPath, JSON.stringify({
+      auditedAt: new Date().toISOString(), origin: crawlOrigin.origin,
+      limitations: ['HTTP/source audit, not proof of Google indexing or rankings.', 'TTFB is one request from this audit machine; not field Core Web Vitals.', 'Word counts are diagnostics, not a ranking target.', 'Schema checks cover JSON syntax and modification dates, not full rich-result eligibility.'],
+      totals: { pages: pages.length, internalLinks: linkedUrls.size, images: imageUrls.size },
+      failures, warnings,
+      pages: pages.map(({ internalLinks, ids, contentLinks, ...page }) => ({ ...page,
+        links: internalLinks.map(url => url.href), ...graph.find(item => item.path === page.path) })),
+    }, null, 2) + '\n');
+    console.log(`Saved audit evidence to ${reportPath}`);
+  }
   if (failures.length) process.exitCode = 1;
 }
 

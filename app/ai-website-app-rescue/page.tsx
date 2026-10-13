@@ -13,7 +13,7 @@ import './rescue.css';
 
 export const metadata = pageMetadata({
   title: 'AI Website & App Rescue: Finish, Connect & Launch',
-  description: 'Help finishing AI-built websites and apps, connecting login, data and payments, and resolving launch blockers. Start with a free initial project review.',
+  description: 'Fix or launch your AI-built website or app. Help with Lovable, Bolt, Replit, login, data and deployment. South African pricing; initial review before paid work.',
   path: '/ai-website-app-rescue',
 });
 const problems = [
@@ -68,6 +68,7 @@ export default function RescuePage() {
       <div className="rescue-problems">{problems.map(([title, detail]) => <article key={title}><h3>{title}</h3><p>{detail}</p></article>)}</div>
       <div className="rescue-problems">{rescueSpecialisms.map(item => <article key={item.path}><h3>{item.name}</h3><p>{item.description}</p><Link className="rescue-link" href={item.path}>Read the focused diagnosis guide <ArrowUpRight size={16} /></Link></article>)}</div>
       <p className="rescue-caption">Depending on the project: React, Next.js, TypeScript, Supabase, Firebase, PostgreSQL, Cloudflare, Vercel, Netlify, Railway and third-party APIs. These are examples of work we assess, not claims of certification or platform partnership.</p>
+      <p className="rescue-copy">Not sure what remains before launch? Work through the <Link className="rescue-link" href="/blog/ai-app-launch-checklist">AI app launch checklist</Link> to test the published address, login, saved records, email and payment state. Bring the failed step to your initial review; you do not need to identify the cause yourself.</p>
     </div></section>
     <section className="rescue-section" id="packages"><div className="rescue-shell">
       <p className="rescue-kicker">South African launch pricing</p><h2>A defined problem.<br />A defined scope.</h2>

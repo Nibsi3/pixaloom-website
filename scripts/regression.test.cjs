@@ -263,7 +263,7 @@ test('ecommerce payments are included once and estimate context round-trips safe
   assert.doesNotMatch(estimateBriefFromParams(new URLSearchParams('kind=business&scale=focused&extras=<script>')), /<script>/);
 });
 test('published content is revised, linked and dates agree with sitemap', () => {
-  assert.equal(publishedBlogPosts.length, 16);
+  assert.equal(publishedBlogPosts.length, 17);
   const entries = sitemap();
   for (const post of publishedBlogPosts) {
     assert.ok(post.content.split(/\s+/).length >= 250, post.slug);
@@ -286,7 +286,7 @@ test('George intent and service-to-location links are explicit', () => {
   }
   const entries = sitemap();
   for (const pathName of ['/locations/george', '/services/website-design', '/services/seo']) {
-    assert.equal(entries.find(item => item.url.endsWith(pathName)).lastModified, '2026-09-04');
+    assert.equal(entries.find(item => item.url.endsWith(pathName)).lastModified, pathName === '/locations/george' ? '2026-09-04' : '2026-10-13');
   }
 });
 test('website pricing intent receives a direct answer and the legacy pricing URL', async () => {
@@ -295,12 +295,12 @@ test('website pricing intent receives a direct answer and the legacy pricing URL
   assert.match(page, /Five-page business website/);
   assert.match(page, /R35,000–R55,000/);
   assert.match(page, /Monthly website costs/);
-  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-09-30');
+  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-10-13');
   const pricingRedirect = (await require('../next.config.js').redirects()).find(item => item.source === '/pricing');
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });
 test('paused work and experiments stay out of sitemap; robots permits noindex discovery', () => {
-  assert.equal(sitemap().length, 62);
+  assert.equal(sitemap().length, 63);
   assert.equal(workItems.length, 16);
   assert.ok(!workItems.some(item => item.slug === 'george-herald'));
   assert.ok(!sitemap().some(item => /george-herald|caps-tutor|\/os$|\/jokes$/.test(item.url)));

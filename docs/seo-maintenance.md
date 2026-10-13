@@ -1,5 +1,21 @@
 # SEO maintenance and owner checklist
 
+## 13 October 2026: national websites and AI app launch enquiries
+
+This release continues the deployed `9921a2b` source, including its R3000 offer, catalogue service and two AI rescue specialisms. The commercial focus is websites across South Africa and owners who need an AI-built website or app repaired, finished or launched.
+
+The homepage title now names both offers. The website-design page connects the R3000 offer, custom planning ranges and repair service; the price guide explains their separate scopes. The offer page now asks for a usable brief and names the commercial details that must be agreed without inventing inclusions. Existing prices are unchanged.
+
+The new `/blog/ai-app-launch-checklist` supplies ten practical checks with pass conditions and links to the relevant diagnosis service. Homepage, service and rescue pages provide crawlable links to useful guides. The structured-data guide previously had only one main-body referring page; the SEO service now links to it directly. Publication dates are preserved, and only substantively edited pages receive new modification dates.
+
+The release crawler supports `--report audits/seo-report.json`. Its report includes each URL's metadata, content diagnostics, referring pages, click depth, source response size and request timing. New checks catch broken fragment destinations and invalid/future modification dates. Counts and timings are diagnostics, not a ranking score or a substitute for Google Search Console and field performance data. Main-body referring-page counts exclude the shared header/footer but include breadcrumbs. The HTML extractor is tailored to this site's server-rendered markup.
+
+Cloudflare Web Analytics is enabled in the account in lite mode. Its sampled aggregate data must not be described as a complete count of people or qualified leads. Search Console access and reliable lead attribution remain necessary. No new tracking service, marketing outreach or recurring automation is introduced by this release. Local analytics evidence and audit reports remain under ignored `audits/` rather than in published source.
+
+Run `npm run audit:seo -- http://localhost:3013 --report audits/seo-local.json` against the local production build and `npm run audit:seo -- --report audits/seo-live.json` after release. Run the standard tests, lint, typecheck and production build as well. Lint and TypeScript exclude unrelated task artifacts in `outputs/` and `audits/`.
+
+The next search review should compare complete 28-day Search Console periods for South Africa, split website-design and AI-rescue queries, and distinguish Pixaloom-branded, portfolio-brand and service queries. Prioritise pages already receiving relevant impressions before expanding the page count. Google documents [link discoverability](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) and [useful, reliable content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content); neither technical completeness nor extra markup guarantees higher positions. FAQ rich results were retired in May 2026, per [Google's documentation updates](https://developers.google.com/search/updates), so retaining useful answers is not a promise of FAQ search enhancements.
+
 ## October 2026 audit
 
 ### 7 October source review

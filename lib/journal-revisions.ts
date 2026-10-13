@@ -2,6 +2,80 @@
 // Preserve original publication dates in blog-posts.ts.
 export type JournalRevision = { title: string; excerpt: string; modified: string; service: string; project?: string; content: string };
 export const journalRevisions: Record<string, JournalRevision> = {
+  'ai-app-launch-checklist': {
+    title: 'AI App Launch Checklist: From Preview to Production',
+    excerpt: 'Test login, saved data, forms, payments and deployment before launching an AI-built app. A practical checklist with clear pass conditions.',
+    modified: '2026-10-13', service: 'web-app-development',
+    content: `An AI-built app is ready for an agreed launch when someone other than its builder can complete the important task on the published address, and you can show where the result went. A convincing preview or a successful deployment message is only part of that evidence.
+
+This checklist is for founders and business owners working with Lovable, Bolt, Replit, Cursor or another AI-assisted workflow. It does not assume that a particular builder caused a fault. Your actual code, backend and hosting determine the checks. Use controlled accounts and synthetic records; a launch check is not a comprehensive security assessment.
+
+## 1. Define the smallest complete customer journey
+
+Write a single sentence describing the release: “A customer signs up, creates a quote request and receives confirmation,” for example. List the screens, saved records and receiving inbox involved. Mark everything else as either required now or deferred. Otherwise, one more prompt can keep expanding what “finished” means.
+
+**Pass condition:** someone can follow a written sequence from the first screen to the intended result without an undocumented workaround. A missing button action or placeholder result is recorded as a blocker, not hidden by the demo.
+
+## 2. Identify the release and recovery point
+
+Record which project, branch or version you intend to publish, who owns it, and how to restore the last working version. Confirm that the repository, hosting account, domain and backend belong to the right owner. If a builder manages the backend, identify that arrangement before looking for a separate database dashboard.
+
+**Pass condition:** the exact version can be built or published through the supported workflow, and the owner can explain the recovery path. A copied folder with no known working version needs attention before risky changes.
+
+## 3. Test the real address outside the builder
+
+Open the intended HTTPS address in a fresh browser session. Follow a link to an inner page, refresh that page and return home. Check the mobile layout and keyboard access. Record whether a failure happens during the build, when the server starts, or only when a visitor performs an action.
+
+**Pass condition:** the deployed page and its required backend work together at the intended address. If it works only in preview, use the [preview-to-production diagnosis guide](/ai-website-app-rescue/preview-to-production) to organise the evidence. Moving hosts without understanding the failure is not a test.
+
+## 4. Walk through login and password recovery
+
+Use a new test account rather than an existing administrator session. Test registration, any confirmation step, sign-in, a refresh, sign-out and password reset where those features are part of the app. A reset link must return to the approved live address, not a preview or local development address. Supabase projects need their Site URL and permitted redirect destinations configured for the intended flow.
+
+**Pass condition:** the intended user reaches the correct screen, retains the expected session and can sign out. If the app loops, loses the session or sends the user to the wrong address, record the exact sequence without sharing callback tokens. See [Supabase login and data repair](/ai-website-app-rescue/supabase-login-data).
+
+## 5. Prove that records persist and permissions hold
+
+Create a synthetic record, reload the page and check it from a second session. Then use a second test account to check the intended ownership rules. Some applications intentionally share records; others must isolate them. Write down the rule before judging the result. Check signed-out access too.
+
+**Pass condition:** allowed reads and changes succeed, and disallowed ones fail. A screen that displays hard-coded sample data has not passed a persistence test. Do not disable access controls to make the interface appear functional. Unexpected access to another user's private record is a reason to stop that release and investigate.
+
+## 6. Follow forms and email to their destination
+
+Submit an authorised test with an obvious test label. Check validation, the loading state and the failure message as well as success. Confirm the submission reaches the intended system or inbox. Provider acceptance and actual message delivery are different stages, so a green success banner is insufficient evidence.
+
+**Pass condition:** the receiving team can locate the test and respond using the intended workflow. If delivery fails, the visitor gets a useful next step and the owner can identify the failure without collecting unnecessary personal data in logs.
+
+## 7. Check payment state without improvising live charges
+
+If payments are part of the release, agree the supported provider test procedure first. Verify success, cancellation or failure, delayed confirmation and repeated notifications. The app's order or subscription state must follow the verified provider outcome. A redirect to a thank-you page alone does not establish payment.
+
+**Pass condition:** one test transaction produces the intended state once, and failure does not grant paid access. Test-mode evidence must be labelled as such. Merchant approval, a live transaction and its amount require the owner's separate agreement; do not experiment with customer cards or records.
+
+## 8. Confirm configuration and account limits
+
+Compare the settings required by the code with the settings available to the deployed version. Identify which values may be public and which must remain on the server. Confirm the owner knows the relevant hosting, database, email and API limits and recurring charges. Check provider-specific requirements using current documentation.
+
+**Pass condition:** necessary services are configured for the intended environment, and private credentials are absent from public code, screenshots and enquiry messages. Missing configuration is fixed at its source rather than disguised with a browser-side secret or permanent mock response.
+
+## 9. Separate public discovery from private access
+
+For the public marketing pages, check descriptive titles, useful page text, working links, canonical addresses, sitemap and indexing directives. For account pages, enforce access rules. An instruction asking search engines not to index a page does not protect private information.
+
+**Pass condition:** public pages can be fetched and understood, and private records remain protected regardless of their search visibility. Search Console can help assess discovery after launch; a sitemap submission does not guarantee indexing or traffic.
+
+## 10. Record the launch decision
+
+Keep a short record for each check: the tested URL and version, date, action, expected result, actual result, redacted evidence and owner of any unresolved issue. Use “passed,” “blocked” or “not applicable” with a reason. “Not checked” must remain visible rather than becoming an assumed pass.
+
+**Pass condition:** the owner understands what works, what remains limited, how to report a problem and how to recover the agreed release. Re-run the affected journey after a fix; do not assume that repairing login also repaired saving or email.
+
+## Stuck at one of these checks?
+
+Send the public URL if available, the builder and backend you use, what you expected, what happened and the last known working version. Redact screenshots. Do not send passwords, API keys, customer records or full authentication links through an enquiry form.
+
+Pixaloom's [AI website and app rescue](/ai-website-app-rescue) starts with a brief initial review and an agreed scope before paid work. Use the [launch diagnosis form](/ai-website-app-rescue#diagnosis) when the project is nearly finished but blocked. If the product needs substantial new workflows, [custom web application development](/services/web-app-development) is the more useful starting conversation.`,
+  },
   'why-george-businesses-need-modern-website': {
     title: 'What a George Business Website Needs to Do',
     excerpt: 'A practical brief for a local service website: explain the offer, show real work and make an enquiry easy.',

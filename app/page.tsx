@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import type { CSSProperties } from 'react';
 import { RescueIntro } from '@/components/rescue-intro';
+import { PlanningGuides } from '@/components/planning-guides';
 import { CinematicHero } from '@/components/cinematic-hero';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
@@ -15,7 +16,7 @@ import { contentModified } from '@/lib/content-dates';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata({
-  title: 'AI Project Help & Web Development South Africa',
+  title: 'Web Design South Africa & AI App Rescue',
   description: site.description,
   path: '/',
 });
@@ -36,7 +37,7 @@ const homeSchema = {
   '@type': 'WebPage',
   '@id': `${site.url}/#webpage`,
   url: site.url,
-  name: 'AI Project Help & Web Development South Africa | Pixaloom',
+  name: 'Web Design South Africa & AI App Rescue | Pixaloom',
   description: site.description,
   inLanguage: 'en-ZA',
   isPartOf: { '@id': `${site.url}/#website` },
@@ -146,6 +147,7 @@ export default function HomePage() {
           </div>
         </section>
 
+        <PlanningGuides slugs={['ai-app-launch-checklist', 'how-much-does-website-cost-south-africa', 'ecommerce-website-south-africa']} heading="Planning a website or finishing an app?" />
       </main>
       <Footer />
     </>

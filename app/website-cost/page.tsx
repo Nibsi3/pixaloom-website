@@ -98,6 +98,8 @@ export default function WebsiteCostPage() {
           </div>
         </section>
 
+        <section className="content-section"><div className="site-container body-copy"><p>Looking for the <Link href="/website-offer">R3000 website offer</Link>? That is a separate offer whose fit and deliverables are confirmed with your brief. The custom planning ranges below cover different scopes. If you have already built an app with AI, compare the <Link href="/ai-website-app-rescue#packages">app repair and launch packages</Link> before budgeting for a rebuild.</p></div></section>
+
         <section className="minimal-index-section">
           <div className="minimal-shell">
             <div className="minimal-index-heading">

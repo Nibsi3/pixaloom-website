@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight, Check, CircleDot } from 'lucide-react';
 import { RescueIntro } from '@/components/rescue-intro';
+import { PlanningGuides } from '@/components/planning-guides';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
@@ -26,9 +27,11 @@ export default async function ServicePage({params}:{params:Promise<{slug:string}
     <section className="content-section alt"><div className="site-container content-grid"><div><p className="eyebrow">The outcome</p><h2>{service.promise}</h2></div><div className="feature-grid">{service.outcomes.map((outcome,index)=><article className="feature-card" key={outcome}><CircleDot size={22}/><h3>0{index+1}</h3><p>{outcome}</p></article>)}</div></div></section>
     <section className="content-section"><div className="site-container content-grid"><div><p className="eyebrow">What’s included</p><h2>A complete foundation, not a pretty handoff.</h2><div className="pill-list">{service.suitedFor.map((item)=><span className="pill" key={item}>{item}</span>)}</div></div><ul className="detail-list">{service.inclusions.map((item)=><li key={item}><Check size={18}/><strong>{item}</strong></li>)}</ul></div></section>
     <ServiceProof slug={slug} />
+    {slug === 'website-design' ? <section className="content-section alt"><div className="site-container content-grid"><div><p className="eyebrow">Website design across South Africa</p><h2>Start with the scope your business needs.</h2></div><div className="body-copy"><p>For a new business website, start with your services, approved content and the action a visitor should take. Ask about the <Link href="/website-offer">R3000 website offer</Link> to establish whether it fits, or compare <Link href="/website-cost">custom website and ecommerce planning ranges</Link> for a larger brief. We confirm the deliverables before work begins.</p><p>Already built something with AI? You may need a focused repair instead of a new website. Our <Link href="/ai-website-app-rescue">AI website and app rescue service</Link> assesses unfinished features, broken integrations and launch blockers. We work remotely with businesses throughout South Africa from our George base.</p></div></div></section> : null}
     <section className="content-section dark"><div className="site-container"><div className="section-heading-row"><div><p className="eyebrow eyebrow-light">The process</p><h2>Built in the right order.</h2></div></div><div className="steps-grid">{service.process.map((step,index)=><article className="step-card" key={step.title}><span>0{index+1}</span><h3>{step.title}</h3><p>{step.description}</p></article>)}</div></div></section>
     <section className="content-section"><div className="site-container content-grid"><div><p className="eyebrow">Questions, answered</p><h2>What clients ask before we start.</h2></div><div className="faq-list">{service.faqs.map((faq)=><details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div></div></section>
     {service.slug === 'web-app-development' || service.slug === 'website-care' ? <RescueIntro /> : null}
+    <PlanningGuides service={slug} />
     <section className="content-section alt"><div className="site-container cta-panel"><h2>Ready to make this commercially useful?</h2><Link href="/contact" className="button button-light">Start the conversation <ArrowRight size={18}/></Link></div></section>
   </main><Footer/></>;
 }
