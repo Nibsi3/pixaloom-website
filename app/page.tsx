@@ -18,7 +18,7 @@ export const metadata: Metadata = pageMetadata({
   path: '/',
 });
 
-const archiveSlugs = ['nordflam', 'buildvolume', 'illumi'];
+const archiveSlugs = ['emberwell', 'layerforge', 'illumi'];
 const archiveWork = archiveSlugs
   .map((slug) => workItems.find((item) => item.slug === slug))
   .filter((item): item is WorkItem => Boolean(item));

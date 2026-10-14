@@ -12,6 +12,7 @@ export type WorkItem = {
   sections?: { title: string; description?: string; bullets?: string[] }[];
   category?: 'Web App' | 'Ecommerce' | 'Business' | 'News' | 'AI & Backend' | 'Healthcare' | 'Automotive';
   url?: string;
+  concept?: boolean;
 };
 
 const allWorkItems: WorkItem[] = [
@@ -519,184 +520,199 @@ const allWorkItems: WorkItem[] = [
     ],
   },
   {
-    slug: 'nordflam',
-    name: 'NORDflam SA',
-    category: 'Ecommerce',
-    url: 'https://nordflam.vercel.app',
-    png: '/work/nordflam.png',
-    fallback: '/work/nordflam.png',
-    meta: 'Next.js · Ecommerce · Product Catalog',
-    scope:
-      'A premium product showcase and ecommerce website for NORDflam SA, the South African distributor of NORDflam fireplaces — a European brand with over two decades of leadership in sustainable heating technology. The site presents their full cast iron, steel, and wood-burning fireplace range with detailed product pages, pricing, and a dealer locator to connect customers with authorized retailers across Southern Africa.',
-    highlights: [
-      'Product catalog with categories: cast iron, steel, wood burning, and recuperation',
-      'Individual product pages with specs, pricing, and imagery',
-      'Dealer/retailer locator for authorized stockists',
-      'Technology page showcasing ECODESIGN 2022 certification and engineering',
-      'Sustainability section highlighting eco-friendly manufacturing',
-      'Clean, brand-forward design with strong visual hierarchy',
-      'SEO-optimized structure for product and brand discovery',
+    "slug": "emberwell",
+    "name": "Emberwell — Concept",
+    "concept": true,
+    "category": "Ecommerce",
+    "png": "/concept/emberwell-cover.svg",
+    "fallback": "/concept/emberwell-cover.svg",
+    "meta": "Independent concept · Next.js · Responsive design",
+    "scope": "Emberwell is a self-initiated, independent website concept for a fictional fireplaces & interiors brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
+    "highlights": [
+      "Self-initiated design and implementation for a fictional brand",
+      "Accessible, responsive navigation and page layouts",
+      "Original concept illustrations and custom fictional branding",
+      "Product or finish discovery with sample interface content",
+      "Local demo interactions with clear concept disclosures",
+      "No client endorsements, testimonials or commercial-result claims"
     ],
-    stack: [
-      'Next.js 16 (App Router)',
-      'TypeScript',
-      'React',
-      'Tailwind CSS',
-      'Turbopack',
-      'Vercel',
+    "stack": [
+      "Next.js 16 (App Router)",
+      "TypeScript",
+      "React",
+      "Tailwind CSS"
     ],
-    facts: [
-      { label: 'Type', value: 'Product catalog + ecommerce' },
-      { label: 'Industry', value: 'Fireplaces & heating' },
-      { label: 'Region', value: 'Southern Africa' },
-      { label: 'Status', value: 'Live' },
-    ],
-    sections: [
+    "facts": [
       {
-        title: 'Product experience',
-        bullets: [
-          'Category-based browsing across cast iron, steel, and wood-burning ranges',
-          'Detailed product pages with specifications, kW output, and pricing in ZAR',
-          'Clean product cards with quick-view information',
-        ],
+        "label": "Project",
+        "value": "Independent concept design"
       },
       {
-        title: 'Brand & trust',
-        bullets: [
-          'Technology page explaining combustion engineering and efficiency ratings',
-          'Sustainability messaging with ECODESIGN 2022 certification',
-          'Retailer network to build buyer confidence',
-        ],
+        "label": "Industry",
+        "value": "Fireplaces & interiors"
       },
+      {
+        "label": "Commission",
+        "value": "Self-initiated; no client"
+      },
+      {
+        "label": "Status",
+        "value": "Portfolio concept"
+      }
     ],
-    gallery: [
-      '/pixa_pics/nordflam/nordflam-fireplace-cover.png',
-      '/pixa_pics/nordflam/nordflam-products-page.png',
-      '/pixa_pics/nordflam/nordflam-product-categories.png',
-      '/pixa_pics/nordflam/nordflam-technology-page.png',
-      '/pixa_pics/nordflam/nordflam-retailers-page.png',
+    "sections": [
+      {
+        "title": "Design exploration",
+        "bullets": [
+          "Preserved the distinctive visual direction while creating a fictional identity",
+          "Responsive layouts with clear typography and keyboard access",
+          "Original illustrations of imagined spaces and products"
+        ]
+      },
+      {
+        "title": "Honest demonstration",
+        "bullets": [
+          "Sample content illustrates an interface, not a commercial service",
+          "Forms demonstrate local interactions and do not send enquiries",
+          "No measured sales, certification or client-delivery outcomes claimed"
+        ]
+      }
     ],
+    "gallery": [
+      "/concept/emberwell-hero.svg",
+      "/concept/emberwell-detail.svg",
+      "/concept/emberwell-technical.svg"
+    ]
   },
   {
-    slug: 'buildvolume',
-    name: 'BuildVolume',
-    category: 'Ecommerce',
-    url: 'https://buildvolume.vercel.app',
-    png: '/work/buildvolume.png',
-    fallback: '/work/buildvolume.png',
-    meta: 'Next.js · Ecommerce · 3D Printing',
-    scope:
-      'A full ecommerce website for BuildVolume, South Africa\'s official supplier of 3D printers, 3D scanners, consumables, and spares. The site serves as both a product discovery platform and an online shop, featuring brand landing pages for Ultimaker, Formlabs, Bambu Lab, and Creality, along with support resources, a training facility page, and a blog. BuildVolume operates from locations in Pretoria, Sandton, and Century City.',
-    highlights: [
-      'Full online shop with 100+ products across printers, scanners, consumables, and spares',
-      'Brand-specific landing pages for Ultimaker, Formlabs, Bambu Lab, and Creality',
-      'Individual product pages with detailed specs and pricing',
-      'Order form for streamlined purchasing',
-      'Support section with resources and book-in support',
-      'Training facility page for customer education',
-      'Blog for industry news and updates',
-      'SEO-optimized product and category pages',
+    "slug": "layerforge",
+    "name": "Layerforge — Concept",
+    "concept": true,
+    "category": "Ecommerce",
+    "png": "/concept/layerforge-cover.svg",
+    "fallback": "/concept/layerforge-cover.svg",
+    "meta": "Independent concept · Next.js · Responsive design",
+    "scope": "Layerforge is a self-initiated, independent website concept for a fictional 3d printing & scanning brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
+    "highlights": [
+      "Self-initiated design and implementation for a fictional brand",
+      "Accessible, responsive navigation and page layouts",
+      "Original concept illustrations and custom fictional branding",
+      "Product or finish discovery with sample interface content",
+      "Local demo interactions with clear concept disclosures",
+      "No client endorsements, testimonials or commercial-result claims"
     ],
-    stack: [
-      'Next.js 16 (App Router)',
-      'TypeScript',
-      'React',
-      'Tailwind CSS',
-      'Turbopack',
-      'Vercel',
+    "stack": [
+      "Next.js 16 (App Router)",
+      "TypeScript",
+      "React",
+      "Tailwind CSS"
     ],
-    facts: [
-      { label: 'Type', value: 'Ecommerce + product catalog' },
-      { label: 'Industry', value: '3D printing & scanning' },
-      { label: 'Products', value: '100+ SKUs' },
-      { label: 'Status', value: 'Live' },
-    ],
-    sections: [
+    "facts": [
       {
-        title: 'Shop & products',
-        bullets: [
-          'Category-based navigation: printers, scanners, consumables, spares',
-          'Product detail pages with images, specs, and pricing',
-          'Brand landing pages with curated product selections',
-          'Order form for direct purchasing',
-        ],
+        "label": "Project",
+        "value": "Independent concept design"
       },
       {
-        title: 'Support & education',
-        bullets: [
-          'Dedicated support section for troubleshooting and book-in',
-          'Training facility page for hands-on customer education',
-          'Blog with industry updates and how-to content',
-        ],
+        "label": "Industry",
+        "value": "3D printing & scanning"
       },
+      {
+        "label": "Commission",
+        "value": "Self-initiated; no client"
+      },
+      {
+        "label": "Status",
+        "value": "Portfolio concept"
+      }
     ],
-    gallery: [
-      '/pixa_pics/buildvolume/buildvolume-3d-printing-cover.png',
-      '/pixa_pics/buildvolume/buildvolume-homepage.png',
-      '/pixa_pics/buildvolume/buildvolume-shop-page.png',
-      '/pixa_pics/buildvolume/buildvolume-product-detail.png',
-      '/pixa_pics/buildvolume/buildvolume-about-page.png',
+    "sections": [
+      {
+        "title": "Design exploration",
+        "bullets": [
+          "Preserved the distinctive visual direction while creating a fictional identity",
+          "Responsive layouts with clear typography and keyboard access",
+          "Original illustrations of imagined spaces and products"
+        ]
+      },
+      {
+        "title": "Honest demonstration",
+        "bullets": [
+          "Sample content illustrates an interface, not a commercial service",
+          "Forms demonstrate local interactions and do not send enquiries",
+          "No measured sales, certification or client-delivery outcomes claimed"
+        ]
+      }
     ],
+    "gallery": [
+      "/concept/layerforge-hero.svg",
+      "/concept/layerforge-detail.svg",
+      "/concept/layerforge-technical.svg"
+    ]
   },
   {
-    slug: 'covercrete',
-    name: 'Covercrete',
-    category: 'Business',
-    url: 'https://covercrete.co.za',
-    png: '/work/covercrete.jpg',
-    fallback: '/work/covercrete.jpg',
-    meta: 'Next.js · Business · Lead Generation',
-    scope:
-      'A premium business website for Covercrete, a South African decorative concrete finishes company serving Gauteng, Cape Town, and KZN. The site showcases their seamless cementitious screed finishes with a strong visual gallery, 14+ colour options, application types, and a clear process flow — all designed to drive free quote requests and establish trust with homeowners and contractors.',
-    highlights: [
-      'Visual gallery showcasing real project transformations',
-      '14+ colour options with dedicated colour browser page',
-      'Application pages: floors, walls, bathrooms, outdoor, pools, countertops',
-      'Step-by-step "How It Works" process flow',
-      'Client testimonials for social proof',
-      'Strong CTA flow driving free quote requests',
-      'Pricing transparency page',
-      'SEO-optimized for decorative concrete keywords in South Africa',
+    "slug": "mineralis",
+    "name": "Mineralis — Concept",
+    "concept": true,
+    "category": "Business",
+    "png": "/concept/mineralis-cover.svg",
+    "fallback": "/concept/mineralis-cover.svg",
+    "meta": "Independent concept · Next.js · Responsive design",
+    "scope": "Mineralis is a self-initiated, independent website concept for a fictional decorative concrete finishes brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
+    "highlights": [
+      "Self-initiated design and implementation for a fictional brand",
+      "Accessible, responsive navigation and page layouts",
+      "Original concept illustrations and custom fictional branding",
+      "Product or finish discovery with sample interface content",
+      "Local demo interactions with clear concept disclosures",
+      "No client endorsements, testimonials or commercial-result claims"
     ],
-    stack: [
-      'Next.js 16 (App Router)',
-      'TypeScript',
-      'React',
-      'Tailwind CSS',
-      'Turbopack',
-      'Vercel',
+    "stack": [
+      "Next.js 16 (App Router)",
+      "TypeScript",
+      "React",
+      "Tailwind CSS"
     ],
-    facts: [
-      { label: 'Type', value: 'Business website + lead gen' },
-      { label: 'Industry', value: 'Decorative concrete finishes' },
-      { label: 'Regions', value: 'Gauteng · Cape Town · KZN' },
-      { label: 'Status', value: 'Live' },
-    ],
-    sections: [
+    "facts": [
       {
-        title: 'Visual selling',
-        bullets: [
-          'Before/after gallery of real project transformations',
-          'Colour browser with 14+ finish options',
-          'Application-specific pages for targeted discovery',
-        ],
+        "label": "Project",
+        "value": "Independent concept design"
       },
       {
-        title: 'Lead generation',
-        bullets: [
-          'Free quote CTAs placed throughout the buyer journey',
-          'Clear process flow to reduce friction',
-          'Testimonials and social proof for conversion',
-        ],
+        "label": "Industry",
+        "value": "Decorative concrete finishes"
       },
+      {
+        "label": "Commission",
+        "value": "Self-initiated; no client"
+      },
+      {
+        "label": "Status",
+        "value": "Portfolio concept"
+      }
     ],
-    gallery: [
-      '/pixa_pics/covercrete/covercrete-homepage.jpg',
-      '/pixa_pics/covercrete/covercrete-colours.jpg',
-      '/pixa_pics/covercrete/covercrete-gallery.jpg',
-      '/pixa_pics/covercrete/covercrete-about.png',
-      '/pixa_pics/covercrete/covercrete-contact.png',
+    "sections": [
+      {
+        "title": "Design exploration",
+        "bullets": [
+          "Preserved the distinctive visual direction while creating a fictional identity",
+          "Responsive layouts with clear typography and keyboard access",
+          "Original illustrations of imagined spaces and products"
+        ]
+      },
+      {
+        "title": "Honest demonstration",
+        "bullets": [
+          "Sample content illustrates an interface, not a commercial service",
+          "Forms demonstrate local interactions and do not send enquiries",
+          "No measured sales, certification or client-delivery outcomes claimed"
+        ]
+      }
     ],
+    "gallery": [
+      "/concept/mineralis-hero.svg",
+      "/concept/mineralis-detail.svg",
+      "/concept/mineralis-technical.svg"
+    ]
   },
   {
     slug: 'featherbleu',

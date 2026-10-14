@@ -3,6 +3,18 @@ import type { WorkItem } from '@/components/work-items';
 // Visually reviewed against the saved captures on 2026-09-03, not inferred from filenames.
 // Several filenames describe a different page from the interface actually shown.
 export const verifiedDescriptions: Record<string, string> = {
+  '/concept/layerforge-cover.svg': 'Layerforge independent fictional brand concept: original cover illustration, not a client project photograph',
+  '/concept/layerforge-hero.svg': 'Layerforge independent fictional brand concept: original hero illustration, not a client project photograph',
+  '/concept/layerforge-detail.svg': 'Layerforge independent fictional brand concept: original detail illustration, not a client project photograph',
+  '/concept/layerforge-technical.svg': 'Layerforge independent fictional brand concept: original technical illustration, not a client project photograph',
+  '/concept/mineralis-cover.svg': 'Mineralis independent fictional brand concept: original cover illustration, not a client project photograph',
+  '/concept/mineralis-hero.svg': 'Mineralis independent fictional brand concept: original hero illustration, not a client project photograph',
+  '/concept/mineralis-detail.svg': 'Mineralis independent fictional brand concept: original detail illustration, not a client project photograph',
+  '/concept/mineralis-technical.svg': 'Mineralis independent fictional brand concept: original technical illustration, not a client project photograph',
+  '/concept/emberwell-cover.svg': 'Emberwell independent fictional brand concept: original cover illustration, not a client project photograph',
+  '/concept/emberwell-hero.svg': 'Emberwell independent fictional brand concept: original hero illustration, not a client project photograph',
+  '/concept/emberwell-detail.svg': 'Emberwell independent fictional brand concept: original detail illustration, not a client project photograph',
+  '/concept/emberwell-technical.svg': 'Emberwell independent fictional brand concept: original technical illustration, not a client project photograph',
   '/pixa_pics/pawsonroute/pawsonroute-homepage.jpg': 'Paws On Route homepage with dog-grooming introduction, puppy photograph and pet-care information',
   '/pixa_pics/pawsonroute/pawsonroute-services.png': 'Paws On Route service cards for dog grooming, pet and house sitting, and doggy daycare',
   '/pixa_pics/teamcolours/Screenshot 2026-01-10 145124.png': 'Team Colours men’s rugby product category with four coloured shirts and catalogue sorting',
@@ -39,21 +51,6 @@ export const verifiedDescriptions: Record<string, string> = {
   '/pixa_pics/haval/Screenshot 2026-02-03 152520.png': 'Haval technical specification table and safety-feature section beside vehicle-detail photographs',
   '/pixa_pics/haval/Screenshot 2026-02-03 152529.png': 'Haval variant selector with an indicative price, specifications and feature badges',
   '/pixa_pics/haval/Screenshot 2026-02-03 152539.jpg': 'Automotive new-vehicles page introducing a GWM and Haval vehicle range',
-  '/pixa_pics/nordflam/nordflam-fireplace-cover.png': 'NORDflam homepage with a dark fireplace setting and product-discovery actions',
-  '/pixa_pics/nordflam/nordflam-products-page.png': 'NORDflam fireplace presentation with a living-room photograph and product information link',
-  '/pixa_pics/nordflam/nordflam-product-categories.png': 'NORDflam product catalogue with fireplace photographs, model names and prices',
-  '/pixa_pics/nordflam/nordflam-technology-page.png': 'NORDflam Arica fireplace product detail with price, specifications and dealer action',
-  '/pixa_pics/nordflam/nordflam-retailers-page.png': 'NORDflam responsible-design section with forest imagery and environmental design copy',
-  '/pixa_pics/buildvolume/buildvolume-3d-printing-cover.png': 'BuildVolume homepage with a 3D printer photograph and shop and contact actions',
-  '/pixa_pics/buildvolume/buildvolume-homepage.png': 'BuildVolume company introduction beside a close-up of a 3D printer making an object',
-  '/pixa_pics/buildvolume/buildvolume-shop-page.png': 'BuildVolume 3D-printer catalogue with brand navigation and Ultimaker product cards',
-  '/pixa_pics/buildvolume/buildvolume-product-detail.png': 'BuildVolume Formlabs product grid with printer photographs, model names and rand prices',
-  '/pixa_pics/buildvolume/buildvolume-about-page.png': 'BuildVolume customer-support section with contact options, training and quick-start resources',
-  '/pixa_pics/covercrete/covercrete-homepage.jpg': 'Covercrete homepage with a concrete-finish wall, planter and site navigation',
-  '/pixa_pics/covercrete/covercrete-colours.jpg': 'Covercrete colour-selection grid with named concrete-finish swatches',
-  '/pixa_pics/covercrete/covercrete-gallery.jpg': 'Covercrete project gallery comparing floor and stair finishes before and after treatment',
-  '/pixa_pics/covercrete/covercrete-about.png': 'Covercrete about section with service information and expandable product topics',
-  '/pixa_pics/covercrete/covercrete-contact.png': 'Covercrete enquiry form requesting a name, contact number, email and project message',
   '/pixa_pics/featherbleu/featherbleu-homepage.jpg': 'Featherbleu security and automation homepage with team photograph and quote and service actions',
   '/pixa_pics/featherbleu/featherbleu-services.png': 'Featherbleu service cards for smart-home automation, garage doors and gate automation',
   '/pixa_pics/featherbleu/featherbleu-cctv.jpg': 'Featherbleu installation gallery showing a garage-door motor with project-image thumbnails',
@@ -69,6 +66,7 @@ export const verifiedDescriptions: Record<string, string> = {
 };
 
 export function projectMediaDescription(item: Pick<WorkItem, 'name' | 'category'>, image: string) {
+  if (image.startsWith('/concept/')) return `${item.name}: original illustration for an independent fictional brand concept`;
   if (verifiedDescriptions[image]) return verifiedDescriptions[image];
   const roles: Record<string, string> = { Business: 'business website', Ecommerce: 'product catalogue website', 'Web App': 'web application', Healthcare: 'healthcare website or application', Automotive: 'automotive website', 'AI & Backend': 'software project' };
   return `${item.name}: archived ${roles[item.category || 'Business'] || 'website'} interface capture`;
@@ -78,7 +76,8 @@ export function projectService(item: Pick<WorkItem, 'category'>) {
   return item.category === 'Ecommerce' ? 'ecommerce-websites' : item.category === 'Web App' || item.category === 'AI & Backend' ? 'web-app-development' : 'website-design';
 }
 
-export function projectVersion(item: Pick<WorkItem, 'slug' | 'url'>) {
+export function projectVersion(item: Pick<WorkItem, 'slug' | 'url' | 'concept'>) {
+  if (item.concept) return 'Independent concept design for a fictional brand; self-initiated and not commissioned client work';
   if (item.url?.includes('.vercel.app') || item.url?.includes('havaldemo.co.za')) return 'Public project preview';
   return item.url ? 'Archived work with a public website link' : 'Archived interface study; no public demo linked';
 }

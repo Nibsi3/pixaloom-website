@@ -76,7 +76,7 @@ test('SVG, remote and unknown image sources pass through without broken generate
 });
 
 test('mobile portfolio outputs materially reduce downloaded bytes from the original PNGs', () => {
-  for (const src of ['/work/nordflam.png', '/work/buildvolume.png']) {
+  for (const src of ['/work/illumi.png']) {
     const original = fs.statSync(path.join(publicDir, src)).size;
     const optimized = fs.statSync(path.join(publicDir, imageLoader({ src, width: 640 }))).size;
     assert.ok(optimized < original * 0.5, `${src}: 640px WebP must be less than half of the original bytes (${optimized} vs ${original})`);

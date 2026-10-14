@@ -10,8 +10,8 @@ import { cn } from '@/components/utils';
 
 const categories = ['All', 'Web App', 'Ecommerce', 'Business', 'News', 'Healthcare', 'AI & Backend', 'Automotive'] as const;
 
-const featured = workItems.find((w) => w.slug === 'nordflam') as WorkItem;
-const topOrder = ['covercrete', 'illumi', 'buildvolume'];
+const featured = workItems.find((w) => w.slug === 'emberwell') as WorkItem;
+const topOrder = ['mineralis', 'illumi', 'layerforge'];
 
 export function ProjectsShowcase() {
   const [activeCategory, setActiveCategory] = useState<string>('All');

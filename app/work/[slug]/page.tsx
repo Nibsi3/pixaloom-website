@@ -19,7 +19,7 @@ const projectAccents = [
   '#9a6ead', '#4d8e86', '#b48445', '#4e88a5', '#8b5f99', '#536eac',
   '#b45f54', '#9b875e', '#4d8b93', '#a87646', '#658557', '#935e83',
 ];
-const priorityOrder = ['illumi', 'nordflam', 'buildvolume', 'covercrete'];
+const priorityOrder = ['illumi', 'emberwell', 'layerforge', 'mineralis'];
 const orderedCaseStudies = [
   ...priorityOrder.map((prioritySlug) => workItems.find((project) => project.slug === prioritySlug)).filter((project): project is (typeof workItems)[number] => Boolean(project)),
   ...workItems.filter((project) => !priorityOrder.includes(project.slug)),
@@ -71,6 +71,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
           category={item.category}
           index={index}
           liveUrl={item.url}
+          concept={item.concept}
           meta={item.meta}
           name={item.name}
           outcomes={item.highlights}
@@ -79,14 +80,14 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
 
         <section className="case-brief">
           <div className="site-container case-brief-grid">
-            <div><p className="micro-label">The assignment</p><h2>Build the useful thing.<br /><em>Then make it unforgettable.</em></h2></div>
-            <div className="case-copy"><p>{item.scope}</p><p className="project-provenance">{projectVersion(item)}. This study describes the version shown in the saved captures; an external site may have changed since that work. Interface examples are not verified sales or ranking results. Updated <time dateTime={contentModified(`/work/${slug}`)}>3 September 2026</time>.</p>{!item.url ? <p>No public demo is linked for this study. <Link href="/contact">Ask about the demonstrated scope</Link>.</p> : null}</div>
+            <div><p className="micro-label">{item.concept ? "The independent study" : "The assignment"}</p><h2>Build the useful thing.<br /><em>Then make it unforgettable.</em></h2></div>
+            <div className="case-copy"><p>{item.scope}</p><p className="project-provenance">{projectVersion(item)}. {item.concept ? "Original concept illustrations show the fictional design direction. No client relationship, real retailer network, trading business or commercial outcome is implied." : "This study describes the version shown in the saved captures; an external site may have changed since that work."} Interface examples are not verified sales or ranking results. Updated <time dateTime={contentModified(`/work/${slug}`)}>{item.concept ? "14 October 2026" : "3 September 2026"}</time>.</p>{!item.url ? <p>No public demo is linked for this study. <Link href="/contact">Ask about the demonstrated scope</Link>.</p> : null}</div>
           </div>
           {item.facts?.length ? <dl className="site-container case-fact-row">{item.facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl> : null}
         </section>
 
         <section className="case-gallery">
-          <div className="site-container"><p className="micro-label">Inside the experience · Interface study</p></div>
+          <div className="site-container"><p className="micro-label">{item.concept ? "Original illustrations · Independent concept" : "Inside the experience · Interface study"}</p></div>
           <div className="site-container gallery-mosaic">
             {gallery.slice(0, 6).map((image, imageIndex) => (
               <figure className={`gallery-shot gallery-shot-${(imageIndex % 5) + 1}`} key={image}>

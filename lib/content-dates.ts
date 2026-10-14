@@ -12,7 +12,7 @@ const pageDates: Record<string, string> = {
   '/work/paws-on-route': '2026-09-03', '/work/team-colours': '2026-09-03', '/work/vicbay': '2026-09-03',
   '/work/illumi': '2026-09-03', '/work/physiotherapy': '2026-09-03', '/work/slip-a-tip': '2026-09-03',
   '/work/spotlight': '2026-09-03', '/work/nexai': '2026-09-03', '/work/ai-testing': '2026-09-03', '/work/haval': '2026-09-03',
-  '/work/nordflam': '2026-09-03', '/work/buildvolume': '2026-09-03', '/work/covercrete': '2026-09-03',
+  '/work/emberwell': '2026-10-14', '/work/layerforge': '2026-10-14', '/work/mineralis': '2026-10-14',
   '/work/featherbleu': '2026-09-03', '/work/trakcare-barcode-scanner': '2026-09-03', '/work/kikay-pharma': '2026-09-03',
 };
 export function contentModified(path: string) { return pageDates[path || '/']; }

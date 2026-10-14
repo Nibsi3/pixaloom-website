@@ -85,14 +85,14 @@ Choose one important page and document its starting point before changing it. Re
   'how-much-does-website-cost-south-africa': {
     title: 'How to Budget for a Website in South Africa',
     excerpt: 'Compare website proposals by scope, responsibilities and ongoing costs—not an unsupported national average.',
-    modified: '2026-09-03', service: 'website-design', project: 'buildvolume',
+    modified: '2026-09-03', service: 'website-design', project: 'layerforge',
     content: `A website price is meaningful only alongside a scope. A five-page marketing site, a stock-connected online store and a customer portal are different products. This guide explains how to compare proposals. The [Pixaloom cost estimator](/website-cost) provides our indicative planning ranges; it is not a survey of South African market prices or a binding quotation.
 
 ## Define the first useful release
 
 Write down the main audience, the action they should take and the information or tools they need. Then identify who supplies copy, photography, product data and approvals. Missing content and unclear responsibility can change both cost and delivery time.
 
-For ecommerce, count more than pages. Product variants, imports, stock rules, shipping zones, payment failures and order notifications all affect the work. The [BuildVolume interface study](/work/buildvolume) shows why catalogue navigation and product detail deserve their own design attention.
+For ecommerce, count more than pages. Product variants, imports, stock rules, shipping zones, payment failures and order notifications all affect the work. The [Layerforge concept interface study](/work/layerforge) shows why catalogue navigation and product detail deserve their own design attention.
 
 ## Compare the same deliverables
 
@@ -117,7 +117,7 @@ Use the estimator to prepare a conversation, then request a [scoped website prop
   'website-speed-matters-south-africa': {
     title: 'Website Speed: What to Measure and Fix First',
     excerpt: 'Separate lab scores from real-user performance, then improve the resources that delay the useful page.',
-    modified: '2026-09-03', service: 'website-care', project: 'nordflam',
+    modified: '2026-09-03', service: 'website-care', project: 'emberwell',
     content: `A fast website lets a visitor read, compare and act without unnecessary waiting. South African visitors use different devices and connections, so a desktop test on fibre is not enough. There is no useful basis for claiming that speed matters more here than in every other country.
 
 ## Know what a score can tell you
@@ -130,7 +130,7 @@ Core Web Vitals field data describes real visits where sufficient data exists. L
 
 Inspect the page's largest visible content and the chain of requests needed to display it. A large hero image, late stylesheet or slow server can require different fixes. Below-the-fold images should not compete unnecessarily with the opening viewport. Fingerprinted scripts and styles should be cacheable across visits.
 
-For interactive pages, test opening menus, filtering products and submitting forms as well as initial loading. Use the [NORDflam project](/work/nordflam) as a catalogue example: the useful experience includes navigation and product discovery, not only the first image.
+For interactive pages, test opening menus, filtering products and submitting forms as well as initial loading. Use the [Emberwell concept project](/work/emberwell) as a catalogue example: the useful experience includes navigation and product discovery, not only the first image.
 
 ## Keep the design; reduce waste
 
@@ -145,14 +145,14 @@ Keep a record of the test URL, device profile and date. Repeat measurements beca
   'lead-generation-website-design': {
     title: 'Designing a Website for Better Enquiries',
     excerpt: 'Connect a clear offer, relevant proof and a reliable contact journey before spending more on traffic.',
-    modified: '2026-09-03', service: 'website-design', project: 'covercrete',
+    modified: '2026-09-03', service: 'website-design', project: 'mineralis',
     content: `A lead-generation website should help a suitable customer decide whether to contact you. That does not mean adding a button to every section or promising that design alone produces sales. It means answering the questions that prevent a useful conversation.
 
 ## Make the offer understandable
 
 State the service, who it is for and where it is available. Explain what is included and when a different solution may be more appropriate. An enquiry is more useful when both sides understand the likely scope.
 
-Follow that explanation with evidence relevant to the offer. A service example should describe the actual work, not only display a logo. The [Covercrete interface study](/work/covercrete) illustrates a product-and-enquiry presentation; its screenshots are design evidence, not proof of measured revenue improvement.
+Follow that explanation with evidence relevant to the offer. A service example should describe the actual work, not only display a logo. The [Mineralis concept interface study](/work/mineralis) illustrates a product-and-enquiry presentation; its screenshots are design evidence, not proof of measured revenue improvement.
 
 ## Ask only what you need next
 
@@ -206,14 +206,14 @@ Our [SEO service](/services/seo) can help assess the website and profile togethe
   'ecommerce-website-south-africa': {
     title: 'Planning a South African Ecommerce Website',
     excerpt: 'Define catalogue, checkout, payment and fulfilment rules before choosing an ecommerce platform.',
-    modified: '2026-09-03', service: 'ecommerce-websites', project: 'buildvolume',
+    modified: '2026-09-03', service: 'ecommerce-websites', project: 'layerforge',
     content: `An online store is an operational system as well as a visual catalogue. Before choosing the platform, document how products, payments, stock and fulfilment work today. The cost and risk usually sit in those rules rather than the number of screen designs.
 
 ## Start with representative products
 
 Collect examples covering a simple item, variants, an out-of-stock item and any product needing a quote or special delivery. Define the source of truth for price and stock, who updates it and how frequently it changes. Clean catalogue data is part of the build, not an automatic by-product of installing a shop.
 
-Our [BuildVolume project](/work/buildvolume) shows category, shop and product-detail interfaces for a specialist catalogue. [NORDflam](/work/nordflam) offers another product-discovery example. The public previews demonstrate interface work; they do not establish live sales or merchant integration outcomes.
+Our [Layerforge concept project](/work/layerforge) shows category, shop and product-detail interfaces for a specialist catalogue. [Emberwell concept](/work/emberwell) offers another product-discovery example. The public previews demonstrate interface work; they do not establish live sales or merchant integration outcomes.
 
 ## Treat payment as a full journey
 
@@ -452,14 +452,14 @@ Our [SEO service](/services/seo) treats structured data as part of a wider crawl
   'choosing-web-developer-george': {
     title: 'Choosing a Web Developer in George',
     excerpt: 'Questions that reveal the scope, ownership and support behind a proposal—not just the quality of a screenshot.',
-    modified: '2026-09-03', service: 'website-design', project: 'nordflam',
+    modified: '2026-09-03', service: 'website-design', project: 'emberwell',
     content: `Choose a developer by examining how they work as well as what their portfolio looks like. A screenshot can demonstrate visual direction, but it cannot establish who built every part, how the system performs or whether the client owns the necessary accounts.
 
 ## Ask what the example represents
 
 For each relevant project, ask whether it is a live production site, a public preview or an interface study. Clarify the developer's role, the version shown and which outcomes were measured. A client's current website may have changed after a handover, so a live link and an archived capture can show different work.
 
-Our [NORDflam project](/work/nordflam) and other [selected projects](/projects) provide interfaces and scope to discuss. They should be assessed as evidence of the described work, not as an implied endorsement from every brand or a guarantee of business results.
+Our [Emberwell concept project](/work/emberwell) and other [selected projects](/projects) provide interfaces and scope to discuss. They should be assessed as evidence of the described work, not as an implied endorsement from every brand or a guarantee of business results.
 
 ## Ask for a written scope
 

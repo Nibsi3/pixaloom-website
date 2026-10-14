@@ -82,7 +82,7 @@ test('new supporting text uses a readable colour on the dark content surfaces', 
 });
 test('every published gallery capture has a visually reviewed description and a real asset', () => {
   const images = workItems.flatMap(item => (item.gallery?.length ? item.gallery.slice(0, 6) : [item.png]).map(src => ({ item, src })));
-  assert.equal(images.length, 63);
+  assert.equal(images.length, 57);
   for (const { item, src } of images) {
     assert.ok(verifiedDescriptions[src], `Review the image before publishing: ${src}`);
     assert.ok(fs.existsSync(path.join(root, 'public', src)));
@@ -270,11 +270,11 @@ test('paused work and experiments stay out of sitemap; robots permits noindex di
   assert.ok(!sitemap().some(item => /george-herald|caps-tutor|\/os$|\/jokes$/.test(item.url)));
   assert.deepEqual(robots().rules[0].disallow, ['/api/']);
   const home = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
-  assert.match(home, /\['nordflam', 'buildvolume', 'illumi'\]/);
+  assert.match(home, /\['emberwell', 'layerforge', 'illumi'\]/);
 });
 test('image sitemap exposes the reviewed public captures with valid canonical URLs', () => {
   const imageUrls = new Set(sitemap().flatMap(entry => entry.images || []));
-  assert.equal(imageUrls.size, 63);
+  assert.equal(imageUrls.size, 57);
   for (const value of imageUrls) {
     const url = new URL(value);
     assert.equal(url.origin, 'https://www.pixaloom.co.za');

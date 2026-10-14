@@ -31,7 +31,7 @@ Application logs contain allowlisted action names only. `enquiry_accepted` means
 
 ## Content and search maintenance
 
-- Homepage selection remains NORDflam, BuildVolume, then Illumi. George Herald remains paused.
+- Homepage selection remains Emberwell concept, Layerforge concept, then Illumi. George Herald remains paused.
 - Published work is filtered in `components/work-items.ts`; every rendered gallery image needs a visually checked entry in `lib/project-evidence.ts`.
 - Current journal copy lives in `lib/journal-revisions.ts`. Render only `publishedBlogPosts`. Preserve original publication dates; update the modification date only after a substantive revision.
 - Update only relevant entries in `lib/content-dates.ts`. Do not refresh every sitemap date on deploy.
@@ -50,3 +50,7 @@ From the exact reviewed and pushed commit, run `npm ci`, the validation commands
 Browser tests should cover a narrow viewport, keyboard navigation, pause/play, a readable first frame, and reduced-motion preferences. Reset temporary viewport overrides after testing.
 
 For a local Cloudflare runtime check after an OpenNext build, use `npx wrangler dev --local-upstream www.pixaloom.co.za`. Wrangler otherwise infers the apex from the first route and every request correctly exercises the apex redirect. The SEO audit accepts local redirect origins when Wrangler rewrites response headers, while production audits require the canonical origin.
+
+## Independent concepts
+
+Layerforge, Mineralis and Emberwell are self-initiated designs for fictional brands, not commissioned client builds or operating businesses. Portfolio cards and case studies identify this status explicitly and use original illustrations. No client testimonials, trading claims or measured results are attributed to these projects.
