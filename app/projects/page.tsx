@@ -8,7 +8,7 @@ import { workItems } from '@/components/work-items';
 import { labProjects } from '@/lib/product-lab';
 import { absoluteUrl, pageMetadata } from '@/lib/site';
 
-export const metadata: Metadata = pageMetadata({ title: 'Website Design Portfolio', description: 'Explore websites, ecommerce stores and web applications designed and developed by Pixaloom for South African organisations.', path: '/projects' });
+export const metadata: Metadata = pageMetadata({ title: 'Website Design Portfolio', description: 'Explore Pixaloom websites, digital products and self-initiated concept designs, with each project clearly identified.', path: '/projects' });
 
 const priorityOrder = ['illumi', 'emberwell', 'layerforge', 'mineralis'];
 const orderedWorkItems = [
@@ -40,7 +40,7 @@ export default function ProjectsPage() {
         <div className="minimal-crumb"><Link href="/">Home</Link><span>/</span><span>Works</span></div>
         <p className="minimal-kicker">Pixaloom archive · 2024—2026</p>
         <h1>Work with a pulse.<br /> <em>Products with purpose.</em></h1>
-        <div className="minimal-hero-foot"><p>A living collection of websites, ecommerce stores, platforms and practical digital products created for ambitious South African organisations.</p><span>{totalProjects} selected projects</span></div>
+        <div className="minimal-hero-foot"><p>A living collection of client websites, practical digital products and self-initiated concept designs for fictional brands.</p><span>{totalProjects} projects and concepts</span></div>
       </div>
     </section>
 
