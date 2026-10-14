@@ -523,6 +523,7 @@ const allWorkItems: WorkItem[] = [
     "slug": "emberwell",
     "name": "Emberwell — Concept",
     "concept": true,
+    "url": "https://emberwell-concept.cameronfalck03.workers.dev",
     "category": "Ecommerce",
     "png": "/concept/emberwell-cover.svg",
     "fallback": "/concept/emberwell-cover.svg",
@@ -557,7 +558,7 @@ const allWorkItems: WorkItem[] = [
       },
       {
         "label": "Status",
-        "value": "Portfolio concept"
+        "value": "Published concept demo"
       }
     ],
     "sections": [
@@ -588,6 +589,7 @@ const allWorkItems: WorkItem[] = [
     "slug": "layerforge",
     "name": "Layerforge — Concept",
     "concept": true,
+    "url": "https://layerforge-concept.cameronfalck03.workers.dev",
     "category": "Ecommerce",
     "png": "/concept/layerforge-cover.svg",
     "fallback": "/concept/layerforge-cover.svg",
@@ -622,7 +624,7 @@ const allWorkItems: WorkItem[] = [
       },
       {
         "label": "Status",
-        "value": "Portfolio concept"
+        "value": "Published concept demo"
       }
     ],
     "sections": [
@@ -653,6 +655,7 @@ const allWorkItems: WorkItem[] = [
     "slug": "mineralis",
     "name": "Mineralis — Concept",
     "concept": true,
+    "url": "https://mineralis-concept.cameronfalck03.workers.dev",
     "category": "Business",
     "png": "/concept/mineralis-cover.svg",
     "fallback": "/concept/mineralis-cover.svg",
@@ -687,7 +690,7 @@ const allWorkItems: WorkItem[] = [
       },
       {
         "label": "Status",
-        "value": "Portfolio concept"
+        "value": "Published concept demo"
       }
     ],
     "sections": [
