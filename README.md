@@ -54,3 +54,7 @@ For a local Cloudflare runtime check after an OpenNext build, use `npx wrangler 
 ## Independent concepts
 
 Layerforge, Mineralis and Emberwell are self-initiated designs for fictional brands, not commissioned client builds or operating businesses. Portfolio cards and case studies identify this status explicitly and use original illustrations. No client testimonials, trading claims or measured results are attributed to these projects.
+
+## Production serving
+
+The canonical Cloudflare Worker serves the reviewed frontend from the existing Pixaloom Vercel production project through `cloudflare-gateway.mjs`. API requests retain the Cloudflare implementation and dashboard-managed bindings. Every frontend request reaches the gateway before asset serving, so deleted legacy concept media is not served from an older asset version. Existing custom-domain routes are retained.
