@@ -57,4 +57,4 @@ Layerforge, Mineralis and Emberwell are self-initiated designs for fictional bra
 
 ## Production serving
 
-The canonical Cloudflare Worker serves the reviewed frontend from the existing Pixaloom Vercel production project through `cloudflare-gateway.mjs`. API requests retain the Cloudflare implementation and dashboard-managed bindings. Every frontend request reaches the gateway before asset serving, so deleted legacy concept media is not served from an older asset version. Existing custom-domain routes are retained.
+The canonical Cloudflare Worker serves the frontend and APIs from the same OpenNext build. Static assets come from that deployment with `public/_headers`, without forwarding requests to Vercel. Worker-first routing preserves apex redirects and preview noindex headers for assets as well as pages. Deploy from the current production branch so the reviewed independent concepts and removal of legacy media remain intact. Existing custom-domain routes and dashboard-managed bindings are retained. Verify that retired media returns 404 after release.

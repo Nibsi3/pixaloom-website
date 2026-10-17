@@ -1,5 +1,17 @@
 # SEO maintenance and owner checklist
 
+## 17 October 2026 audit and release checks
+
+The live baseline at the reviewed concept frontend commit `109817b` covered 58 sitemap pages and 58 unique internal destinations. The expanded crawl checked 392 unique image URLs, including the responsive files and video poster actually used by the rendered pages. It found 18 metadata failures: the homepage schema date disagreed with its sitemap, the AI rescue page lacked structured breadcrumbs, and all 16 articles supplied an author name where Open Graph expects a profile URL. The structured-data guide also had only one main-body referring page.
+
+The homepage now reads the shared content-date entry, article social metadata links to the studio's About page, and the rescue page exposes a matching visible and structured breadcrumb. The SEO service now links to its existing structured-data guide. These repairs preserve the reviewed concept portfolio, commercial copy, pricing and article publication dates.
+
+The release crawler now checks exact absolute canonicals (including duplicate tags and accidental query strings/fragments), Googlebot robots permissions, links and fragment targets, reachability from the homepage, schema/sitemap date agreement, responsive image candidates, and the retired project 404s. It can save a JSON evidence report with `npm run audit:seo -- --report audits/seo-live.json`; pass a local origin before `--report` to check a production build. Parser regression tests exercise the new checks. Reports remain under ignored `audits/`.
+
+These are HTTP and source checks, not evidence of Google indexing, rankings or field Core Web Vitals. The robots parser covers this site's ASCII paths and Googlebot/wildcard groups. Validate the reviewed build locally and repeat the crawl after production deployment; a passing local build alone does not establish live remediation.
+
+The corrected OpenNext build passed the complete crawl in the local Cloudflare runtime on 17 October: 58 sitemap pages, 58 unique internal destinations and 392 image URLs, with zero failures or warnings. The evidence is saved in `audits/seo-local-20261017.json`. Production must pass the same checks after deployment.
+
 ## October 2026 audit
 
 The production baseline on 2 October covered 58 sitemap pages and 58 unique internal links. Titles, descriptions, self-canonicals, HTML language, H1s and JSON-LD passed the existing crawler. The deeper check also verified social-image responses, intentional experiment noindex and real 404 responses across the dynamic route families. Social previews were missing Twitter image alternatives; the shared metadata helper now supplies them, with project-specific descriptions and dimensions for the default card.

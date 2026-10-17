@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "pixaloom-website",
-  "main": "cloudflare-gateway.mjs",
+  "main": ".open-next/worker.js",
   "compatibility_date": "2026-09-30",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,

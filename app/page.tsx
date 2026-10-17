@@ -10,6 +10,7 @@ import { Header } from '@/components/header';
 import { JsonLd } from '@/components/json-ld';
 import { workItems, type WorkItem } from '@/components/work-items';
 import { services } from '@/lib/services';
+import { contentModified } from '@/lib/content-dates';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata({
@@ -38,7 +39,7 @@ const homeSchema = {
   inLanguage: 'en-ZA',
   isPartOf: { '@id': `${site.url}/#website` },
   about: { '@id': `${site.url}/#organization` },
-  dateModified: '2026-09-03',
+  dateModified: contentModified('/'),
   primaryImageOfPage: { '@type': 'ImageObject', url: absoluteUrl('/opengraph-image') },
   mainEntity: {
     '@type': 'ItemList',

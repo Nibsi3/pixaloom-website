@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer';
 import { InquiryForm } from '@/components/inquiry-form';
 import { JsonLd } from '@/components/json-ld';
 import { rescueFaqs, rescuePackages } from '@/lib/ai-rescue';
+import { breadcrumbSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import './rescue.css';
 
@@ -28,8 +29,9 @@ const steps = [
 export default function RescuePage() {
   return <><Header /><main id="main-content" className="rescue-page">
     <JsonLd id="rescue-service-schema" data={{ '@context': 'https://schema.org', '@type': 'Service', name: 'AI Website & App Rescue', serviceType: 'Website and web application troubleshooting and deployment', url: absoluteUrl('/ai-website-app-rescue'), provider: { '@id': `${site.url}/#organization` }, description: 'Diagnosis, agreed fixes, focused testing and deployment support for existing AI-built websites and web applications.' }} />
+    <JsonLd id="rescue-breadcrumb-schema" data={{ '@context': 'https://schema.org', ...breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services' }, { name: 'AI Website & App Rescue', path: '/ai-website-app-rescue' }]) }} />
     <section className="rescue-hero rescue-shell">
-      <nav className="rescue-breadcrumb" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><Link href="/services">Services</Link></nav>
+      <nav className="rescue-breadcrumb" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><Link href="/services">Services</Link><span>/</span><span aria-current="page">AI Website &amp; App Rescue</span></nav>
       <p className="rescue-kicker">AI Website &amp; App Rescue by Pixaloom</p>
       <h1>Built it with AI?<br /><em>Let’s get it live.</em></h1>
       <p className="rescue-lead">Stuck with broken login, payment errors or a deployment that keeps failing? We help fix and finish AI-built websites and web apps, so you can move from preview to a working launch.</p>

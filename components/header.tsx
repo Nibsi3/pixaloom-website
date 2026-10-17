@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight, Menu } from 'lucide-react';
 import { primaryNavigation, site } from '@/lib/site';
@@ -8,7 +7,9 @@ export function Header() {
     <header className="site-header">
       <div className="header-inner">
         <Link href="/" className="brand" aria-label="Pixaloom Digital studio home">
-          <Image className="brand-logo" src="/pixaloom-mark-100.webp" alt="" width={100} height={70} unoptimized loading="eager" />
+          {/* The tiny, pre-sized logo needs no image loader or client hydration. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="brand-logo" src="/pixaloom-mark-100.webp" alt="" width={100} height={70} loading="eager" decoding="async" />
           <span className="sr-only">Pixaloom</span>
           <span className="brand-studio">Digital studio</span>
         </Link>

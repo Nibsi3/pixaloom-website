@@ -51,7 +51,7 @@ export const serviceEvidence: Record<string, ServiceEvidence> = {
       'Content work focuses on the actual offer, real project evidence and useful buying questions. Local pages must reflect genuine coverage and a distinct reader need. We do not invent offices, manufacture reviews or guarantee a ranking position.',
       'The Paws On Route project illustrates service-led page structure, not a measured SEO uplift. For your business we establish a starting point and agree which outcomes matter: relevant non-brand discovery, working enquiries and qualified conversations. Indexing and ranking decisions remain with the search engine.',
     ], projects: ['paws-on-route'], guide: 'seo-tips-garden-route-businesses',
-    related: [{ href: '/locations/george', label: 'Local search support in George' }, { href: '/locations/garden-route', label: 'SEO across the Garden Route' }],
+    related: [{ href: '/locations/george', label: 'Local search support in George' }, { href: '/locations/garden-route', label: 'SEO across the Garden Route' }, { href: '/blog/structured-data-schema-markup-seo', label: 'Understand structured data and schema markup' }],
     budget: 'SEO starts with a scoped assessment of your site and access to relevant search data. We quote the assessment and implementation separately where appropriate. There is no fixed ranking package or guaranteed number of leads.',
     acceptance: ['URL-level findings and priorities documented', 'Crawl, metadata and internal-link fixes rechecked after deployment', 'Search Console submissions and exclusions reviewed', 'Contact intent, accepted enquiries and qualified leads distinguished'],
   },

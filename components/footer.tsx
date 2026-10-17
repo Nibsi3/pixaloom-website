@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { primaryNavigation, site } from '@/lib/site';
@@ -8,7 +7,9 @@ export function Footer() {
     <footer className="reference-footer">
       <div className="reference-footer-row">
         <Link href="/" className="reference-footer-brand" aria-label="Pixaloom home">
-          <Image src="/pixaloom-mark-100.webp" alt="" width={100} height={70} unoptimized />
+          {/* Keep the pre-sized logo server-rendered on pages without a gallery. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/pixaloom-mark-100.webp" alt="" width={100} height={70} loading="lazy" decoding="async" />
           <span className="sr-only">Pixaloom</span>
         </Link>
         <nav aria-label="Footer navigation">
