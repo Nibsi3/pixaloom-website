@@ -46,4 +46,21 @@ The live homepage baseline scored 100 for Lighthouse SEO, accessibility and best
 
 No CrUX field data was available in the trace. These lab runs are not a field Core Web Vitals pass, a measured INP value, or evidence of ranking/traffic improvement. Search Console, indexing coverage, backlinks and Business Profile require their account data and are not verified here. [Google's Web Vitals guidance](https://web.dev/articles/vitals) distinguishes field and lab measurements. [Cloudflare's Next.js guide](https://developers.cloudflare.com/workers/frameworks/framework-guides/nextjs/) documents the OpenNext deployment approach.
 
-Evidence files are under ignored `audits/`, including the baseline and local crawler JSON reports. Deployment identity, the final live crawl and repeat performance measurements are recorded in the release handover after deployment.
+## Verified production release and follow-up
+
+Application commit `787530ea2b6a47287048baa6776054eb236f8c40` was pushed to `main` and deployed on 17 October. Cloudflare confirmed version `2e2549a3-4c80-4e1d-ab13-adaf51c77a23` serving 100% of traffic on both production domains. The follow-up report was completed on 18 October; its documentation-only commit does not change the deployed application.
+
+The post-release canonical crawl passed the same 58 sitemap pages and 392 image URLs with **zero failures and zero warnings**. All 19 retired image paths remained 404. Apex image redirects preserved their path and query; preview HTML and images returned `noindex, nofollow`. Production contact readiness returned 200 with `available: true` and `no-store`; no enquiry was sent. Fingerprinted assets now return one-year immutable caching. No Vercel cache headers remain.
+
+| Matching homepage profile | Before LCP | After LCP | After CLS |
+| --- | --- | --- | --- |
+| Mobile Slow 4G / 4× CPU, two cold loads | 2,549 / 2,767 ms | 2,358 / 2,383 ms | 0.00 / 0.00 |
+| Desktop unthrottled, one cold load | 562 ms | 420 ms | 0.00 |
+
+Independent warm HTTP samples measured homepage TTFB at 152, 123, 122 and 92 ms after release (median 122.5 ms), versus two 247 ms warm samples before. Network and execution conditions vary; these are host-specific measurements, not a universal latency guarantee.
+
+Additional cold mobile spot checks on 18 October used 390 × 844, DPR 2, Slow 4G and 4× CPU: `/services` LCP 2,291 ms, `/blog/website-speed-matters-south-africa` 2,325 ms and `/work/illumi` 2,516 ms. Each recorded CLS 0.00. The case study sits near the 2.5-second LCP boundary in this single run; it is not presented as a field pass. No additional high-impact issue was identified by these traces.
+
+The post-release homepage Lighthouse audit retained 100 for SEO, accessibility and best practices, with no browser console errors in the measured homepage loads. Live `/services` confirmed the 4,342-byte gzip script reduction and absence of the image runtime/manifest.
+
+Evidence files remain under ignored `audits/`, including `seo-expanded-baseline-2026-10-17.json`, `seo-local-20261017.json` and `seo-live-after-20261017.json`. Search Console and field Core Web Vitals remain outside the verified evidence described above.
