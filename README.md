@@ -53,7 +53,7 @@ For a local Cloudflare runtime check after an OpenNext build, use `npx wrangler 
 
 ## Independent concepts
 
-Layerforge, Mineralis and Emberwell are self-initiated designs for fictional brands, not commissioned client builds or operating businesses. Portfolio cards and case studies identify this status explicitly and use original illustrations. No client testimonials, trading claims or measured results are attributed to these projects.
+Layerforge, Mineralis and Emberwell are self-initiated designs for fictional brands, not commissioned client builds or operating businesses. Portfolio cards and case studies identify this status explicitly and use browser screenshots of the original website designs with fictional branding. No client testimonials, trading claims or measured results are attributed to these projects.
 
 ## Production serving
 

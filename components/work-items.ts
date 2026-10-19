@@ -525,14 +525,14 @@ const allWorkItems: WorkItem[] = [
     "concept": true,
     "url": "https://emberwell-concept.cameronfalck03.workers.dev",
     "category": "Ecommerce",
-    "png": "/concept/emberwell-cover.svg",
-    "fallback": "/concept/emberwell-cover.svg",
+    "png": "/concept/emberwell-cover.png",
+    "fallback": "/concept/emberwell-cover.png",
     "meta": "Independent concept · Next.js · Responsive design",
     "scope": "Emberwell is a self-initiated, independent website concept for a fictional fireplaces & interiors brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
     "highlights": [
       "Self-initiated design and implementation for a fictional brand",
       "Accessible, responsive navigation and page layouts",
-      "Original concept illustrations and custom fictional branding",
+      "Original website layouts and photography with fictional branding",
       "Product or finish discovery with sample interface content",
       "Local demo interactions with clear concept disclosures",
       "No client endorsements, testimonials or commercial-result claims"
@@ -567,7 +567,7 @@ const allWorkItems: WorkItem[] = [
         "bullets": [
           "Preserved the distinctive visual direction while creating a fictional identity",
           "Responsive layouts with clear typography and keyboard access",
-          "Original illustrations of imagined spaces and products"
+          "Browser screenshots of the implemented website and product catalogue"
         ]
       },
       {
@@ -580,9 +580,9 @@ const allWorkItems: WorkItem[] = [
       }
     ],
     "gallery": [
-      "/concept/emberwell-hero.svg",
-      "/concept/emberwell-detail.svg",
-      "/concept/emberwell-technical.svg"
+      "/concept/emberwell-hero.png",
+      "/concept/emberwell-detail.png",
+      "/concept/emberwell-technical.png"
     ]
   },
   {
@@ -591,14 +591,14 @@ const allWorkItems: WorkItem[] = [
     "concept": true,
     "url": "https://layerforge-concept.cameronfalck03.workers.dev",
     "category": "Ecommerce",
-    "png": "/concept/layerforge-cover.svg",
-    "fallback": "/concept/layerforge-cover.svg",
+    "png": "/concept/layerforge-cover.png",
+    "fallback": "/concept/layerforge-cover.png",
     "meta": "Independent concept · Next.js · Responsive design",
     "scope": "Layerforge is a self-initiated, independent website concept for a fictional 3d printing & scanning brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
     "highlights": [
       "Self-initiated design and implementation for a fictional brand",
       "Accessible, responsive navigation and page layouts",
-      "Original concept illustrations and custom fictional branding",
+      "Original website layouts and photography with fictional branding",
       "Product or finish discovery with sample interface content",
       "Local demo interactions with clear concept disclosures",
       "No client endorsements, testimonials or commercial-result claims"
@@ -633,7 +633,7 @@ const allWorkItems: WorkItem[] = [
         "bullets": [
           "Preserved the distinctive visual direction while creating a fictional identity",
           "Responsive layouts with clear typography and keyboard access",
-          "Original illustrations of imagined spaces and products"
+          "Browser screenshots of the implemented website and product catalogue"
         ]
       },
       {
@@ -646,9 +646,9 @@ const allWorkItems: WorkItem[] = [
       }
     ],
     "gallery": [
-      "/concept/layerforge-hero.svg",
-      "/concept/layerforge-detail.svg",
-      "/concept/layerforge-technical.svg"
+      "/concept/layerforge-hero.png",
+      "/concept/layerforge-detail.png",
+      "/concept/layerforge-technical.png"
     ]
   },
   {
@@ -657,14 +657,14 @@ const allWorkItems: WorkItem[] = [
     "concept": true,
     "url": "https://mineralis-concept.cameronfalck03.workers.dev",
     "category": "Business",
-    "png": "/concept/mineralis-cover.svg",
-    "fallback": "/concept/mineralis-cover.svg",
+    "png": "/concept/mineralis-cover.png",
+    "fallback": "/concept/mineralis-cover.png",
     "meta": "Independent concept · Next.js · Responsive design",
     "scope": "Mineralis is a self-initiated, independent website concept for a fictional decorative concrete finishes brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
     "highlights": [
       "Self-initiated design and implementation for a fictional brand",
       "Accessible, responsive navigation and page layouts",
-      "Original concept illustrations and custom fictional branding",
+      "Original website layouts and photography with fictional branding",
       "Product or finish discovery with sample interface content",
       "Local demo interactions with clear concept disclosures",
       "No client endorsements, testimonials or commercial-result claims"
@@ -699,7 +699,7 @@ const allWorkItems: WorkItem[] = [
         "bullets": [
           "Preserved the distinctive visual direction while creating a fictional identity",
           "Responsive layouts with clear typography and keyboard access",
-          "Original illustrations of imagined spaces and products"
+          "Browser screenshots of the implemented website and product catalogue"
         ]
       },
       {
@@ -712,9 +712,9 @@ const allWorkItems: WorkItem[] = [
       }
     ],
     "gallery": [
-      "/concept/mineralis-hero.svg",
-      "/concept/mineralis-detail.svg",
-      "/concept/mineralis-technical.svg"
+      "/concept/mineralis-hero.png",
+      "/concept/mineralis-detail.png",
+      "/concept/mineralis-technical.png"
     ]
   },
   {
