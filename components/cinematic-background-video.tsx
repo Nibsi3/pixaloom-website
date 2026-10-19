@@ -1,58 +1,28 @@
 'use client';
 
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import imageLoader from '@/lib/image-loader';
 
 export const cinematicPoster = imageLoader({ src: '/video/pixaloom-ambient-poster-v2.jpg', width: 1920 });
-const motionQuery = '(prefers-reduced-motion: reduce)';
-type Connection = EventTarget & { saveData?: boolean; effectiveType?: string };
-
-function connection() {
-  return (navigator as Navigator & { connection?: Connection }).connection;
-}
-
-function subscribePreferences(callback: () => void) {
-  const query = window.matchMedia(motionQuery);
-  const network = connection();
-  query.addEventListener('change', callback);
-  network?.addEventListener('change', callback);
-  return () => {
-    query.removeEventListener('change', callback);
-    network?.removeEventListener('change', callback);
-  };
-}
-
-function prefersStillBackground() {
-  const network = connection();
-  return window.matchMedia(motionQuery).matches
-    || Boolean(network?.saveData)
-    || network?.effectiveType === 'slow-2g'
-    || network?.effectiveType === '2g';
-}
-
 export function CinematicBackgroundVideo({ mediaClassName = 'reference-media' }: { mediaClassName?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const preferStill = useSyncExternalStore(subscribePreferences, prefersStillBackground, () => true);
-  const [choice, setChoice] = useState<boolean | null>(null);
-  const paused = choice ?? preferStill;
   ReactDOM.preload(cinematicPoster, { as: 'image', fetchPriority: 'high' });
 
   useEffect(() => {
     const hero = videoRef.current?.closest<HTMLElement>('.reference-hero');
     if (!hero) return;
-    hero.dataset.motion = paused ? 'off' : 'on';
+    hero.dataset.motion = 'on';
     hero.dispatchEvent(new Event('portal-motion-change'));
     return () => { delete hero.dataset.motion; };
-  }, [paused]);
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (paused) { video.pause(); return; }
 
     let visible = false;
-    let ready = choice === false;
+    let ready = false;
     let disposed = false;
     let idleCallback: number | undefined;
     let fallbackTimer: number | undefined;
@@ -80,8 +50,8 @@ export function CinematicBackgroundVideo({ mediaClassName = 'reference-media' }:
       }
     };
 
-    // Keep the poster visible while critical assets load. An explicit Play
-    // request starts immediately, including on data-saving connections.
+    // Start automatically after critical assets load; keep a readable poster
+    // if the browser blocks muted autoplay.
     if (!ready) {
       if (document.readyState === 'complete') startWhenIdle();
       else window.addEventListener('load', startWhenIdle, { once: true });
@@ -105,7 +75,7 @@ export function CinematicBackgroundVideo({ mediaClassName = 'reference-media' }:
       document.removeEventListener('visibilitychange', syncPlayback);
       video.pause();
     };
-  }, [paused, choice]);
+  }, []);
 
-  return <><div className={mediaClassName} aria-hidden="true"><video ref={videoRef} width={1920} height={1080} muted loop playsInline preload="none" poster={cinematicPoster} /></div><button type="button" className="motion-toggle" aria-pressed={!paused} title="Controls background video and scroll animations. Your device motion preference is used until you choose." onClick={() => setChoice(!paused)}>{paused ? 'Enable animations' : 'Pause animations'}</button></>;
+  return <div className={mediaClassName} aria-hidden="true"><video ref={videoRef} width={1920} height={1080} autoPlay muted loop playsInline preload="none" poster={cinematicPoster} /></div>;
 }

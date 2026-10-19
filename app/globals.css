@@ -927,8 +927,8 @@ img { max-width: 100%; }
   }
 }
 
-/* An explicit choice applies to the video and portal, including when the OS
-   requests reduced motion. Other page animations retain the OS preference. */
+/* The hero starts with motion enabled. Other page animations retain the OS
+   preference independently of the cinematic hero. */
 .reference-hero.portal-ready[data-motion="on"] .reference-media,
 .reference-hero.portal-ready[data-motion="on"] .reference-scrim { transition-duration: 1.05s!important; }
 .reference-hero.portal-ready[data-motion="on"] .portal-copy { transition-duration: .38s!important; }
@@ -944,8 +944,6 @@ img { max-width: 100%; }
 .hero-offer > span { color: #c9c6be; font-size: .8rem; line-height: 1.6; display: block; }
 .hero-offer a { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; min-height: 32px; font-size: .78rem; color: #f0ede4; border-bottom: 1px solid #777; }
 .reference-hero:not(.project-case-hero) .featured-kicker { top: 30%; }
-.motion-toggle { position: absolute; right: 3%; top: 3%; z-index: 12; padding: 10px 13px; min-height: 44px; border: 1px solid #85857e; border-radius: 24px; color: #f0ede4; background: #131313; font-size: .7rem; cursor: pointer; }
-.motion-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .service-budget,.project-provenance { line-height: 1.8; color: #aaa8a1; }
 .article-project-evidence { margin: 32px 0; }
 .article-project-evidence img { width: 100%; height: auto; border: 1px solid var(--line); }
@@ -957,7 +955,6 @@ img { max-width: 100%; }
   .hero-offer p { font-size: 1rem; }
   .hero-offer > span { font-size: .75rem; }
   .reference-hero:not(.project-case-hero) .portal-copy .portal-wordmark span { top: 28%; }
-  .motion-toggle { font-size: .65rem; top: 2%; right: 20px; }
   .reference-hero:not(.project-case-hero) .featured-kicker { top: 36%; }
 }
 

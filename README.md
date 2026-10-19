@@ -47,7 +47,7 @@ Production runs as the existing `pixaloom-website` Cloudflare Worker through the
 
 From the exact reviewed and pushed commit, run `npm ci`, the validation commands above, `npm run deploy:cloudflare`, and confirm Wrangler reports the `pixaloom-website` deployment. The Wrangler configuration keeps dashboard-managed variables and secrets. After deployment, verify `https://www.pixaloom.co.za` resolves through Cloudflare, crawl the canonical site, and check headers, enquiry readiness, navigation, representative images and estimator handoff. A successful upload or build is not a successful production release.
 
-Browser tests should cover a narrow viewport, keyboard navigation, pause/play, a readable first frame, and reduced-motion preferences. Reset temporary viewport overrides after testing.
+Browser tests should cover a narrow viewport, keyboard navigation, automatic muted playback, offscreen pausing, a readable first frame, and scroll effects (including with reduced-motion preferences). Reset temporary viewport overrides after testing.
 
 For a local Cloudflare runtime check after an OpenNext build, use `npx wrangler dev --local-upstream www.pixaloom.co.za`. Wrangler otherwise infers the apex from the first route and every request correctly exercises the apex redirect. The SEO audit accepts local redirect origins when Wrangler rewrites response headers, while production audits require the canonical origin.
 
