@@ -19,14 +19,6 @@ export const labProjects: LabProject[] = [
     accent: '#8796b8',
   },
   {
-    name: 'Quote Scanner',
-    code: 'PX–02',
-    category: 'Document intelligence',
-    status: 'Selected work',
-    description: 'A practical document workflow that turns supplier quotes into clear, comparable information.',
-    accent: '#ff7557',
-  },
-  {
     name: 'Illumi',
     code: 'PX–03',
     category: 'Finance platform',
