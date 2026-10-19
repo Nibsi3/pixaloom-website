@@ -9,6 +9,7 @@ import { JsonLd } from '@/components/json-ld';
 import { ProjectCircleHero } from '@/components/project-circle-hero';
 import { workItems } from '@/components/work-items';
 import { contentModified } from '@/lib/content-dates';
+import { projectCaptureSets } from '@/lib/project-captures';
 import { projectMediaDescription, projectService, projectVersion } from '@/lib/project-evidence';
 import { absoluteUrl, pageMetadata, site, truncateDescription } from '@/lib/site';
 
@@ -90,8 +91,8 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
           <div className="site-container"><p className="micro-label">{item.concept ? "Website captures · Independent concept" : "Inside the experience · Interface study"}</p></div>
           <div className="site-container gallery-mosaic">
             {gallery.slice(0, 6).map((image, imageIndex) => (
-              <figure className={`gallery-shot gallery-shot-${(imageIndex % 5) + 1}`} key={image}>
-                <Image src={image} alt={projectMediaDescription(item, image)} fill sizes="(max-width: 760px) 100vw, 60vw" />
+              <figure className={`gallery-shot gallery-shot-${(imageIndex % 5) + 1}${projectCaptureSets[slug] ? " capture-shot" : ""}`} key={image}>
+                <Image src={image} alt={projectMediaDescription(item, image)} {...(projectCaptureSets[slug] ? { width: slug === "trakcare-barcode-scanner" ? 2000 : 3200, height: slug === "trakcare-barcode-scanner" ? 1440 : 2000 } : { fill: true })} sizes="(max-width: 760px) 100vw, 60vw" />
                 <figcaption>{projectMediaDescription(item, image)}</figcaption>
               </figure>
             ))}
