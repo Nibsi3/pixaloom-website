@@ -39,6 +39,14 @@ export function CinematicBackgroundVideo({ mediaClassName = 'reference-media' }:
   ReactDOM.preload(cinematicPoster, { as: 'image', fetchPriority: 'high' });
 
   useEffect(() => {
+    const hero = videoRef.current?.closest<HTMLElement>('.reference-hero');
+    if (!hero) return;
+    hero.dataset.motion = paused ? 'off' : 'on';
+    hero.dispatchEvent(new Event('portal-motion-change'));
+    return () => { delete hero.dataset.motion; };
+  }, [paused]);
+
+  useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     if (paused) { video.pause(); return; }
@@ -99,5 +107,5 @@ export function CinematicBackgroundVideo({ mediaClassName = 'reference-media' }:
     };
   }, [paused, choice]);
 
-  return <><div className={mediaClassName} aria-hidden="true"><video ref={videoRef} width={1920} height={1080} muted loop playsInline preload="none" poster={cinematicPoster} /></div><button type="button" className="motion-toggle" aria-pressed={!paused} onClick={() => setChoice(!paused)}>{paused ? 'Play background motion' : 'Pause background motion'}</button></>;
+  return <><div className={mediaClassName} aria-hidden="true"><video ref={videoRef} width={1920} height={1080} muted loop playsInline preload="none" poster={cinematicPoster} /></div><button type="button" className="motion-toggle" aria-pressed={!paused} title="Controls background video and scroll animations. Your device motion preference is used until you choose." onClick={() => setChoice(!paused)}>{paused ? 'Enable animations' : 'Pause animations'}</button></>;
 }

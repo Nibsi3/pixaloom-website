@@ -927,6 +927,17 @@ img { max-width: 100%; }
   }
 }
 
+/* An explicit choice applies to the video and portal, including when the OS
+   requests reduced motion. Other page animations retain the OS preference. */
+.reference-hero.portal-ready[data-motion="on"] .reference-media,
+.reference-hero.portal-ready[data-motion="on"] .reference-scrim { transition-duration: 1.05s!important; }
+.reference-hero.portal-ready[data-motion="on"] .portal-copy { transition-duration: .38s!important; }
+.reference-hero.portal-ready[data-motion="on"] .featured-copy { transition-duration: .48s, .65s!important; }
+.reference-hero.portal-ready[data-motion="off"] .reference-media,
+.reference-hero.portal-ready[data-motion="off"] .reference-scrim,
+.reference-hero.portal-ready[data-motion="off"] .portal-copy,
+.reference-hero.portal-ready[data-motion="off"] .featured-copy { transition-duration: .01ms!important; }
+
 /* SEO release: readable opening offer, optional motion and evidence captions. */
 .hero-offer { position: absolute; z-index: 8; top: 7%; left: 7%; max-width: min(82%, 480px); }
 .hero-offer p { font-size: clamp(1rem, 1.7vw, 1.4rem); color: #f0ede4; margin: 0 0 7px; }

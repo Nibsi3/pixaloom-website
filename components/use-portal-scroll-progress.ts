@@ -49,7 +49,14 @@ export function usePortalScrollProgress(
     };
 
     const applyDepth = () => {
-      if (!withDepth || activeDepthLayers.size === 0 || reducedMotion.matches) return;
+      if (!withDepth) return;
+      const motionEnabled = section.dataset.motion === 'on'
+        || (section.dataset.motion !== 'off' && !reducedMotion.matches);
+      if (!motionEnabled) {
+        for (const { layer } of depthLayers) layer.style.removeProperty('--depth-y');
+        return;
+      }
+      if (activeDepthLayers.size === 0) return;
 
       const viewportCentre = window.innerHeight / 2;
       // Read geometry together before writing transforms, avoiding a layout
@@ -95,6 +102,8 @@ export function usePortalScrollProgress(
     }, { rootMargin: '30% 0px' });
     visibilityObserver.observe(section);
     window.addEventListener('scroll', onScroll, { passive: true });
+    section.addEventListener('portal-motion-change', onScroll);
+    reducedMotion.addEventListener('change', onScroll);
 
     const depthObserver = withDepth
       ? new IntersectionObserver((entries) => {
@@ -133,6 +142,9 @@ export function usePortalScrollProgress(
       window.cancelAnimationFrame(readyFrame);
       window.cancelAnimationFrame(scrollFrame);
       window.removeEventListener('scroll', onScroll);
+      section.removeEventListener('portal-motion-change', onScroll);
+      reducedMotion.removeEventListener('change', onScroll);
+      for (const { layer } of depthLayers) layer.style.removeProperty('--depth-y');
       visibilityObserver.disconnect();
       depthObserver?.disconnect();
       resizeObserver.disconnect();
