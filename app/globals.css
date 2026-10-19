@@ -1173,7 +1173,7 @@ body { padding: 0; background: #030303; color: var(--cream); font-family: Inter,
 .gallery-shot:nth-child(even) { grid-column: 6/span 7; }
 .gallery-shot-3 { grid-column: 2/span 9; }.gallery-shot-4 { grid-column: 4/span 8; }
 .gallery-shot img { object-fit: cover; object-position: top; }
-.gallery-shot.capture-shot { aspect-ratio: auto; background: #191919; }
+.case-gallery .gallery-shot.capture-shot { aspect-ratio: auto; background: #191919; }
 .gallery-shot.capture-shot img { display: block; width: 100%; height: auto; }
 .gallery-shot.capture-shot figcaption { position: static; max-width: none; padding: 16px 18px; background: transparent; }
 .gallery-shot figcaption { position: absolute; left: 14px; bottom: 14px; padding: 8px 10px; background: rgba(10,10,10,.86); color: #b8b5ad; font-size: .48rem; letter-spacing: .11em; text-transform: uppercase; }
