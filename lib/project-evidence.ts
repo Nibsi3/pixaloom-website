@@ -1,8 +1,10 @@
 import type { WorkItem } from '@/components/work-items';
+import { projectCaptureSets } from '@/lib/project-captures';
 
 // Visually reviewed against the saved captures on 2026-09-03, not inferred from filenames.
 // Several filenames describe a different page from the interface actually shown.
 export const verifiedDescriptions: Record<string, string> = {
+  ...Object.fromEntries(Object.values(projectCaptureSets).flatMap((set) => set.images.map((image) => [image.src, image.description]))),
   '/concept/layerforge-cover.png': 'Layerforge independent concept: browser screenshot of the homepage with the original 3D printer hero photograph',
   '/concept/layerforge-hero.png': 'Layerforge independent concept: browser screenshot of the shop with product photographs and catalogue filters',
   '/concept/layerforge-detail.png': 'Layerforge independent concept: browser screenshot of the 3D printer catalogue',
@@ -77,6 +79,7 @@ export function projectService(item: Pick<WorkItem, 'category'>) {
 }
 
 export function projectVersion(item: Pick<WorkItem, 'slug' | 'url' | 'concept'>) {
+  if (projectCaptureSets[item.slug]) return projectCaptureSets[item.slug].sourceLabel;
   if (item.concept) return 'Independent concept design for a fictional brand; self-initiated and not commissioned client work';
   if (item.url?.includes('.vercel.app') || item.url?.includes('havaldemo.co.za')) return 'Public project preview';
   return item.url ? 'Archived work with a public website link' : 'Archived interface study; no public demo linked';

@@ -10,11 +10,12 @@ export type LabProject = {
 
 export const labProjects: LabProject[] = [
   {
-    name: 'Drive',
+    name: 'Gearshift',
     code: 'PX–01',
-    category: 'Cloud workspace',
+    category: 'Vehicle ownership',
     status: 'Selected work',
-    description: 'A calmer, more focused way for teams to organise, find and move their working files.',
+    description: 'A connected vehicle platform for drivers, service planning and dealership teams.',
+    href: '/work/gearshift',
     accent: '#8796b8',
   },
   {

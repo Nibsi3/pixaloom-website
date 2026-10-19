@@ -1,3 +1,5 @@
+import { projectCaptureSets } from '@/lib/project-captures';
+
 // Change individual entries only when that page's substantive content changes.
 // Unknown legacy modification dates are omitted, not replaced with build time.
 const pageDates: Record<string, string> = {
@@ -15,4 +17,8 @@ const pageDates: Record<string, string> = {
   '/work/emberwell': '2026-10-14', '/work/layerforge': '2026-10-14', '/work/mineralis': '2026-10-14',
   '/work/featherbleu': '2026-09-03', '/work/trakcare-barcode-scanner': '2026-09-03', '/work/kikay-pharma': '2026-09-03',
 };
-export function contentModified(path: string) { return pageDates[path || '/']; }
+export function contentModified(path: string) {
+  if (path === '/' || path === '/projects') return '2026-10-19';
+  const capture = path.startsWith('/work/') ? projectCaptureSets[path.slice('/work/'.length)] : undefined;
+  return capture?.capturedAt ?? pageDates[path || '/'];
+}

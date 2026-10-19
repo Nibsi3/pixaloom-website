@@ -10,7 +10,7 @@ import { absoluteUrl, pageMetadata } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata({ title: 'Website Design Portfolio', description: 'Explore Pixaloom websites, digital products and self-initiated concept designs, with each project clearly identified.', path: '/projects' });
 
-const priorityOrder = ['illumi', 'emberwell', 'layerforge', 'mineralis'];
+const priorityOrder = ['illumi', 'gearshift', 'emberwell', 'layerforge', 'mineralis'];
 const orderedWorkItems = [
   ...priorityOrder.map((slug) => workItems.find((item) => item.slug === slug)).filter((item): item is (typeof workItems)[number] => Boolean(item)),
   ...workItems.filter((item) => !priorityOrder.includes(item.slug)),

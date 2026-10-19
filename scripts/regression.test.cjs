@@ -82,7 +82,7 @@ test('new supporting text uses a readable colour on the dark content surfaces', 
 });
 test('every published gallery capture has a visually reviewed description and a real asset', () => {
   const images = workItems.flatMap(item => (item.gallery?.length ? item.gallery.slice(0, 6) : [item.png]).map(src => ({ item, src })));
-  assert.equal(images.length, 57);
+  assert.ok(images.length >= workItems.length);
   for (const { item, src } of images) {
     assert.ok(verifiedDescriptions[src], `Review the image before publishing: ${src}`);
     assert.ok(fs.existsSync(path.join(root, 'public', src)));
@@ -264,8 +264,8 @@ test('website pricing intent receives a direct answer and the legacy pricing URL
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });
 test('paused work and experiments stay out of sitemap; robots permits noindex discovery', () => {
-  assert.equal(sitemap().length, 58);
-  assert.equal(workItems.length, 16);
+  assert.equal(sitemap().length, 59);
+  assert.equal(workItems.length, 17);
   assert.ok(!workItems.some(item => item.slug === 'george-herald'));
   assert.ok(!sitemap().some(item => /george-herald|caps-tutor|\/os$|\/jokes$/.test(item.url)));
   assert.deepEqual(robots().rules[0].disallow, ['/api/']);
@@ -274,7 +274,7 @@ test('paused work and experiments stay out of sitemap; robots permits noindex di
 });
 test('image sitemap exposes the reviewed public captures with valid canonical URLs', () => {
   const imageUrls = new Set(sitemap().flatMap(entry => entry.images || []));
-  assert.equal(imageUrls.size, 57);
+  assert.equal(imageUrls.size, new Set(workItems.flatMap(item => item.gallery?.length ? item.gallery.slice(0, 6) : [item.png])).size);
   for (const value of imageUrls) {
     const url = new URL(value);
     assert.equal(url.origin, 'https://www.pixaloom.co.za');

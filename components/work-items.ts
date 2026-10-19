@@ -1,3 +1,5 @@
+import { projectCaptureSets } from '@/lib/project-captures';
+
 export type WorkItem = {
   slug: string;
   name: string;
@@ -16,6 +18,20 @@ export type WorkItem = {
 };
 
 const allWorkItems: WorkItem[] = [
+  {
+    slug: 'gearshift',
+    name: 'Gearshift',
+    category: 'Web App',
+    url: 'https://gearshift.co.za',
+    png: '/portfolio/2026-10-19/gearshift-home.png',
+    fallback: '/portfolio/2026-10-19/gearshift-home.png',
+    meta: 'Vehicle ownership · Driver workspace · Dealership platform',
+    scope: 'A connected vehicle platform bringing driver information, service planning and dealership workflows into one place. The public website introduces the product, while dedicated workspaces support drivers and dealership teams.',
+    highlights: ['Vehicle profiles with mileage and service schedules', 'Driver workspace with service booking and vehicle information', 'Dealership workspace for customer and service workflows'],
+    stack: ['TypeScript', 'Cloudflare Workers', 'Cloudflare D1'],
+    facts: [{ label: 'Industry', value: 'Automotive' }, { label: 'Product', value: 'Vehicle ownership platform' }, { label: 'Website', value: 'gearshift.co.za' }],
+    sections: [{ title: 'Connected ownership', description: 'A public product website and separate application workspaces for drivers and dealership teams. Dashboard screenshots show local demonstration accounts with synthetic data.' }],
+  },
   {
     slug: 'paws-on-route',
     name: 'Paws On Route',
@@ -938,4 +954,9 @@ const allWorkItems: WorkItem[] = [
 
 // Keep paused case studies out of every public index, sitemap, and route.
 const pausedWorkSlugs = new Set(['george-herald']);
-export const workItems = allWorkItems.filter((item) => !pausedWorkSlugs.has(item.slug));
+export const workItems = allWorkItems.filter((item) => !pausedWorkSlugs.has(item.slug)).map((item) => {
+  const captures = projectCaptureSets[item.slug];
+  if (!captures) return item;
+  const gallery = captures.images.map((image) => image.src);
+  return { ...item, png: gallery[0], fallback: gallery[0], gallery };
+});
