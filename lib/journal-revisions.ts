@@ -5,7 +5,7 @@ export const journalRevisions: Record<string, JournalRevision> = {
   'why-george-businesses-need-modern-website': {
     title: 'What a George Business Website Needs to Do',
     excerpt: 'A practical brief for a local service website: explain the offer, show real work and make an enquiry easy.',
-    modified: '2026-09-03', service: 'website-design', project: 'paws-on-route',
+    modified: '2026-10-23', service: 'website-design', project: 'paws-on-route',
     content: `A George business does not need a website simply because its competitors have one. It needs a reliable place to explain what it offers, who it can help and how to take the next step. Start by looking at the questions people ask before they become customers.
 
 ## Build around the actual enquiry
@@ -13,6 +13,19 @@ export const journalRevisions: Record<string, JournalRevision> = {
 A pet owner comparing grooming services needs different information from a procurement manager ordering uniforms. List your services in the language customers use. Explain the location or service area, what an appointment involves and how to make contact. Show prices where you can keep them accurate; explain the quote process where the job must be assessed first.
 
 For a concrete example, our [Paws On Route project](/work/paws-on-route) separates pet-care services and provides direct contact routes. It illustrates a service-led structure, not a claim that any particular layout guarantees bookings.
+
+## Write a one-page brief before choosing a design
+
+Use these prompts with the person who answers your customer enquiries. Each answer should become either useful page content or a clear handover responsibility:
+
+1. **Customer:** Who is the service for, and which requests must you decline?
+2. **Coverage:** Do customers visit you in George, or do you travel? Name the actual service area and any travel conditions.
+3. **Decision:** What must someone know before asking for a quote: availability, service options, preparation or a price range?
+4. **Evidence:** Which recent job can you explain with your own photographs and permission to publish?
+5. **Contact:** Who receives a WhatsApp message or form enquiry, and what information do they need to reply?
+6. **Upkeep:** Who updates prices, hours and availability after launch?
+
+For example, a mobile service should explain where it travels before asking for a booking address. A shop should make its visiting information easy to find. These are planning examples, not claims about a particular client's results. Use the [developer comparison checklist](/blog/choosing-web-developer-george) to turn the brief into a scope you can compare.
 
 ## Make the information trustworthy
 
@@ -145,7 +158,7 @@ Keep a record of the test URL, device profile and date. Repeat measurements beca
   'lead-generation-website-design': {
     title: 'Designing a Website for Better Enquiries',
     excerpt: 'Connect a clear offer, relevant proof and a reliable contact journey before spending more on traffic.',
-    modified: '2026-09-03', service: 'website-design', project: 'mineralis',
+    modified: '2026-10-23', service: 'website-design', project: 'mineralis',
     content: `A lead-generation website should help a suitable customer decide whether to contact you. That does not mean adding a button to every section or promising that design alone produces sales. It means answering the questions that prevent a useful conversation.
 
 ## Make the offer understandable
@@ -159,6 +172,21 @@ Follow that explanation with evidence relevant to the offer. A service example s
 A first-contact form often needs a name, reply address and short description of the goal. Budget or service selections can help qualification when clearly optional. Do not request identity documents, payment details or confidential operational records in a general website form.
 
 Give fields visible labels and meaningful validation. Keep a person's message intact after an error. Include direct email, phone or WhatsApp alternatives so a failed integration does not become a dead end.
+
+## Trace one enquiry on a phone
+
+On Pixaloom, the practical journey starts with the service and location, then gives visitors a choice of viewing work, checking a planning budget or contacting Cameron. The [cost estimator](/website-cost) and [contact page](/contact) serve different decisions: a visitor comparing scope should not have to send a message just to find the starting range.
+
+Use this acceptance checklist for your own website:
+
+- Read the first screen without scrolling. Can you identify the service and who it helps?
+- Follow a relevant project link. Does it explain what was delivered and distinguish a concept from client work?
+- Open WhatsApp on a phone and check the destination and prefilled text before sending. A click alone is not evidence that a message was sent.
+- Try the form with missing required fields. The errors should explain what to correct without deleting the message.
+- Agree a test with the receiving person, submit once and confirm arrival. Record the result separately from genuine enquiries.
+- Simulate a delivery failure in a test environment. Preserve the draft and offer another contact route.
+
+Do not hide your only contact button behind a long animation or make an optional budget answer compulsory. When clicks are low, improve the offer and visibility of the action. When clicks exist but messages do not arrive, investigate the delivery path before buying more traffic.
 
 ## Test the complete delivery path
 
@@ -452,7 +480,7 @@ Our [SEO service](/services/seo) treats structured data as part of a wider crawl
   'choosing-web-developer-george': {
     title: 'Choosing a Web Developer in George',
     excerpt: 'Questions that reveal the scope, ownership and support behind a proposal—not just the quality of a screenshot.',
-    modified: '2026-09-03', service: 'website-design', project: 'emberwell',
+    modified: '2026-10-23', service: 'website-design', project: 'paws-on-route',
     content: `Choose a developer by examining how they work as well as what their portfolio looks like. A screenshot can demonstrate visual direction, but it cannot establish who built every part, how the system performs or whether the client owns the necessary accounts.
 
 ## Ask what the example represents
@@ -476,6 +504,21 @@ For a redesign, ask how useful existing URLs and content will be handled. For ec
 Agree ownership of the domain, hosting, source code and third-party accounts. Ask what documentation and training accompany the handover. A supplier should explain what another competent developer would need to continue the work.
 
 Look for clear answers about limitations as well as capabilities. Guaranteed rankings, unsupported revenue claims or unexplained ownership restrictions deserve further questions.
+
+## Use the same comparison sheet for every quote
+
+Send each shortlisted developer the same brief and ask them to answer these points in writing. A low total is difficult to compare when one proposal excludes the content or handover you need.
+
+1. **Deliverables:** List the actual pages, content writing, image preparation and enquiry workflow included. Separate a brochure site from booking, ecommerce or custom application work.
+2. **Your contribution:** Name the photos, service details and approvals you must provide, with dates. Ask how missing content affects delivery.
+3. **Launch acceptance:** Ask for a phone demonstration, a verified test enquiry and a check of important old URLs. Agree who signs off before the domain changes.
+4. **Ownership and exit:** Identify who controls the domain, hosting, source and editing accounts. Ask what you receive if another developer takes over.
+5. **Recurring costs:** Separate hosting, domains, licences and ongoing care from the build price. Record which charges can change and who pays each supplier.
+6. **Aftercare:** Ask how defects are distinguished from new features, how to report a problem and which response arrangements are included.
+
+For a George business, also agree whether a face-to-face discovery meeting is useful and who will keep local contact and service-area information accurate. A local address alone does not demonstrate technical ability; review a relevant project and the proposed delivery process.
+
+Our [Paws On Route case study](/work/paws-on-route) is a service-business example to discuss alongside the concept work. For a starting brief, use [what a George business website needs to do](/blog/why-george-businesses-need-modern-website). For launch acceptance, follow the [enquiry journey checklist](/blog/lead-generation-website-design).
 
 ## Compare like for like
 

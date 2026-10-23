@@ -141,6 +141,17 @@ export default function GeorgePage() {
 
         <WebsiteBuildFit local />
 
+        <section className="content-section">
+          <div className="site-container content-grid">
+            <div><p className="eyebrow">Before you brief a developer</p><h2>Plan the website and compare the scope.</h2></div>
+            <div>
+              <p>Use our <Link href="/blog/why-george-businesses-need-modern-website">George business website brief</Link> to identify your customers, service area and enquiry process.</p>
+              <p>The <Link href="/blog/choosing-web-developer-george">developer comparison checklist</Link> covers deliverables, account ownership, recurring costs and launch acceptance.</p>
+              <p>Before launch, walk through the <Link href="/blog/lead-generation-website-design">phone and enquiry checklist</Link> with whoever receives your messages.</p>
+            </div>
+          </div>
+        </section>
+
         <section className="content-section alt">
           <div className="site-container">
             <div className="section-heading-row">

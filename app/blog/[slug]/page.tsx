@@ -8,6 +8,7 @@ import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
 import { ArticleContent } from '@/components/article-content';
 import { publishedBlogPosts } from '@/components/blog-posts';
+import { journalRelated } from '@/lib/journal-related';
 import { workItems } from '@/components/work-items';
 import { getService } from '@/lib/services';
 import { projectMediaDescription } from '@/lib/project-evidence';
@@ -32,7 +33,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const project = workItems.find(item => item.slug === post.project);
   const media = project?.gallery?.[0];
   const service = getService(post.service);
-  const related = publishedBlogPosts.filter(item => item.slug !== slug && item.service === post.service).slice(0, 2);
+  const related = (journalRelated[slug] ?? []).flatMap(relatedSlug => publishedBlogPosts.filter(item => item.slug === relatedSlug && item.slug !== slug));
   const schema = { '@context': 'https://schema.org', '@graph': [
     { '@type': 'BlogPosting', '@id': absoluteUrl(`/blog/${slug}#article`), headline: post.title, description: post.excerpt, datePublished: post.date, dateModified: post.modified, mainEntityOfPage: absoluteUrl(`/blog/${slug}`), url: absoluteUrl(`/blog/${slug}`), image: absoluteUrl(media || '/opengraph-image'), inLanguage: 'en-ZA', author: { '@id': `${site.url}/#organization` }, publisher: { '@id': `${site.url}/#organization` }, citation: post.sources.map(source => source.url) },
     { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url }, { '@type': 'ListItem', position: 2, name: 'Journal', item: absoluteUrl('/blog') }, { '@type': 'ListItem', position: 3, name: post.title, item: absoluteUrl(`/blog/${slug}`) }] },
