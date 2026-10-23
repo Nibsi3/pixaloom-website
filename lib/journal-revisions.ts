@@ -14,6 +14,14 @@ A pet owner comparing grooming services needs different information from a procu
 
 For a concrete example, our [Paws On Route project](/work/paws-on-route) separates pet-care services and provides direct contact routes. It illustrates a service-led structure, not a claim that any particular layout guarantees bookings.
 
+## Use social media and your website for different jobs
+
+A Facebook or Instagram page can help people discover recent work, ask questions and share recommendations. A website gives you a stable place to organise service details, coverage, project evidence and the enquiry process under your own domain. Social profiles can appear in search too; neither channel guarantees visibility or enquiries.
+
+Keep the two connected. Link your profile to the relevant service page, keep contact details consistent and give visitors a clear route back to the person who answers enquiries. If social media already brings suitable customers, keep using it. A website is useful when repeated questions, scattered information or a complicated quote process need a clearer home.
+
+Before assuming you need a rebuild, check where the journey breaks: can customers find the service, understand whether it suits them, see relevant work and reach you on a phone? Use the [enquiry checklist](/blog/lead-generation-website-design) to test those steps and the [Garden Route search checklist](/blog/seo-tips-garden-route-businesses) to review discovery. Diagnose the problem before choosing the platform or buying traffic.
+
 ## Write a one-page brief before choosing a design
 
 Use these prompts with the person who answers your customer enquiries. Each answer should become either useful page content or a clear handover responsibility:

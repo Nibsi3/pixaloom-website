@@ -346,13 +346,22 @@ async function audit() {
     [pageUrl("/pricing?utm_source=seo-audit&topic=web%20design"), "/website-cost"],
     [pageUrl("/website-offer?utm_source=seo-audit&topic=web%20design"), "/website-cost"],
     [pageUrl("/product-catalogue-websites?utm_source=seo-audit&product=sample%20model"), "/services/ecommerce-websites"],
+    [pageUrl("/blog/social-media-vs-website-garden-route?utm_source=seo-audit"), "/blog/why-george-businesses-need-modern-website"],
+    [pageUrl("/blog/george-businesses-losing-customers-online"), "/blog/why-george-businesses-need-modern-website"],
+    [pageUrl("/blog/garden-route-seo-secrets-competitors-dont-want-you-to-know"), "/blog/seo-tips-garden-route-businesses"],
     [pageUrl("/shop"), "/services/ecommerce-websites"],
   ];
   if (crawlOrigin.origin === canonicalOrigin.origin && canonicalOrigin.hostname.startsWith("www.")) {
     const apexOrigin = new URL(canonicalOrigin);
     apexOrigin.hostname = apexOrigin.hostname.slice(4);
-    for (const path of ["/", "/services/website-design"]) {
+    for (const path of ["/", "/services/website-design", "/work/slip-a-tip", "/work/nexai", "/work/ai-testing", "/blog/next-js-vs-wordpress-south-africa"]) {
       redirectCases.push([new URL(`${path}?utm_source=seo-audit&topic=web%20design`, apexOrigin), path]);
+    }
+    // HTTPS enforcement lives at Cloudflare, so exercise it only against production.
+    for (const path of ["/", "/services/website-design"]) {
+      const insecure = new URL(`${path}?utm_source=seo-audit`, canonicalOrigin);
+      insecure.protocol = 'http:';
+      redirectCases.push([insecure, path]);
     }
   }
   await mapConcurrent(redirectCases, async ([target, destination]) => {
