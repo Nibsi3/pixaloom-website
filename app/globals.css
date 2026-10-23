@@ -954,6 +954,7 @@ img { max-width: 100%; }
 .reference-home .featured-copy > h2 em { display: block; margin-left: 0; color: rgba(255,255,255,.68); font-size: .52em; font-weight: 400; letter-spacing: -.04em; }
 .mobile-contact { display: none; }
 .home-buying-guide { padding: 80px 0; border-block: 1px solid #333; background: #101111; color: #f0ede4; }
+.home-buying-guide .eyebrow { color: #c9c6be; }
 .home-buying-guide h2 { font-family: "Iowan Old Style",Baskerville,serif; font-size: clamp(2.2rem,4vw,4rem); font-weight: 400; line-height: 1.1; margin: 22px 0; }
 .home-buying-guide .lead { max-width: 780px; color: #c9c6be; font-size: 1.05rem; line-height: 1.8; }
 .buying-options { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 30px; margin: 40px 0 24px; }
