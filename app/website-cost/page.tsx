@@ -5,6 +5,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
 import { WebsiteCostEstimator } from '@/components/website-cost-estimator';
+import { WebsiteBuildFit } from '@/components/website-build-fit';
 import { breadcrumbSchema, faqPageSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import { contentModified } from '@/lib/content-dates';
@@ -132,6 +133,8 @@ export default function WebsiteCostPage() {
             <p className="service-budget">Build prices exclude VAT where applicable, domains, hosting, email, software subscriptions, payment fees and ongoing care. They describe Pixaloom’s current planning allowances, not an industry-wide average.</p>
           </div>
         </section>
+
+        <WebsiteBuildFit />
 
         <section className="minimal-statement">
           <div className="minimal-shell">

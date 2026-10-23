@@ -1,5 +1,23 @@
 # SEO maintenance and owner checklist
 
+## 23 October 2026 acquisition and enquiry review
+
+The homepage now exposes the George website-design offer before the animated reveal,
+with direct WhatsApp and cost links. A buying section covers business websites,
+ecommerce and redesigns, links the existing ecommerce guide, and surfaces the real
+Paws On Route case study before the unchanged concept showcase. Pricing remains
+the existing scoped planning allowance. Contact copy accepts a short, informal brief.
+
+The retired `/website-offer` was still receiving traffic but returned 404. It now
+permanently redirects to `/website-cost`, and the release crawler tests that path
+and query preservation. Do not reinstate an old price or redirect unrelated retired work.
+
+Conversion events now distinguish attempts from provider-accepted enquiries and
+use the existing Plausible tracker as well as operational logging. Its host must
+be online and matching custom goals configured. Acceptance is not inbox delivery.
+Private analytics findings and follow-up priorities are in the ignored local
+`audits/seo-audit-2026-10-23.md`; do not commit the raw Search Console exports.
+
 ## 17 October 2026 audit and release checks
 
 The live baseline at the reviewed concept frontend commit `109817b` covered 58 sitemap pages and 58 unique internal destinations. The expanded crawl checked 392 unique image URLs, including the responsive files and video poster actually used by the rendered pages. It found 18 metadata failures: the homepage schema date disagreed with its sitemap, the AI rescue page lacked structured breadcrumbs, and all 16 articles supplied an author name where Open Graph expects a profile URL. The structured-data guide also had only one main-body referring page.

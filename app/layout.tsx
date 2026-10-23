@@ -1,3 +1,4 @@
+import { PlausibleAnalytics } from '@/components/plausible-analytics';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { JsonLd } from '@/components/json-ld';
@@ -73,6 +74,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <JsonLd id="organization-schema" data={organizationSchema} />
         <div className="site-frame">{children}</div>
         <ConversionTracking />
+        <PlausibleAnalytics />
       </body>
     </html>
   );

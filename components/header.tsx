@@ -23,6 +23,7 @@ export function Header() {
         <Link className="header-cta" href="/contact">
           Contact <ArrowUpRight size={14} />
         </Link>
+        <a className="mobile-contact" href={site.whatsapp}>WhatsApp Cameron</a>
 
         <details className="mobile-nav">
           <summary aria-label="Open navigation"><Menu size={20} /></summary>

@@ -27,7 +27,9 @@ Set `BYTESEND_API_KEY` as a runtime secret on the existing Cloudflare Worker and
 
 `GET /api/contact` is a non-sending configuration check: `200 {"available":true}` or `503 {"available":false}`. A configured key is not proof of provider acceptance or inbox delivery. When unconfigured, the form shows email/phone/WhatsApp alternatives and disables sending. Invalid JSON or fields return 400 before configuration is checked; provider failures return a generic 502. The ByteSend request has a 10-second timeout and does not automatically retry a send. Production readiness requires an authorised synthetic enquiry, a `DELIVERED` event in ByteSend, and confirmation in the receiving inbox (including Forward Email forwarding).
 
-Application logs contain allowlisted action names only. `enquiry_accepted` means provider acceptance, not that the recipient read it. `enquiry_failed` and `enquiry_unavailable` record operational failures without form contents. Browser events include contact-link clicks, form starts/attempts/errors and estimator handoffs. They are **not** durable analytics, unique visitors, attribution, verified delivery or qualified leads. Select an owner-approved analytics/alerting destination before making those claims.
+Application logs contain allowlisted action names, failure categories and HTTP statuses only. `enquiry_accepted` means provider acceptance, not that the recipient read it. `enquiry_failed` and `enquiry_unavailable` record operational failures without form contents. Email diagnostics distinguish transport failures, provider rejection and invalid acceptance responses without logging provider bodies or credentials. Browser events include contact-link clicks, form starts/attempts/errors and estimator handoffs. They are **not** durable analytics, unique visitors, attribution, verified delivery or qualified leads. Select an owner-approved analytics/alerting destination before making those claims.
+
+Email requests use `redirect: 'manual'`: Cloudflare Workers rejects `redirect: 'error'` at runtime. Redirect responses are rejected as non-2xx without following them, so the API key is never forwarded to a redirect destination.
 
 ## Content and search maintenance
 
@@ -58,3 +60,18 @@ Layerforge, Mineralis and Emberwell are self-initiated designs for fictional bra
 ## Production serving
 
 The canonical Cloudflare Worker serves the frontend and APIs from the same OpenNext build. Static assets come from that deployment with `public/_headers`, without forwarding requests to Vercel. Worker-first routing preserves apex redirects and preview noindex headers for assets as well as pages. Deploy from the current production branch so the reviewed independent concepts and removal of legacy media remain intact. Existing custom-domain routes and dashboard-managed bindings are retained. Verify that retired media returns 404 after release.
+
+## Self-hosted pageview analytics
+
+`components/plausible-analytics.tsx` sends public-page visits to the owner's
+Plausible instance at `https://immich.tail31199f.ts.net/analytics/event`.
+The manual tracker records client navigation without query strings or form
+contents. It runs only on pixaloom.co.za and www.pixaloom.co.za.
+The local dashboard is http://localhost:8000/pixaloom.co.za.
+Collection stops while the owner's PC or Docker services are offline.
+
+Contact actions also use this existing tracker when it is available. Configure
+matching Plausible custom-event goals to report them. `enquiry_submit` is an
+attempt; `enquiry_accepted` is emitted after successful API acceptance and is
+not proof of inbox delivery or a qualified lead. Action URLs omit query strings
+and fragments. Tracker failures never interrupt the contact journey.

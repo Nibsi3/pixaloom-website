@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, ArrowUpRight, Check, MapPin } from 'lucide-react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { WebsiteBuildFit } from '@/components/website-build-fit';
 import { JsonLd } from '@/components/json-ld';
 import { breadcrumbSchema, faqPageSchema } from '@/lib/schema';
 import { services } from '@/lib/services';
@@ -137,6 +138,8 @@ export default function GeorgePage() {
             </div>
           </div>
         </section>
+
+        <WebsiteBuildFit local />
 
         <section className="content-section alt">
           <div className="site-container">

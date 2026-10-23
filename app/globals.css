@@ -943,6 +943,35 @@ img { max-width: 100%; }
 .hero-offer p { font-size: clamp(1rem, 1.7vw, 1.4rem); color: #f0ede4; margin: 0 0 7px; }
 .hero-offer > span { color: #c9c6be; font-size: .8rem; line-height: 1.6; display: block; }
 .hero-offer a { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; min-height: 32px; font-size: .78rem; color: #f0ede4; border-bottom: 1px solid #777; }
+.hero-offer h1 { margin: 0 0 10px; font-size: clamp(1.2rem, 2.1vw, 1.8rem); line-height: 1.2; font-weight: 500; letter-spacing: -.025em; color: #f0ede4; }
+.hero-offer-actions { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.hero-offer-actions a { min-height: 44px; margin-top: 4px; }
+.reference-home .hero-offer { top: 5%; }
+.reference-home .portal-copy .portal-wordmark span { top: 35%; }
+.reference-home .portal-copy .portal-wordmark strong:nth-of-type(1) { top: 48%; }
+.reference-home .portal-copy .portal-wordmark i { top: 50%; }
+.reference-home .portal-copy .portal-wordmark strong:nth-of-type(2) { top: 66%; }
+.reference-home .featured-copy > h2 em { display: block; margin-left: 0; color: rgba(255,255,255,.68); font-size: .52em; font-weight: 400; letter-spacing: -.04em; }
+.mobile-contact { display: none; }
+.home-buying-guide { padding: 80px 0; border-block: 1px solid #333; background: #101111; color: #f0ede4; }
+.home-buying-guide h2 { font-family: "Iowan Old Style",Baskerville,serif; font-size: clamp(2.2rem,4vw,4rem); font-weight: 400; line-height: 1.1; margin: 22px 0; }
+.home-buying-guide .lead { max-width: 780px; color: #c9c6be; font-size: 1.05rem; line-height: 1.8; }
+.buying-options { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 30px; margin: 40px 0 24px; }
+.buying-options article { border-top: 1px solid #555; padding-top: 24px; }
+.home-buying-guide h3 { margin: 0 0 16px; font-size: 1.25rem; font-weight: 500; }
+.buying-options p,.buying-proof p,.buying-scope { color: #c9c6be; line-height: 1.8; }
+.buying-options a { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 0; }
+.home-buying-guide a { color: #f0ede4; text-decoration: underline; text-underline-offset: 5px; }
+.buying-scope { font-size: .85rem; }
+.buying-proof { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; border-top: 1px solid #555; margin-top: 40px; padding-top: 32px; }
+@media (max-width: 720px) {
+  .site-header .header-inner { grid-template-columns: 1fr auto auto; align-items: center; }
+  .mobile-contact { display: inline-flex; align-items: center; margin-left: auto; margin-right: 18px; min-height: 44px; color: #f0ede4; font-size: .8rem; text-decoration: underline; text-underline-offset: 5px; }
+  .reference-home .portal-copy .portal-wordmark strong:nth-of-type(1) { top: 44%; }
+  .reference-home .portal-copy .portal-wordmark i { top: 59%; left: 65%; }
+  .buying-options,.buying-proof { grid-template-columns: 1fr; gap: 28px; }
+  .home-buying-guide { padding: 52px 0; }
+}
 .reference-hero:not(.project-case-hero) .featured-kicker { top: 30%; }
 .service-budget,.project-provenance { line-height: 1.8; color: #aaa8a1; }
 .article-project-evidence { margin: 32px 0; }

@@ -14,8 +14,8 @@ import { contentModified } from '@/lib/content-dates';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Web Design South Africa',
-  description: 'Pixaloom designs fast, distinctive websites, ecommerce stores and web applications for ambitious South African businesses.',
+  title: 'Web Design George & Garden Route',
+  description: 'Business websites, online stores and redesigns by Cameron at Pixaloom in George. Serving South Africa. View real work, compare costs and discuss your website.',
   path: '/',
 });
 
@@ -34,7 +34,7 @@ const homeSchema = {
   '@type': 'WebPage',
   '@id': `${site.url}/#webpage`,
   url: site.url,
-  name: 'Web Design South Africa | Pixaloom',
+  name: 'Web Design George & Garden Route | Pixaloom',
   description: site.description,
   inLanguage: 'en-ZA',
   isPartOf: { '@id': `${site.url}/#website` },
@@ -102,6 +102,20 @@ export default function HomePage() {
         <JsonLd id="home-schema" data={homeSchema} />
 
         <CinematicHero />
+        <section className="home-buying-guide" aria-labelledby="website-project-title">
+          <div className="site-container">
+            <p className="eyebrow">Your website project</p>
+            <h2 id="website-project-title">Make it easy to choose your business.<br /><em>And easy to contact you.</em></h2>
+            <p className="lead">Work directly with Cameron Falck, a website designer and developer in George. Start with what you sell, who you serve and how customers should enquire. We’ll help you choose the right scope before committing to a build.</p>
+            <div className="buying-options">
+              <article><h3>A new business website</h3><p>Clear service pages, mobile layouts and call, WhatsApp or form enquiries. A focused five-page custom build has a planning range of R35,000–R55,000; smaller template briefs can be scoped separately.</p><Link href="/services/website-design">Explore website design <ArrowUpRight size={16} /></Link></article>
+              <article><h3>An online store</h3><p>Plan products, payments, delivery and who keeps the catalogue up to date. Start with the practical requirements before choosing the platform.</p><Link href="/blog/ecommerce-website-south-africa">Read the ecommerce planning guide <ArrowUpRight size={16} /></Link><Link href="/services/ecommerce-websites">Explore ecommerce development <ArrowUpRight size={16} /></Link></article>
+              <article><h3>A better existing website</h3><p>Bring your current URL and what needs to change. We review the pages worth keeping, the mobile experience and the steps between arriving and making an enquiry.</p><Link href="/contact">Discuss your redesign <ArrowUpRight size={16} /></Link></article>
+            </div>
+            <p className="buying-scope">Planning figures exclude optional features, recurring costs and VAT where applicable. Your written scope determines the quote. <Link href="/website-cost">Compare website costs and inclusions</Link>.</p>
+            <div className="buying-proof"><div><h3>A local business example</h3><p>See the service pages and contact routes in our <Link href="/work/paws-on-route">Paws On Route website case study</Link>, for a George pet grooming and pet sitting business. The selected designs below also include clearly labelled independent concepts.</p></div><div><h3>Start with a short conversation</h3><p>Send your business name, the website you need and any existing URL. You do not need a finished brief or a confirmed budget.</p><a className="text-link" href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my business.')}`}>Talk to Cameron on WhatsApp <ArrowUpRight size={16} /></a></div></div>
+          </div>
+        </section>
         <RescueIntro />
 
         <section className="reference-archive" id="work-archive">

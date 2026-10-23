@@ -133,7 +133,7 @@ test('ByteSend acceptance uses authenticated bounded HTTP and preserves safe enq
   const headers = new Headers(options.headers);
   assert.equal(headers.get('authorization'), 'Bearer unit-test-only');
   assert.equal(headers.get('content-type'), 'application/json');
-  assert.equal(options.redirect, 'error');
+  assert.equal(options.redirect, 'manual');
   assert.equal(options.cache, 'no-store');
   assert.ok(options.signal instanceof AbortSignal);
   assert.deepEqual(fixture.timeouts, [10000]);
@@ -182,7 +182,7 @@ test('invalid ByteSend configuration stays unavailable without a network request
 
 test('provider HTTP, timeout and malformed acceptance failures stay generic and never retry', async t => {
   const scenarios = [
-    ...[401, 403, 429, 500].map(status => ({ name: `HTTP ${status}`, respond: async () => Response.json({ error: 'SECRET_PROVIDER_DETAIL' }, { status }) })),
+    ...[301, 302, 307, 308, 401, 403, 429, 500].map(status => ({ name: `HTTP ${status}`, respond: async () => Response.json({ error: 'SECRET_PROVIDER_DETAIL' }, { status, headers: { Location: 'https://other.example/collect' } }) })),
     { name: 'network rejection', respond: async () => { throw new TypeError('SECRET_PROVIDER_DETAIL'); } },
     { name: 'timeout', respond: async () => { throw new DOMException('SECRET_PROVIDER_DETAIL', 'TimeoutError'); } },
     { name: 'malformed JSON', respond: async () => new Response('SECRET_PROVIDER_DETAIL', { status: 200 }) },
@@ -250,7 +250,7 @@ test('George intent and service-to-location links are explicit', () => {
   }
   const entries = sitemap();
   for (const pathName of ['/locations/george', '/services/website-design', '/services/seo']) {
-    assert.equal(entries.find(item => item.url.endsWith(pathName)).lastModified, '2026-09-04');
+    assert.equal(entries.find(item => item.url.endsWith(pathName)).lastModified, pathName === '/services/seo' ? '2026-09-04' : '2026-10-23');
   }
 });
 test('website pricing intent receives a direct answer and the legacy pricing URL', async () => {
@@ -259,7 +259,7 @@ test('website pricing intent receives a direct answer and the legacy pricing URL
   assert.match(page, /Five-page business website/);
   assert.match(page, /R35,000–R55,000/);
   assert.match(page, /Monthly website costs/);
-  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-09-30');
+  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-10-23');
   const pricingRedirect = (await require('../next.config.js').redirects()).find(item => item.source === '/pricing');
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });

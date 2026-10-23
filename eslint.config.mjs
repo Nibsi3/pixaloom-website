@@ -16,7 +16,7 @@ export default defineConfig([
     },
   },
   globalIgnores([
-    '.next/**', '.open-next/**', '.wrangler/**', 'out/**', 'build/**', 'cloudflare-env.d.ts', 'next-env.d.ts', 'scripts/**',
+    '.next/**', '.open-next/**', '.wrangler/**', 'out/**', 'output/**', 'outputs/**', 'audits/**', 'fiverr-assets/**', 'build/**', 'cloudflare-env.d.ts', 'next-env.d.ts', 'scripts/**',
     'app/os/**', 'app/jokes/**',
     'components/ui/**',
     'components/blog-listing.tsx', 'components/contact-cta.tsx',
