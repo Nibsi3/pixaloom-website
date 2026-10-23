@@ -15,6 +15,7 @@ const nextConfig = {
     return [
       { source: '/pricing', destination: 'https://www.pixaloom.co.za/website-cost', permanent: true },
       { source: '/website-offer', destination: 'https://www.pixaloom.co.za/website-cost', permanent: true },
+      { source: '/product-catalogue-websites', destination: 'https://www.pixaloom.co.za/services/ecommerce-websites', permanent: true },
       { source: '/shop', destination: 'https://www.pixaloom.co.za/services/ecommerce-websites', permanent: true },
       { source: '/payment', destination: 'https://www.pixaloom.co.za/services/ecommerce-websites', permanent: true },
       { source: '/the-canyon', destination: 'https://www.pixaloom.co.za/projects', permanent: true },

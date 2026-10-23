@@ -345,6 +345,7 @@ async function audit() {
   const redirectCases = [
     [pageUrl("/pricing?utm_source=seo-audit&topic=web%20design"), "/website-cost"],
     [pageUrl("/website-offer?utm_source=seo-audit&topic=web%20design"), "/website-cost"],
+    [pageUrl("/product-catalogue-websites?utm_source=seo-audit&product=sample%20model"), "/services/ecommerce-websites"],
     [pageUrl("/shop"), "/services/ecommerce-websites"],
   ];
   if (crawlOrigin.origin === canonicalOrigin.origin && canonicalOrigin.hostname.startsWith("www.")) {
