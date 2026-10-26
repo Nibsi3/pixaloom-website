@@ -10,13 +10,21 @@ import { services } from '@/lib/services';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Web Design in George',
+  title: 'Web Design George | Business Websites & Redesigns',
   description:
-    'Pixaloom is a web design studio in George, Western Cape. We build fast, search-ready websites, ecommerce stores and web apps for Garden Route and South African businesses.',
+    'Work directly with Cameron in George on your business website or redesign. See local work, custom-build costs and what is included. Discuss your brief.',
   path: '/locations/george',
 });
 
 const faqs = [
+  {
+    question: 'How much does a business website in George cost?',
+    answer: 'Pixaloom’s focused five-page custom website allowance is R35,000–R55,000, excluding optional features, VAT where applicable and recurring costs. This is our planning range, not a George market average. A smaller template website can be scoped separately. We confirm the price after agreeing the content, pages and enquiry journey.',
+  },
+  {
+    question: 'How long will my business website take?',
+    answer: 'Allow about four to eight weeks for a focused build once the scope, content responsibilities and approval milestones are agreed. Bookings, integrations, content collection or a substantial migration can extend the schedule. We confirm timing in the proposal.',
+  },
   {
     question: 'Is Pixaloom actually based in George?',
     answer:
@@ -108,9 +116,13 @@ export default function GeorgePage() {
                 Web design in <em>George.</em>
               </h1>
             </div>
-            <p className="lead">
-              Pixaloom is an independent web design and development studio in George. We build websites that load quickly on South African mobile connections, make the next action obvious, and can be found when someone searches for a Garden Route business.
-            </p>
+            <div>
+              <p className="lead">Work directly with Cameron Falck at Pixaloom, an independent website design and development studio in George. We build and redesign business websites around clear service information, mobile usability and an easy route to call, WhatsApp or request a quote.</p>
+              <div className="minimal-inline-links" style={{ marginTop: 28 }}>
+                <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my George or Garden Route business.')}`}>Discuss your website <ArrowRight size={18} /></a>
+                <Link href="/website-cost">See costs and inclusions <ArrowUpRight size={14} /></Link>
+              </div>
+            </div>
           </div>
         </section>
 

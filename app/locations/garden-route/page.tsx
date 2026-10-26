@@ -11,7 +11,7 @@ import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 export const metadata: Metadata = pageMetadata({
   title: 'Web Design on the Garden Route',
   description:
-    'Web design for Garden Route businesses—from Mossel Bay and George to Knysna, Wilderness and Plettenberg Bay. Fast sites, local search and conversion paths that work on mobile.',
+    'Business websites and redesigns across the Garden Route, from our George studio. Plan service pages, booking enquiries and costs directly with Cameron.',
   path: '/locations/garden-route',
 });
 
@@ -93,7 +93,7 @@ export default function GardenRoutePage() {
               </h1>
             </div>
             <p className="lead">
-              Tourism lodges, restaurants, trades, medical practices and retailers between Mossel Bay and Plettenberg Bay compete in search results that are more crowded every season. We design sites that hold up on mobile, explain the offer, and give visitors a way to book or enquire without hunting.
+              Work with Cameron Falck at our George studio on a website for your Garden Route business. We help service businesses, accommodation providers and retailers explain their offer, serve mobile visitors and make booking or quote enquiries easier.
             </p>
           </div>
         </section>
@@ -115,6 +115,26 @@ export default function GardenRoutePage() {
                 Visit the George studio page <ArrowRight size={15} />
               </Link>
               <p>For a local service structure, see <Link href="/work/paws-on-route">Paws On Route</Link>. For a different kind of product, see the <Link href="/work/spotlight">Spotlight map interface study</Link>. These examples show the described work, not a promise of booking or ranking results.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="content-section">
+          <div className="site-container content-grid">
+            <div>
+              <p className="eyebrow">Plan your business website</p>
+              <h2>A practical brief for the customers you serve.</h2>
+              <p className="service-budget">A focused five-page custom business website has a Pixaloom planning allowance of R35,000–R55,000. Optional features, VAT where applicable and recurring costs are separate. Smaller template briefs can be scoped separately.</p>
+              <Link href="/website-cost" className="text-link">Compare website costs and inclusions <ArrowRight size={15} /></Link>
+            </div>
+            <div className="body-copy">
+              <h3>Trades and businesses that travel to customers</h3>
+              <p>Identify the towns you actually cover, the jobs you accept and the information needed for a quote. A useful enquiry can include the service, town and preferred contact method. Agree who answers it and whether the customer needs a site visit before receiving a price.</p>
+              <h3>Accommodation and visitor experiences</h3>
+              <p>Show room or activity options, location, arrival details and the next booking step. Decide whether the website links to an existing booking provider, sends an availability enquiry or needs a separately scoped integration. See our <Link href="/blog/george-tourism-website-best-practices">tourism website planning guide</Link>.</p>
+              <h3>A redesign of an existing local website</h3>
+              <p>Bring the current URL and the services you want to promote. We identify useful pages to retain, map changed addresses and test contact routes before launch. See the <Link href="/locations/george">George website design page</Link> for local project examples and how we work.</p>
+              <p>These are planning examples, not claims about previous customers. Send your business name, location and current website to <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like a website for my Garden Route business.')}`}>discuss your brief with Cameron</a>.</p>
             </div>
           </div>
         </section>

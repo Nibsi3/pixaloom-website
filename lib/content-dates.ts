@@ -4,8 +4,8 @@ import { projectCaptureSets } from '@/lib/project-captures';
 // Unknown legacy modification dates are omitted, not replaced with build time.
 const pageDates: Record<string, string> = {
   '/': '2026-10-23', '/services': '2026-09-14', '/ai-website-app-rescue': '2026-09-14', '/about': '2026-09-03', '/blog': '2026-09-03',
-  '/contact': '2026-10-23', '/privacy': '2026-10-23', '/website-cost': '2026-10-23',
-  '/locations/george': '2026-10-23', '/locations/garden-route': '2026-09-03',
+  '/contact': '2026-10-23', '/privacy': '2026-10-23', '/website-cost': '2026-10-26',
+  '/locations/george': '2026-10-26', '/locations/garden-route': '2026-10-26',
   '/services/website-design': '2026-10-23', '/services/ecommerce-websites': '2026-10-23',
   '/services/seo': '2026-09-04', '/services/web-app-development': '2026-09-14', '/services/website-care': '2026-09-14',
   '/locations/western-cape': '2026-09-03', '/locations/gauteng': '2026-09-03', '/locations/kwazulu-natal': '2026-09-03',

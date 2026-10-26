@@ -11,7 +11,7 @@ import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import { contentModified } from '@/lib/content-dates';
 
 const pageDescription =
-  'See Pixaloom website design prices for South Africa in 2026, including a five-page business site, ecommerce, web apps and recurring costs.';
+  'Pixaloom custom business websites: R35,000–R55,000 for five pages. Compare scope, optional extras and recurring costs, then estimate your project.';
 
 export const metadata: Metadata = pageMetadata({
   title: 'Website Design Prices South Africa (2026)',
@@ -135,6 +135,24 @@ export default function WebsiteCostPage() {
         </section>
 
         <WebsiteBuildFit />
+
+        <section className="content-section">
+          <div className="site-container content-grid">
+            <div>
+              <p className="eyebrow">Compare like for like</p>
+              <h2>What would your five pages actually do?</h2>
+              <p className="service-budget">An illustrative scope for a service business. This is not a completed client quote or a promise that every five-page website needs the same work.</p>
+            </div>
+            <div className="body-copy">
+              <p>A focused brief might include a homepage explaining the offer, two pages for the main services, an about-and-work page showing genuine evidence, and a contact page with service area and enquiry options. The page count alone does not define the cost: content preparation, unique layouts and integrations still need agreement.</p>
+              <h3>Separate the build from the first year of ownership</h3>
+              <p>Compare the quoted build fee plus any content work, optional features, twelve months of monthly subscriptions, annual renewals and agreed support. Confirm VAT treatment and whether any first-year discounts change at renewal. Ask who owns each account and which fees are paid directly to providers.</p>
+              <h3>Keep a smaller brief small</h3>
+              <p>If your content is ready and you only need a simple brochure, ask us to scope a template website before budgeting for a custom build. If the existing website already works, a targeted repair may be sufficient. We confirm the appropriate scope before quoting.</p>
+              <p>For a local project, explore <Link href="/locations/george">business website design in George</Link> or our <Link href="/locations/garden-route">Garden Route website service</Link>. Bring your current URL, priority services and the action you want customers to take.</p>
+            </div>
+          </div>
+        </section>
 
         <section className="minimal-statement">
           <div className="minimal-shell">

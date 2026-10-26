@@ -1,5 +1,21 @@
 # SEO maintenance and owner checklist
 
+## 26 October 2026 local search focus
+
+The owner selected George/Garden Route business websites as the acquisition priority.
+The George page now explains the direct working relationship, costs and timing, with
+a WhatsApp action in its introduction. Garden Route content distinguishes service-area,
+tourism and redesign briefs. The pricing page explains a five-page scope and first-year
+ownership costs and links contextually to both local service pages. Prices are unchanged.
+Only substantively changed pages receive the 26 October modification date.
+
+Private Search Console observations and the evaluation plan are recorded in
+`audits/local-search-growth-2026-10-26.md`. Keep raw performance data private.
+Prioritise relevant local non-brand queries and qualified enquiries over unrelated
+portfolio-brand impressions. Existing Business Profile eligibility/status and
+permissioned customer evidence still require verification; this release does not
+claim a ranking increase or create reviews, listings or external mentions.
+
 ## 23 October 2026 acquisition and enquiry review
 
 The homepage now exposes the George website-design offer before the animated reveal,
