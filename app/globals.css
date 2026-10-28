@@ -1455,17 +1455,5 @@ body { padding: 0; background: #030303; color: var(--cream); font-family: Inter,
 .rescue-intro .rescue-link { display:inline-flex; gap:10px; align-items:center; color:#d5def1; font-size:15px; text-decoration:underline; text-underline-offset:5px; margin-top:18px; }
 @media(max-width:760px){.rescue-intro-grid{grid-template-columns:1fr;gap:16px}.rescue-intro{padding:44px 0}}
 
-/* Portfolio captures follow the existing quiet, editorial Work index. */
-.portfolio-visuals { padding: 0 0 90px; }
-.portfolio-visual-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 56px 32px; }
-.portfolio-visual-card { display: block; min-width: 0; }
-.portfolio-visual-image { position: relative; aspect-ratio: 16/10; overflow: hidden; background: #191919; }
-.portfolio-visual-image img { object-fit: cover; object-position: top; transition: transform .4s ease; }
-.portfolio-visual-card:hover img { transform: scale(1.025); }
-.portfolio-visual-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; }
-.portfolio-visual-heading h2 { margin: 0; font-family: "Iowan Old Style",Baskerville,serif; font-size: clamp(1.7rem,3vw,2.6rem); font-weight: 400; letter-spacing: -.04em; }
-.portfolio-visual-card p { color: #aaa89f; font-size: .7rem; margin: 12px 0; line-height: 1.6; }
+/* Status labels shared by the existing Work rows and project details. */
 .project-status { display: block; width: fit-content; margin-top: 12px; padding: 6px 10px; border: 1px solid #867e62; border-radius: 20px; color: #e1d4a7; font: 500 .65rem/1.4 sans-serif; letter-spacing: .04em; text-transform: none; }
-.portfolio-visual-card:focus-visible { outline: 2px solid #e1d4a7; outline-offset: 8px; }
-@media (max-width: 720px) { .portfolio-visual-grid { grid-template-columns: minmax(0,1fr); gap: 40px; } .portfolio-visuals { padding-bottom: 50px; } }
-@media (prefers-reduced-motion: reduce) { .portfolio-visual-image img { transition: none; } }
