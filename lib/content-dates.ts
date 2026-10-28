@@ -18,7 +18,7 @@ const pageDates: Record<string, string> = {
   '/work/featherbleu': '2026-09-03', '/work/trakcare-barcode-scanner': '2026-09-03', '/work/kikay-pharma': '2026-09-03',
 };
 export function contentModified(path: string) {
-  if (path === '/projects') return '2026-10-19';
+  if (path === '/projects') return '2026-10-28';
   const capture = path.startsWith('/work/') ? projectCaptureSets[path.slice('/work/'.length)] : undefined;
   return capture?.capturedAt ?? pageDates[path || '/'];
 }

@@ -1,7 +1,61 @@
-export type ProjectCaptureSet = { capturedAt: string; sourceLabel: string; images: { src: string; description: string }[] };
+export type ProjectCaptureSet = { capturedAt: string; sourceLabel: string; images: { src: string; description: string; width?: number; height?: number }[] };
 
 // Browser captures reviewed at their saved resolution. Local demo data is labelled.
 export const projectCaptureSets: Record<string, ProjectCaptureSet> = {
+"featherbleu-store": {
+  "capturedAt": "2026-10-28",
+  "sourceLabel": "Saved website preview captures",
+  "images": [
+    {
+      "src": "/portfolio/2026-10-28/featherbleu-store-home.webp",
+      "description": "Featherbleu Store homepage with security-camera imagery and the Live Without Limits headline",
+      "width": 1265,
+      "height": 712
+    },
+    {
+      "src": "/portfolio/2026-10-28/featherbleu-store-catalogue.webp",
+      "description": "Featherbleu Store product catalogue showing cameras, access control and automation equipment",
+      "width": 1265,
+      "height": 712
+    }
+  ]
+},
+"cannablis": {
+  "capturedAt": "2026-10-28",
+  "sourceLabel": "Saved website preview captures",
+  "images": [
+    {
+      "src": "/portfolio/2026-10-28/cannablis-home.webp",
+      "description": "Cannablis marketplace recreation homepage with botanical imagery and marketplace search",
+      "width": 1265,
+      "height": 712
+    }
+  ]
+},
+"team-colours": {
+  "capturedAt": "2026-10-28",
+  "sourceLabel": "Saved website preview captures",
+  "images": [
+    {
+      "src": "/portfolio/2026-10-28/team-colours-home.webp",
+      "description": "Team Colours rugby-inspired apparel campaign section with collection imagery and a shop navigation link",
+      "width": 1392,
+      "height": 571
+    }
+  ]
+},
+"botaniquilt": {
+  "capturedAt": "2026-10-26",
+  "sourceLabel": "Saved website preview captures",
+  "images": [
+    {
+      "src": "/portfolio/2026-10-28/botaniquilt-home.webp",
+      "description": "Botaniquilt storefront homepage with the print-led textile visual direction and collection navigation",
+      "width": 1291,
+      "height": 874
+    }
+  ]
+},
   "paws-on-route": {
     "capturedAt": "2026-10-19",
     "sourceLabel": "Live website screenshots; captured 19 October 2026",

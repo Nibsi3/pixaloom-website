@@ -73,6 +73,8 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
           index={index}
           liveUrl={item.url}
           concept={item.concept}
+          status={item.status}
+          preview={item.preview}
           meta={item.meta}
           name={item.name}
           outcomes={item.highlights}
@@ -92,7 +94,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
           <div className="site-container gallery-mosaic">
             {gallery.slice(0, 6).map((image, imageIndex) => (
               <figure className={`gallery-shot gallery-shot-${(imageIndex % 5) + 1}${projectCaptureSets[slug] ? " capture-shot" : ""}`} key={image}>
-                <Image src={image} alt={projectMediaDescription(item, image)} {...(projectCaptureSets[slug] ? { width: slug === "trakcare-barcode-scanner" ? 2000 : 3200, height: slug === "trakcare-barcode-scanner" ? 1440 : 2000 } : { fill: true })} sizes="(max-width: 760px) 100vw, 60vw" />
+                <Image src={image} alt={projectMediaDescription(item, image)} {...(projectCaptureSets[slug] ? { width: projectCaptureSets[slug].images.find(capture => capture.src === image)?.width ?? (slug === "trakcare-barcode-scanner" ? 2000 : 3200), height: projectCaptureSets[slug].images.find(capture => capture.src === image)?.height ?? (slug === "trakcare-barcode-scanner" ? 1440 : 2000) } : { fill: true })} sizes="(max-width: 760px) 100vw, 60vw" />
                 <figcaption>{projectMediaDescription(item, image)}</figcaption>
               </figure>
             ))}
@@ -101,7 +103,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
 
         <section className="case-delivery">
           <div className="site-container case-brief-grid">
-            <div><p className="micro-label">Capabilities delivered</p><h2>Every layer,<br />working together.</h2></div>
+            <div><p className="micro-label">{item.status ? "The experience taking shape" : "Capabilities delivered"}</p><h2>Every layer,<br />working together.</h2></div>
             <ol className="case-outcomes">{item.highlights.map((highlight, highlightIndex) => <li key={highlight}><span>{String(highlightIndex + 1).padStart(2, '0')}</span><p>{highlight}</p></li>)}</ol>
           </div>
         </section>

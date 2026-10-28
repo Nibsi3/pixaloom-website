@@ -13,13 +13,15 @@ type ProjectCircleHeroProps = {
   index: number;
   liveUrl?: string;
   concept?: boolean;
+  status?: string;
+  preview?: boolean;
   meta: string;
   name: string;
   outcomes: string[];
   summary: string;
 };
 
-export function ProjectCircleHero({ accent, category, index, liveUrl, concept, meta, name, outcomes, summary }: ProjectCircleHeroProps) {
+export function ProjectCircleHero({ accent, category, index, liveUrl, concept, status, preview, meta, name, outcomes, summary }: ProjectCircleHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   usePortalScrollProgress(sectionRef, false);
   const titleLength = name.length > 20 ? 'xlong' : name.length > 9 ? 'long' : name.length > 7 ? 'medium' : 'standard';
@@ -47,15 +49,16 @@ export function ProjectCircleHero({ accent, category, index, liveUrl, concept, m
             <strong>{name}</strong>
           </h1>
           <span className="project-circle-meta">{meta}</span>
+          {status ? <span className="project-status">{status}</span> : null}
           <span className="project-circle-scroll">Scroll to reveal <ArrowDown size={12} /></span>
         </div>
 
         <div className="featured-copy project-case-featured">
           <div className="project-circle-copy">
-            <p>Project {String(index + 1).padStart(2, '0')} · {concept ? "Self-initiated study" : "What we delivered"}</p>
+            <p>Project {String(index + 1).padStart(2, '0')} · {concept ? "Self-initiated study" : status ? "The project direction" : "What we delivered"}</p>
             <h2>{name}</h2>
             <p className="project-circle-summary">{summary}</p>
-            {liveUrl ? <a href={liveUrl} target="_blank" rel="noreferrer">{concept ? 'Explore independent concept' : liveUrl.includes('.vercel.app') || liveUrl.includes('havaldemo.co.za') ? 'Visit project preview' : 'Visit public website'} <ExternalLink size={13} /></a> : <span className="project-circle-engagement">{concept ? "Independent concept · publication pending" : "Archived interface study"}</span>}
+            {liveUrl ? <a href={liveUrl} target="_blank" rel="noreferrer">{concept ? 'Explore independent concept' : preview || liveUrl.includes('.vercel.app') || liveUrl.includes('havaldemo.co.za') ? 'Visit project preview' : 'Visit public website'} <ExternalLink size={13} /></a> : <span className="project-circle-engagement">{concept ? "Independent concept · publication pending" : "Archived interface study"}</span>}
           </div>
           <div className="project-circle-outcomes">
             <p>Selected outcomes</p>

@@ -15,9 +15,108 @@ export type WorkItem = {
   category?: 'Web App' | 'Ecommerce' | 'Business' | 'News' | 'AI & Backend' | 'Healthcare' | 'Automotive';
   url?: string;
   concept?: boolean;
+  status?: 'Work in progress';
+  preview?: boolean;
 };
 
 const allWorkItems: WorkItem[] = [
+{
+  "slug": "featherbleu-store",
+  "name": "Featherbleu Store",
+  "category": "Ecommerce",
+  "url": "https://featherbleu-storefront.cameronfalck03.workers.dev/#learn",
+  "status": "Work in progress",
+  "preview": true,
+  "meta": "Smart home · Product discovery · Storefront",
+  "scope": "A new storefront for Featherbleu, bringing security cameras, access control and home automation into a considered product browsing experience. This store is a separate project from the main Featherbleu services website and is a work in progress.",
+  "highlights": [
+    "Editorial introduction to security and smart-home products",
+    "Product cards with specifications and selection controls",
+    "Technology stories connected to the catalogue"
+  ],
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "Cloudflare Workers"
+  ],
+  "facts": [
+    {
+      "label": "Focus",
+      "value": "Security + home automation"
+    },
+    {
+      "label": "Status",
+      "value": "Work in progress"
+    }
+  ],
+  "png": "/portfolio/2026-10-28/featherbleu-store-home.webp",
+  "fallback": "/portfolio/2026-10-28/featherbleu-store-home.webp"
+},
+{
+  "slug": "cannablis",
+  "name": "Cannablis",
+  "category": "Ecommerce",
+  "url": "https://seashell-jellyfish-852093.hostingersite.com/?v=4",
+  "preview": true,
+  "meta": "Marketplace · Discovery · Community",
+  "scope": "A marketplace interface bringing browsing, search and seller discovery into a warm, botanical visual identity. The original Cannablis project centred on cannabis products; the linked recreation presents a general community marketplace for garden, clothing, home and book listings.",
+  "highlights": [
+    "Category-led browsing with a prominent marketplace search",
+    "Location and sorting controls for finding relevant listings",
+    "Listing cards that bring products, prices and seller information together"
+  ],
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "facts": [
+    {
+      "label": "Format",
+      "value": "Marketplace website"
+    },
+    {
+      "label": "Focus",
+      "value": "Discovery + listing presentation"
+    }
+  ],
+  "png": "/portfolio/2026-10-28/cannablis-home.webp",
+  "fallback": "/portfolio/2026-10-28/cannablis-home.webp"
+},
+{
+  "slug": "botaniquilt",
+  "name": "Botaniquilt",
+  "category": "Ecommerce",
+  "url": "https://botaniquilt.co.za",
+  "status": "Work in progress",
+  "preview": true,
+  "meta": "Textiles · Clothing · Editorial storefront",
+  "scope": "A print-led storefront for Botaniquilt, bringing clothing, accessories and homeware together through generous imagery, quiet typography and collection browsing. The website is a work in progress, with the current visual direction shown in the saved captures.",
+  "highlights": [
+    "Editorial homepage built around colour and print",
+    "Collection navigation across clothing, accessories and homeware",
+    "Product selection and saved favourites interface"
+  ],
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "Cloudflare Workers"
+  ],
+  "facts": [
+    {
+      "label": "Focus",
+      "value": "Textiles + lifestyle"
+    },
+    {
+      "label": "Status",
+      "value": "Work in progress"
+    }
+  ],
+  "png": "/portfolio/2026-10-28/botaniquilt-home.webp",
+  "fallback": "/portfolio/2026-10-28/botaniquilt-home.webp"
+},
   {
     slug: 'gearshift',
     name: 'Gearshift',
@@ -70,44 +169,37 @@ const allWorkItems: WorkItem[] = [
       '/pixa_pics/pawsonroute/pawsonroute-services.png',
     ],
   },
-  {
-    slug: 'team-colours',
-    name: 'Team Colours',
-    category: 'Ecommerce',
-    png: '/work/teamcolours.jpg',
-    fallback: '/work/team-colours.svg',
-    meta: 'WordPress · Ecommerce · SEO',
-    scope:
-      'A George-based South African ecommerce website focused on product discovery, SEO, and conversion. Built to scale product catalog content while keeping the shopping experience simple.',
-    highlights: [
-      'Ecommerce-ready site structure with product/category hierarchy',
-      'SEO-focused pages and metadata baseline',
-      'Conversion-first layout and product presentation',
-      'Performance improvements for faster browsing',
-    ],
-    stack: ['WordPress', 'WooCommerce', 'SEO', 'Performance optimization'],
-    facts: [
-      { label: 'Platform', value: 'WordPress + WooCommerce' },
-      { label: 'Type', value: 'Ecommerce' },
-      { label: 'Location', value: 'George, South Africa' },
-      { label: 'Focus', value: 'SEO + conversion' },
-    ],
-    sections: [
-      {
-        title: 'Project scope',
-        bullets: [
-          'Product catalog structure designed for SEO and discoverability',
-          'Conversion-focused product presentation and calls-to-action',
-          'Performance tuning for a smoother shopping experience',
-        ],
-      },
-    ],
-    gallery: [
-      '/pixa_pics/teamcolours/Screenshot 2026-01-10 145124.png',
-      '/pixa_pics/teamcolours/Screenshot 2026-01-10 145155.png',
-      '/pixa_pics/teamcolours/Screenshot 2026-01-10 145224.png',
-    ],
-  },
+{
+  "slug": "team-colours",
+  "name": "Team Colours",
+  "category": "Ecommerce",
+  "url": "https://darkturquoise-sparrow-103979.hostingersite.com/?page=home&preview=5",
+  "preview": true,
+  "png": "/portfolio/2026-10-28/team-colours-home.webp",
+  "fallback": "/portfolio/2026-10-28/team-colours-home.webp",
+  "meta": "Rugby-inspired apparel · Collections · Product detail",
+  "scope": "An apparel website shaped around South African rugby supporter culture. Campaign-led layouts, collection navigation and detailed product presentation give the range a clear visual identity and an easy path from inspiration to browsing.",
+  "highlights": [
+    "Campaign-led homepage and collection navigation",
+    "Product cards with garment colours and fit information",
+    "Product detail layouts with size and colour selection"
+  ],
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "facts": [
+    {
+      "label": "Industry",
+      "value": "Rugby-inspired apparel"
+    },
+    {
+      "label": "Focus",
+      "value": "Collections + product discovery"
+    }
+  ]
+},
   {
     slug: 'vicbay',
     name: 'VicBay',

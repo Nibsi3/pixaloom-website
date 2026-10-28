@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import { projectMediaDescription } from '@/lib/project-evidence';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
@@ -10,6 +12,7 @@ import { absoluteUrl, pageMetadata } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata({ title: 'Website Design Portfolio', description: 'Explore Pixaloom websites, digital products and self-initiated concept designs, with each project clearly identified.', path: '/projects' });
 
+const recentWork = ['featherbleu-store', 'cannablis', 'team-colours', 'botaniquilt'].map(slug => workItems.find(item => item.slug === slug)!);
 const priorityOrder = ['illumi', 'gearshift', 'emberwell', 'layerforge', 'mineralis'];
 const orderedWorkItems = [
   ...priorityOrder.map((slug) => workItems.find((item) => item.slug === slug)).filter((item): item is (typeof workItems)[number] => Boolean(item)),
@@ -44,6 +47,15 @@ export default function ProjectsPage() {
       </div>
     </section>
 
+    <section className="portfolio-visuals"><div className="minimal-shell">
+      <div className="minimal-section-mark"><span>Selected</span><p>A closer look</p></div>
+      <div className="portfolio-visual-grid">{recentWork.map(item => <Link href={`/work/${item.slug}`} key={item.slug} className="portfolio-visual-card">
+        <div className="portfolio-visual-image"><Image src={item.png} alt={projectMediaDescription(item, item.png)} fill sizes="(max-width: 720px) 100vw, 50vw" /></div>
+        <div className="portfolio-visual-heading"><h2>{item.name}</h2><ArrowUpRight size={20} /></div>
+        <p>{item.meta}</p>{item.status ? <span className="project-status">{item.status}</span> : null}
+      </Link>)}</div>
+    </div></section>
+
     <section className="minimal-work-index"><div className="minimal-shell">
       <div className="minimal-section-mark"><span>01</span><p>Work index</p></div>
       <div className="minimal-work-list">
@@ -51,7 +63,7 @@ export default function ProjectsPage() {
           <span>{String(index + 1).padStart(2, '0')}</span>
           <p>{item.category}</p>
           <h2>{item.name}</h2>
-          <em>{item.meta}</em>
+          <em>{item.meta}{item.status ? <span className="project-status">{item.status}</span> : null}</em>
           <ArrowUpRight size={17} />
         </Link>)}
         {additionalWork.map((item, index) => {

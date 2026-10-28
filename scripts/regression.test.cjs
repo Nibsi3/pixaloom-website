@@ -89,6 +89,23 @@ test('every published gallery capture has a visually reviewed description and a 
     assert.doesNotMatch(projectMediaDescription(item, src), /screen \d|archived .* interface capture/i);
   }
 });
+test('portfolio updates keep the store distinct and limit progress labels to the requested projects', () => {
+  assert.deepEqual(workItems.filter(item => item.status === 'Work in progress').map(item => item.slug).sort(), ['botaniquilt', 'featherbleu-store']);
+  assert.equal(new Set(workItems.map(item => item.slug)).size, workItems.length);
+  const store = workItems.find(item => item.slug === 'featherbleu-store');
+  const mainSite = workItems.find(item => item.slug === 'featherbleu');
+  assert.notEqual(store.url, mainSite.url);
+  for (const slug of ['featherbleu-store', 'cannablis', 'team-colours', 'botaniquilt']) {
+    const item = workItems.find(project => project.slug === slug);
+    assert.equal(item.preview, true);
+    assert.equal(new URL(item.url).protocol, 'https:');
+    assert.ok(item.gallery.length);
+  }
+  for (const slug of ['cannablis', 'team-colours']) {
+    const item = workItems.find(project => project.slug === slug);
+    assert.doesNotMatch(`${item.meta} ${item.scope}`, /inactive|archived|work in progress|licensed/i);
+  }
+});
 const request = (body, type = 'application/json', origin = 'https://www.pixaloom.co.za') => new Request('https://www.pixaloom.co.za/api/contact', { method: 'POST', headers: { 'Content-Type': type, Origin: origin }, body: typeof body === 'string' ? body : JSON.stringify(body) });
 
 test('contact validates unknown input and field limits without throwing', () => {
@@ -265,8 +282,8 @@ test('website pricing intent receives a direct answer and the legacy pricing URL
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });
 test('paused work and experiments stay out of sitemap; robots permits noindex discovery', () => {
-  assert.equal(sitemap().length, 59);
-  assert.equal(workItems.length, 17);
+  assert.equal(sitemap().length, 62);
+  assert.equal(workItems.length, 20);
   assert.ok(!workItems.some(item => item.slug === 'george-herald'));
   assert.ok(!sitemap().some(item => /george-herald|caps-tutor|\/os$|\/jokes$/.test(item.url)));
   assert.deepEqual(robots().rules[0].disallow, ['/api/']);
