@@ -45,14 +45,14 @@ export const projectCaptureSets: Record<string, ProjectCaptureSet> = {
   ]
 },
 "botaniquilt": {
-  "capturedAt": "2026-10-26",
+  "capturedAt": "2026-10-28",
   "sourceLabel": "Saved website preview captures",
   "images": [
     {
       "src": "/portfolio/2026-10-28/botaniquilt-home.webp",
-      "description": "Botaniquilt storefront homepage with the print-led textile visual direction and collection navigation",
-      "width": 1291,
-      "height": 874
+      "description": "Botaniquilt storefront homepage showing quilted clothing, homeware and collection navigation",
+      "width": 1173,
+      "height": 751
     }
   ]
 },
