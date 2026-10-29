@@ -288,7 +288,7 @@ test('paused work and experiments stay out of sitemap; robots permits noindex di
   assert.ok(!sitemap().some(item => /george-herald|caps-tutor|\/os$|\/jokes$/.test(item.url)));
   assert.deepEqual(robots().rules[0].disallow, ['/api/']);
   const home = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
-  assert.match(home, /\['emberwell', 'layerforge', 'illumi'\]/);
+  assert.match(home, /\['team-colours', 'featherbleu-store', 'illumi'\]/);
 });
 test('image sitemap exposes the reviewed public captures with valid canonical URLs', () => {
   assert.equal(sitemap().find(entry => entry.url === 'https://www.pixaloom.co.za').lastModified, require('../lib/content-dates.ts').contentModified('/'));
