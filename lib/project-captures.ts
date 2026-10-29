@@ -180,55 +180,55 @@ export const projectCaptureSets: Record<string, ProjectCaptureSet> = {
   },
   "emberwell": {
     "capturedAt": "2026-10-19",
-    "sourceLabel": "Published independent concept screenshots; captured 19 October 2026",
+    "sourceLabel": "Published independent UX design study screenshots; captured 19 October 2026",
     "images": [
       {
         "src": "/portfolio/2026-10-19/emberwell-home.png",
-        "description": "Published Emberwell independent concept homepage with fireplace interior photography"
+        "description": "Published Emberwell independent UX design study homepage with fireplace interior photography"
       },
       {
         "src": "/portfolio/2026-10-19/emberwell-detail-1.png",
-        "description": "Published independent concept catalogue with fireplace product photographs"
+        "description": "Published independent UX design study catalogue with fireplace product photographs"
       },
       {
         "src": "/portfolio/2026-10-19/emberwell-detail-2.png",
-        "description": "Published independent concept Arica product detail and fireplace specifications"
+        "description": "Published independent UX design study Arica product detail and fireplace specifications"
       }
     ]
   },
   "layerforge": {
     "capturedAt": "2026-10-19",
-    "sourceLabel": "Published independent concept screenshots; captured 19 October 2026",
+    "sourceLabel": "Published independent UX design study screenshots; captured 19 October 2026",
     "images": [
       {
         "src": "/portfolio/2026-10-19/layerforge-home.png",
-        "description": "Published Layerforge independent concept homepage with 3D printer photography"
+        "description": "Published Layerforge independent UX design study homepage with 3D printer photography"
       },
       {
         "src": "/portfolio/2026-10-19/layerforge-detail-1.png",
-        "description": "Published independent concept shop with printer products and catalogue filters"
+        "description": "Published independent UX design study shop with printer products and catalogue filters"
       },
       {
         "src": "/portfolio/2026-10-19/layerforge-detail-2.png",
-        "description": "Published independent concept 3D printer collection"
+        "description": "Published independent UX design study 3D printer collection"
       }
     ]
   },
   "mineralis": {
     "capturedAt": "2026-10-19",
-    "sourceLabel": "Published independent concept screenshots; captured 19 October 2026",
+    "sourceLabel": "Published independent UX design study screenshots; captured 19 October 2026",
     "images": [
       {
         "src": "/portfolio/2026-10-19/mineralis-home.png",
-        "description": "Published Mineralis independent concept homepage with decorative-finish introduction"
+        "description": "Published Mineralis independent UX design study homepage with decorative-finish introduction"
       },
       {
         "src": "/portfolio/2026-10-19/mineralis-detail-1.png",
-        "description": "Published independent concept colour catalogue with finish samples"
+        "description": "Published independent UX design study colour catalogue with finish samples"
       },
       {
         "src": "/portfolio/2026-10-19/mineralis-detail-2.png",
-        "description": "Published independent concept interior project gallery"
+        "description": "Published independent UX design study interior project gallery"
       }
     ]
   },

@@ -113,7 +113,7 @@ Choose one important page and document its starting point before changing it. Re
 
 Write down the main audience, the action they should take and the information or tools they need. Then identify who supplies copy, photography, product data and approvals. Missing content and unclear responsibility can change both cost and delivery time.
 
-For ecommerce, count more than pages. Product variants, imports, stock rules, shipping zones, payment failures and order notifications all affect the work. The [Layerforge concept interface study](/work/layerforge) shows why catalogue navigation and product detail deserve their own design attention.
+For ecommerce, count more than pages. Product variants, imports, stock rules, shipping zones, payment failures and order notifications all affect the work. The [Layerforge UX design interface study](/work/layerforge) shows why catalogue navigation and product detail deserve their own design attention.
 
 ## Compare the same deliverables
 
@@ -151,7 +151,7 @@ Core Web Vitals field data describes real visits where sufficient data exists. L
 
 Inspect the page's largest visible content and the chain of requests needed to display it. A large hero image, late stylesheet or slow server can require different fixes. Below-the-fold images should not compete unnecessarily with the opening viewport. Fingerprinted scripts and styles should be cacheable across visits.
 
-For interactive pages, test opening menus, filtering products and submitting forms as well as initial loading. Use the [Emberwell concept project](/work/emberwell) as a catalogue example: the useful experience includes navigation and product discovery, not only the first image.
+For interactive pages, test opening menus, filtering products and submitting forms as well as initial loading. Use the [Emberwell UX design project](/work/emberwell) as a catalogue example: the useful experience includes navigation and product discovery, not only the first image.
 
 ## Keep the design; reduce waste
 
@@ -173,7 +173,7 @@ Keep a record of the test URL, device profile and date. Repeat measurements beca
 
 State the service, who it is for and where it is available. Explain what is included and when a different solution may be more appropriate. An enquiry is more useful when both sides understand the likely scope.
 
-Follow that explanation with evidence relevant to the offer. A service example should describe the actual work, not only display a logo. The [Mineralis concept interface study](/work/mineralis) illustrates a product-and-enquiry presentation; its screenshots are design evidence, not proof of measured revenue improvement.
+Follow that explanation with evidence relevant to the offer. A service example should describe the actual work, not only display a logo. The [Mineralis UX design interface study](/work/mineralis) illustrates a product-and-enquiry presentation; its screenshots are design evidence, not proof of measured revenue improvement.
 
 ## Ask only what you need next
 
@@ -249,7 +249,7 @@ Our [SEO service](/services/seo) can help assess the website and profile togethe
 
 Collect examples covering a simple item, variants, an out-of-stock item and any product needing a quote or special delivery. Define the source of truth for price and stock, who updates it and how frequently it changes. Clean catalogue data is part of the build, not an automatic by-product of installing a shop.
 
-Our [Layerforge concept project](/work/layerforge) shows category, shop and product-detail interfaces for a specialist catalogue. [Emberwell concept](/work/emberwell) offers another product-discovery example. The public previews demonstrate interface work; they do not establish live sales or merchant integration outcomes.
+Our [Layerforge UX design project](/work/layerforge) shows category, shop and product-detail interfaces for a specialist catalogue. [Emberwell UX design](/work/emberwell) offers another product-discovery example. The public previews demonstrate interface work; they do not establish live sales or merchant integration outcomes.
 
 ## Treat payment as a full journey
 
@@ -495,7 +495,7 @@ Our [SEO service](/services/seo) treats structured data as part of a wider crawl
 
 For each relevant project, ask whether it is a live production site, a public preview or an interface study. Clarify the developer's role, the version shown and which outcomes were measured. A client's current website may have changed after a handover, so a live link and an archived capture can show different work.
 
-Our [Emberwell concept project](/work/emberwell) and other [selected projects](/projects) provide interfaces and scope to discuss. They should be assessed as evidence of the described work, not as an implied endorsement from every brand or a guarantee of business results.
+Our [Emberwell UX design project](/work/emberwell) and other [selected projects](/projects) provide interfaces and scope to discuss. They should be assessed as evidence of the described work, not as an implied endorsement from every brand or a guarantee of business results.
 
 ## Ask for a written scope
 

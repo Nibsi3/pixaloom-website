@@ -5,18 +5,18 @@ import { projectCaptureSets } from '@/lib/project-captures';
 // Several filenames describe a different page from the interface actually shown.
 export const verifiedDescriptions: Record<string, string> = {
   ...Object.fromEntries(Object.values(projectCaptureSets).flatMap((set) => set.images.map((image) => [image.src, image.description]))),
-  '/concept/layerforge-cover.png': 'Layerforge independent concept: browser screenshot of the homepage with the original 3D printer hero photograph',
-  '/concept/layerforge-hero.png': 'Layerforge independent concept: browser screenshot of the shop with product photographs and catalogue filters',
-  '/concept/layerforge-detail.png': 'Layerforge independent concept: browser screenshot of the 3D printer catalogue',
-  '/concept/layerforge-technical.png': 'Layerforge independent concept: browser screenshot of the about page',
-  '/concept/mineralis-cover.png': 'Mineralis independent concept: browser screenshot of the homepage with the original gradient headline and navigation',
-  '/concept/mineralis-hero.png': 'Mineralis independent concept: browser screenshot of the colours catalogue with finish photographs',
-  '/concept/mineralis-detail.png': 'Mineralis independent concept: browser screenshot of the project gallery with concrete finish photographs',
-  '/concept/mineralis-technical.png': 'Mineralis independent concept: browser screenshot of the about page',
-  '/concept/emberwell-cover.png': 'Emberwell independent concept: browser screenshot of the homepage with original fireplace interior photograph',
-  '/concept/emberwell-hero.png': 'Emberwell independent concept: browser screenshot of the fireplace product catalogue',
-  '/concept/emberwell-detail.png': 'Emberwell independent concept: browser screenshot of the Arica fireplace product details',
-  '/concept/emberwell-technical.png': 'Emberwell independent concept: browser screenshot of the technology page with original manufacturing photographs',
+  '/concept/layerforge-cover.png': 'Layerforge independent UX design study: browser screenshot of the homepage with the original 3D printer hero photograph',
+  '/concept/layerforge-hero.png': 'Layerforge independent UX design study: browser screenshot of the shop with product photographs and catalogue filters',
+  '/concept/layerforge-detail.png': 'Layerforge independent UX design study: browser screenshot of the 3D printer catalogue',
+  '/concept/layerforge-technical.png': 'Layerforge independent UX design study: browser screenshot of the about page',
+  '/concept/mineralis-cover.png': 'Mineralis independent UX design study: browser screenshot of the homepage with the original gradient headline and navigation',
+  '/concept/mineralis-hero.png': 'Mineralis independent UX design study: browser screenshot of the colours catalogue with finish photographs',
+  '/concept/mineralis-detail.png': 'Mineralis independent UX design study: browser screenshot of the project gallery with concrete finish photographs',
+  '/concept/mineralis-technical.png': 'Mineralis independent UX design study: browser screenshot of the about page',
+  '/concept/emberwell-cover.png': 'Emberwell independent UX design study: browser screenshot of the homepage with original fireplace interior photograph',
+  '/concept/emberwell-hero.png': 'Emberwell independent UX design study: browser screenshot of the fireplace product catalogue',
+  '/concept/emberwell-detail.png': 'Emberwell independent UX design study: browser screenshot of the Arica fireplace product details',
+  '/concept/emberwell-technical.png': 'Emberwell independent UX design study: browser screenshot of the technology page with original manufacturing photographs',
   '/pixa_pics/pawsonroute/pawsonroute-homepage.jpg': 'Paws On Route homepage with dog-grooming introduction, puppy photograph and pet-care information',
   '/pixa_pics/pawsonroute/pawsonroute-services.png': 'Paws On Route service cards for dog grooming, pet and house sitting, and doggy daycare',
   '/pixa_pics/teamcolours/Screenshot 2026-01-10 145124.png': 'Team Colours men’s rugby product category with four coloured shirts and catalogue sorting',
@@ -68,7 +68,7 @@ export const verifiedDescriptions: Record<string, string> = {
 };
 
 export function projectMediaDescription(item: Pick<WorkItem, 'name' | 'category'>, image: string) {
-  if (image.startsWith('/concept/')) return `${item.name}: original illustration for an independent fictional brand concept`;
+  if (image.startsWith('/concept/')) return `${item.name}: original illustration for an independent fictional brand UX design study`;
   if (verifiedDescriptions[image]) return verifiedDescriptions[image];
   const roles: Record<string, string> = { Business: 'business website', Ecommerce: 'product catalogue website', 'Web App': 'web application', Healthcare: 'healthcare website or application', Automotive: 'automotive website', 'AI & Backend': 'software project' };
   return `${item.name}: archived ${roles[item.category || 'Business'] || 'website'} interface capture`;
@@ -80,7 +80,7 @@ export function projectService(item: Pick<WorkItem, 'category'>) {
 
 export function projectVersion(item: Pick<WorkItem, 'slug' | 'url' | 'concept'>) {
   if (projectCaptureSets[item.slug]) return projectCaptureSets[item.slug].sourceLabel;
-  if (item.concept) return 'Independent concept design for a fictional brand; self-initiated and not commissioned client work';
+  if (item.concept) return 'Independent UX design study for a fictional brand; self-initiated and not commissioned client work';
   if (item.url?.includes('.vercel.app') || item.url?.includes('havaldemo.co.za')) return 'Public project preview';
   return item.url ? 'Archived work with a public website link' : 'Archived interface study; no public demo linked';
 }

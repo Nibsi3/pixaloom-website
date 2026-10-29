@@ -19,13 +19,21 @@ export const metadata: Metadata = pageMetadata({
   path: '/',
 });
 
-const archiveSlugs = ['emberwell', 'layerforge', 'illumi'];
+const archiveSlugs = ['team-colours', 'featherbleu-store', 'illumi'];
 const archiveWork = archiveSlugs
   .map((slug) => workItems.find((item) => item.slug === slug))
-  .filter((item): item is WorkItem => Boolean(item));
+  .filter((item): item is WorkItem => Boolean(item))
+  .map((item): WorkItem => item.slug === 'featherbleu-store' ? {
+    ...item,
+    name: 'Featherbleu Store',
+    category: 'Ecommerce',
+    png: '/work/featherbleu-store-2026-10-29.png',
+    meta: 'Storefront · Security · Smart Home',
+    scope: 'A storefront for security and smart-home products, bringing cameras, access control and gate automation together in a clear, considered shopping experience.',
+  } : item);
 const collectionThemes = [
-  { accent: '#b46f50', label: 'Warmth, made tangible' },
-  { accent: '#8093b2', label: 'Making, made possible' },
+  { accent: '#b46f50', label: 'Shopping, made simple' },
+  { accent: '#8093b2', label: 'Smarter spaces, made possible' },
   { accent: '#9b8fc4', label: 'Business, made lighter' },
 ];
 
@@ -56,6 +64,11 @@ const homeSchema = {
 function ArchiveCollection({ item, index }: { item: WorkItem; index: number }) {
   const summary = item.scope.split('\n')[0];
   const theme = collectionThemes[index % collectionThemes.length];
+  const projectImage = (
+    <span className="exhibit-screen" style={{ position: 'relative' }}>
+      <Image src={item.slug === 'illumi' ? '/work/illumi-home-2026-10-29.png' : item.png} alt={`${item.name} project interface`} fill quality={92} sizes="(max-width: 720px) 100vw, 72vw" />
+    </span>
+  );
 
   return (
     <article
@@ -75,11 +88,11 @@ function ArchiveCollection({ item, index }: { item: WorkItem; index: number }) {
 
       <div className="exhibit-art">
         <div className="exhibit-aura" aria-hidden="true" />
-        <Link className="exhibit-window exhibit-window-main" href={`/work/${item.slug}`} aria-label={`View ${item.name}`} data-depth="0.045">
-          <span className="exhibit-screen" style={{ position: 'relative' }}>
-            <Image src={item.png} alt={`${item.name} project interface`} fill quality={92} sizes="(max-width: 720px) 100vw, 72vw" />
-          </span>
-        </Link>
+        {item.slug === 'featherbleu-store' ? (
+          <div className="exhibit-window exhibit-window-main" data-depth="0.045">{projectImage}</div>
+        ) : (
+          <Link className="exhibit-window exhibit-window-main" href={`/work/${item.slug}`} aria-label={`View ${item.name}`} data-depth="0.045">{projectImage}</Link>
+        )}
         <span className="exhibit-count">{String(index + 1).padStart(2, '0')} / {String(archiveWork.length).padStart(2, '0')}</span>
       </div>
 
@@ -87,7 +100,7 @@ function ArchiveCollection({ item, index }: { item: WorkItem; index: number }) {
         <p>{summary}</p>
         <div>
           <span>{item.meta}</span>
-          <Link href={`/work/${item.slug}`}>Explore case study <ArrowUpRight size={13} /></Link>
+          {item.slug !== 'featherbleu-store' && <Link href={`/work/${item.slug}`}>Explore case study <ArrowUpRight size={13} /></Link>}
         </div>
       </footer>
     </article>

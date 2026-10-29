@@ -39,7 +39,7 @@ export function ProjectCircleHero({ accent, category, index, liveUrl, concept, s
 
         <div className="portal-copy project-case-intro">
           <Link href="/projects" className="project-circle-back"><ArrowLeft size={13} /> All work</Link>
-          <span className="project-circle-index">{concept ? "Independent concept" : "Case study"} · {String(index + 1).padStart(2, '0')}</span>
+          <span className="project-circle-index">{concept ? "UX Design" : "Case study"} · {String(index + 1).padStart(2, '0')}</span>
           <p>{category} · Pixaloom</p>
           <h1
             id="project-circle-title"
@@ -58,7 +58,7 @@ export function ProjectCircleHero({ accent, category, index, liveUrl, concept, s
             <p>Project {String(index + 1).padStart(2, '0')} · {concept ? "Self-initiated study" : status ? "The project direction" : "What we delivered"}</p>
             <h2>{name}</h2>
             <p className="project-circle-summary">{summary}</p>
-            {liveUrl ? <a href={liveUrl} target="_blank" rel="noreferrer">{concept ? 'Explore independent concept' : preview || liveUrl.includes('.vercel.app') || liveUrl.includes('havaldemo.co.za') ? 'Visit project preview' : 'Visit public website'} <ExternalLink size={13} /></a> : <span className="project-circle-engagement">{concept ? "Independent concept · publication pending" : "Archived interface study"}</span>}
+            {liveUrl ? <a href={liveUrl} target="_blank" rel="noreferrer">{concept ? 'Explore independent UX design study' : preview || liveUrl.includes('.vercel.app') || liveUrl.includes('havaldemo.co.za') ? 'Visit project preview' : 'Visit public website'} <ExternalLink size={13} /></a> : <span className="project-circle-engagement">{concept ? "UX Design · publication pending" : "Archived interface study"}</span>}
           </div>
           <div className="project-circle-outcomes">
             <p>Selected outcomes</p>

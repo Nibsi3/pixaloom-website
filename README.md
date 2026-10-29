@@ -33,7 +33,7 @@ Email requests use `redirect: 'manual'`: Cloudflare Workers rejects `redirect: '
 
 ## Content and search maintenance
 
-- Homepage selection remains Emberwell concept, Layerforge concept, then Illumi. George Herald remains paused.
+- Homepage selection is Team Colours, Featherbleu Store, then Illumi. Featherbleu Store is shown without a project link. George Herald remains paused.
 - Published work is filtered in `components/work-items.ts`; every rendered gallery image needs a visually checked entry in `lib/project-evidence.ts`.
 - Current journal copy lives in `lib/journal-revisions.ts`. Render only `publishedBlogPosts`. Preserve original publication dates; update the modification date only after a substantive revision.
 - Update only relevant entries in `lib/content-dates.ts`. Do not refresh every sitemap date on deploy.

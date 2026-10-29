@@ -629,20 +629,20 @@ const allWorkItems: WorkItem[] = [
   },
   {
     "slug": "emberwell",
-    "name": "Emberwell — Concept",
+    "name": "Emberwell — UX Design",
     "concept": true,
     "url": "https://emberwell-concept.cameronfalck03.workers.dev",
     "category": "Ecommerce",
     "png": "/concept/emberwell-cover.png",
     "fallback": "/concept/emberwell-cover.png",
-    "meta": "Independent concept · Next.js · Responsive design",
-    "scope": "Emberwell is a self-initiated, independent website concept for a fictional fireplaces & interiors brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
+    "meta": "UX Design · Next.js · Responsive design",
+    "scope": "Emberwell is a self-initiated, independent UX design study for a fictional fireplaces & interiors brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
     "highlights": [
       "Self-initiated design and implementation for a fictional brand",
       "Accessible, responsive navigation and page layouts",
       "Original website layouts and photography with fictional branding",
       "Product or finish discovery with sample interface content",
-      "Local demo interactions with clear concept disclosures",
+      "Local demo interactions with clear study disclosures",
       "No client endorsements, testimonials or commercial-result claims"
     ],
     "stack": [
@@ -654,7 +654,7 @@ const allWorkItems: WorkItem[] = [
     "facts": [
       {
         "label": "Project",
-        "value": "Independent concept design"
+        "value": "Independent UX design study"
       },
       {
         "label": "Industry",
@@ -666,7 +666,7 @@ const allWorkItems: WorkItem[] = [
       },
       {
         "label": "Status",
-        "value": "Published concept demo"
+        "value": "Published UX design demo"
       }
     ],
     "sections": [
@@ -695,20 +695,20 @@ const allWorkItems: WorkItem[] = [
   },
   {
     "slug": "layerforge",
-    "name": "Layerforge — Concept",
+    "name": "Layerforge — UX Design",
     "concept": true,
     "url": "https://layerforge-concept.cameronfalck03.workers.dev",
     "category": "Ecommerce",
     "png": "/concept/layerforge-cover.png",
     "fallback": "/concept/layerforge-cover.png",
-    "meta": "Independent concept · Next.js · Responsive design",
-    "scope": "Layerforge is a self-initiated, independent website concept for a fictional 3d printing & scanning brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
+    "meta": "UX Design · Next.js · Responsive design",
+    "scope": "Layerforge is a self-initiated, independent UX design study for a fictional 3d printing & scanning brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
     "highlights": [
       "Self-initiated design and implementation for a fictional brand",
       "Accessible, responsive navigation and page layouts",
       "Original website layouts and photography with fictional branding",
       "Product or finish discovery with sample interface content",
-      "Local demo interactions with clear concept disclosures",
+      "Local demo interactions with clear study disclosures",
       "No client endorsements, testimonials or commercial-result claims"
     ],
     "stack": [
@@ -720,7 +720,7 @@ const allWorkItems: WorkItem[] = [
     "facts": [
       {
         "label": "Project",
-        "value": "Independent concept design"
+        "value": "Independent UX design study"
       },
       {
         "label": "Industry",
@@ -732,7 +732,7 @@ const allWorkItems: WorkItem[] = [
       },
       {
         "label": "Status",
-        "value": "Published concept demo"
+        "value": "Published UX design demo"
       }
     ],
     "sections": [
@@ -761,20 +761,20 @@ const allWorkItems: WorkItem[] = [
   },
   {
     "slug": "mineralis",
-    "name": "Mineralis — Concept",
+    "name": "Mineralis — UX Design",
     "concept": true,
     "url": "https://mineralis-concept.cameronfalck03.workers.dev",
     "category": "Business",
     "png": "/concept/mineralis-cover.png",
     "fallback": "/concept/mineralis-cover.png",
-    "meta": "Independent concept · Next.js · Responsive design",
-    "scope": "Mineralis is a self-initiated, independent website concept for a fictional decorative concrete finishes brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
+    "meta": "UX Design · Next.js · Responsive design",
+    "scope": "Mineralis is a self-initiated, independent UX design study for a fictional decorative concrete finishes brand. Pixaloom designed and built this study to explore responsive visual design, useful navigation and clear product or service discovery. It was not commissioned by a client and does not represent a live trading business. Content, product details and prices are illustrative; demo forms send nothing.",
     "highlights": [
       "Self-initiated design and implementation for a fictional brand",
       "Accessible, responsive navigation and page layouts",
       "Original website layouts and photography with fictional branding",
       "Product or finish discovery with sample interface content",
-      "Local demo interactions with clear concept disclosures",
+      "Local demo interactions with clear study disclosures",
       "No client endorsements, testimonials or commercial-result claims"
     ],
     "stack": [
@@ -786,7 +786,7 @@ const allWorkItems: WorkItem[] = [
     "facts": [
       {
         "label": "Project",
-        "value": "Independent concept design"
+        "value": "Independent UX design study"
       },
       {
         "label": "Industry",
@@ -798,7 +798,7 @@ const allWorkItems: WorkItem[] = [
       },
       {
         "label": "Status",
-        "value": "Published concept demo"
+        "value": "Published UX design demo"
       }
     ],
     "sections": [
