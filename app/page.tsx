@@ -30,6 +30,9 @@ const archiveWork = archiveSlugs
     png: '/work/featherbleu-store-2026-10-29.png',
     meta: 'Storefront · Security · Smart Home',
     scope: 'A storefront for security and smart-home products, bringing cameras, access control and gate automation together in a clear, considered shopping experience.',
+  } : item.slug === 'team-colours' ? {
+    ...item,
+    png: '/work/team-colours-home-2026-10-29.png',
   } : item);
 const collectionThemes = [
   { accent: '#b46f50', label: 'Shopping, made simple' },
