@@ -23,8 +23,8 @@
         "A common invoice experience over six different provider integrations."
       ],
       "note": "Supported integrations: PayFast, Paystack, Yoco, Ozow, Peach Payments and Stitch. Netcash is listed in settings but currently unavailable. Provider approval, currency and account configuration determine which payment methods a business can use.",
-      "image": "/capabilities/illumi-paygate-settings.png",
-      "caption": "Actual Illumi PayGate settings supplied by Cameron, showing provider connections, the primary gateway and bank-transfer invoice options.",
+      "image": "/capabilities/illumi-paygate-enhanced.png",
+      "caption": "Enhanced recreation of Cameron’s Illumi PayGate screenshot, retaining the provider connections, primary gateway and bank-transfer options.",
       "link": "/work/illumi"
     },
     {
@@ -41,8 +41,8 @@
         "Bring historical clients, products, invoices and expenses into a reviewed CSV migration workflow with validation, duplicate checks and an import record."
       ],
       "note": "Historical data is imported in controlled batches: the reviewed CSV workflow previews up to 500 rows / 1 MiB and applies up to 100 selected records at a time. Larger migrations need staged batches; this is not an unlimited, unreviewed import.",
-      "image": "/capabilities/illumi-dashboard.png",
-      "caption": "Owner-supplied Illumi dashboard showing the assistant, invoice actions, collections, repeat billing and receipt review.",
+      "image": "/capabilities/illumi-dashboard-enhanced.png",
+      "caption": "Enhanced recreation of the supplied Illumi dashboard, retaining the displayed figures, assistant and workflow actions.",
       "link": "/work/illumi"
     },
     {
@@ -72,8 +72,8 @@
         "Search-aware content, clear navigation and a consistent mobile experience."
       ],
       "note": "The image shows the current Team Colours storefront preview, which is separate from the original WordPress / WooCommerce implementation. As its banner states, orders and payments are paused.",
-      "image": "/work/team-colours-home-2026-10-29.png",
-      "caption": "Team Colours’ rugby-inspired storefront, supplied by Cameron. Current preview; orders and payments paused.",
+      "image": "/capabilities/team-colours-enhanced.png",
+      "caption": "Enhanced recreation of the supplied Team Colours storefront. Current preview; orders and payments paused.",
       "link": "/work/team-colours"
     },
     {
@@ -90,7 +90,7 @@
         "Worker, customer and administration experiences connect through notifications, transaction histories and review workflows."
       ],
       "note": "This describes the implemented software architecture reviewed in the repository. Payment and payout availability depends on configured providers; it is not a claim of banking accreditation or verified live settlement volume.",
-      "image": "/capabilities/slip-a-tip-design-mockup.png",
+      "image": "/capabilities/slip-a-tip-enhanced.png",
       "caption": "Slip a Tip landing-page design mockup with an illustrative QR. The live application is unchanged; the flow below explains the payment system.",
       "link": "/work/slip-a-tip"
     },
@@ -107,7 +107,7 @@
         "Installable mobile experience and device-local scan history."
       ],
       "note": "Clinicians authenticate directly with TrakCare / NHLS. The scanner does not grant access to private patient records or replace the clinical system’s permissions. No patient records are shown in this portfolio.",
-      "image": "/capabilities/trakcare-design-mockup.png",
+      "image": "/capabilities/trakcare-enhanced.png",
       "caption": "TrakCare Scanner UI design mockup: an enhanced visual treatment of the scanning screen. The underlying application is unchanged; no patient information is shown.",
       "link": "/work/trakcare-barcode-scanner"
     }

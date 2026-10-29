@@ -100,7 +100,7 @@ for section in DATA['sections']:
     if section['id'] == 'assistant':
         new_page('Illumi / The experience in practice')
         para('From conversation<br/>to a useful record.', 31, 35, '#14242b', 'Times-Roman', 18)
-        picture('/capabilities/illumi-assistant.png', 335, 'Owner-supplied assistant screenshot: a completed client record using explicitly fictional test-company details.')
+        picture('/capabilities/illumi-assistant-enhanced.png', 335, 'Enhanced recreation of the supplied assistant screenshot, retaining the fictional test-company details.')
         picture('/portfolio/2026-10-19/illumi-detail-1.png', 190, 'Illumi public invoicing-page capture with an illustrative invoice. Sample data, not a customer invoice.')
 
 new_page('Further work / Skills / Contact')

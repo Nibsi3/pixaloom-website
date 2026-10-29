@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Maximize2, X, ZoomIn, ZoomOut } from 'lucide-react';
+import { X, ZoomIn, ZoomOut } from 'lucide-react';
 import styles from './capability-capture.module.css';
 
 export function CapabilityCapture({ src, caption, width, height, className = '' }: { src: string; caption: string; width: number; height: number; className?: string }) {
@@ -28,7 +28,6 @@ export function CapabilityCapture({ src, caption, width, height, className = '' 
   return <figure className={`${styles.capture} ${className}`}>
     <button ref={trigger} className={styles.thumbnail} type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${caption}`} onClick={() => { setZoom(false); setOpen(true); }}>
       <Image unoptimized src={src} alt={caption} width={width} height={height} />
-      <span className={styles.hint}><Maximize2 size={15} /> Enlarge image</span>
     </button>
     <figcaption>{caption}</figcaption>
     {open && createPortal(<dialog ref={dialog} className={styles.dialog} aria-label="Screenshot viewer" aria-describedby={captionId} onCancel={() => setOpen(false)} onClose={() => setOpen(false)}>

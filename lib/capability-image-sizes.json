@@ -34,5 +34,29 @@
   "/capabilities/slip-a-tip-design-mockup.png": {
     "width": 1586,
     "height": 992
+  },
+  "/capabilities/illumi-paygate-enhanced.png": {
+    "width": 1893,
+    "height": 831
+  },
+  "/capabilities/illumi-dashboard-enhanced.png": {
+    "width": 1430,
+    "height": 1100
+  },
+  "/capabilities/illumi-assistant-enhanced.png": {
+    "width": 1302,
+    "height": 1208
+  },
+  "/capabilities/slip-a-tip-enhanced.png": {
+    "width": 1585,
+    "height": 992
+  },
+  "/capabilities/trakcare-enhanced.png": {
+    "width": 1586,
+    "height": 992
+  },
+  "/capabilities/team-colours-enhanced.png": {
+    "width": 1619,
+    "height": 971
   }
 }

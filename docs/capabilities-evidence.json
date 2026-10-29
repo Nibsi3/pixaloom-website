@@ -47,5 +47,21 @@
       "project": "Illumi search growth",
       "notes": "Owner-supplied Search Console screenshot: 1,655 clicks, 553K displayed impressions, 0.3% CTR and 9.9 average position. 12-month filter selected; visible chart January-October 2026. Not a live dashboard, revenue measurement or causal attribution study."
     }
-  ]
+  ],
+  "imageRestoration": {
+    "date": "2026-10-29",
+    "method": "AI-assisted recreations from the displayed reference images; checked visible labels and numbers. Originals remain in the repository.",
+    "enhanced": [
+      "illumi-paygate-enhanced.png",
+      "illumi-dashboard-enhanced.png",
+      "illumi-assistant-enhanced.png",
+      "slip-a-tip-enhanced.png",
+      "trakcare-enhanced.png",
+      "team-colours-enhanced.png"
+    ],
+    "retained": [
+      "Original Search Console chart retained because generated chart changed the plotted lines.",
+      "Original 3200px invoice image retained because it has more detail than the generated output."
+    ]
+  }
 }
