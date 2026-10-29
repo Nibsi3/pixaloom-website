@@ -14,21 +14,30 @@
         "illumi-main/src/lib/vault/migration.ts",
         "illumi-main/src/app/api/vault/migration/route.ts"
       ],
-      "notes": "Six checkout providers are enabled in the implementation. Netcash is unavailable in settings despite older public marketing copy. CSV preview is capped at 500 rows / 1 MiB; apply batches are capped at 100 records. The PayGate visual is the published product-preview asset, not an authenticated workspace screenshot."
+      "notes": "Six checkout providers are enabled in the implementation. Netcash is unavailable in settings despite older public marketing copy. CSV preview is capped at 500 rows / 1 MiB; apply batches are capped at 100 records. The PayGate visual is an actual settings screenshot supplied by Cameron."
     },
     {
       "project": "Slip a Tip",
       "repository": "Nibsi3/slip-a-tip",
       "revision": "50e0c20",
-      "paths": ["src/app/api/stitch/webhook/route.ts", "src/app/api/workers/me/withdraw/route.ts", "src/lib/payouts.ts", "prisma/schema.prisma"],
+      "paths": [
+        "src/app/api/stitch/webhook/route.ts",
+        "src/app/api/workers/me/withdraw/route.ts",
+        "src/lib/payouts.ts",
+        "prisma/schema.prisma"
+      ],
       "notes": "Architecture evidence only. Runtime provider configuration and live settlement volume were not verified. Do not inherit older portfolio claims about card issuing, trust accounts or accreditation without new evidence."
     },
     {
       "project": "TrakCare barcode scanner",
       "repository": "Nibsi3/trakcare-barcode-scanner",
       "revision": "f103742",
-      "paths": ["src/app/page.tsx", "src/components/BarcodeScanner.tsx", "src/lib/scan-history.ts"],
-      "notes": "The page implements MRN/specimen deep links and return-after-login flow; generic helpers in lib/nhls.ts are less complete. No patient data was accessed."
+      "paths": [
+        "src/app/page.tsx",
+        "src/components/BarcodeScanner.tsx",
+        "src/lib/scan-history.ts"
+      ],
+      "notes": "The page implements MRN/specimen deep links and return-after-login flow; generic helpers in lib/nhls.ts are less complete. No patient data was accessed. The capabilities image is now an AI-enhanced UI design mockup, explicitly labelled; application code was not changed."
     },
     {
       "project": "Team Colours",

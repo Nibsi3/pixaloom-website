@@ -2,7 +2,14 @@
   "title": "From a good idea to a working system.",
   "intro": "I’m Cameron Falck, the developer behind Pixaloom. I build business websites, online stores and custom software — connecting the design people see to the data, payments and workflows that make it useful.",
   "date": "29 October 2026",
-  "providers": ["PayFast", "Paystack", "Yoco", "Ozow", "Peach Payments", "Stitch"],
+  "providers": [
+    "PayFast",
+    "Paystack",
+    "Yoco",
+    "Ozow",
+    "Peach Payments",
+    "Stitch"
+  ],
   "sections": [
     {
       "id": "payments",
@@ -16,8 +23,8 @@
         "A common invoice experience over six different provider integrations."
       ],
       "note": "Supported integrations: PayFast, Paystack, Yoco, Ozow, Peach Payments and Stitch. Netcash is listed in settings but currently unavailable. Provider approval, currency and account configuration determine which payment methods a business can use.",
-      "image": "/capabilities/illumi-paygate-preview.png",
-      "caption": "Illumi’s published PayGate product preview. Illustrative connection states; the complete supported-provider list is shown above.",
+      "image": "/capabilities/illumi-paygate-settings.png",
+      "caption": "Actual Illumi PayGate settings supplied by Cameron, showing provider connections, the primary gateway and bank-transfer invoice options.",
       "link": "/work/illumi"
     },
     {
@@ -100,16 +107,45 @@
         "Installable mobile experience and device-local scan history."
       ],
       "note": "Clinicians authenticate directly with TrakCare / NHLS. The scanner does not grant access to private patient records or replace the clinical system’s permissions. No patient records are shown in this portfolio.",
-      "image": "/portfolio/2026-10-19/trakcare-barcode-scanner-home.png",
-      "caption": "The scanner’s start screen, showing the mobile scanning workflow without patient information.",
+      "image": "/capabilities/trakcare-design-mockup.png",
+      "caption": "TrakCare Scanner UI design mockup: an enhanced visual treatment of the scanning screen. The underlying application is unchanged; no patient information is shown.",
       "link": "/work/trakcare-barcode-scanner"
     }
   ],
   "other": [
-    { "name": "GearShift", "description": "A connected vehicle platform with a public website and separate driver and dealership workspaces.", "href": "/work/gearshift" },
-    { "name": "Paws On Route", "description": "A local service-business website with clear service information and direct enquiry routes.", "href": "/work/paws-on-route" },
-    { "name": "Featherbleu Store", "description": "A work-in-progress smart-home storefront, combining product discovery, specifications and visual storytelling.", "href": "" },
-    { "name": "UX design studies", "description": "Emberwell, Layerforge and Mineralis explore catalogue navigation, product detail and responsive interfaces for fictional brands.", "href": "/projects" }
+    {
+      "name": "GearShift",
+      "description": "A connected vehicle platform with a public website and separate driver and dealership workspaces.",
+      "href": "/work/gearshift"
+    },
+    {
+      "name": "Paws On Route",
+      "description": "A local service-business website with clear service information and direct enquiry routes.",
+      "href": "/work/paws-on-route"
+    },
+    {
+      "name": "Featherbleu Store",
+      "description": "A work-in-progress smart-home storefront, combining product discovery, specifications and visual storytelling.",
+      "href": ""
+    },
+    {
+      "name": "UX design studies",
+      "description": "Emberwell, Layerforge and Mineralis explore catalogue navigation, product detail and responsive interfaces for fictional brands.",
+      "href": "/projects"
+    }
   ],
-  "skills": ["Custom web applications", "WordPress & WooCommerce", "Next.js & React", "TypeScript", "API integrations", "Payment workflows", "AI-assisted operations", "Data migration", "Responsive UX", "Technical SEO", "Cloudflare deployment", "Testing & maintenance"]
+  "skills": [
+    "Custom web applications",
+    "WordPress & WooCommerce",
+    "Next.js & React",
+    "TypeScript",
+    "API integrations",
+    "Payment workflows",
+    "AI-assisted operations",
+    "Data migration",
+    "Responsive UX",
+    "Technical SEO",
+    "Cloudflare deployment",
+    "Testing & maintenance"
+  ]
 }

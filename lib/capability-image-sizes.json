@@ -1,7 +1,7 @@
 {
-  "/capabilities/illumi-paygate-preview.png": {
-    "width": 2400,
-    "height": 1350
+  "/capabilities/illumi-paygate-settings.png": {
+    "width": 1566,
+    "height": 687
   },
   "/capabilities/illumi-dashboard.png": {
     "width": 962,
@@ -19,9 +19,9 @@
     "width": 3200,
     "height": 2000
   },
-  "/portfolio/2026-10-19/trakcare-barcode-scanner-home.png": {
-    "width": 2000,
-    "height": 1440
+  "/capabilities/trakcare-design-mockup.png": {
+    "width": 1586,
+    "height": 992
   },
   "/capabilities/illumi-assistant.png": {
     "width": 942,
