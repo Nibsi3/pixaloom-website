@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
+import { CapabilityCapture } from '@/components/capability-capture';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
@@ -92,12 +92,17 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
         <section className="case-gallery">
           <div className="site-container"><p className="micro-label">{item.concept ? "Website captures · UX Design" : "Inside the experience · Interface study"}</p></div>
           <div className="site-container gallery-mosaic">
-            {gallery.slice(0, 6).map((image, imageIndex) => (
-              <figure className={`gallery-shot gallery-shot-${(imageIndex % 5) + 1}${projectCaptureSets[slug] ? " capture-shot" : ""}`} key={image}>
-                <Image src={image} alt={projectMediaDescription(item, image)} {...(projectCaptureSets[slug] ? { width: projectCaptureSets[slug].images.find(capture => capture.src === image)?.width ?? (slug === "trakcare-barcode-scanner" ? 2000 : 3200), height: projectCaptureSets[slug].images.find(capture => capture.src === image)?.height ?? (slug === "trakcare-barcode-scanner" ? 1440 : 2000) } : { fill: true })} sizes="(max-width: 760px) 100vw, 60vw" />
-                <figcaption>{projectMediaDescription(item, image)}</figcaption>
-              </figure>
-            ))}
+            {gallery.slice(0, 6).map((image, imageIndex) => {
+              const capture = projectCaptureSets[slug]?.images.find((entry) => entry.src === image);
+              return <CapabilityCapture
+                key={image}
+                className={`gallery-shot gallery-shot-${(imageIndex % 5) + 1} capture-shot`}
+                src={image}
+                caption={projectMediaDescription(item, image)}
+                width={capture?.width ?? (slug === 'trakcare-barcode-scanner' ? 2000 : 3200)}
+                height={capture?.height ?? (slug === 'trakcare-barcode-scanner' ? 1440 : 2000)}
+              />;
+            })}
           </div>
         </section>
 

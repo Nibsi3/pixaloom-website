@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import { Maximize2, X, ZoomIn, ZoomOut } from 'lucide-react';
 import styles from './capability-capture.module.css';
 
-export function CapabilityCapture({ src, caption, width, height }: { src: string; caption: string; width: number; height: number }) {
+export function CapabilityCapture({ src, caption, width, height, className = '' }: { src: string; caption: string; width: number; height: number; className?: string }) {
   const [open, setOpen] = useState(false);
   const [zoom, setZoom] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -25,7 +25,7 @@ export function CapabilityCapture({ src, caption, width, height }: { src: string
     };
   }, [open]);
 
-  return <figure className={styles.capture}>
+  return <figure className={`${styles.capture} ${className}`}>
     <button ref={trigger} className={styles.thumbnail} type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${caption}`} onClick={() => { setZoom(false); setOpen(true); }}>
       <Image unoptimized src={src} alt={caption} width={width} height={height} />
       <span className={styles.hint}><Maximize2 size={15} /> Enlarge image</span>
