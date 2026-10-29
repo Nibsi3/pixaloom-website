@@ -16,6 +16,7 @@ export const site = {
 export const primaryNavigation = [
   { href: '/about', label: 'About' },
   { href: '/projects', label: 'Works' },
+  { href: '/capabilities', label: 'Capabilities' },
   { href: '/services', label: 'Services' },
   { href: '/blog', label: 'Journal' },
 ] as const;

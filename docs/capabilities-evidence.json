@@ -1,0 +1,42 @@
+{
+  "reviewedAt": "2026-10-29",
+  "page": "/capabilities",
+  "sources": [
+    {
+      "project": "Illumi",
+      "repository": "Nibsi3/illumi",
+      "revision": "911e9bd",
+      "paths": [
+        "illumi-main/src/lib/server/payment-gateways.ts",
+        "illumi-main/src/app/(dashboard)/settings/paygate/page.tsx",
+        "illumi-main/src/lib/assistant/operations.ts",
+        "illumi-main/src/components/assistant/capability-starters.tsx",
+        "illumi-main/src/lib/vault/migration.ts",
+        "illumi-main/src/app/api/vault/migration/route.ts"
+      ],
+      "notes": "Six checkout providers are enabled in the implementation. Netcash is unavailable in settings despite older public marketing copy. CSV preview is capped at 500 rows / 1 MiB; apply batches are capped at 100 records. The PayGate visual is the published product-preview asset, not an authenticated workspace screenshot."
+    },
+    {
+      "project": "Slip a Tip",
+      "repository": "Nibsi3/slip-a-tip",
+      "revision": "50e0c20",
+      "paths": ["src/app/api/stitch/webhook/route.ts", "src/app/api/workers/me/withdraw/route.ts", "src/lib/payouts.ts", "prisma/schema.prisma"],
+      "notes": "Architecture evidence only. Runtime provider configuration and live settlement volume were not verified. Do not inherit older portfolio claims about card issuing, trust accounts or accreditation without new evidence."
+    },
+    {
+      "project": "TrakCare barcode scanner",
+      "repository": "Nibsi3/trakcare-barcode-scanner",
+      "revision": "f103742",
+      "paths": ["src/app/page.tsx", "src/components/BarcodeScanner.tsx", "src/lib/scan-history.ts"],
+      "notes": "The page implements MRN/specimen deep links and return-after-login flow; generic helpers in lib/nhls.ts are less complete. No patient data was accessed."
+    },
+    {
+      "project": "Team Colours",
+      "notes": "WordPress/WooCommerce experience is owner-supplied and also recorded in the earlier portfolio source. The current storefront screenshot is a separate preview and explicitly says orders and payments are paused."
+    },
+    {
+      "project": "Illumi search growth",
+      "notes": "Owner-supplied Search Console screenshot: 1,655 clicks, 553K displayed impressions, 0.3% CTR and 9.9 average position. 12-month filter selected; visible chart January-October 2026. Not a live dashboard, revenue measurement or causal attribution study."
+    }
+  ]
+}

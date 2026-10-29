@@ -1,0 +1,115 @@
+{
+  "title": "From a good idea to a working system.",
+  "intro": "I’m Cameron Falck, the developer behind Pixaloom. I build business websites, online stores and custom software — connecting the design people see to the data, payments and workflows that make it useful.",
+  "date": "29 October 2026",
+  "providers": ["PayFast", "Paystack", "Yoco", "Ozow", "Peach Payments", "Stitch"],
+  "sections": [
+    {
+      "id": "payments",
+      "eyebrow": "01 / Illumi · Payment integrations",
+      "title": "One invoice. A choice of payment providers.",
+      "intro": "Illumi’s PayGate layer lets a business connect its own supported payment accounts and choose how clients pay an invoice. The work extends from provider settings and checkout creation to payment confirmation and invoice reconciliation.",
+      "points": [
+        "Workspace-specific provider connections, with separate test and live modes.",
+        "Payment links tied to the correct invoice, business, amount and currency.",
+        "Provider-specific callbacks and webhook handling, with payment-attempt tracking and amount checks.",
+        "A common invoice experience over six different provider integrations."
+      ],
+      "note": "Supported integrations: PayFast, Paystack, Yoco, Ozow, Peach Payments and Stitch. Netcash is listed in settings but currently unavailable. Provider approval, currency and account configuration determine which payment methods a business can use.",
+      "image": "/capabilities/illumi-paygate-preview.png",
+      "caption": "Illumi’s published PayGate product preview. Illustrative connection states; the complete supported-provider list is shown above.",
+      "link": "/work/illumi"
+    },
+    {
+      "id": "assistant",
+      "eyebrow": "02 / Illumi · AI and business workflows",
+      "title": "An assistant that works with the business.",
+      "intro": "Illumi connects conversation to structured business actions. Users can build and edit invoice drafts, work with clients and products, review receipts and organise their records from one workspace. Actions are presented for review before they are applied.",
+      "points": [
+        "Create and edit invoices, quotes and proformas; add products, change line items and convert documents.",
+        "Schedule delivery, set up recurring billing, send invoices and prepare payment reminders.",
+        "Create and update client records, maintain products and record payments already received.",
+        "Review extracted receipt details, record or split expenses, organise Vault documents and track time.",
+        "Explore outstanding balances, invoice ageing and revenue information to decide what needs attention.",
+        "Bring historical clients, products, invoices and expenses into a reviewed CSV migration workflow with validation, duplicate checks and an import record."
+      ],
+      "note": "Historical data is imported in controlled batches: the reviewed CSV workflow previews up to 500 rows / 1 MiB and applies up to 100 selected records at a time. Larger migrations need staged batches; this is not an unlimited, unreviewed import.",
+      "image": "/capabilities/illumi-dashboard.png",
+      "caption": "Owner-supplied Illumi dashboard showing the assistant, invoice actions, collections, repeat billing and receipt review.",
+      "link": "/work/illumi"
+    },
+    {
+      "id": "growth",
+      "eyebrow": "03 / Illumi · Organic search",
+      "title": "Built to be found, as well as used.",
+      "intro": "Illumi’s product work is supported by search-focused pages, useful business tools and ongoing content development. The supplied Google Search Console report shows visibility and clicks building over time, with stronger activity in the later months.",
+      "points": [
+        "1,655 Google Search clicks in the supplied report.",
+        "553K impressions, with a displayed average position of 9.9.",
+        "A displayed click-through rate of 0.3%, leaving room for further improvement."
+      ],
+      "note": "Source: the owner-supplied Illumi Search Console screenshot, with the 12-month filter selected and a visible chart from January to October 2026. These are search-performance figures, not customer, revenue or conversion totals.",
+      "image": "/capabilities/illumi-search-growth.png",
+      "caption": "The original Search Console report supplied for this portfolio; figures are a snapshot rather than live analytics.",
+      "link": "/services/seo"
+    },
+    {
+      "id": "commerce",
+      "eyebrow": "04 / Team Colours · WordPress and ecommerce",
+      "title": "Stores with a clear path from browsing to buying.",
+      "intro": "Team Colours brings together WordPress and WooCommerce experience with a distinctive apparel storefront. The work spans catalogue organisation, collection navigation, product presentation and connecting the store’s shopping experience to its commerce tools.",
+      "points": [
+        "WordPress website delivery and WooCommerce store setup and connection.",
+        "Product and category structure, with size and colour choices for apparel.",
+        "Responsive campaign pages that connect brand imagery to product discovery.",
+        "Search-aware content, clear navigation and a consistent mobile experience."
+      ],
+      "note": "The image shows the current Team Colours storefront preview, which is separate from the original WordPress / WooCommerce implementation. As its banner states, orders and payments are paused.",
+      "image": "/work/team-colours-home-2026-10-29.png",
+      "caption": "Team Colours’ rugby-inspired storefront, supplied by Cameron. Current preview; orders and payments paused.",
+      "link": "/work/team-colours"
+    },
+    {
+      "id": "routing",
+      "eyebrow": "05 / Slip a Tip · Custom financial workflows",
+      "title": "A simple tip, backed by a complex system.",
+      "intro": "Slip a Tip connects a customer’s QR payment to the right worker, then manages the steps between a recorded tip and a withdrawal. The engineering challenge is keeping payment state, fees, balances and payout requests consistent across different systems.",
+      "points": [
+        "Worker-linked QR codes and payment references identify where each tip belongs.",
+        "Stitch payment events update tip records, with duplicate-event handling to avoid crediting the same tip twice.",
+        "Ledger entries separate gross amounts, platform and gateway fees, and worker balances.",
+        "Settlement holds, cleared-balance checks and reserve rules determine what is available to withdraw.",
+        "Withdrawal flows support EFT through the Stitch payout adapter and a separate OTT voucher path, with fee calculations, status tracking and failure handling.",
+        "Worker, customer and administration experiences connect through notifications, transaction histories and review workflows."
+      ],
+      "note": "This describes the implemented software architecture reviewed in the repository. Payment and payout availability depends on configured providers; it is not a claim of banking accreditation or verified live settlement volume.",
+      "image": "/portfolio/2026-10-19/slip-a-tip-home.png",
+      "caption": "Slip a Tip’s public website. The flow below explains the system behind the customer-facing experience.",
+      "link": "/work/slip-a-tip"
+    },
+    {
+      "id": "clinical",
+      "eyebrow": "06 / TrakCare scanner · Purpose-built utilities",
+      "title": "Less typing between a barcode and a record.",
+      "intro": "A mobile-first barcode tool helps authorised clinicians open the relevant TrakCare Lab search using a scanned medical record or specimen reference. It reduces manual transcription while leaving access to patient information with the existing clinical system.",
+      "points": [
+        "Camera scanning with a native barcode detector and a ZXing fallback.",
+        "Repeated-read confirmation helps reject unstable scans.",
+        "Separate handling for numeric medical record numbers and specimen references.",
+        "A return-to-scan flow after TrakCare login, plus a copy option when needed.",
+        "Installable mobile experience and device-local scan history."
+      ],
+      "note": "Clinicians authenticate directly with TrakCare / NHLS. The scanner does not grant access to private patient records or replace the clinical system’s permissions. No patient records are shown in this portfolio.",
+      "image": "/portfolio/2026-10-19/trakcare-barcode-scanner-home.png",
+      "caption": "The scanner’s start screen, showing the mobile scanning workflow without patient information.",
+      "link": "/work/trakcare-barcode-scanner"
+    }
+  ],
+  "other": [
+    { "name": "GearShift", "description": "A connected vehicle platform with a public website and separate driver and dealership workspaces.", "href": "/work/gearshift" },
+    { "name": "Paws On Route", "description": "A local service-business website with clear service information and direct enquiry routes.", "href": "/work/paws-on-route" },
+    { "name": "Featherbleu Store", "description": "A work-in-progress smart-home storefront, combining product discovery, specifications and visual storytelling.", "href": "" },
+    { "name": "UX design studies", "description": "Emberwell, Layerforge and Mineralis explore catalogue navigation, product detail and responsive interfaces for fictional brands.", "href": "/projects" }
+  ],
+  "skills": ["Custom web applications", "WordPress & WooCommerce", "Next.js & React", "TypeScript", "API integrations", "Payment workflows", "AI-assisted operations", "Data migration", "Responsive UX", "Technical SEO", "Cloudflare deployment", "Testing & maintenance"]
+}

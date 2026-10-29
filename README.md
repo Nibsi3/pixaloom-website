@@ -33,6 +33,8 @@ Email requests use `redirect: 'manual'`: Cloudflare Workers rejects `redirect: '
 
 ## Content and search maintenance
 
+- `/capabilities` is the portfolio CV page. Its shared copy is in `lib/capabilities.json`, with verification notes in `docs/capabilities-evidence.json`. Regenerate its downloadable PDF using `python scripts/build-capabilities-pdf.py` with ReportLab installed; render and visually review every page before publishing. The PDF is served at `/downloads/pixaloom-capabilities.pdf`.
+
 - Homepage selection is Team Colours, Featherbleu Store, then Illumi. Featherbleu Store is shown without a project link. George Herald remains paused.
 - Published work is filtered in `components/work-items.ts`; every rendered gallery image needs a visually checked entry in `lib/project-evidence.ts`.
 - Current journal copy lives in `lib/journal-revisions.ts`. Render only `publishedBlogPosts`. Preserve original publication dates; update the modification date only after a substantive revision.

@@ -31,8 +31,8 @@ export function Header() {
             {primaryNavigation.map((item, index) => (
               <Link key={item.href} href={item.href}><span>0{index + 1}</span>{item.label}</Link>
             ))}
-            <Link href="/contact"><span>05</span>Contact</Link>
-            <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Pixaloom — I would like to discuss a digital project.')}`}><span>06</span>WhatsApp</a>
+            <Link href="/contact"><span>0{primaryNavigation.length + 1}</span>Contact</Link>
+            <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Pixaloom — I would like to discuss a digital project.')}`}><span>0{primaryNavigation.length + 2}</span>WhatsApp</a>
           </nav>
         </details>
       </div>

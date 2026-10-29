@@ -3,6 +3,7 @@ import { projectCaptureSets } from '@/lib/project-captures';
 // Change individual entries only when that page's substantive content changes.
 // Unknown legacy modification dates are omitted, not replaced with build time.
 const pageDates: Record<string, string> = {
+  '/capabilities': '2026-10-29',
   '/': '2026-10-29', '/services': '2026-09-14', '/ai-website-app-rescue': '2026-09-14', '/about': '2026-09-03', '/blog': '2026-09-03',
   '/contact': '2026-10-23', '/privacy': '2026-10-23', '/website-cost': '2026-10-26',
   '/locations/george': '2026-10-26', '/locations/garden-route': '2026-10-26',

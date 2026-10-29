@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ['/services', .95, 'monthly'],
     ['/ai-website-app-rescue', .9, 'monthly'],
     ['/projects', .85, 'monthly'],
+    ['/capabilities', .9, 'monthly'],
     ['/locations', .9, 'monthly'],
     ['/locations/george', .95, 'monthly'],
     ['/locations/garden-route', .9, 'monthly'],

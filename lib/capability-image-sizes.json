@@ -1,0 +1,34 @@
+{
+  "/capabilities/illumi-paygate-preview.png": {
+    "width": 2400,
+    "height": 1350
+  },
+  "/capabilities/illumi-dashboard.png": {
+    "width": 962,
+    "height": 740
+  },
+  "/capabilities/illumi-search-growth.png": {
+    "width": 1295,
+    "height": 527
+  },
+  "/work/team-colours-home-2026-10-29.png": {
+    "width": 1684,
+    "height": 1010
+  },
+  "/portfolio/2026-10-19/slip-a-tip-home.png": {
+    "width": 3200,
+    "height": 2000
+  },
+  "/portfolio/2026-10-19/trakcare-barcode-scanner-home.png": {
+    "width": 2000,
+    "height": 1440
+  },
+  "/capabilities/illumi-assistant.png": {
+    "width": 942,
+    "height": 875
+  },
+  "/portfolio/2026-10-19/illumi-detail-1.png": {
+    "width": 3200,
+    "height": 2000
+  }
+}

@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import type { CSSProperties } from 'react';
-import { RescueIntro } from '@/components/rescue-intro';
 import { CinematicHero } from '@/components/cinematic-hero';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
@@ -129,17 +128,11 @@ export default function HomePage() {
               <article><h3>A better existing website</h3><p>Bring your current URL and what needs to change. We review the pages worth keeping, the mobile experience and the steps between arriving and making an enquiry.</p><Link href="/contact">Discuss your redesign <ArrowUpRight size={16} /></Link></article>
             </div>
             <p className="buying-scope">Planning figures exclude optional features, recurring costs and VAT where applicable. Your written scope determines the quote. <Link href="/website-cost">Compare website costs and inclusions</Link>.</p>
-            <div className="buying-proof"><div><h3>A local business example</h3><p>See the service pages and contact routes in our <Link href="/work/paws-on-route">Paws On Route website case study</Link>, for a George pet grooming and pet sitting business. The selected designs below also include clearly labelled independent concepts.</p></div><div><h3>Start with a short conversation</h3><p>Send your business name, the website you need and any existing URL. You do not need a finished brief or a confirmed budget.</p><a className="text-link" href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my business.')}`}>Talk to Cameron on WhatsApp <ArrowUpRight size={16} /></a></div></div>
+            <div className="buying-proof"><div><h3>A local business example</h3><p>See the service pages and contact routes in our <Link href="/work/paws-on-route">Paws On Route website case study</Link>, for a George pet grooming and pet sitting business. Explore the capabilities page for custom software, ecommerce and UX design work.</p></div><div><h3>Start with a short conversation</h3><p>Send your business name, the website you need and any existing URL. You do not need a finished brief or a confirmed budget.</p><a className="text-link" href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my business.')}`}>Talk to Cameron on WhatsApp <ArrowUpRight size={16} /></a></div></div>
           </div>
         </section>
-        <RescueIntro />
 
         <section className="reference-archive" id="work-archive">
-          <div className="reference-archive-intro">
-            <p>Selected works · 2024—2026</p>
-            <h2>Digital work,<br /> <em>composed with intent.</em></h2>
-            <Link href="/projects">All projects <ArrowDown size={13} /></Link>
-          </div>
           <div className="reference-collections">
             {archiveWork.map((item, index) => <ArchiveCollection item={item} index={index} key={item.slug} />)}
           </div>
@@ -168,6 +161,7 @@ export default function HomePage() {
           <div className="home-capabilities-foot">
             <p>Based in George · Working nationwide</p>
             <Link href="/locations/george">Web design in George <ArrowUpRight size={14} /></Link>
+            <Link href="/capabilities">Explore our capabilities & download the CV <ArrowUpRight size={14} /></Link>
             <Link href="/website-cost">Website cost in South Africa <ArrowUpRight size={14} /></Link>
             <Link href="/contact">Start a project <ArrowUpRight size={14} /></Link>
           </div>

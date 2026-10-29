@@ -282,7 +282,7 @@ test('website pricing intent receives a direct answer and the legacy pricing URL
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });
 test('paused work and experiments stay out of sitemap; robots permits noindex discovery', () => {
-  assert.equal(sitemap().length, 62);
+  assert.equal(sitemap().length, 63);
   assert.equal(workItems.length, 20);
   assert.ok(!workItems.some(item => item.slug === 'george-herald'));
   assert.ok(!sitemap().some(item => /george-herald|caps-tutor|\/os$|\/jokes$/.test(item.url)));
