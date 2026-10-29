@@ -7,7 +7,7 @@ export function WebsiteBuildFit({ local = false }: { local?: boolean }) {
         <div>
           <p className="eyebrow">Is a custom build the right fit?</p>
           <h2>{local ? 'A George service business, in practical terms.' : 'What the custom build allowance buys.'}</h2>
-          <p className="service-budget">A focused five-page custom business website is planned at R35,000–R55,000. Optional features, VAT where applicable and recurring costs are separate; the written scope determines the quote.</p>
+          <p className="service-budget">A focused five-page custom business website is planned at R7,500–R12,500. Optional features, VAT where applicable and recurring costs are separate; the written scope determines the quote.</p>
         </div>
         <div className="body-copy">
           <h3>Start with a real service journey</h3>

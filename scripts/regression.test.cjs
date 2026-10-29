@@ -236,7 +236,7 @@ test('safe markdown renders links, headings and mixed lists without executing HT
 });
 test('ecommerce payments are included once and estimate context round-trips safely', () => {
   assert.deepEqual(estimateWebsiteCost('ecommerce', 'focused', ['payments']), estimateWebsiteCost('ecommerce', 'focused', []));
-  assert.equal(estimateWebsiteCost('business', 'focused', ['payments', 'payments']).min, 43000);
+  assert.equal(estimateWebsiteCost('business', 'focused', ['payments', 'payments']).min, 10000);
   const url = estimateContactUrl('ecommerce', 'growing', ['payments', 'cms']);
   const brief = estimateBriefFromParams(new URL(url, 'https://example.com').searchParams);
   assert.match(brief, /Ecommerce store/); assert.match(brief, /Editable CMS/); assert.match(brief, /Standard hosted payment integration included/);
@@ -267,7 +267,7 @@ test('George intent and service-to-location links are explicit', () => {
   }
   const entries = sitemap();
   for (const pathName of ['/locations/george', '/services/website-design', '/services/seo']) {
-    const expectedDates = { '/locations/george': '2026-10-26', '/services/website-design': '2026-10-23', '/services/seo': '2026-09-04' };
+    const expectedDates = { '/locations/george': '2026-10-29', '/services/website-design': '2026-10-29', '/services/seo': '2026-09-04' };
     assert.equal(entries.find(item => item.url.endsWith(pathName)).lastModified, expectedDates[pathName]);
   }
 });
@@ -275,9 +275,9 @@ test('website pricing intent receives a direct answer and the legacy pricing URL
   const page = fs.readFileSync(path.join(root, 'app/website-cost/page.tsx'), 'utf8');
   assert.match(page, /Website Design Prices South Africa \(2026\)/);
   assert.match(page, /Five-page business website/);
-  assert.match(page, /R35,000–R55,000/);
+  assert.match(page, /R7,500–R12,500/);
   assert.match(page, /Monthly website costs/);
-  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-10-26');
+  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-10-29');
   const pricingRedirect = (await require('../next.config.js').redirects()).find(item => item.source === '/pricing');
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });

@@ -18,7 +18,7 @@ export const serviceEvidence: Record<string, ServiceEvidence> = {
       'Bring your existing URL, priority services, available photography and examples of suitable enquiries. We define what content you supply, what we produce and who signs off each stage. A redesign includes an inventory of useful existing URLs and an explicit redirect plan.',
     ], projects: ['paws-on-route', 'mineralis'], guide: 'choosing-web-developer-george',
     related: [{ href: '/locations/george', label: 'Website design in George' }, { href: '/locations/garden-route', label: 'Garden Route website delivery' }, { href: '/blog/next-js-vs-wordpress-south-africa', label: 'Compare WordPress and Next.js for your team' }],
-    budget: 'Our focused custom business-website planning allowance is R35,000–R55,000 before optional features and VAT where applicable. Hosting, domains and recurring software are separate. The final quote follows discovery; this is not a market-wide average.',
+    budget: 'Our focused custom business-website planning allowance is R7,500–R12,500 before optional features and VAT where applicable. Hosting, domains and recurring software are separate. The final quote follows discovery; this is not a market-wide average.',
     acceptance: ['Representative mobile and desktop journeys checked', 'Contact validation, failure states and actual email delivery tested', 'Important redirects, canonical URLs and sitemap verified', 'Editing, account ownership and handover responsibilities documented'],
   },
   'ecommerce-websites': {
@@ -30,7 +30,7 @@ export const serviceEvidence: Record<string, ServiceEvidence> = {
       'During discovery we identify who owns the merchant account and where product data comes from. We confirm the provider’s current capabilities and eligibility rather than assuming every payment method is available. One standard hosted payment integration is included in the ecommerce base allowance; custom reconciliation and other integrations are scoped separately.',
       'The launch checklist covers failed and delayed payments as well as a successful order. We define stock handling, delivery regions, customer notifications and the staff handover. Your business supplies and approves its commercial policies, prices and legally appropriate terms.',
     ], projects: ['emberwell', 'layerforge'], guide: 'ecommerce-website-south-africa',
-    budget: 'The focused store planning allowance is R60,000–R95,000, including one standard hosted payment integration. It excludes VAT where applicable, merchant transaction fees, hosting and recurring subscriptions. Catalogue import complexity and bespoke integrations affect the written quote.',
+    budget: 'The focused store planning allowance is R15,000–R25,000, including one standard hosted payment integration. It excludes VAT where applicable, merchant transaction fees, hosting and recurring subscriptions. Catalogue import complexity and bespoke integrations affect the written quote.',
     acceptance: ['Catalogue and variants checked with representative data', 'Payment success, failure and duplicate notifications tested', 'Shipping, stock and order emails verified', 'Store administration and recurring charges documented'],
   },
   'web-app-development': {
@@ -41,7 +41,7 @@ export const serviceEvidence: Record<string, ServiceEvidence> = {
       'We agree what data the application needs, which system owns it and who may read or change it. Permissions, validation, error recovery and account handover are part of the scope. Prototype data and simulated integrations are identified before a release is described as production-ready.',
       'Expect a staged delivery plan with acceptance criteria for each workflow. Source ownership, hosting, database access, support and recovery procedures are discussed upfront. Ongoing product development is separate from completing the initial release.',
     ], projects: ['illumi', 'spotlight'], guide: 'web-app-vs-website-difference',
-    budget: 'A focused custom application has an initial planning allowance of R80,000–R140,000, excluding VAT where applicable and recurring infrastructure or provider charges. Discovery may recommend a smaller website or existing tool instead. Integration and data risks must be assessed before a fixed scope.',
+    budget: 'A focused custom application has an initial planning allowance of R35,000–R60,000, excluding VAT where applicable and recurring infrastructure or provider charges. Discovery may recommend a smaller website or existing tool instead. Integration and data risks must be assessed before a fixed scope.',
     acceptance: ['Role and authorization rules exercised', 'Happy paths and recoverable failures verified', 'Data, backup and account ownership documented', 'Deployment, rollback and support responsibilities agreed'],
   },
   seo: {

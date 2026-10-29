@@ -124,7 +124,7 @@ export default function GardenRoutePage() {
             <div>
               <p className="eyebrow">Plan your business website</p>
               <h2>A practical brief for the customers you serve.</h2>
-              <p className="service-budget">A focused five-page custom business website has a Pixaloom planning allowance of R35,000–R55,000. Optional features, VAT where applicable and recurring costs are separate. Smaller template briefs can be scoped separately.</p>
+              <p className="service-budget">A focused five-page custom business website has a Pixaloom planning allowance of R7,500–R12,500. Optional features, VAT where applicable and recurring costs are separate. Smaller template briefs can be scoped separately.</p>
               <Link href="/website-cost" className="text-link">Compare website costs and inclusions <ArrowRight size={15} /></Link>
             </div>
             <div className="body-copy">

@@ -53,33 +53,33 @@ export type ProjectExtraId = (typeof projectExtras)[number]['id'];
 
 const baseRange: Record<ProjectKindId, Record<ProjectScaleId, readonly [number, number]>> = {
   business: {
-    focused: [35000, 55000],
-    growing: [55000, 85000],
-    complex: [85000, 140000],
+    focused: [7500, 12500],
+    growing: [15000, 25000],
+    complex: [30000, 50000],
   },
   ecommerce: {
-    focused: [60000, 95000],
-    growing: [90000, 150000],
-    complex: [140000, 240000],
+    focused: [15000, 25000],
+    growing: [25000, 45000],
+    complex: [45000, 80000],
   },
   application: {
-    focused: [80000, 140000],
-    growing: [140000, 240000],
-    complex: [220000, 380000],
+    focused: [35000, 60000],
+    growing: [60000, 120000],
+    complex: [120000, 220000],
   },
   redesign: {
-    focused: [28000, 48000],
-    growing: [45000, 75000],
-    complex: [75000, 130000],
+    focused: [6500, 11000],
+    growing: [12500, 22500],
+    complex: [25000, 45000],
   },
 };
 
 const extraRange: Record<ProjectExtraId, readonly [number, number]> = {
-  payments: [8000, 18000],
-  booking: [6000, 15000],
-  cms: [5000, 12000],
-  multilingual: [8000, 20000],
-  integrations: [12000, 40000],
+  payments: [2500, 5000],
+  booking: [2500, 6500],
+  cms: [2500, 5000],
+  multilingual: [3500, 8000],
+  integrations: [5000, 20000],
 };
 
 const timeline: Record<ProjectScaleId, string> = {

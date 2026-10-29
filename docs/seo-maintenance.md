@@ -1,5 +1,28 @@
 # SEO maintenance and owner checklist
 
+## 29 October 2026 competitive pricing
+
+The owner requested more competitive website prices. Focused five-page custom
+websites now have a R7,500–R12,500 planning range; growing websites R15,000–R25,000;
+focused stores R15,000–R25,000; focused web apps R35,000–R60,000. Redesigns start
+at R6,500. The estimator's scale tiers and optional extras, visible price copy,
+metadata, FAQs and enquiry budgets were updated together. Scope confirmation,
+VAT where applicable and recurring-cost exclusions remain explicit. Rescue and
+care packages retain their existing prices; no delivery-time promise was reduced.
+
+Published provider benchmarks checked on 29 October 2026:
+- https://fusionbydesign.co.za/pricing/ — R5,000 for five pages; R8,000 for ten.
+- https://www.eminentwebx.co.za/pricing/ — five pages R5,530 on promotion
+  (regular R7,900); commerce R18,830 on promotion (regular R26,900), excluding VAT.
+- https://www.juicydesigns.co.za/services/web-design/pricing/ — custom five-page
+  websites from R12,000, excluding VAT.
+- https://webdesigneringeorge.co.za/ — up to six custom pages R19,995 plus
+  R699/month hosting and maintenance.
+
+These are advertised offers with different scopes and terms, not a market average
+or evidence of Pixaloom's delivery costs. The revised ranges are a positioning
+decision; confirm each project's effort before accepting a fixed-price quote.
+
 ## 26 October 2026 local search focus
 
 The owner selected George/Garden Route business websites as the acquisition priority.

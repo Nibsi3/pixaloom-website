@@ -11,7 +11,7 @@ import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import { contentModified } from '@/lib/content-dates';
 
 const pageDescription =
-  'Pixaloom custom business websites: R35,000–R55,000 for five pages. Compare scope, optional extras and recurring costs, then estimate your project.';
+  'Pixaloom custom business websites: R7,500–R12,500 for five pages. Compare scope, optional extras and recurring costs, then estimate your project.';
 
 export const metadata: Metadata = pageMetadata({
   title: 'Website Design Prices South Africa (2026)',
@@ -23,7 +23,7 @@ const faqs = [
   {
     question: 'How much does a website cost in South Africa in 2026?',
     answer:
-      'Pixaloom’s focused custom business-website planning allowance starts at R35,000, excluding optional extras, VAT where applicable and recurring third-party charges. This is our indicative scope-based allowance, not a national average. The written quote follows discovery.',
+      'Pixaloom’s focused custom business-website planning allowance starts at R7,500, excluding optional extras, VAT where applicable and recurring third-party charges. This is our indicative scope-based allowance, not a national average. The written quote follows discovery.',
   },
   {
     question: 'Why do quotes vary so widely?',
@@ -43,7 +43,7 @@ const faqs = [
   {
     question: 'How much is a five-page website in South Africa?',
     answer:
-      'Pixaloom plans a focused five-page custom business website at R35,000–R55,000 before optional features and VAT where applicable. That range assumes one clear audience, one primary enquiry path and content that can be shaped within five core pages. A written scope confirms the actual templates, content and integrations.',
+      'Pixaloom plans a focused five-page custom business website at R7,500–R12,500 before optional features and VAT where applicable. That range assumes one clear audience, one primary enquiry path and content that can be shaped within five core pages. A written scope confirms the actual templates, content and integrations.',
   },
   {
     question: 'What does a website cost per month?',
@@ -112,22 +112,22 @@ export default function WebsiteCostPage() {
               <li>
                 <span>01</span>
                 <h3>Five-page business website</h3>
-                <p>R35,000–R55,000. Five core pages, custom responsive design, one primary enquiry journey, on-page SEO foundations, analytics and launch handover.</p>
+                <p>R7,500–R12,500. Five core pages, custom responsive design, one primary enquiry journey, on-page SEO foundations, analytics and launch handover.</p>
               </li>
               <li>
                 <span>02</span>
                 <h3>Growing business website</h3>
-                <p>R55,000–R85,000. More page templates, services, proof, locations or content depth, with conversion measurement from launch.</p>
+                <p>R15,000–R25,000. More page templates, services, proof, locations or content depth, with conversion measurement from launch.</p>
               </li>
               <li>
                 <span>03</span>
                 <h3>Ecommerce website</h3>
-                <p>R60,000–R240,000. The range depends on catalogue size, product data, shipping, operations and integrations. One standard hosted payment integration is included.</p>
+                <p>R15,000–R25,000 for a focused store, including one standard hosted payment integration. Larger catalogues and more complex operations are planned at R25,000–R80,000; bespoke integrations are scoped separately.</p>
               </li>
               <li>
                 <span>04</span>
                 <h3>Custom web application</h3>
-                <p>From R80,000. Accounts, permissions, data models, workflows and external systems are scoped through discovery before a delivery range is confirmed.</p>
+                <p>From R35,000. Accounts, permissions, data models, workflows and external systems are scoped through discovery before a delivery range is confirmed.</p>
               </li>
             </ol>
             <p className="service-budget">Build prices exclude VAT where applicable, domains, hosting, email, software subscriptions, payment fees and ongoing care. They describe Pixaloom’s current planning allowances, not an industry-wide average.</p>

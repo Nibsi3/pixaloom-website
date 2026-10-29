@@ -50,11 +50,11 @@ const field = (tree, name) => nodes(tree).find(node => node.props.name === name)
 
 test('rescue choices share the package source and custom qualification stays intact', () => {
   assert.deepEqual(contactBudgetOptions('AI rescue enquiry'), [...rescuePackages.map(p => `${p.name} — ${p.price.startsWith('From ') ? p.price : `From ${p.price}`}`), 'Need guidance']);
-  assert.deepEqual(contactBudgetOptions('Website design'), ['R10k-R25k', 'R25k-R50k', 'R50k-R100k', 'R100k+', 'Need guidance']);
+  assert.deepEqual(contactBudgetOptions('Website design'), ['Under R5k', 'R5k-R10k', 'R10k-R25k', 'R25k-R50k', 'R50k-R100k', 'R100k+', 'Need guidance']);
   for (const service of ['Ecommerce website', 'Custom web application', 'Not sure yet']) assert.deepEqual(contactBudgetOptions(service), contactBudgetOptions('Website design'));
   for (const service of ['SEO and content', 'Website care']) assert.deepEqual(contactBudgetOptions(service), ['Need guidance']);
   assert.deepEqual(contactBudgetOptions(''), []);
-  assert.match(contactBudgetHelp('Website design'), /R35,000–R55,000/);
+  assert.match(contactBudgetHelp('Website design'), /R7,500–R12,500/);
 });
 
 test('switching services clears stale budgets in both directions and keeps native labels', t => {
@@ -150,7 +150,7 @@ test('form success resets service and budget; failure retains the brief for corr
 
 test('build guidance links existing evidence, qualifies price and distinguishes concepts', () => {
   const markup = renderToStaticMarkup(React.createElement(WebsiteBuildFit));
-  for (const text of ['/work/paws-on-route', 'R35,000–R55,000', 'does not establish its original fee', 'simpler template site', '/ai-website-app-rescue']) assert.ok(markup.includes(text));
+  for (const text of ['/work/paws-on-route', 'R7,500–R12,500', 'does not establish its original fee', 'simpler template site', '/ai-website-app-rescue']) assert.ok(markup.includes(text));
   const { serviceEvidence } = require('../lib/service-evidence.ts');
   assert.match(serviceEvidence['website-design'].paragraphs.join(' '), /Mineralis is a separate, self-initiated design for a fictional brand, not commissioned client work/);
 });

@@ -181,6 +181,7 @@ export function ContactCTA() {
                     className="w-full rounded-lg border border-bg-700 bg-bg-800/90 px-3 py-2 text-sm outline-none focus:border-accent-500"
                   >
                     <option value="">Select…</option>
+                    <option value="Under R5k">Under R5k</option>
                     <option value="R5k–R10k">R5k–R10k</option>
                     <option value="R10k–R25k">R10k–R25k</option>
                     <option value="R25k–R50k">R25k–R50k</option>

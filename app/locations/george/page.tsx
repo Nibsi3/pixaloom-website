@@ -19,7 +19,7 @@ export const metadata: Metadata = pageMetadata({
 const faqs = [
   {
     question: 'How much does a business website in George cost?',
-    answer: 'Pixaloom’s focused five-page custom website allowance is R35,000–R55,000, excluding optional features, VAT where applicable and recurring costs. This is our planning range, not a George market average. A smaller template website can be scoped separately. We confirm the price after agreeing the content, pages and enquiry journey.',
+    answer: 'Pixaloom’s focused five-page custom website allowance is R7,500–R12,500, excluding optional features, VAT where applicable and recurring costs. This is our planning range, not a George market average. A smaller template website can be scoped separately. We confirm the price after agreeing the content, pages and enquiry journey.',
   },
   {
     question: 'How long will my business website take?',
