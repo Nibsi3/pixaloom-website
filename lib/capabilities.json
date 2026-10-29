@@ -90,8 +90,8 @@
         "Worker, customer and administration experiences connect through notifications, transaction histories and review workflows."
       ],
       "note": "This describes the implemented software architecture reviewed in the repository. Payment and payout availability depends on configured providers; it is not a claim of banking accreditation or verified live settlement volume.",
-      "image": "/portfolio/2026-10-19/slip-a-tip-home.png",
-      "caption": "Slip a Tip’s public website. The flow below explains the system behind the customer-facing experience.",
+      "image": "/capabilities/slip-a-tip-design-mockup.png",
+      "caption": "Slip a Tip landing-page design mockup with an illustrative QR. The live application is unchanged; the flow below explains the payment system.",
       "link": "/work/slip-a-tip"
     },
     {
