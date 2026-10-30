@@ -220,6 +220,9 @@ export default function WebsiteCostPage() {
             <p className="minimal-kicker">Next step</p>
             <h2>Bring the business context.<br /> <em>We’ll return a real range.</em></h2>
             <div className="minimal-inline-links">
+              <Link href="/custom-website-vs-website-builder">
+                Compare custom and DIY websites <ArrowUpRight size={14} />
+              </Link>
               <Link href="/contact">
                 Start a project <ArrowRight size={15} />
               </Link>

@@ -50,6 +50,11 @@ export default function ServicesPage() {
 
     <RescueIntro />
 
+    <section className="minimal-statement"><div className="minimal-shell minimal-statement-grid">
+      <div className="minimal-section-mark"><span>Choose your route</span><p>Before you commission a build</p></div>
+      <div><h2>Build it yourself,<br /> <em>or bring in a developer?</em></h2><div className="minimal-prose"><p>Compare a DIY website builder with Pixaloom's custom service: who handles the content, design, editing and ongoing changes, and when either approach makes sense.</p><Link href="/custom-website-vs-website-builder">Compare custom websites and DIY builders <ArrowUpRight size={16} /></Link></div></div>
+    </div></section>
+
     <section className="minimal-statement">
       <div className="minimal-shell minimal-statement-grid">
         <div className="minimal-section-mark"><span>02</span><p>One connected system</p></div>
