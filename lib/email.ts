@@ -33,9 +33,11 @@ export async function sendEmail(message: EmailMessage) {
   });
   if (!response.ok) {
     // Status and fixed categories only: never log provider bodies or enquiries.
-    const result = await response.json().catch(() => null);
+    const result: unknown = await response.json().catch(() => null);
     const codes = ['BAD_REQUEST', 'UNAUTHORIZED', 'FORBIDDEN', 'NOT_FOUND', 'RATE_LIMITED', 'INTERNAL_SERVER_ERROR'];
-    const code = codes.includes(result?.error?.code) ? result.error.code : 'UNKNOWN';
+    const details = result && typeof result === 'object' && 'error' in result ? result.error : undefined;
+    const candidate = details && typeof details === 'object' && 'code' in details ? details.code : undefined;
+    const code = typeof candidate === 'string' && codes.includes(candidate) ? candidate : 'UNKNOWN';
     console.error(JSON.stringify({ event: 'email_provider_rejected', status: response.status, code }));
     throw new Error('email_provider');
   }

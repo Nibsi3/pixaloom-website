@@ -226,6 +226,18 @@ test('provider HTTP, timeout and malformed acceptance failures stay generic and 
     });
   }
 });
+
+test('email rejection diagnostics accept only named provider codes', async t => {
+  const fixture = emailHarness(t);
+  for (const [body, expectedCode] of [[{ error: { code: 'RATE_LIMITED' } }, 'RATE_LIMITED'], [null, 'UNKNOWN'], [{ error: { code: 'SECRET_PROVIDER_DETAIL' } }, 'UNKNOWN'], [{ error: { code: 42 } }, 'UNKNOWN']]) {
+    fixture.respond = async () => Response.json(body, { status: 429 });
+    const response = await POST(request(valid));
+    assert.equal(response.status, 502);
+    const rejected = fixture.logs.map(value => JSON.parse(value)).filter(value => value.event === 'email_provider_rejected').at(-1);
+    assert.equal(rejected.code, expectedCode);
+    assert.doesNotMatch(JSON.stringify(fixture.logs), /SECRET_PROVIDER_DETAIL/);
+  }
+});
 test('safe markdown renders links, headings and mixed lists without executing HTML', () => {
   const html = renderToStaticMarkup(React.createElement(ArticleContent, { content: '## Planning\nText **with emphasis** and [a service](/services/seo).\n- First\n- Second\n\n### Details\n1. One\n2. Two\n\n<script>alert(1)</script>\n[Unsafe](javascript:evil)' }));
   assert.match(html, /<h2>Planning<\/h2>/); assert.match(html, /<h3>Details<\/h3>/);
