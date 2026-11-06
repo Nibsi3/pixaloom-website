@@ -13,6 +13,7 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  { slug: 'ai-app-launch-checklist', title: 'AI App Launch Checklist: From Preview to Production', excerpt: 'A practical launch checklist for AI-built websites and apps: ownership, login, data, payments, mobile testing and recovery.', content: '', date: '2026-11-06', category: 'Web Development', readTime: '5 min read', tags: ['AI app launch', 'website rescue', 'deployment'] },
   {
     slug: 'why-george-businesses-need-modern-website',
     title: 'Why Every George Business Needs a Modern Website in 2026',
@@ -1862,6 +1863,7 @@ export const blogCategories = [
 ] as const;
 
 const publishedSlugs = new Set([
+  'ai-app-launch-checklist',
   'why-george-businesses-need-modern-website',
   'next-js-vs-wordpress-south-africa',
   'seo-tips-garden-route-businesses',
@@ -1890,6 +1892,7 @@ const nextSource = { title: 'Next.js documentation', publisher: 'Next.js', url: 
 const wordpressSource = { title: 'WordPress documentation', publisher: 'WordPress.org', url: 'https://wordpress.org/documentation/' };
 
 const sourcesBySlug: Record<string, BlogPost['sources']> = {
+  'ai-app-launch-checklist': [accessibilitySource, { title: 'Production checklist', publisher: 'Supabase', url: 'https://supabase.com/docs/guides/deployment/going-into-prod' }, { title: 'Introduction to robots.txt', publisher: 'Google Search Central', url: 'https://developers.google.com/search/docs/crawling-indexing/robots/intro' }],
   'why-george-businesses-need-modern-website': [googleSearchSource, coreWebVitalsSource, businessProfileSource],
   'next-js-vs-wordpress-south-africa': [nextSource, wordpressSource, coreWebVitalsSource],
   'seo-tips-garden-route-businesses': [googleSearchSource, businessProfileSource, structuredDataSource],

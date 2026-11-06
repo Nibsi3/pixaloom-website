@@ -150,3 +150,16 @@ Suggested partner mention request: “We have published a project page that clea
 - [Information Regulator](https://inforegulator.org.za/): South African privacy information.
 
 Keep account screenshots, search-performance exports, business documents and correspondence out of public version control.
+
+## November 6: recover useful search journeys
+
+The current release keeps George / Garden Route commercial pages and the October 30 comparison guide. It adds the AI project rescue route as a complementary service, not a set of duplicated platform or town pages.
+
+- `/blog/ai-app-launch-checklist` restores a previously discovered URL with a newly written practical launch checklist. The old article was not present in available Git history, so this edition uses its actual November 6 publication date rather than inventing a historical date.
+- Homepage, services introduction, footer and related articles connect visitors to the checklist and rescue service. Rescue scope now explains acceptance evidence for login, forms, payment and deployment.
+- The budgeting article contains a quote-comparison worksheet; `/website-cost` remains the commercial pricing and estimator destination. Approved pricing is unchanged.
+- Keep the recovered checklist in sitemap and article regression coverage. The full sitemap crawl alone cannot detect a valuable historical URL that has fallen out of source; compare Search Console landing pages against live HTTP responses when auditing.
+- Review Search Console query/page pairs over the next comparable 28-day period: recovered checklist, rescue, George, website design and pricing. Separate relevant leads from unrelated tool traffic. Do not interpret a single release as a ranking guarantee.
+- Check the existing Plausible script endpoint separately from search performance. A tracker outage can hide site visits without changing Search Console clicks. Do not add a duplicate tracker. Contact readiness, provider acceptance and inbox delivery are separate checks; only record verified stages.
+
+Private account exports and exact search metrics are stored outside this repository. See the local November 6 audit notes for the dated baseline and verification limitations.

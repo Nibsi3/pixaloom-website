@@ -244,7 +244,8 @@ test('ecommerce payments are included once and estimate context round-trips safe
   assert.doesNotMatch(estimateBriefFromParams(new URLSearchParams('kind=business&scale=focused&extras=<script>')), /<script>/);
 });
 test('published content is revised, linked and dates agree with sitemap', () => {
-  assert.equal(publishedBlogPosts.length, 16);
+  assert.equal(publishedBlogPosts.length, 17);
+  assert.ok(publishedBlogPosts.some(post => post.slug === 'ai-app-launch-checklist'));
   const entries = sitemap();
   for (const post of publishedBlogPosts) {
     assert.ok(post.content.split(/\s+/).length >= 250, post.slug);
@@ -282,7 +283,7 @@ test('website pricing intent receives a direct answer and the legacy pricing URL
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });
 test('paused work and experiments stay out of sitemap; robots permits noindex discovery', () => {
-  assert.equal(sitemap().length, 64);
+  assert.equal(sitemap().length, 65);
   assert.equal(workItems.length, 20);
   assert.ok(!workItems.some(item => item.slug === 'george-herald'));
   assert.ok(!sitemap().some(item => /george-herald|caps-tutor|\/os$|\/jokes$/.test(item.url)));

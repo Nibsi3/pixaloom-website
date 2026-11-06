@@ -2,6 +2,70 @@
 // Preserve original publication dates in blog-posts.ts.
 export type JournalRevision = { title: string; excerpt: string; modified: string; service: string; project?: string; content: string };
 export const journalRevisions: Record<string, JournalRevision> = {
+  'ai-app-launch-checklist': {
+    title: 'AI App Launch Checklist: From Preview to Production',
+    excerpt: 'Before launching an AI-built app, check account ownership, login, saved data, payments and recovery. Use this practical checklist to record what actually works.',
+    modified: '2026-11-06', service: 'web-app-development',
+    content: `An AI-built app is ready for a controlled launch when the important user journeys work on the production domain, the owner controls the required accounts, and there is a tested way to recover from a failed change. A convincing preview is useful evidence of the design; it does not establish those other conditions.
+
+This checklist is for a business owner or founder finishing a project built with tools such as Lovable, Bolt, Replit or an AI coding assistant. Use it with whoever maintains the app. It is a practical acceptance checklist, not a comprehensive security audit. If a check fails, record the exact step rather than asking the AI to rewrite the whole project.
+
+## 1. Define the smallest useful launch
+
+Write one sentence describing the primary job: for example, a customer can request a quote and the business receives it. Separate essential steps from later improvements. Give every launch requirement an owner, a test and an expected result. A useful record has five fields: journey, test account, expected outcome, actual evidence and unresolved issue.
+
+For a quote form, the evidence is a received message with the right details and a clear acknowledgement for the visitor. A green success banner alone is insufficient. For an account app, the evidence includes the saved record appearing after signing out and signing back in.
+
+## 2. Confirm ownership and a recovery path
+
+- Confirm who controls the domain, source repository, hosting, database, email and payment accounts. Use business-controlled accounts where appropriate.
+- Record which subscriptions and usage charges are necessary for launch. A developer fee is separate from those running costs.
+- Save a known working source version before changes. Identify the previous deployment and how to restore it.
+- Back up important data and test an appropriate restore in a separate environment. Rolling back code does not undo a database migration or restore deleted customer records.
+- Give collaborators individual invitations with only the access they need. Do not paste passwords or secret keys into a public issue, form or chat transcript.
+
+## 3. Test on the actual domain
+
+Open the production address in a fresh browser session. Test a direct link to an inner page, then reload it. Confirm that required environment settings exist in the production environment and that login callbacks return to the intended domain. A preview and production deployment can use different settings, databases and service credentials.
+
+If deployment fails, capture the first relevant build error, the deployment identifier and the change immediately before it. Remove secrets from logs before sharing. Fix one reproducible failure at a time and re-test the affected journey.
+
+## 4. Check login and data boundaries
+
+Use two separate test accounts. Check registration, confirmation email, sign-in, sign-out and password recovery. Confirm that one ordinary account cannot read or edit the other account's private records, including through a copied record link. Check administrator actions separately. Hiding a button in the interface is not proof that the underlying action is restricted.
+
+For a Supabase-backed project, review its [official production checklist](https://supabase.com/docs/guides/deployment/going-into-prod) with the developer, including database access policies and authentication settings. Other backends need their own equivalent review. Passing a few manual checks does not prove the whole application is secure.
+
+## 5. Follow forms, email and payments to completion
+
+- Submit an authorised test enquiry and confirm receipt at its destination. Test missing fields and a delivery failure too.
+- If email confirmation is essential, verify receipt outside the owner's own mailbox and make the next step understandable.
+- Test payments using the provider's supported test environment before switching to live settings. Check success, cancellation, failure and repeated notifications.
+- Verify that an order or subscription is updated from the provider's confirmed payment status, not merely a visit to a thank-you URL.
+- Agree who handles refunds, failed payments and customer support. Do not run live charges without the account owner's approval.
+
+## 6. Use a phone and a keyboard
+
+Complete the primary journey on a narrow phone screen and a desktop. Look for clipped buttons, sideways scrolling, keyboard-covered fields and error messages that disappear off screen. Test the menu, form labels, keyboard focus and readable contrast. Try a slower connection and observe when the essential text and controls become usable. Large media should earn its place; measure the actual page before deciding what to remove.
+
+## 7. Separate public pages from private app screens
+
+Public service and help pages need useful titles, descriptive links and an appropriate canonical address. Check that public pages return a successful response and are not accidentally marked noindex. Include the intended public URLs in the sitemap. Account pages and customer data need proper access control.
+
+[Google's robots.txt guidance](https://developers.google.com/search/docs/crawling-indexing/robots/intro) explains that robots.txt controls crawling and is not a privacy mechanism. Do not use it as a substitute for authentication. Search visibility is a separate process after launch; a technically available page is not guaranteed to be indexed or rank.
+
+## 8. Make a release decision and handover
+
+Pause launch for failures that affect access, important data, payment correctness or the main customer journey. Cosmetic refinements can be listed separately if they do not prevent use. Record the released version, domain, checks completed, known limitations, recovery steps and the person responsible for support. After release, repeat the primary journey and check error reporting with appropriate privacy controls.
+
+Keep attempts separate from outcomes in measurement. A click on Submit is an attempt; an accepted and delivered enquiry is a different event. Choose a small set of measures that reflects the product's actual purpose.
+
+## When to ask for help
+
+A focused repair is often worth assessing when the app already does most of the required job and a reproducible blocker remains. Rebuilding may be more sensible when the underlying approach cannot meet the requirement or the source and essential accounts are unavailable. The decision should follow a review, not a blanket promise.
+
+Bring the URL, what should happen, what actually happens and the last known working version to our [AI website and app rescue service](/ai-website-app-rescue). We agree scope and acceptance criteria before paid work. For a new product rather than a stalled build, see [web application development](/services/web-app-development).`,
+  },
   'why-george-businesses-need-modern-website': {
     title: 'What a George Business Website Needs to Do',
     excerpt: 'A practical brief for a local service website: explain the offer, show real work and make an enquiry easy.',
@@ -106,7 +170,7 @@ Choose one important page and document its starting point before changing it. Re
   'how-much-does-website-cost-south-africa': {
     title: 'How to Budget for a Website in South Africa',
     excerpt: 'Compare website proposals by scope, responsibilities and ongoing costs—not an unsupported national average.',
-    modified: '2026-09-03', service: 'website-design', project: 'layerforge',
+    modified: '2026-11-06', service: 'website-design', project: 'layerforge',
     content: `A website price is meaningful only alongside a scope. A five-page marketing site, a stock-connected online store and a customer portal are different products. This guide explains how to compare proposals. The [Pixaloom cost estimator](/website-cost) provides our indicative planning ranges; it is not a survey of South African market prices or a binding quotation.
 
 ## Define the first useful release
@@ -128,6 +192,24 @@ Ask which items are included, optional or dependent on a third-party supplier. A
 ## Separate build costs from running costs
 
 Request a separate schedule for domains, hosting, email delivery, payment fees, licensed software and ongoing support. Confirm billing currency, taxes, renewal terms and what happens if you move to another supplier. Pixaloom's estimator excludes VAT where applicable and recurring third-party charges; the written quote must settle the actual treatment and inclusions.
+
+## A quote-comparison worksheet you can use
+
+Send each supplier the same brief, then write their answers beside these headings. Leave an unanswered item marked unknown rather than treating it as included.
+
+1. **Page scope:** Name the pages and whether each needs a distinct layout. A five-page service site might include Home, Services, About, Work and Contact. Booking, ecommerce and a customer login are separate requirements, not implied by the page count.
+2. **Content responsibility:** Who writes and enters the text, supplies licensed photography and checks business information? State the number of initial products or project entries if relevant.
+3. **Customer journey:** Name the contact route and its acceptance check. For example, a mobile visitor can choose a service, send an enquiry and receive an acknowledgement, with the message reaching the agreed inbox.
+4. **Editing and ownership:** Specify what you can edit, who controls the domain and accounts, and what source files or export you receive. Ask what a future move would require.
+5. **Delivery and revisions:** Identify milestones, client approvals, the included revisions and how a new request is priced. A response-time target is different from a repair-time guarantee.
+6. **First-year and renewal costs:** Add the agreed build fee, mandatory recurring services and known setup charges. Show optional care separately. Record currency, VAT treatment and renewal pricing rather than comparing only the first invoice.
+7. **Launch and support:** Ask who tests links, redirects, forms and mobile layouts, who publishes the release, and which issues are covered afterwards.
+
+For example, two proposals can both say five-page website while one includes copy preparation and the other requires ready-to-publish text. Neither is automatically better value: compare the time and work you would still need to provide. If you are comfortable updating a simple template yourself, that can be a suitable option. Read our [custom website versus website builder comparison](/custom-website-vs-website-builder) before paying for custom work you do not need.
+
+## Finishing an existing AI-built website
+
+If you already have a working draft, start with the remaining blockers rather than assuming the budget must cover a complete new build. Keep the source and account ownership clear, document the failed journey and list what already works. Our [AI website and app rescue service](/ai-website-app-rescue) assesses defined repairs and launch support. A rebuild is a separate decision that needs a reason and scope.
 
 ## Budget for acceptance, not just appearance
 

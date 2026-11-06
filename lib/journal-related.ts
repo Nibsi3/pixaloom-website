@@ -1,9 +1,10 @@
 // Editorial next steps, rather than repeatedly promoting the first two posts.
 export const journalRelated: Record<string, string[]> = {
+  'ai-app-launch-checklist': ['web-app-vs-website-difference', 'website-maintenance-importance'],
   'why-george-businesses-need-modern-website': ['choosing-web-developer-george', 'lead-generation-website-design'],
   'choosing-web-developer-george': ['how-much-does-website-cost-south-africa', 'lead-generation-website-design'],
   'how-much-does-website-cost-south-africa': ['choosing-web-developer-george', 'web-app-vs-website-difference'],
-  'next-js-vs-wordpress-south-africa': ['web-app-vs-website-difference', 'website-maintenance-importance'],
+  'next-js-vs-wordpress-south-africa': ['ai-app-launch-checklist', 'web-app-vs-website-difference', 'website-maintenance-importance'],
   'lead-generation-website-design': ['mobile-first-design-importance', 'content-marketing-small-business'],
   'mobile-first-design-importance': ['website-speed-matters-south-africa', 'lead-generation-website-design'],
   'website-speed-matters-south-africa': ['mobile-first-design-importance', 'website-maintenance-importance'],

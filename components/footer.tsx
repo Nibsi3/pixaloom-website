@@ -16,6 +16,7 @@ export function Footer() {
           {primaryNavigation.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
           <Link href="/locations/george">George</Link>
           <Link href="/website-cost">Website cost</Link>
+          <Link href="/ai-website-app-rescue">AI project rescue</Link>
           <Link href="/privacy">Privacy</Link>
         </nav>
         <a href={`mailto:${site.email}`}>Contact <ArrowUpRight size={12} /></a>

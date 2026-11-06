@@ -5,7 +5,7 @@ import { projectCaptureSets } from '@/lib/project-captures';
 const pageDates: Record<string, string> = {
   '/custom-website-vs-website-builder': '2026-10-30',
   '/capabilities': '2026-10-29',
-  '/': '2026-10-29', '/services': '2026-10-30', '/ai-website-app-rescue': '2026-09-14', '/about': '2026-09-03', '/blog': '2026-09-03',
+  '/': '2026-11-06', '/services': '2026-10-30', '/ai-website-app-rescue': '2026-11-06', '/about': '2026-09-03', '/blog': '2026-11-06',
   '/contact': '2026-10-29', '/privacy': '2026-10-23', '/website-cost': '2026-10-29',
   '/locations/george': '2026-10-29', '/locations/garden-route': '2026-10-29',
   '/services/website-design': '2026-10-29', '/services/ecommerce-websites': '2026-10-29',

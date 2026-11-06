@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import type { CSSProperties } from 'react';
+import { RescueIntro } from '@/components/rescue-intro';
 import { CinematicHero } from '@/components/cinematic-hero';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
@@ -131,6 +132,8 @@ export default function HomePage() {
             <div className="buying-proof"><div><h3>A local business example</h3><p>See the service pages and contact routes in our <Link href="/work/paws-on-route">Paws On Route website case study</Link>, for a George pet grooming and pet sitting business. Explore the capabilities page for custom software, ecommerce and UX design work.</p></div><div><h3>Start with a short conversation</h3><p>Send your business name, the website you need and any existing URL. You do not need a finished brief or a confirmed budget.</p><a className="text-link" href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my business.')}`}>Talk to Cameron on WhatsApp <ArrowUpRight size={16} /></a></div></div>
           </div>
         </section>
+
+        <RescueIntro />
 
         <section className="reference-archive" id="work-archive">
           <div className="reference-collections">
