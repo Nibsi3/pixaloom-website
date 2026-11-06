@@ -1124,7 +1124,9 @@ export function DesktopShell() {
   }, []);
 
   // Clock + weather
-  const [now, setNow] = useState(() => new Date());
+  // The cached server page and the visitor's first render must show the same
+  // placeholder. The browser clock starts after hydration, in its own timezone.
+  const [now, setNow] = useState<Date | null>(null);
   const [weather, setWeather] = useState<{ temp: number | null; city: string } | null>(null);
 
   useEffect(() => {
@@ -1512,7 +1514,7 @@ export function DesktopShell() {
           {/* Clock/Weather widget */}
           <div className="flex flex-col items-center justify-center px-2 min-w-[60px]">
             <div className="font-mono text-sm font-medium text-white">
-              {now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}
+              {now ? now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }) : '—:—'}
             </div>
             <div className="font-mono text-[10px] text-white/60">
               {weather?.temp != null ? `${Math.round(weather.temp)}°C` : '--'}
