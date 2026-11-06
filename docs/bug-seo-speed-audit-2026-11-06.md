@@ -61,6 +61,9 @@ so the package overrides select glob 14.0.4 and minimatch 11.0.5. Installed call
 were checked against the removed minimatch APIs; lint/typecheck/tests must keep
 passing and the OpenNext build must validate file discovery before release.
 Remove the overrides when upstream package constraints include patched versions.
+The updated adapter also requires exact-path static asset handling when the
+Worker runs first. Both asset handling options are explicitly `none`, preserving
+Next.js routing, preview noindex and host redirects through the Worker.
 The complete npm audit and dependency-tree validation now pass with zero known
 vulnerabilities; this does not establish absence of undisclosed vulnerabilities.
 

@@ -342,6 +342,9 @@ test('production release targets the existing Cloudflare Worker', () => {
   assert.equal(config.name, 'pixaloom-website');
   assert.equal(config.main, '.open-next/worker.js');
   assert.equal(config.assets.binding, 'ASSETS');
+  assert.equal(config.assets.run_worker_first, true);
+  assert.equal(config.assets.html_handling, 'none');
+  assert.equal(config.assets.not_found_handling, 'none');
   assert.equal(config.keep_vars, true);
   assert.deepEqual(config.routes, [
     { pattern: 'pixaloom.co.za', custom_domain: true },
