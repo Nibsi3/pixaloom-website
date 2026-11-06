@@ -24,12 +24,24 @@ export function canonicalProblems(values, expected) {
 
 // Extract canonical relations from this site's HTTP Link headers, including
 // unrelated preload links and space-separated relation lists.
-export function httpCanonicalUrls(header = '') {
+export function httpCanonicalUrls(header = '', { crawlOrigin, canonicalOrigin } = {}) {
   return [...header.matchAll(/(?:^|,)\s*<([^>]+)>([\s\S]*?)(?=,\s*<|$)/g)]
     .filter(([, , parameters]) => {
       const relation = parameters.match(/;\s*rel\s*=\s*(?:"([^"]*)"|([^;\s,]+))/i);
       return (relation?.[1] ?? relation?.[2] ?? '').toLowerCase().split(/\s+/).includes('canonical');
-    }).map(([, url]) => url);
+    }).map(([, value]) => {
+      // Wrangler rewrites URL-valued response headers to its local listener.
+      // Restore only that exact loopback origin; never relax production checks
+      // or normalize away a wrong path, query, fragment, or trailing slash.
+      try {
+        const url = new URL(value);
+        const crawl = new URL(crawlOrigin);
+        if (canonicalOrigin && ['localhost', '127.0.0.1', '[::1]'].includes(crawl.hostname) && url.origin === crawl.origin) {
+          return `${new URL(canonicalOrigin).origin}${url.pathname}${url.search}${url.hash}`;
+        }
+      } catch { /* Keep invalid URLs intact for canonicalProblems to reject. */ }
+      return value;
+    });
 }
 
 // Googlebot rule selection and longest-path matching for this site's robots.txt.

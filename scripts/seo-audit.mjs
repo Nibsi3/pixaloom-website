@@ -340,7 +340,7 @@ async function audit() {
     if (response.status !== 200) fail(`${path}: download returned ${response.status}`);
     if (!response.headers.get('content-type')?.includes('application/pdf')) fail(`${path}: download is not a PDF`);
     if (!robotsAllows(robots, path) || blocksIndexing([], response)) fail(`${path}: PDF canonical cannot be crawled or indexed`);
-    for (const problem of canonicalProblems(httpCanonicalUrls(response.headers.get('link') || ''), new URL(canonicalPath, canonicalOrigin))) {
+    for (const problem of canonicalProblems(httpCanonicalUrls(response.headers.get('link') || '', { crawlOrigin, canonicalOrigin }), new URL(canonicalPath, canonicalOrigin))) {
       fail(`${path}: HTTP ${problem}`);
     }
     if (!crawledUrls.has(normalizeUrl(canonicalPath))) fail(`${path}: canonical target is missing from the sitemap`);

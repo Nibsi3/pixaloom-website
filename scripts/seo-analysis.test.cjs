@@ -53,6 +53,23 @@ test('download canonicals are read from HTTP Link headers without mistaking prel
   assert.ok(canonicalProblems(httpCanonicalUrls(`<${target}>; rel=canonical, <https://www.pixaloom.co.za/>; rel=canonical`), target).length);
 });
 
+test('HTTP canonicals allow only Wrangler loopback rewrites and still reject changed resources', async () => {
+  const { httpCanonicalUrls, canonicalProblems } = await analysis;
+  const canonicalOrigin = 'https://www.pixaloom.co.za';
+  const crawlOrigin = 'http://127.0.0.1:3101';
+  const expected = `${canonicalOrigin}/capabilities`;
+  const read = value => httpCanonicalUrls(`<${value}>; rel=canonical`, { crawlOrigin, canonicalOrigin });
+  assert.deepEqual(read(`${crawlOrigin}/capabilities`), [expected]);
+  assert.deepEqual(read(expected), [expected]);
+  for (const value of [`${crawlOrigin}/capabilities?x=1`, `${crawlOrigin}/capabilities#fragment`, `${crawlOrigin}/capabilities/`, 'http://127.0.0.1:9999/capabilities']) {
+    assert.ok(canonicalProblems(read(value), expected).length);
+  }
+  const production = httpCanonicalUrls(`<${crawlOrigin}/capabilities>; rel=canonical`, { crawlOrigin: canonicalOrigin, canonicalOrigin });
+  assert.ok(canonicalProblems(production, expected).length);
+  const preview = httpCanonicalUrls('<https://preview.example/capabilities>; rel=canonical', { crawlOrigin: 'https://preview.example', canonicalOrigin });
+  assert.ok(canonicalProblems(preview, expected).length);
+});
+
 test('robots checks honour Googlebot groups, repeated groups and longest matching allow rules', async () => {
   const { robotsAllows } = await analysis;
   const rules = 'User-agent: *\nDisallow: /\nUser-agent: Googlebot\nDisallow: /services\nAllow: /services/seo\nDisallow: /*?private=\nUser-agent: googlebot\nDisallow: /os$\nAllow: /services/seo';
