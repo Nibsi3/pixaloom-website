@@ -1,4 +1,89 @@
-# Pixaloom bug, SEO and speed audit — 6 November 2026
+# Pixaloom bug, SEO and speed audit — 6–7 November 2026
+
+## Deeper failure, accessibility and boundary review — completed 7 November
+
+The next pass confirmed the latest public content and contact readiness, then
+used a clean local Worker and synthetic fixtures. It avoided production stress,
+real enquiries, paid services, credential changes and analytics data recovery.
+
+| Reproduced issue | Change |
+| --- | --- |
+| `/os` accepted a message locally, showed a sending state and erased it without any network submission | Replaced the simulated form with a keyboard-accessible link to the real enquiry form, retaining direct email and WhatsApp options |
+| Before hydration or with JavaScript disabled, the enquiry form could fall back to a native GET containing personal fields in the URL | Initial inputs and submission stay disabled until the client handler is ready; explicit POST semantics and no-JavaScript contact alternatives prevent the native GET fallback |
+| A lost or malformed provider response was described as a temporarily unavailable form, although acceptance could already have happened | API and browser consistently say delivery is unconfirmed and ask the visitor to contact the studio before resending |
+| Double-click protection did not cover later retries of the same request | Added an opaque, validated per-enquiry key using ByteSend's published idempotency contract; unchanged in-page retries keep the same key/body, with no automatic retry |
+| Editable fields could change while an earlier submission was pending, and replacing the form removed keyboard focus | Snapshot before disabling fields; preserve values after errors; focus error/success feedback and the Name field after an explicit new-enquiry action |
+| The homepage work link scrolled a relative distance instead of reaching its declared target, leaving focus behind | Native fragment navigation to a named, focusable selected-work section, with normal URL history and no forced animation |
+| The demo's cached server clock and visitor clock could disagree during hydration, causing React to regenerate the page | A shared initial placeholder remains until the browser starts its local clock after hydration |
+| The local audit could contact another origin through special paths, image URLs or redirects, and misreported repeated query values | Explicit origin confinement, validated/bounded redirects and ordered comparison of all repeated query values |
+
+The contact boundary now matches JSON media types exactly and rejects control
+characters in header-bound name/email fields before provider submission. Synthetic
+event checks reject forged origins and malformed/prototype-shaped/oversized
+payloads, and verify that only approved event names and a fixed source are logged.
+Those event controls already worked; no unnecessary production change was made.
+
+All 107 automated checks and configured repository lint pass. Native HTTP
+fixtures verify the existing provider abort signal covers both stalled headers
+and stalled JSON bodies, using shortened timers on loopback. The crawler fixture
+uses two loopback servers and proves no request reaches the second origin.
+Independent review confirmed stable email payloads and diagnostics without
+enquiry data, credentials or retry keys.
+
+The final clean Next.js/OpenNext build passes. In an isolated browser, both
+standard and rescue forms were checked with JavaScript disabled and before
+hydration: clicks created no submission, native forced submission used POST
+without enquiry fields, and direct contact alternatives remained available.
+The original native-GET behavior was intercepted before any network request.
+
+Final source release: `fcd9974`, incorporating `8303fa1` and `cf30331`, pushed to
+`codex/local-search-growth` and deployed to the existing Worker as version
+`96c4dc9e-b213-405e-a9bf-9d684fa7a239`. The clean checkout excludes the owner's
+pre-existing capabilities-page edits. All 107 tests, configured lint, TypeScript
+and the final production build passed. The final local crawl passed 65 pages,
+66 destinations, 729 image variants and the PDF canonical with no issues.
+
+Browser verification covered standard desktop and rescue mobile enquiry flows:
+pending edits, duplicate submit, failed/malformed responses, identical retry keys,
+key rotation after edits/new enquiries, retained input and focus transitions.
+All eight synthetic submissions were intercepted. Live verification was bounded:
+seven representative GET/HEAD checks, contact hydration/no-JavaScript behavior,
+the hero fragment keyboard/history journey and the demo's real-form handoff.
+No load test or real form submission ran against production. The final demo clock
+passed local browser tests in Johannesburg, Los Angeles and Auckland, then passed
+on production without the prior React hydration error.
+
+Key evidence: `audits/deep-tests-clock-20261107.txt`,
+`audits/deep-build-clock-20261107.log`,
+`audits/seo-local-deep-final-20261106.json`,
+`audits/2026-11-06/contact-final-browser.json`,
+`audits/2026-11-06/contact-live-browser.json`,
+`audits/hero-fragment-live-cf30331.json`,
+`audits/deep-live-check-20261106.json` and
+`audits/deep-os-contact-live-Africa-Johannesburg.json`.
+
+Coverage limits: these are selected realistic browser and local security-boundary
+tests, not an exhaustive penetration test, accessibility certification or audit
+of every experimental game/terminal feature. Existing lint configuration excludes
+legacy demo files and test scripts; modified demo behavior was checked through
+TypeScript/build and browser runs, while scripts were syntax-checked/executed.
+Previous Lighthouse results remain dated samples; no new lab-score improvement
+is claimed for this pass.
+
+Additional browser coverage found no new defect in image zoom/panning, Escape
+and opener-focus restoration in Chrome and Firefox, 320px estimator reflow,
+keyboard selection, or video pause/resume across background tabs and navigation.
+Local query canonicals, trailing-slash redirects, missing assets/pages, experiment
+noindex, PDF canonical query variants and unsupported page methods also passed.
+Local preview-host evaluation is not proof of a newly deployed edge response.
+
+See [enquiry reliability](contact-reliability.md) for the pinned provider contract
+and exact limits: same-form memory only, provider-version dependency, no protection
+across reloads/new tabs, legacy callers without keys, no guaranteed inbox delivery
+and no live-email test. Search Console's earlier indexing request remains pending;
+no new ranking claim, repeated submission or content churn was introduced.
+Plausible's retained data remains untouched; recovery still requires its missing
+trusted deployment configuration.
 
 ## Commercial search follow-up
 

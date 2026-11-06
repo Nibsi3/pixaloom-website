@@ -1,5 +1,27 @@
 # SEO maintenance and owner checklist
 
+## 7 November 2026 reliability and accessible navigation follow-up
+
+Release `fcd9974` adds verified enquiry/privacy and keyboard fixes without changing
+the commercial query targets or refreshing unrelated content dates. The form
+must remain inactive before hydration, use POST semantics, retain its no-JavaScript
+contact alternatives and never put enquiry contents into a URL. Preserve the
+unchanged-retry key and uncertain-delivery wording described in
+[contact reliability](contact-reliability.md).
+
+The homepage selected-work action must reach and focus its actual section, and
+Back should restore the earlier position. The demo contact entry now leads to
+the real form; its clock starts only after hydration. Crawl tooling must keep
+local runs on the selected origin, bound redirect chains and preserve every
+repeated query value. Regression fixtures cover these request boundaries.
+
+Final validation: 107 tests, configured lint and clean production build passed;
+the local 65-page crawl remained clean. Bounded live checks confirmed the deployed
+fixes. No production stress test, real enquiries, paid services, credential changes
+or repeat indexing requests were used. Analytics recovery remains blocked on the
+missing trusted original configuration; retained data was not changed.
+See [the full audit](bug-seo-speed-audit-2026-11-06.md) for release evidence and limits.
+
 ## 6 November 2026 commercial landing-page follow-up
 
 Search Console's 28-day baseline identifies pricing searches and George website
