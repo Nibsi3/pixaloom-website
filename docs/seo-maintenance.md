@@ -1,5 +1,57 @@
 # SEO maintenance and owner checklist
 
+## 6 November 2026 commercial landing-page follow-up
+
+Search Console's 28-day baseline identifies pricing searches and George website
+searches as relevant opportunities. The intended George landing page already
+appears for local queries. Keep its URL and primary intent stable; current evidence
+does not justify more town pages or repeated title changes.
+
+- `/website-cost` now answers the five-page price question in its opening section,
+  with exclusions and direct jumps to prices and the estimator. Three worked
+  examples use the existing calculator for a base website, editable CMS and
+  CMS plus bookings. Each carries the selected scope into the enquiry brief.
+  These replace repetitive prose; they are planning examples, not client quotes.
+- `/locations/george` shows the existing dated Paws On Route services capture
+  beside an explanation of its visible booking prompt. The local project leads
+  the case-study list. Responsive images preserve the previous loading fixes.
+- `/locations/garden-route` provides opening enquiry and pricing links, clarifies
+  booking-provider and availability ownership, and links to ongoing website care.
+  FAQ structured data uses the same content as the visible answers.
+- Only these three pages receive updated substantive modification dates. Existing
+  prices, canonical URLs, homepage portfolio selection and service titles remain.
+
+Release: application commit `7bbec58`, verification-date follow-up `b91a28d`,
+production Worker `a7e9da66-d21d-43b1-ad0f-f32e1ba79ab5`. Build, lint and 90 tests
+passed. Both local and production crawls passed 65 pages, 66 destinations,
+729 responsive image variants and the PDF canonical, with zero failures/warnings.
+Browser checks covered the revised page layouts and estimator-to-enquiry handoff
+at phone and desktop sizes. Post-deployment checks confirmed the pricing handoffs
+at both sizes and the local pages on mobile. No messages were sent. Evidence
+remains in ignored `audits/`.
+
+Measurement: privately retain the 8 October–4 November baseline and annotate this
+release. Once Google has processed the changes and the next full window is
+available, compare 7 November–4 December using the same Web/all-countries filters.
+Record local non-brand and pricing query/page pairs, impressions, clicks, CTR,
+position and actual qualified enquiries. Review South Africa/mobile separately.
+Use another comparable period before drawing conclusions from small samples.
+This is a measurement plan, not a scheduled automation or claim of ranking lift.
+
+The earlier article indexing request remains pending; do not resubmit it merely
+to seek priority. Google controls indexing and ranking, and its
+[SEO starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide)
+explains that improvements can take weeks or longer to assess and cannot guarantee
+first place.
+
+The existing Plausible script endpoint currently returns 502, so its visit and
+conversion totals are not a usable baseline. The proxy points to a local service
+that is absent; original deployment configuration is missing. Retained data volumes
+were left untouched. Recovery needs trusted configuration compatible with those
+volumes before the original service can be restored. No replacement tracker,
+duplicate destination or blind data reset was introduced. Search Console reporting
+remains available independently. Private recovery details stay outside Git.
+
 ## 6 November 2026 crawl and download audit
 
 The production baseline covered 65 sitemap pages, 66 unique internal destinations

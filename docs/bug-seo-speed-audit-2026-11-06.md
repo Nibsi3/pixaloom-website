@@ -1,5 +1,54 @@
 # Pixaloom bug, SEO and speed audit — 6 November 2026
 
+## Commercial search follow-up
+
+A second pass used authenticated Search Console query/page evidence and mobile
+landing-page inspection. The pricing page was already receiving relevant price
+queries, but its opening mobile viewport showed neither a price nor an in-content
+action. George's intended landing page was appearing for local searches; there
+was no reason to replace its URL or create more town pages.
+
+The follow-up makes the five-page allowance and estimator links immediately
+available, adds three scope examples calculated from existing prices, and carries
+each example into the enquiry brief. George now shows a dated, verified Paws On
+Route services screenshot with an explanation of its actual enquiry prompt.
+Garden Route adds opening enquiry/pricing actions and practical booking-provider
+and content-ownership guidance. Existing titles, prices and canonical addresses
+are retained. Only the three substantively updated pages have new sitemap dates.
+
+The clean build and lint pass. All 90 tests pass after updating the two existing
+date expectations for changed pages. The local Worker crawl covers 65 pages,
+66 destinations, 729 image variants and one PDF canonical, with no failures or
+warnings. Independent review matched every visible local FAQ to its structured
+data and verified the project claims against the actual screenshot.
+
+The follow-up was pushed as `7bbec58` (application changes) and `b91a28d`
+(date expectations), then deployed to the existing production Worker as version
+`a7e9da66-d21d-43b1-ad0f-f32e1ba79ab5`. The production crawl also passed all
+65 pages, 66 destinations, 729 image variants and the PDF canonical with zero
+failures or warnings. Local browser checks at 390×844 and 1440×900 verified
+opening prices/actions, working section jumps, all three calculator-derived
+brief handoffs, responsive project evidence, FAQ consistency and no horizontal
+overflow. Local pages also retained their content and actions without JavaScript.
+Post-deployment browser checks confirmed the pricing behavior on both sizes and
+the George/Garden Route content on mobile. All six pricing example handoffs
+retained the correct amounts/features; no forms or WhatsApp messages were sent.
+Reports: `audits/seo-live-growth-20261106.json`,
+`audits/pricing-growth-live-verification.json` and
+`audits/2026-11-06/live-local-pages/smoke.json`.
+
+No post-release ranking gain is yet measurable. The precise private baseline and
+query pairs are retained in `audits/search-console-2026-11-06.md`; the comparable
+measurement window is 7 November–4 December, once Google has processed it. See
+[SEO maintenance](seo-maintenance.md) for the measurement plan and outstanding
+owner-dependent work.
+
+This pass also confirmed the existing Plausible script fails with HTTP 502. Its
+proxy is running, but the analytics application and original deployment
+configuration are absent. Retained data volumes remain intact. Safe recovery
+requires the trusted original configuration; no tracker replacement, data reset
+or unverified reconstruction was attempted. Google Search Console remains usable.
+
 ## Scope and verified repairs
 
 Audited the public Pixaloom website, contact workflow, estimator handoff, mobile
