@@ -135,7 +135,7 @@ export default function HomePage() {
 
         <RescueIntro />
 
-        <section className="reference-archive" id="work-archive">
+        <section className="reference-archive" id="work-archive" tabIndex={-1} aria-label="Selected work">
           <div className="reference-collections">
             {archiveWork.map((item, index) => <ArchiveCollection item={item} index={index} key={item.slug} />)}
           </div>

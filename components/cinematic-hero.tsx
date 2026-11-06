@@ -33,23 +33,12 @@ export function CinematicHero() {
             <strong>Culture</strong>
           </p>
           <span className="portal-caption">Web design · Products · South Africa</span>
-          <Link
+          <a
             className="portal-scroll"
             href="#work-archive"
-            onClick={(event) => {
-              event.preventDefault();
-              const section = sectionRef.current;
-              if (!section) return;
-              const stage = section.querySelector<HTMLElement>('.reference-stage');
-              const distance = stage
-                ? Math.max(window.innerHeight * 0.9, section.offsetHeight - stage.offsetHeight)
-                : window.innerHeight;
-              // Smooth scroll so the CSS view-timeline portal can scrub visibly.
-              window.scrollTo({ top: window.scrollY + distance, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-            }}
           >
-            <span>Scroll down</span><ArrowDown size={12} />
-          </Link>
+            <span>View selected work</span><ArrowDown size={12} />
+          </a>
         </div>
 
         <div className="featured-copy" id="featured-state">

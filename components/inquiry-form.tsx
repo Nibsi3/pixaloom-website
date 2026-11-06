@@ -4,7 +4,7 @@ import { FormEvent, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/events';
 import { estimateBriefFromParams } from '@/lib/website-cost';
-import { contactUnavailable } from '@/lib/contact';
+import { contactDeliveryUnconfirmed, contactUnavailable } from '@/lib/contact';
 import { contactBudgetHelp, contactBudgetOptions } from '@/lib/contact-budgets';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
@@ -17,9 +17,14 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   const [budget, setBudget] = useState('');
   const budgetHelpId = useId();
   const [available, setAvailable] = useState<boolean | null>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
+  const errorRef = useRef<HTMLParagraphElement>(null);
   const started = useRef(false);
   const submitting = useRef(false);
+  const submission = useRef<{ body: string; key: string } | null>(null);
+  const focusNewEnquiry = useRef(false);
   useEffect(() => {
     const controller = new AbortController();
     fetch('/api/contact', { signal: controller.signal, cache: 'no-store' })
@@ -28,6 +33,14 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
     if (brief && messageRef.current) messageRef.current.value = brief;
     return () => controller.abort();
   }, []);
+  useEffect(() => {
+    if (status === 'sent') successRef.current?.focus();
+    if (status === 'error') errorRef.current?.focus();
+    if (status === 'idle' && focusNewEnquiry.current) {
+      nameRef.current?.focus();
+      focusNewEnquiry.current = false;
+    }
+  }, [status]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -37,16 +50,22 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
     submitting.current = true;
     const form = event.currentTarget;
     let rejectionMessage = '';
-    setStatus('sending');
     setError('');
     trackEvent('enquiry_submit');
 
     try {
       const data = Object.fromEntries(new FormData(form).entries());
+      const body = JSON.stringify(data);
+      // Keep one opaque key for an unchanged manual retry. No form contents or
+      // identifiers are persisted to browser storage or included in analytics.
+      if (!submission.current || submission.current.body !== body) submission.current = { body, key: crypto.randomUUID() };
+      // Capture FormData before disabling the fieldset, because disabled inputs
+      // are omitted from FormData. Keep that snapshot visible until completion.
+      setStatus('sending');
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data),
+        headers: { 'content-type': 'application/json', 'idempotency-key': submission.current.key },
+        body,
         signal: AbortSignal.timeout(20000),
       });
       const result: unknown = await response.json();
@@ -59,13 +78,14 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
       }
       trackEvent('enquiry_accepted');
       form.reset();
+      submission.current = null;
       setService('');
       setBudget('');
       setStatus('sent');
     } catch {
       trackEvent('enquiry_error');
       setStatus('error');
-      setError(rejectionMessage || 'Delivery could not be confirmed. Please contact us directly before resending.');
+      setError(rejectionMessage || contactDeliveryUnconfirmed);
     } finally {
       submitting.current = false;
     }
@@ -73,11 +93,11 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
 
   if (status === 'sent') {
     return (
-      <div className="form-success" role="status">
+      <div className="form-success" role="status" ref={successRef} tabIndex={-1}>
         <CheckCircle2 size={30} />
         <h3>Brief sent.</h3>
         <p>Our email service accepted your brief. We’ll review it and reply as soon as possible. If you do not hear back, please contact us directly.</p>
-        <button type="button" className="text-link" onClick={() => setStatus('idle')}>Send another enquiry</button>
+        <button type="button" className="text-link" onClick={() => { focusNewEnquiry.current = true; setStatus('idle'); }}>Send another enquiry</button>
       </div>
     );
   }
@@ -85,8 +105,9 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   return (
     <form className="inquiry-form" aria-busy={status === 'sending'} onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; trackEvent('enquiry_start'); } }}>
       {available === false ? <p className="form-error" role="status">{contactUnavailable} <a href="mailto:info@pixaloom.co.za">Email your brief</a> or <a href="https://wa.me/27662995533">use WhatsApp</a>.</p> : null}
-      <div className="form-grid">
-        <label><span>Name *</span><input name="name" autoComplete="name" required maxLength={80} placeholder="Your name" /></label>
+      <fieldset className="form-grid" disabled={status === 'sending'} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
+        <legend className="sr-only">Your project details</legend>
+        <label><span>Name *</span><input ref={nameRef} name="name" autoComplete="name" required maxLength={80} placeholder="Your name" /></label>
         <label><span>Email *</span><input name="email" type="email" autoComplete="email" required maxLength={120} placeholder="Your email address" /></label>
         {rescue ? <>
           <input type="hidden" name="service" value="AI Website & App Rescue" />
@@ -105,11 +126,11 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
           <label className="span-2"><span>Desired deadline</span><input name="deadline" maxLength={100} placeholder="Optional; timing is confirmed after review" /></label>
         </> : null}
         <label className="honeypot" aria-hidden="true"><span>Website</span><input name="website" tabIndex={-1} autoComplete="off" /></label>
-      </div>
+      </fieldset>
       <button className="button button-dark form-submit" type="submit" disabled={status === 'sending' || available === false}>
         {status === 'sending' ? 'Sending…' : <>{rescue ? 'Get a free app diagnosis' : 'Ask about my website'} <ArrowRight size={18} /></>}
       </button>
-      {status === 'error' ? <p className="form-error" role="alert">{error} You can also email info@pixaloom.co.za.</p> : null}
+      {status === 'error' ? <p className="form-error" role="alert" ref={errorRef} tabIndex={-1}>{error} You can also <a href="mailto:info@pixaloom.co.za">email your brief</a>.</p> : null}
       <p className="form-note">We use your details to respond to and manage your enquiry. Please do not include passwords or sensitive records. <Link href="/privacy">Read the privacy notice</Link>.</p>
     </form>
   );

@@ -41,6 +41,16 @@ test('canonical checks reject duplicates and changed resource URLs without hidin
   }
 });
 
+test('redirect checks preserve every repeated query value and its order', async () => {
+  const { redirectQueryProblems } = await analysis;
+  const source = url('/pricing?tag=business&tag=booking&topic=web%20design&empty=');
+  assert.deepEqual(redirectQueryProblems(source, url('/website-cost?topic=web+design&tag=business&tag=booking&empty=')), []);
+  for (const query of ['tag=business', 'tag=booking&tag=business', 'tag=business&tag=business', 'tag=business&tag=booking&tag=extra']) {
+    assert.deepEqual(redirectQueryProblems(source, url(`/website-cost?${query}&topic=web%20design&empty=`)), ['redirect changed query parameter tag']);
+  }
+  assert.deepEqual(redirectQueryProblems(source, url('/website-cost?tag=business&tag=booking&topic=web%20design')), ['redirect changed query parameter empty']);
+});
+
 test('download canonicals are read from HTTP Link headers without mistaking preload or alternate links', async () => {
   const { httpCanonicalUrls, canonicalProblems } = await analysis;
   const target = 'https://www.pixaloom.co.za/capabilities';

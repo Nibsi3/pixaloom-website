@@ -14,12 +14,12 @@ export function getEmailConfig() {
   }
 }
 
-export async function sendEmail(message: EmailMessage) {
+export async function sendEmail(message: EmailMessage, idempotencyKey?: string) {
   const config = getEmailConfig();
   if (!config) throw new Error('email_unavailable');
   const response = await fetch(config.endpoint, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json' },
+    headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json', ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}) },
     body: JSON.stringify({ ...message, from: config.from }),
     cache: 'no-store',
     // Workers supports manual/follow, not error. Manual returns redirects as
@@ -34,7 +34,7 @@ export async function sendEmail(message: EmailMessage) {
   if (!response.ok) {
     // Status and fixed categories only: never log provider bodies or enquiries.
     const result: unknown = await response.json().catch(() => null);
-    const codes = ['BAD_REQUEST', 'UNAUTHORIZED', 'FORBIDDEN', 'NOT_FOUND', 'RATE_LIMITED', 'INTERNAL_SERVER_ERROR'];
+    const codes = ['BAD_REQUEST', 'UNAUTHORIZED', 'FORBIDDEN', 'NOT_FOUND', 'NOT_UNIQUE', 'RATE_LIMITED', 'INTERNAL_SERVER_ERROR'];
     const details = result && typeof result === 'object' && 'error' in result ? result.error : undefined;
     const candidate = details && typeof details === 'object' && 'code' in details ? details.code : undefined;
     const code = typeof candidate === 'string' && codes.includes(candidate) ? candidate : 'UNKNOWN';

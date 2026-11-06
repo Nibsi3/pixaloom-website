@@ -22,10 +22,16 @@ function nodes(tree) {
   if (!tree || typeof tree !== 'object') return [];
   return [tree, ...React.Children.toArray(tree.props?.children).flatMap(nodes)];
 }
+function textContent(tree) {
+  if (typeof tree === 'string' || typeof tree === 'number') return String(tree);
+  if (!tree || typeof tree !== 'object') return '';
+  return React.Children.toArray(tree.props?.children).map(textContent).join('');
+}
 
 function formHarness(t) {
-  const states = [], refs = [];
+  const states = [], refs = [], effects = [];
   let stateCursor = 0, refCursor = 0, resets = 0;
+  const fields = { name: 'Test', email: 'test@example.com', message: 'A synthetic test enquiry that must never be sent.' };
   t.mock.method(React, 'useState', initial => {
     const i = stateCursor++;
     if (!(i in states)) states[i] = initial;
@@ -35,14 +41,16 @@ function formHarness(t) {
     const i = refCursor++;
     return refs[i] ||= { current: initial };
   });
-  t.mock.method(React, 'useEffect', () => {});
+  t.mock.method(React, 'useEffect', (callback, dependencies) => effects.push({ callback, dependencies }));
   t.mock.method(React, 'useId', () => 'submission-help');
   t.mock.method(globalThis, 'FormData', function () {
-    return { entries: () => Object.entries({ name: 'Test', email: 'test@example.com', message: 'A synthetic test enquiry that must never be sent.' }) };
+    return { entries: () => Object.entries(fields) };
   });
   return {
-    render() { stateCursor = 0; refCursor = 0; return InquiryForm({}); },
+    render() { stateCursor = 0; refCursor = 0; effects.length = 0; return InquiryForm({}); },
+    flushStatusEffects() { effects.filter(effect => effect.dependencies?.length === 1).forEach(effect => effect.callback()); },
     event: { preventDefault() {}, currentTarget: { reset() { resets++; } } },
+    fields,
     get resets() { return resets; },
   };
 }
@@ -58,12 +66,39 @@ test('rapid repeated submits send only one enquiry before the first response', a
   const second = initial.props.onSubmit(fixture.event);
   const pending = fixture.render();
   assert.equal(pending.props['aria-busy'], true);
+  const editableFields = nodes(pending).find(node => node.props.className === 'form-grid');
+  assert.equal(editableFields.type, 'fieldset', 'Pending values must be protected from edits that would be discarded after acceptance');
+  assert.equal(editableFields.props.disabled, true);
   const third = pending.props.onSubmit(fixture.event);
   resolveResponse(Response.json({ ok: true }));
   await Promise.all([first, second, third]);
   assert.equal(calls, 1);
   assert.equal(fixture.resets, 1);
   assert.equal(fixture.render().props.role, 'status');
+});
+
+test('unchanged retries reuse an opaque send key; edits and a new enquiry get new keys', async t => {
+  const fixture = formHarness(t);
+  let accepted = false;
+  const calls = [];
+  t.mock.method(globalThis, 'fetch', async (_url, options) => {
+    calls.push({ key: new Headers(options.headers).get('idempotency-key'), body: options.body });
+    return Response.json(accepted ? { ok: true } : { ok: false, error: 'Delivery could not be confirmed.' }, { status: accepted ? 200 : 502 });
+  });
+  await fixture.render().props.onSubmit(fixture.event);
+  await fixture.render().props.onSubmit(fixture.event);
+  assert.match(calls[0].key, /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i);
+  assert.equal(calls[0].key, calls[1].key);
+  assert.equal(calls[0].body, calls[1].body);
+  fixture.fields.message += ' An edited brief is a new send.';
+  await fixture.render().props.onSubmit(fixture.event);
+  assert.notEqual(calls[1].key, calls[2].key);
+  accepted = true;
+  await fixture.render().props.onSubmit(fixture.event);
+  assert.equal(calls[2].key, calls[3].key);
+  nodes(fixture.render()).find(node => node.type === 'button').props.onClick();
+  await fixture.render().props.onSubmit(fixture.event);
+  assert.notEqual(calls[3].key, calls[4].key);
 });
 
 test('malformed responses never accept an enquiry or expose parser errors', async t => {
@@ -76,7 +111,7 @@ test('malformed responses never accept an enquiry or expose parser errors', asyn
     const tree = fixture.render();
     const alert = nodes(tree).find(node => node.props.role === 'alert');
     assert.ok(alert, `Response ${JSON.stringify(value)} must not be accepted`);
-    const text = React.Children.toArray(alert.props.children).join('');
+    const text = textContent(alert);
     assert.match(text, /Delivery could not be confirmed/);
     assert.doesNotMatch(text, /Unexpected|JSON|Cannot read|private diagnostics|\[object Object\]/);
     assert.equal(fixture.resets, 0);
@@ -89,8 +124,9 @@ test('a validated rejection keeps the correction message and does not clear the 
   await fixture.render().props.onSubmit(fixture.event);
   const tree = fixture.render();
   const alert = nodes(tree).find(node => node.props.role === 'alert');
-  assert.match(React.Children.toArray(alert.props.children).join(''), /Please provide a valid name and email address/);
+  assert.match(textContent(alert), /Please provide a valid name and email address/);
   assert.equal(tree.props['aria-busy'], false);
+  assert.equal(nodes(tree).find(node => node.props.className === 'form-grid').props.disabled, false);
   assert.equal(fixture.resets, 0);
 });
 
@@ -104,10 +140,35 @@ test('a network timeout retains the brief and releases the sending lock for an e
   await fixture.render().props.onSubmit(fixture.event);
   const failed = fixture.render();
   assert.equal(fixture.resets, 0);
-  assert.match(React.Children.toArray(nodes(failed).find(node => node.props.role === 'alert').props.children).join(''), /contact us directly before resending/);
+  assert.match(textContent(nodes(failed).find(node => node.props.role === 'alert')), /contact us directly before resending/);
   assert.equal(nodes(failed).find(node => node.type === 'button').props.disabled, false);
   accepted = true;
   await failed.props.onSubmit(fixture.event);
   assert.equal(fixture.resets, 1);
   assert.equal(fixture.render().props.role, 'status');
+});
+
+test('error and accepted feedback receive focus after the submission control changes', async t => {
+  const fixture = formHarness(t);
+  let accepted = false, focused = '';
+  t.mock.method(globalThis, 'fetch', async () => Response.json(accepted ? { ok: true } : { ok: false, error: 'Please check the brief.' }, { status: accepted ? 200 : 400 }));
+  await fixture.render().props.onSubmit(fixture.event);
+  const error = nodes(fixture.render()).find(node => node.props.role === 'alert');
+  assert.equal(error.props.tabIndex, -1);
+  error.props.ref.current = { focus() { focused = 'error'; } };
+  fixture.flushStatusEffects();
+  assert.equal(focused, 'error');
+  accepted = true;
+  await fixture.render().props.onSubmit(fixture.event);
+  const success = fixture.render();
+  assert.equal(success.props.role, 'status');
+  assert.equal(success.props.tabIndex, -1);
+  success.props.ref.current = { focus() { focused = 'success'; } };
+  fixture.flushStatusEffects();
+  assert.equal(focused, 'success');
+  nodes(success).find(node => node.type === 'button').props.onClick();
+  const fresh = fixture.render();
+  nodes(fresh).find(node => node.props.name === 'name').props.ref.current = { focus() { focused = 'name'; } };
+  fixture.flushStatusEffects();
+  assert.equal(focused, 'name');
 });

@@ -22,6 +22,32 @@ export function canonicalProblems(values, expected) {
   }
 }
 
+// Keep every page request on the selected audit origin, even when a canonical
+// pathname begins with // (which URL resolution otherwise treats as a host).
+export function crawlPageUrl(value, { crawlOrigin, canonicalOrigin }) {
+  const canonical = new URL(canonicalOrigin);
+  const target = new URL(crawlOrigin);
+  const source = new URL(value, canonical);
+  if (![canonical.origin, target.origin].includes(source.origin) || source.username || source.password) {
+    throw new Error('URL is outside the audit origins or includes credentials');
+  }
+  target.pathname = source.pathname;
+  target.search = source.search;
+  target.hash = '';
+  return target;
+}
+
+export function redirectQueryProblems(source, destination) {
+  const before = new URL(source).searchParams;
+  const after = new URL(destination).searchParams;
+  return [...new Set(before.keys())].flatMap(key => {
+    const expected = before.getAll(key);
+    const actual = after.getAll(key);
+    return expected.length === actual.length && expected.every((value, index) => value === actual[index])
+      ? [] : [`redirect changed query parameter ${key}`];
+  });
+}
+
 // Extract canonical relations from this site's HTTP Link headers, including
 // unrelated preload links and space-separated relation lists.
 export function httpCanonicalUrls(header = '', { crawlOrigin, canonicalOrigin } = {}) {

@@ -1,4 +1,4 @@
-import { contactUnavailable, escapeHtml, validateContact } from '@/lib/contact';
+import { contactDeliveryUnconfirmed, contactUnavailable, escapeHtml, validateContact } from '@/lib/contact';
 import { getEmailConfig, sendEmail } from '@/lib/email';
 import { readRequestText, RequestBodyError } from '@/lib/request-body';
 
@@ -11,9 +11,13 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  if (!req.headers.get('content-type')?.includes('application/json')) return json({ ok: false, error: 'Please submit the website enquiry form.' }, 415);
+  if (req.headers.get('content-type')?.split(';', 1)[0].trim().toLowerCase() !== 'application/json') return json({ ok: false, error: 'Please submit the website enquiry form.' }, 415);
   const origin = req.headers.get('origin');
   if (origin && origin !== new URL(req.url).origin && !['https://www.pixaloom.co.za', 'https://pixaloom.co.za'].includes(origin)) return json({ ok: false, error: 'Invalid request origin.' }, 403);
+  const requestKey = req.headers.get('idempotency-key');
+  if (requestKey !== null && !/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(requestKey)) {
+    return json({ ok: false, error: 'Please refresh this page before sending your enquiry.' }, 400);
+  }
   let input: unknown;
   try {
     input = JSON.parse(await readRequestText(req, { maxBytes: 24000 }));
@@ -36,12 +40,13 @@ export async function POST(req: Request) {
       to: 'info@pixaloom.co.za', replyTo: email, subject: `Pixaloom enquiry — ${name}`,
       text: Object.entries(fields).map(([label, value]) => `${label}: ${value || '-'}`).join('\n\n'),
       html: Object.entries(fields).map(([label, value]) => `<p><strong>${label}</strong><br/>${escapeHtml(value || '-').replaceAll('\n', '<br/>')}</p>`).join(''),
-    });
+    }, requestKey ? `pixaloom-enquiry-${requestKey.toLowerCase()}` : undefined);
     console.info(JSON.stringify({ event: 'enquiry_accepted' }));
     return json({ ok: true });
   } catch {
     // Never log form contents, addresses, credentials or provider errors.
     console.error(JSON.stringify({ event: 'enquiry_failed', reason: 'email_provider' }));
-    return json({ ok: false, error: contactUnavailable }, 502);
+    // A lost response does not prove that the provider failed to accept mail.
+    return json({ ok: false, error: contactDeliveryUnconfirmed }, 502);
   }
 }

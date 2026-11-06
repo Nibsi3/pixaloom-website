@@ -2,6 +2,7 @@
 
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { TerminalIntro } from '@/components/terminal-intro';
 import { workItems } from '@/components/work-items';
 
@@ -295,18 +296,6 @@ function PortfolioApp() {
 }
 
 function ContactApp() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [sending, setSending] = useState(false);
-
-  const handleSubmit = () => {
-    if (!formData.name || !formData.email || !formData.message) return;
-    setSending(true);
-    setTimeout(() => {
-      setSending(false);
-      setFormData({ name: '', email: '', message: '' });
-    }, 1500);
-  };
-
   return (
     <div className="h-full overflow-auto bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="p-6">
@@ -335,36 +324,13 @@ function ContactApp() {
             <span className="h-2 w-2 rounded-full bg-cyan-500"></span>
             Send a Message
           </h2>
-          <div className="space-y-3">
-            <input
-              type="text"
-              placeholder="Your name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full rounded-lg bg-slate-900 border border-slate-600 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-cyan-500 transition"
-            />
-            <input
-              type="email"
-              placeholder="Your email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full rounded-lg bg-slate-900 border border-slate-600 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-cyan-500 transition"
-            />
-            <textarea
-              placeholder="How can we help?"
-              rows={4}
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="w-full rounded-lg bg-slate-900 border border-slate-600 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-cyan-500 transition resize-none"
-            />
-            <button
-              onClick={handleSubmit}
-              disabled={sending}
-              className="w-full rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 py-3 font-medium text-white hover:from-cyan-600 hover:to-blue-700 transition disabled:opacity-50 shadow-lg shadow-cyan-500/20"
-            >
-              {sending ? 'Sending...' : 'Send Message'}
-            </button>
-          </div>
+          <p className="mb-4 text-sm text-slate-300">Use our enquiry form to send Cameron your project details. You can also contact us directly by email or WhatsApp above.</p>
+          <Link
+            href="/contact"
+            className="block w-full rounded-lg bg-cyan-300 px-4 py-3 text-center font-medium text-slate-950 hover:bg-cyan-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white transition"
+          >
+            Open enquiry form
+          </Link>
         </div>
 
         <div className="mt-4 text-center text-xs text-slate-500">

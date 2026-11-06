@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
-import { brokenFragments, canonicalProblems, httpCanonicalUrls, linkGraph, mainContent, plainText, renderedImageSources, robotsAllows, schemaDates } from './seo-analysis.mjs';
+import { brokenFragments, canonicalProblems, crawlPageUrl, httpCanonicalUrls, linkGraph, mainContent, plainText, redirectQueryProblems, renderedImageSources, robotsAllows, schemaDates } from './seo-analysis.mjs';
 
 const args = process.argv.slice(2);
 const reportIndex = args.indexOf('--report');
@@ -52,8 +52,7 @@ function elements(html, tagName) {
 }
 
 function pageUrl(value) {
-  const canonical = new URL(value, canonicalOrigin);
-  return new URL(`${canonical.pathname}${canonical.search}`, crawlOrigin);
+  return crawlPageUrl(value, { crawlOrigin, canonicalOrigin });
 }
 
 async function mapConcurrent(items, callback) {
@@ -308,19 +307,45 @@ async function audit() {
   }
   const crawledUrls = new Set(sitemapUrls.map(normalizeUrl));
   await mapConcurrent([...linkedUrls.values()].filter((url) => !crawledUrls.has(normalizeUrl(url))), async (url) => {
-      const target = pageUrl(url);
-      const response = await fetch(target, {
-        headers: { "user-agent": "Pixaloom technical SEO audit" },
-        redirect: "follow",
-        signal: AbortSignal.timeout(requestTimeoutMs),
-      });
-      if (response.status >= 400) fail(`internal link ${url.pathname} returned ${response.status}`);
-      await response.body?.cancel();
+      let target = pageUrl(url);
+      const visited = new Set();
+      for (let redirects = 0; ; redirects++) {
+        if (visited.has(target.href) || redirects > 5) {
+          fail(`internal link ${url.pathname}: redirect loop or more than five redirects`);
+          return;
+        }
+        visited.add(target.href);
+        const response = await fetch(target, {
+          headers: { "user-agent": "Pixaloom technical SEO audit" },
+          redirect: "manual",
+          signal: AbortSignal.timeout(requestTimeoutMs),
+        });
+        await response.body?.cancel();
+        if (![301, 302, 303, 307, 308].includes(response.status)) {
+          if (response.status >= 400) fail(`internal link ${url.pathname} returned ${response.status}`);
+          return;
+        }
+        const location = response.headers.get('location');
+        if (!location) { fail(`internal link ${url.pathname}: redirect is missing Location`); return; }
+        try {
+          // Local builds can redirect to the production canonical. Remap those
+          // before following; never let a local audit silently load production
+          // or an unrelated host through a link's redirect.
+          target = pageUrl(new URL(location, target));
+        } catch {
+          fail(`internal link ${url.pathname}: redirect leaves the audit origins or has an invalid Location`);
+          return;
+        }
+      }
     });
 
   await mapConcurrent([...imageUrls], async (url) => {
     const source = new URL(url, canonicalOrigin);
-    const target = source.origin === canonicalOrigin.origin ? pageUrl(source) : source;
+    if (source.origin !== canonicalOrigin.origin) {
+      fail(`image URL uses a noncanonical origin: ${source.href}`);
+      return;
+    }
+    const target = pageUrl(source);
     const response = await fetch(target, {
       method: "HEAD",
       redirect: "manual",
@@ -358,7 +383,7 @@ async function audit() {
     if (response.status !== 404) fail(`${path}: missing page returned ${response.status}, expected 404`);
   });
   const redirectCases = [
-    [pageUrl("/pricing?utm_source=seo-audit&topic=web%20design"), "/website-cost"],
+    [pageUrl("/pricing?utm_source=seo-audit&topic=web%20design&tag=business&tag=booking"), "/website-cost"],
     [pageUrl("/website-offer?utm_source=seo-audit&topic=web%20design"), "/website-cost"],
     [pageUrl("/product-catalogue-websites?utm_source=seo-audit&product=sample%20model"), "/services/ecommerce-websites"],
     [pageUrl("/blog/social-media-vs-website-garden-route?utm_source=seo-audit"), "/blog/why-george-businesses-need-modern-website"],
@@ -394,9 +419,7 @@ async function audit() {
     if ((!localProxyRedirect && redirected.origin !== canonicalOrigin.origin) || redirected.pathname !== destination) {
       fail(`${target.href}: redirects to ${redirected.href}, expected canonical ${destination}`);
     }
-    for (const [key, value] of target.searchParams) {
-      if (redirected.searchParams.get(key) !== value) fail(`${target.href}: redirect lost query parameter ${key}`);
-    }
+    for (const problem of redirectQueryProblems(target, redirected)) fail(`${target.href}: ${problem}`);
   });
 
   console.log(

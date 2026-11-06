@@ -1,4 +1,5 @@
 export const contactUnavailable = 'The form is temporarily unavailable. Please email info@pixaloom.co.za or call 066 299 5533.';
+export const contactDeliveryUnconfirmed = 'Delivery could not be confirmed. Please contact us directly before resending (info@pixaloom.co.za or 066 299 5533).';
 export type ContactDetails = { name: string; email: string; company: string; phone: string; service: string; budget: string; message: string; website: string; platform: string; appUrl: string; expected: string; errorLink: string; repository: string; deadline: string };
 type Validation = { ok: true; data: ContactDetails; bot: boolean } | { ok: false; error: string };
 
@@ -15,7 +16,8 @@ export function validateContact(input: unknown): Validation {
     data[key as keyof ContactDetails] = text;
   }
   if (data.website) return { ok: true, data, bot: true };
-  if (!data.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || /[\r\n]/.test(data.name)) return { ok: false, error: 'Please provide a valid name and email address.' };
+  const hasHeaderControl = [...data.name, ...data.email].some(character => character.charCodeAt(0) < 32 || character.charCodeAt(0) === 127);
+  if (!data.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || hasHeaderControl) return { ok: false, error: 'Please provide a valid name and email address.' };
   if (data.message.length < 20) return { ok: false, error: 'Please provide between 20 and 3,000 characters.' };
   if (data.service === 'AI Website & App Rescue') {
     if (!data.platform || data.expected.length < 5) return { ok: false, error: 'Please include the tool used and what should happen instead.' };
