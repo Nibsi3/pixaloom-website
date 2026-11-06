@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight, Check, MapPin } from 'lucide-react';
 import { Header } from '@/components/header';
@@ -49,14 +50,14 @@ const faqs = [
 
 const proof = [
   {
+    href: '/work/paws-on-route',
+    name: 'Paws On Route',
+    text: 'A George pet-care website with grooming, sitting and daycare information and direct booking enquiries.',
+  },
+  {
     href: '/work/team-colours',
     name: 'Team Colours',
     text: 'An ecommerce catalogue interface with product hierarchy and a clear shopping journey.',
-  },
-  {
-    href: '/work/paws-on-route',
-    name: 'Paws On Route',
-    text: 'A George pet-care website with separate services and direct contact routes.',
   },
   {
     href: '/work/vicbay',
@@ -166,11 +167,18 @@ export default function GeorgePage() {
 
         <section className="content-section alt">
           <div className="site-container">
-            <div className="section-heading-row">
-              <div>
-                <p className="eyebrow">Relevant project examples</p>
-                <h2>Examine the work and its scope.</h2>
+            <div className="content-grid" style={{ marginBottom: 40 }}>
+              <div className="body-copy">
+                <p className="eyebrow">George project evidence</p>
+                <h2>A clear next step for each service.</h2>
+                <p>The Paws On Route services page introduces grooming, sitting, daycare and boarding, with a visible WhatsApp booking route. Its enquiry prompt asks for the pet’s name, breed and required service, then explains that availability and pricing will be confirmed. That is a concrete example of shaping a page around the information a local business needs to respond.</p>
               </div>
+              <figure className="article-project-evidence" style={{ margin: 0 }}>
+                <Link href="/work/paws-on-route" aria-label="View the Paws On Route website case study">
+                  <Image src="/portfolio/2026-10-19/paws-on-route-detail-1.png" width={3200} height={2000} sizes="(max-width: 900px) calc(100vw - 32px), (max-width: 1400px) 62vw, 850px" alt="Paws On Route services page with a dog photograph, pet-care introduction and WhatsApp booking prompt" loading="lazy" />
+                </Link>
+                <figcaption>Services page captured on 19 October 2026. <Link href="/work/paws-on-route">Explore the recorded project scope and other screens.</Link></figcaption>
+              </figure>
             </div>
             <div className="location-card-grid">
               {proof.map((item) => (

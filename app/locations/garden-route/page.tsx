@@ -37,14 +37,19 @@ const faqs = [
       'Pixaloom is based in George. We work with Garden Route businesses remotely and arrange in-person meetings by agreement. Contact us with your location and project requirements.',
   },
   {
-    question: 'What makes a Garden Route website different?',
+    question: 'How will bookings work on my accommodation website?',
     answer:
-      'Seasonal demand, tourism search, mobile visitors on holiday data, and local customers who still call or WhatsApp. The site has to load quickly, show availability or the offer clearly, and make contact effortless—then keep ranking when the season turns.',
+      'The scope can use an availability enquiry, a link to your existing booking provider or a separately quoted integration. Bring the provider you already use and how staff confirm a booking. We check what it supports, who maintains availability, and what guests see when their requested dates are unavailable before confirming the approach.',
+  },
+  {
+    question: 'Who updates seasonal rates and availability after launch?',
+    answer:
+      'Agree who maintains each piece of information: your booking provider, a staff member using the website editor, or a separately scoped care service. The proposal should name editable content, handover responsibilities and recurring software charges. Keep website offers consistent with the system your staff uses to confirm reservations.',
   },
   {
     question: 'Can you help with Google Business Profile as well as the website?',
     answer:
-      'Yes. Local visibility is usually a system: a fast website, accurate NAP details, a maintained Google Business Profile and pages that match how people actually search along the route.',
+      'Yes. We can review your existing profile alongside the website, check that the business name, contact details and genuine service area agree, and identify useful pages for your services. Access, eligibility and the changes required are checked during discovery.',
   },
 ];
 
@@ -92,9 +97,15 @@ export default function GardenRoutePage() {
                 Web design on the <em>Garden Route.</em>
               </h1>
             </div>
-            <p className="lead">
-              Work with Cameron Falck at our George studio on a website for your Garden Route business. We help service businesses, accommodation providers and retailers explain their offer, serve mobile visitors and make booking or quote enquiries easier.
-            </p>
+            <div>
+              <p className="lead">
+                Work with Cameron Falck at our George studio on a website for your Garden Route business. We help service businesses, accommodation providers and retailers explain their offer, serve mobile visitors and make booking or quote enquiries easier.
+              </p>
+              <div className="minimal-inline-links" style={{ marginTop: 28 }}>
+                <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my Garden Route business.')}`}>Discuss your website <ArrowRight size={18} /></a>
+                <Link href="/website-cost">See costs and inclusions <ArrowUpRight size={14} /></Link>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -131,7 +142,7 @@ export default function GardenRoutePage() {
               <h3>Trades and businesses that travel to customers</h3>
               <p>Identify the towns you actually cover, the jobs you accept and the information needed for a quote. A useful enquiry can include the service, town and preferred contact method. Agree who answers it and whether the customer needs a site visit before receiving a price.</p>
               <h3>Accommodation and visitor experiences</h3>
-              <p>Show room or activity options, location, arrival details and the next booking step. Decide whether the website links to an existing booking provider, sends an availability enquiry or needs a separately scoped integration. See our <Link href="/blog/george-tourism-website-best-practices">tourism website planning guide</Link>.</p>
+              <p>Show room or activity options, location, arrival details and the next booking step. Decide whether the website links to an existing booking provider, sends an availability enquiry or needs a separately scoped integration. Name who updates rates and who confirms a reservation so the website and your booking records agree. See our <Link href="/blog/george-tourism-website-best-practices">tourism website planning guide</Link>; <Link href="/services/website-care">website care</Link> can cover agreed ongoing checks and updates.</p>
               <h3>A redesign of an existing local website</h3>
               <p>Bring the current URL and the services you want to promote. We identify useful pages to retain, map changed addresses and test contact routes before launch. See the <Link href="/locations/george">George website design page</Link> for local project examples and how we work.</p>
               <p>These are planning examples, not claims about previous customers. Send your business name, location and current website to <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like a website for my Garden Route business.')}`}>discuss your brief with Cameron</a>.</p>

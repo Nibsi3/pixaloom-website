@@ -9,6 +9,7 @@ import { WebsiteBuildFit } from '@/components/website-build-fit';
 import { breadcrumbSchema, faqPageSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import { contentModified } from '@/lib/content-dates';
+import { estimateContactUrl, estimateWebsiteCost, formatRandRange, type ProjectExtraId } from '@/lib/website-cost';
 
 const pageDescription =
   'Pixaloom custom business websites: R7,500–R12,500 for five pages. Compare scope, optional extras and recurring costs, then estimate your project.';
@@ -18,6 +19,24 @@ export const metadata: Metadata = pageMetadata({
   description: pageDescription,
   path: '/website-cost',
 });
+
+const scopeExamples: { title: string; description: string; extras: readonly ProjectExtraId[] }[] = [
+  {
+    title: 'A five-page enquiry website',
+    description: 'Five core pages and one primary enquiry journey. Start here if customers need to understand your services and contact you; an editing system, bookings and online payments are separate requirements.',
+    extras: [],
+  },
+  {
+    title: 'The same website, with content editing',
+    description: 'Add an editable CMS allowance so your team can update agreed content. The quote should name the editable fields, access and handover. Original copywriting, photography and ongoing updates still need their own scope.',
+    extras: ['cms'],
+  },
+  {
+    title: 'An editable website with bookings',
+    description: 'Add a booking requirement to the editable site. Agree whether you need booking enquiries, a diary or deposits. Booking-provider subscriptions and online payment processing are separate from this build allowance.',
+    extras: ['cms', 'booking'],
+  },
+];
 
 const faqs = [
   {
@@ -91,15 +110,18 @@ export default function WebsiteCostPage() {
             <p className="minimal-kicker">South Africa · Planning ranges · 2026</p>
             <h1>Website design prices<br /> <em>in South Africa.</em></h1>
             <div className="minimal-hero-foot">
-              <p>
-                Compare Pixaloom’s 2026 website prices, see what changes the cost and build a planning allowance for your scope. These are our own indicative ranges—not national market averages or a binding quotation.
+              <p style={{ fontSize: '1rem' }}>
+                <strong>Five-page custom business websites: R7,500–R12,500.</strong> Pixaloom’s planning range excludes optional features, VAT where applicable and recurring costs. Your written scope confirms the quote.
               </p>
-              <span>Ranges, not theatre</span>
+              <nav className="minimal-inline-links" aria-label="Website price sections" style={{ marginTop: 0 }}>
+                <a href="#price-list">Compare website prices <ArrowUpRight size={14} /></a>
+                <a href="#cost-estimator">Estimate my website <ArrowUpRight size={14} /></a>
+              </nav>
             </div>
           </div>
         </section>
 
-        <section className="minimal-index-section">
+        <section className="minimal-index-section" id="price-list">
           <div className="minimal-shell">
             <div className="minimal-index-heading">
               <div className="minimal-section-mark">
@@ -134,27 +156,37 @@ export default function WebsiteCostPage() {
           </div>
         </section>
 
-        <WebsiteBuildFit />
-
         <section className="content-section">
-          <div className="site-container content-grid">
-            <div>
-              <p className="eyebrow">Compare like for like</p>
-              <h2>What would your five pages actually do?</h2>
-              <p className="service-budget">An illustrative scope for a service business. This is not a completed client quote or a promise that every five-page website needs the same work.</p>
+          <div className="site-container">
+            <div className="section-heading-row">
+              <div>
+                <p className="eyebrow">Compare the same starting point</p>
+                <h2>What does adding a feature<br />do to the price?</h2>
+              </div>
             </div>
+            <div className="location-card-grid">
+              {scopeExamples.map((example) => {
+                const estimate = estimateWebsiteCost('business', 'focused', example.extras);
+                return <article className="feature-card" key={example.title}>
+                  <h3>{example.title}</h3>
+                  <p><strong>{formatRandRange(estimate.min, estimate.max)}</strong></p>
+                  <p>{example.description}</p>
+                  <Link className="text-link" href={estimateContactUrl('business', 'focused', example.extras)}>Discuss this scope <ArrowUpRight size={14} /></Link>
+                </article>;
+              })}
+            </div>
+            <p className="service-budget">These are worked examples from our estimator, not completed client quotes. They exclude VAT where applicable and recurring costs. An existing CMS or booking system may change the work required; we confirm what can be reused before quoting.</p>
             <div className="body-copy">
-              <p>A focused brief might include a homepage explaining the offer, two pages for the main services, an about-and-work page showing genuine evidence, and a contact page with service area and enquiry options. The page count alone does not define the cost: content preparation, unique layouts and integrations still need agreement.</p>
               <h3>Separate the build from the first year of ownership</h3>
-              <p>Compare the quoted build fee plus any content work, optional features, twelve months of monthly subscriptions, annual renewals and agreed support. Confirm VAT treatment and whether any first-year discounts change at renewal. Ask who owns each account and which fees are paid directly to providers.</p>
-              <h3>Keep a smaller brief small</h3>
-              <p>If your content is ready and you only need a simple brochure, ask us to scope a template website before budgeting for a custom build. If the existing website already works, a targeted repair may be sufficient. We confirm the appropriate scope before quoting.</p>
-              <p>For a local project, explore <Link href="/locations/george">business website design in George</Link> or our <Link href="/locations/garden-route">Garden Route website service</Link>. Bring your current URL, priority services and the action you want customers to take.</p>
+              <p>Compare the build fee plus agreed content work, optional features, twelve months of monthly subscriptions, annual renewals and support. Confirm VAT treatment and renewal prices. The quote should identify who owns each account and which fees you pay directly to providers.</p>
+              <p>For a local project, explore <Link href="/locations/george">business website design in George</Link> or our <Link href="/locations/garden-route">Garden Route website service</Link>.</p>
             </div>
           </div>
         </section>
 
-        <section className="minimal-statement">
+        <WebsiteBuildFit />
+
+        <section className="minimal-statement" id="cost-estimator">
           <div className="minimal-shell">
             <div className="minimal-section-mark">
               <span>02</span>
