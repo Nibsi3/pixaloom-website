@@ -1,15 +1,8 @@
 import { NextResponse } from 'next/server';
 
 const GITHUB_USER = 'Nibsi3';
-
-type PushEvent = {
-  type: 'PushEvent';
-  repo?: { name?: string };
-  created_at?: string;
-  payload?: { commits?: { message?: string }[] };
-};
-
-type GithubEvent = PushEvent | { type?: string; repo?: { name?: string }; created_at?: string };
+const unavailable = () => NextResponse.json({ ok: false, error: 'Failed to fetch GitHub activity' }, { status: 502, headers: { 'Cache-Control': 'no-store' } });
+const isRecord = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value);
 
 export async function GET() {
   try {
@@ -19,33 +12,38 @@ export async function GET() {
         accept: 'application/vnd.github+json',
       },
       cache: 'no-store',
+      redirect: 'manual',
+      signal: AbortSignal.timeout(8000),
     });
 
     if (!res.ok) {
-      return NextResponse.json({ ok: false, error: 'Failed to fetch GitHub activity' }, { status: 502 });
+      return unavailable();
     }
 
-    const events = (await res.json()) as GithubEvent[];
+    const events: unknown = await res.json();
+    if (!Array.isArray(events)) return unavailable();
 
     const pushes = events
-      .filter((e) => e.type === 'PushEvent')
-      .slice(0, 5) as PushEvent[];
+      .slice(0, 15)
+      .filter((event): event is Record<string, unknown> => isRecord(event) && event.type === 'PushEvent')
+      .slice(0, 5);
 
     const items = pushes.map((p) => {
-      const repo = p.repo?.name || 'unknown';
-      const messages = (p.payload?.commits || [])
-        .map((c) => (c.message || '').trim())
+      const repo = isRecord(p.repo) && typeof p.repo.name === 'string' ? p.repo.name : 'unknown';
+      const commits = isRecord(p.payload) && Array.isArray(p.payload.commits) ? p.payload.commits : [];
+      const messages = commits
+        .flatMap((commit: unknown) => isRecord(commit) && typeof commit.message === 'string' ? [commit.message.trim()] : [])
         .filter(Boolean)
         .slice(0, 3);
       return {
         repo,
-        createdAt: p.created_at || null,
+        createdAt: typeof p.created_at === 'string' && Number.isFinite(Date.parse(p.created_at)) ? p.created_at : null,
         messages,
       };
     });
 
-    return NextResponse.json({ ok: true, user: GITHUB_USER, items });
+    return NextResponse.json({ ok: true, user: GITHUB_USER, items }, { headers: { 'Cache-Control': 'no-store' } });
   } catch {
-    return NextResponse.json({ ok: false, error: 'Unexpected error' }, { status: 500 });
+    return unavailable();
   }
 }

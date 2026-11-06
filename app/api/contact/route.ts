@@ -1,5 +1,6 @@
 import { contactUnavailable, escapeHtml, validateContact } from '@/lib/contact';
 import { getEmailConfig, sendEmail } from '@/lib/email';
+import { readRequestText, RequestBodyError } from '@/lib/request-body';
 
 const json = (data: object, status = 200) => Response.json(data, { status, headers: { 'Cache-Control': 'no-store' } });
 
@@ -15,19 +16,12 @@ export async function POST(req: Request) {
   if (origin && origin !== new URL(req.url).origin && !['https://www.pixaloom.co.za', 'https://pixaloom.co.za'].includes(origin)) return json({ ok: false, error: 'Invalid request origin.' }, 403);
   let input: unknown;
   try {
-    const reader = req.body?.getReader();
-    if (!reader) return json({ ok: false, error: 'Please complete the enquiry form.' }, 400);
-    const chunks: Uint8Array[] = [];
-    let size = 0;
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      size += value.byteLength;
-      if (size > 24000) { await reader.cancel(); return json({ ok: false, error: 'Your enquiry is too long.' }, 413); }
-      chunks.push(value);
-    }
-    input = JSON.parse(Buffer.concat(chunks).toString('utf8'));
-  } catch { return json({ ok: false, error: 'Please check the enquiry and try again.' }, 400); }
+    input = JSON.parse(await readRequestText(req, { maxBytes: 24000 }));
+  } catch (error) {
+    const status = error instanceof RequestBodyError ? error.status : 400;
+    const message = status === 413 ? 'Your enquiry is too long.' : status === 408 ? 'The upload took too long. Please try again or contact us directly.' : 'Please check the enquiry and try again.';
+    return json({ ok: false, error: message }, status);
+  }
   const checked = validateContact(input);
   if (!checked.ok) return json({ ok: false, error: checked.error }, 400);
   if (checked.bot) return json({ ok: true });

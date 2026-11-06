@@ -22,6 +22,16 @@ export function canonicalProblems(values, expected) {
   }
 }
 
+// Extract canonical relations from this site's HTTP Link headers, including
+// unrelated preload links and space-separated relation lists.
+export function httpCanonicalUrls(header = '') {
+  return [...header.matchAll(/(?:^|,)\s*<([^>]+)>([\s\S]*?)(?=,\s*<|$)/g)]
+    .filter(([, , parameters]) => {
+      const relation = parameters.match(/;\s*rel\s*=\s*(?:"([^"]*)"|([^;\s,]+))/i);
+      return (relation?.[1] ?? relation?.[2] ?? '').toLowerCase().split(/\s+/).includes('canonical');
+    }).map(([, url]) => url);
+}
+
 // Googlebot rule selection and longest-path matching for this site's robots.txt.
 // Percent-encoded, non-ASCII matching is outside this audit's ASCII route set.
 export function robotsAllows(robots, value, agent = 'Googlebot') {

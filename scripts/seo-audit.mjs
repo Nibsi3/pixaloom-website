@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
-import { brokenFragments, canonicalProblems, linkGraph, mainContent, plainText, renderedImageSources, robotsAllows, schemaDates } from './seo-analysis.mjs';
+import { brokenFragments, canonicalProblems, httpCanonicalUrls, linkGraph, mainContent, plainText, renderedImageSources, robotsAllows, schemaDates } from './seo-analysis.mjs';
 
 const args = process.argv.slice(2);
 const reportIndex = args.indexOf('--report');
@@ -331,6 +331,21 @@ async function audit() {
     if (blocksIndexing([], response)) fail(`image ${source.pathname} is marked noindex`);
   });
 
+  // Non-HTML versions need an HTTP canonical; an HTML-only crawl misses them.
+  const downloads = [{ path: '/downloads/pixaloom-capabilities.pdf', canonicalPath: '/capabilities' }];
+  await mapConcurrent(downloads, async ({ path, canonicalPath }) => {
+    const response = await fetch(pageUrl(path), {
+      method: 'HEAD', redirect: 'manual', signal: AbortSignal.timeout(requestTimeoutMs),
+    });
+    if (response.status !== 200) fail(`${path}: download returned ${response.status}`);
+    if (!response.headers.get('content-type')?.includes('application/pdf')) fail(`${path}: download is not a PDF`);
+    if (!robotsAllows(robots, path) || blocksIndexing([], response)) fail(`${path}: PDF canonical cannot be crawled or indexed`);
+    for (const problem of canonicalProblems(httpCanonicalUrls(response.headers.get('link') || ''), new URL(canonicalPath, canonicalOrigin))) {
+      fail(`${path}: HTTP ${problem}`);
+    }
+    if (!crawledUrls.has(normalizeUrl(canonicalPath))) fail(`${path}: canonical target is missing from the sitemap`);
+  });
+
   await mapConcurrent(["/os", "/jokes"], async (path) => {
     const { response, text: html } = await get(pageUrl(path));
     if (response.status !== 200) fail(`${path}: experiment returned ${response.status}`);
@@ -385,7 +400,7 @@ async function audit() {
   });
 
   console.log(
-    `Audited ${pages.length} sitemap pages, ${linkedUrls.size} unique internal links, ${imageUrls.size} images, redirects, experiment noindex and missing-page status at ${crawlOrigin.origin}.`,
+    `Audited ${pages.length} sitemap pages, ${linkedUrls.size} unique internal links, ${imageUrls.size} images, ${downloads.length} download canonical(s), redirects, experiment noindex and missing-page status at ${crawlOrigin.origin}.`,
   );
   for (const message of warnings) console.warn(`WARN  ${message}`);
   for (const message of failures) console.error(`FAIL  ${message}`);
@@ -395,7 +410,7 @@ async function audit() {
     await writeFile(reportPath, JSON.stringify({
       auditedAt: new Date().toISOString(), origin: crawlOrigin.origin,
       limitations: ['HTTP/source audit, not proof of Google indexing or rankings.', 'TTFB is one request from this audit machine; not field Core Web Vitals.', 'Word counts are diagnostics, not a ranking target.', 'Schema checks cover JSON syntax and modification dates, not full rich-result eligibility.'],
-      totals: { pages: pages.length, internalLinks: linkedUrls.size, images: imageUrls.size },
+      totals: { pages: pages.length, internalLinks: linkedUrls.size, images: imageUrls.size, downloads: downloads.length },
       failures, warnings,
       pages: pages.map(({ internalLinks, ids, contentLinks, ...page }) => ({ ...page,
         links: internalLinks.map(url => url.href), ...graph.find(item => item.path === page.path) })),

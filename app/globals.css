@@ -566,6 +566,7 @@ img { max-width: 100%; }
   inset: 0;
   z-index: 4;
   opacity: var(--feature-opacity);
+  visibility: hidden;
   transform: translate3d(0,var(--feature-copy-y),0);
   pointer-events: none;
   will-change: opacity,transform;
@@ -610,10 +611,10 @@ img { max-width: 100%; }
     transform 1.05s cubic-bezier(.76,0,.24,1);
 }
 .reference-hero.portal-ready .portal-copy {
-  transition: opacity .38s ease;
+  transition: opacity .38s ease, visibility .38s;
 }
 .reference-hero.portal-ready .featured-copy {
-  transition: opacity .48s ease, transform .65s cubic-bezier(.22,1,.36,1);
+  transition: opacity .48s ease, transform .65s cubic-bezier(.22,1,.36,1), visibility .48s;
 }
 .reference-hero.portal-ready .reference-scrim {
   transition: opacity 1.05s ease;
@@ -625,11 +626,13 @@ img { max-width: 100%; }
 }
 .reference-hero.is-revealed .portal-copy {
   opacity: 0;
+  visibility: hidden;
 }
 .reference-hero.is-revealed .featured-copy {
   opacity: 1;
+  visibility: visible;
   transform: translate3d(0,0,0);
-  transition-delay: .34s, .3s;
+  transition-delay: .34s, .3s, .34s;
 }
 .reference-hero.is-revealed .reference-scrim {
   opacity: .3;
@@ -927,8 +930,8 @@ img { max-width: 100%; }
   }
 }
 
-/* The hero starts with motion enabled. Other page animations retain the OS
-   preference independently of the cinematic hero. */
+/* Automatic motion respects OS and data-saving preferences. Visitors may
+   explicitly play or pause the cinematic hero independently. */
 .reference-hero.portal-ready[data-motion="on"] .reference-media,
 .reference-hero.portal-ready[data-motion="on"] .reference-scrim { transition-duration: 1.05s!important; }
 .reference-hero.portal-ready[data-motion="on"] .portal-copy { transition-duration: .38s!important; }
@@ -936,7 +939,10 @@ img { max-width: 100%; }
 .reference-hero.portal-ready[data-motion="off"] .reference-media,
 .reference-hero.portal-ready[data-motion="off"] .reference-scrim,
 .reference-hero.portal-ready[data-motion="off"] .portal-copy,
-.reference-hero.portal-ready[data-motion="off"] .featured-copy { transition-duration: .01ms!important; }
+.reference-hero.portal-ready[data-motion="off"] .featured-copy { transition-duration: .01ms!important; transition-delay: 0s!important; }
+.motion-toggle { position: absolute; z-index: 25; right: 12px; bottom: 10px; display: grid; place-items: center; width: 44px; height: 44px; padding: 10px; border: 1px solid #777; border-radius: 4px; background: #111; color: #f0ede4; cursor: pointer; }
+.motion-toggle:focus-visible { outline: 2px solid #f0ede4; outline-offset: 4px; }
+.project-case-hero .motion-toggle { top: 52px; bottom: auto; }
 
 /* SEO release: readable opening offer, optional motion and evidence captions. */
 .hero-offer { position: absolute; z-index: 8; top: 7%; left: 7%; max-width: min(82%, 480px); }
@@ -1027,7 +1033,7 @@ body { padding: 0; background: #030303; color: var(--cream); font-family: Inter,
 .header-cta:hover { color: var(--night); background: var(--signal); transform: none; }
 .mobile-nav { align-self: center; margin-right: 16px; }
 .mobile-nav summary { background: var(--cream); color: var(--night); }
-.mobile-nav nav { top: 66px; background: #0d0d0d; border-color: var(--fine-line); box-shadow: 0 30px 70px rgba(0,0,0,.55); }
+.mobile-nav nav { top: 76px; max-height: calc(100dvh - 76px); overflow-y: auto; overscroll-behavior: contain; background: #0d0d0d; border-color: var(--fine-line); box-shadow: 0 30px 70px rgba(0,0,0,.55); }
 .mobile-nav nav a { display: grid; grid-template-columns: 34px 1fr; color: var(--cream); border-color: var(--fine-line); font-family: "Iowan Old Style", Baskerville, serif; font-size: 1.45rem; font-weight: 400; }
 .mobile-nav nav a span { padding-top: 7px; color: #6c6c67; font-family: Inter,sans-serif; font-size: .52rem; }
 
@@ -1296,6 +1302,7 @@ body { padding: 0; background: #030303; color: var(--cream); font-family: Inter,
   .site-frame { width: 100%; }
   .site-container { width: min(100% - 32px,1360px); }
   .header-inner { height: 66px; padding-left: 16px; }.brand-logo { width: 44px; }.brand-studio { display: none; }
+  .mobile-nav nav { top: 66px; max-height: calc(100dvh - 66px); }
   .cinematic-hero { min-height: calc(100svh - 66px); }
   .orbit-a { width: 115vw; right: -45%; top: 12%; }.orbit-b { width: 82vw; right: -26%; top: 23%; }
   .cinematic-copy h1 > span:first-child { margin-left: 0; }.cinematic-copy .hero-last-line { margin-left: 8%; font-size: .48em; white-space: normal; }

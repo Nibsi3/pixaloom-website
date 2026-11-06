@@ -1,5 +1,30 @@
 # SEO maintenance and owner checklist
 
+## 6 November 2026 crawl and download audit
+
+The production baseline covered 65 sitemap pages, 66 unique internal destinations
+and 115 image URLs. Existing checks passed: titles and descriptions, self-canonicals,
+headings, JSON-LD, internal links and fragments, crawl reachability, image responses,
+HTTP/HTTPS and apex redirects, experiment noindex and genuine 404 responses.
+
+The expanded audit found one additional canonicalization gap: the downloadable
+capabilities PDF returned 200 without an HTTP canonical. It is built from the
+same capabilities content as the HTML page. Both Next.js and Cloudflare static
+asset headers now identify `https://www.pixaloom.co.za/capabilities` as its preferred
+search URL. The download remains available and crawlable. This follows Google's
+[guidance for non-HTML canonical headers](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls#rel-canonical-header).
+
+`audit:seo` now checks the PDF's response, content type, crawl permissions and
+canonical target. The expanded live baseline reproduced the missing header; a
+production build and post-deployment crawl must pass before calling this live
+remediation. Reports are in ignored `audits/seo-live-20261106-before.json` and
+`audits/seo-live-20261106-expanded.json`. No page modification dates were refreshed
+for this response-header change.
+
+These checks confirm technical discoverability, not current Google index status,
+ranking position or a ranking improvement. Search Console and Business Profile
+access are still needed to verify query performance and local-listing status.
+
 ## 29 October 2026 competitive pricing
 
 The owner requested more competitive website prices. Focused five-page custom

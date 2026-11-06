@@ -1,25 +1,46 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import ReactDOM from 'react-dom';
+import { Pause, Play } from 'lucide-react';
 import imageLoader from '@/lib/image-loader';
 
 export const cinematicPoster = imageLoader({ src: '/video/pixaloom-ambient-poster-v2.jpg', width: 1920 });
+
+type DataConnection = EventTarget & { saveData?: boolean };
+const dataConnection = () => (navigator as Navigator & { connection?: DataConnection }).connection;
+const automaticMotionEnabled = () => !window.matchMedia('(prefers-reduced-motion: reduce)').matches && !dataConnection()?.saveData;
+const serverMotionEnabled = () => false;
+
+function subscribeMotionPreference(onChange: () => void) {
+  const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const connection = dataConnection();
+  preference.addEventListener('change', onChange);
+  connection?.addEventListener('change', onChange);
+  return () => {
+    preference.removeEventListener('change', onChange);
+    connection?.removeEventListener('change', onChange);
+  };
+}
+
 export function CinematicBackgroundVideo({ mediaClassName = 'reference-media' }: { mediaClassName?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const automaticMotion = useSyncExternalStore(subscribeMotionPreference, automaticMotionEnabled, serverMotionEnabled);
+  const [motionOverride, setMotionOverride] = useState<boolean | null>(null);
+  const motionEnabled = motionOverride ?? automaticMotion;
   ReactDOM.preload(cinematicPoster, { as: 'image', fetchPriority: 'high' });
 
   useEffect(() => {
     const hero = videoRef.current?.closest<HTMLElement>('.reference-hero');
     if (!hero) return;
-    hero.dataset.motion = 'on';
+    hero.dataset.motion = motionEnabled ? 'on' : 'off';
     hero.dispatchEvent(new Event('portal-motion-change'));
     return () => { delete hero.dataset.motion; };
-  }, []);
+  }, [motionEnabled]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !motionEnabled) return;
 
     let visible = false;
     let ready = false;
@@ -50,8 +71,8 @@ export function CinematicBackgroundVideo({ mediaClassName = 'reference-media' }:
       }
     };
 
-    // Start automatically after critical assets load; keep a readable poster
-    // if the browser blocks muted autoplay.
+    // Do not request decorative video until critical assets have loaded and
+    // motion is allowed. The poster remains usable without JavaScript/autoplay.
     if (!ready) {
       if (document.readyState === 'complete') startWhenIdle();
       else window.addEventListener('load', startWhenIdle, { once: true });
@@ -74,8 +95,16 @@ export function CinematicBackgroundVideo({ mediaClassName = 'reference-media' }:
       video.removeEventListener('canplay', syncPlayback);
       document.removeEventListener('visibilitychange', syncPlayback);
       video.pause();
+      // Stop buffering when motion is disabled, and restore the static poster.
+      video.removeAttribute('src');
+      video.load();
     };
-  }, []);
+  }, [motionEnabled]);
 
-  return <div className={mediaClassName} aria-hidden="true"><video ref={videoRef} width={1920} height={1080} autoPlay muted loop playsInline preload="none" poster={cinematicPoster} /></div>;
+  return <>
+    <div className={mediaClassName} aria-hidden="true"><video ref={videoRef} width={1920} height={1080} muted loop playsInline preload="none" poster={cinematicPoster} /></div>
+    <button className="motion-toggle" type="button" aria-label={motionEnabled ? 'Pause animation' : 'Play animation'} title={motionEnabled ? 'Pause animation' : 'Play animation'} aria-pressed={motionEnabled} onClick={() => setMotionOverride(!motionEnabled)}>
+      {motionEnabled ? <Pause size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
+    </button>
+  </>;
 }

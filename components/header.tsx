@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowUpRight, Menu } from 'lucide-react';
 import { primaryNavigation, site } from '@/lib/site';
+import { MobileNavigation } from '@/components/mobile-navigation';
 
 export function Header() {
   return (
@@ -25,8 +26,8 @@ export function Header() {
         </Link>
         <a className="mobile-contact" href={site.whatsapp}>WhatsApp Cameron</a>
 
-        <details className="mobile-nav">
-          <summary aria-label="Open navigation"><Menu size={20} /></summary>
+        <MobileNavigation>
+          <summary aria-label="Toggle navigation"><Menu size={20} /></summary>
           <nav aria-label="Mobile navigation">
             {primaryNavigation.map((item, index) => (
               <Link key={item.href} href={item.href}><span>0{index + 1}</span>{item.label}</Link>
@@ -34,7 +35,7 @@ export function Header() {
             <Link href="/contact"><span>0{primaryNavigation.length + 1}</span>Contact</Link>
             <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Pixaloom — I would like to discuss a digital project.')}`}><span>0{primaryNavigation.length + 2}</span>WhatsApp</a>
           </nav>
-        </details>
+        </MobileNavigation>
       </div>
     </header>
   );

@@ -19,6 +19,7 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   const [available, setAvailable] = useState<boolean | null>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const started = useRef(false);
+  const submitting = useRef(false);
   useEffect(() => {
     const controller = new AbortController();
     fetch('/api/contact', { signal: controller.signal, cache: 'no-store' })
@@ -30,30 +31,43 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    // State updates are batched; a ref also blocks a second submit event before
+    // React has disabled the button or rendered the next frame.
+    if (submitting.current || available === false) return;
+    submitting.current = true;
     const form = event.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+    let rejectionMessage = '';
     setStatus('sending');
     setError('');
     trackEvent('enquiry_submit');
 
     try {
+      const data = Object.fromEntries(new FormData(form).entries());
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(data),
         signal: AbortSignal.timeout(20000),
       });
-      const result = (await response.json()) as { ok?: boolean; error?: string };
-      if (!response.ok || !result.ok) throw new Error(result.error || 'Your enquiry could not be sent.');
+      const result: unknown = await response.json();
+      if (!result || typeof result !== 'object' || !('ok' in result) || typeof result.ok !== 'boolean') {
+        throw new Error('Invalid enquiry response');
+      }
+      if (!response.ok || !result.ok) {
+        if ('error' in result && typeof result.error === 'string') rejectionMessage = result.error.trim();
+        throw new Error('Enquiry rejected');
+      }
       trackEvent('enquiry_accepted');
       form.reset();
       setService('');
       setBudget('');
       setStatus('sent');
-    } catch (caught) {
+    } catch {
       trackEvent('enquiry_error');
       setStatus('error');
-      setError(caught instanceof Error && caught.name !== 'TimeoutError' ? caught.message : 'Delivery could not be confirmed. Please contact us directly before resending.');
+      setError(rejectionMessage || 'Delivery could not be confirmed. Please contact us directly before resending.');
+    } finally {
+      submitting.current = false;
     }
   }
 
@@ -69,7 +83,7 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   }
 
   return (
-    <form className="inquiry-form" onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; trackEvent('enquiry_start'); } }}>
+    <form className="inquiry-form" aria-busy={status === 'sending'} onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; trackEvent('enquiry_start'); } }}>
       {available === false ? <p className="form-error" role="status">{contactUnavailable} <a href="mailto:info@pixaloom.co.za">Email your brief</a> or <a href="https://wa.me/27662995533">use WhatsApp</a>.</p> : null}
       <div className="form-grid">
         <label><span>Name *</span><input name="name" autoComplete="name" required maxLength={80} placeholder="Your name" /></label>

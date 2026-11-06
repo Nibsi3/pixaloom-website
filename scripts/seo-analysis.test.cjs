@@ -41,6 +41,18 @@ test('canonical checks reject duplicates and changed resource URLs without hidin
   }
 });
 
+test('download canonicals are read from HTTP Link headers without mistaking preload or alternate links', async () => {
+  const { httpCanonicalUrls, canonicalProblems } = await analysis;
+  const target = 'https://www.pixaloom.co.za/capabilities';
+  assert.deepEqual(httpCanonicalUrls(''), []);
+  assert.deepEqual(httpCanonicalUrls('</font.woff2>; rel=preload; as=font'), []);
+  assert.deepEqual(httpCanonicalUrls(`</font.woff2>; rel=preload; as=font, <${target}>; rel="canonical"`), [target]);
+  assert.deepEqual(httpCanonicalUrls(`<${target}>; rel="alternate canonical"`), [target]);
+  assert.deepEqual(httpCanonicalUrls(`<${target}>; REL=CANONICAL`), [target]);
+  assert.ok(canonicalProblems(httpCanonicalUrls(`<${target}>; rel=alternate`), target).length);
+  assert.ok(canonicalProblems(httpCanonicalUrls(`<${target}>; rel=canonical, <https://www.pixaloom.co.za/>; rel=canonical`), target).length);
+});
+
 test('robots checks honour Googlebot groups, repeated groups and longest matching allow rules', async () => {
   const { robotsAllows } = await analysis;
   const rules = 'User-agent: *\nDisallow: /\nUser-agent: Googlebot\nDisallow: /services\nAllow: /services/seo\nDisallow: /*?private=\nUser-agent: googlebot\nDisallow: /os$\nAllow: /services/seo';

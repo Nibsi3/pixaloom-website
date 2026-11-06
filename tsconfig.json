@@ -37,7 +37,11 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
+    "output",
     "outputs",
+    "sites",
+    "audits",
+    "fiverr-assets",
     "node_modules"
   ]
 }

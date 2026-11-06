@@ -27,7 +27,7 @@ export function CapabilityCapture({ src, caption, width, height, className = '' 
 
   return <figure className={`${styles.capture} ${className}`}>
     <button ref={trigger} className={styles.thumbnail} type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${caption}`} onClick={() => { setZoom(false); setOpen(true); }}>
-      <Image unoptimized src={src} alt={caption} width={width} height={height} />
+      <Image src={src} alt={caption} width={width} height={height} sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1200px) calc(100vw - 80px), 1120px" />
     </button>
     <figcaption>{caption}</figcaption>
     {open && createPortal(<dialog ref={dialog} className={styles.dialog} aria-label="Screenshot viewer" aria-describedby={captionId} onCancel={() => setOpen(false)} onClose={() => setOpen(false)}>

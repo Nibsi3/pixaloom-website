@@ -74,6 +74,10 @@ const nextConfig = {
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
       {
+        source: '/downloads/pixaloom-capabilities.pdf',
+        headers: [{ key: 'Link', value: '<https://www.pixaloom.co.za/capabilities>; rel="canonical"' }],
+      },
+      {
         source: '/robots.txt',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800' }],
       },

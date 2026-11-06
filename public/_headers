@@ -13,3 +13,7 @@
 
 /pixaloom-mark-100.webp
   Cache-Control: public, max-age=86400
+
+# The downloadable CV is an alternate format of the capabilities page.
+/downloads/pixaloom-capabilities.pdf
+  Link: <https://www.pixaloom.co.za/capabilities>; rel="canonical"
