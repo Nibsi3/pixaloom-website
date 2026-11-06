@@ -16,14 +16,20 @@ search URL. The download remains available and crawlable. This follows Google's
 
 `audit:seo` now checks the PDF's response, content type, crawl permissions and
 canonical target. The expanded live baseline reproduced the missing header; a
-production build and post-deployment crawl must pass before calling this live
-remediation. Reports are in ignored `audits/seo-live-20261106-before.json` and
+production build and post-deployment crawl passed on release `f92556d`, covering
+65 pages, 66 destinations, 729 image variants and the PDF canonical with no
+failures or warnings. Reports are in ignored `audits/seo-live-20261106-before.json`,
+`audits/seo-live-20261106-after.json` and
 `audits/seo-live-20261106-expanded.json`. No page modification dates were refreshed
 for this response-header change.
 
 These checks confirm technical discoverability, not current Google index status,
-ranking position or a ranking improvement. Search Console and Business Profile
-access are still needed to verify query performance and local-listing status.
+ranking position or a ranking improvement. Search Console was also reviewed;
+private observations are in `audits/search-console-2026-11-06.md`. One stale
+external-canonical selection passed Google's live test and received an indexing
+request, but still awaits reprocessing. Business Profile status remains unverified.
+See [the complete audit](bug-seo-speed-audit-2026-11-06.md) for tests, speed results,
+dependency remediation and release evidence.
 
 ## 29 October 2026 competitive pricing
 

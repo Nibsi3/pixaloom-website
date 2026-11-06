@@ -32,6 +32,7 @@ redirects, preview/noindex policies and real missing-page responses.
 
 The 390px, DPR 1 browser scroll test measured capabilities image response bodies
 at 13,403,815 bytes before and 68,908 bytes after locally: a 99.49% reduction.
+The same 68,908-byte result was verified on production after deployment.
 Original images remain accessible through the screenshot viewer. This measures
 that browser scenario, not every device or all transferred traffic.
 
@@ -40,12 +41,22 @@ that browser scenario, not every device or all transferred traffic.
 | Public mobile baseline | 88 | 3.6 s | 2.0 s | 30 ms | 0 |
 | Public desktop baseline | 98 | 1.0 s | 0.5 s | 0 ms | 0 |
 | Local mobile after fixes | 97 | 2.5 s | 0.9 s | 30 ms | 0 |
+| Public mobile after fixes, serial run 1 | 93 | 3.10 s | 1.61 s | 63 ms | 0 |
+| Public mobile after fixes, serial run 2 | 90 | 3.34 s | 1.60 s | 138 ms | 0 |
+| Public desktop after fixes | 99 | 0.91 s | 0.52 s | 0 ms | 0 |
 
-All three runs scored 100 for Lighthouse accessibility, best practices and SEO.
+All listed runs scored 100 for Lighthouse accessibility, best practices and SEO.
 Local and hosted timings are not a controlled comparison. Lighthouse is a lab
 sample, not field Core Web Vitals, real-user INP or Google indexing evidence.
+An initial post-release mobile run overlapped other audit work and scored 67
+(LCP 5.14 s, TBT 328 ms); it is retained in the evidence rather than discarded.
+Subsequent serial runs scored 90–93. Mobile LCP remains above the 2.5-second good
+threshold. Remaining unused CSS and framework JavaScript had estimated LCP savings
+of 170 ms and 50 ms in the follow-up run; those estimates are not guaranteed gains
+and did not justify an unverified broad stylesheet or framework rewrite.
 
-88 automated tests, lint, TypeScript and the first production build passed.
+90 automated tests, lint, TypeScript with generated Worker types, and the clean
+Next.js and OpenNext production builds passed.
 Isolated browser tests covered short/mobile/tablet menus, keyboard dismissal,
 estimator pricing and complete handoff, duplicate submits and failure retention,
 reduced motion, data saving, pause/resume, offscreen pausing and screenshot zoom.
@@ -58,8 +69,8 @@ The patched versions are Next.js 16.4.5, Sharp 0.35.5, OpenNext Cloudflare 1.20.
 and Wrangler 4.158.0. The lockfile also updates affected compatible dependencies.
 Build-only upstream constraints still selected vulnerable glob/minimatch versions,
 so the package overrides select glob 14.0.4 and minimatch 11.0.5. Installed callers
-were checked against the removed minimatch APIs; lint/typecheck/tests must keep
-passing and the OpenNext build must validate file discovery before release.
+were checked against the removed minimatch APIs; lint/typecheck/tests and the
+OpenNext build passed. File discovery matched the generated trace/manifests.
 Remove the overrides when upstream package constraints include patched versions.
 The updated adapter also requires exact-path static asset handling when the
 Worker runs first. Both asset handling options are explicitly `none`, preserving
@@ -74,12 +85,35 @@ has focused George/Garden Route service pages, pricing, project evidence and
 buyer guides. This release corrects technical issues without inventing reviews,
 client results, office locations or keyword-stuffed pages.
 
-Current Search Console query performance, Google indexing status and Business
-Profile eligibility/status were not verified in this audit. The next evidence-led
-growth work is to verify those accounts, compare equal complete reporting windows
-for relevant South African queries, and obtain permissioned local client evidence
-and relevant business mentions. No external outreach or directory submission was
-performed. Changes can take time to be reflected in search results.
+Search Console performance, indexing, sitemap, manual-action and security reports
+were reviewed in the authenticated property. Private observations are recorded in
+ignored `audits/search-console-2026-11-06.md`. Its indexing overview lags the live
+site. One article's older Google-selected canonical was unrelated to its current
+content; source/HTTP checks and Google's live test passed, and Google confirmed a
+single indexing request. Reprocessing and canonical selection remain pending.
+No field Core Web Vitals data was available.
+
+Business Profile eligibility/status remains unverified. Further growth work is to
+verify that profile, compare equal complete reporting windows for relevant South
+African queries, and obtain permissioned local client evidence and relevant
+business mentions. No external outreach or directory submission was performed.
+Changes can take time to be reflected in search results.
+
+## Production release acceptance
+
+Source commit `f92556d` was pushed to `codex/local-search-growth` and deployed to
+the existing `pixaloom-website` Worker, version
+`b4fc5b73-978d-4a72-a255-1bfc66655d81`. Existing account authentication, custom
+domains, variables and secrets were retained. Release source was isolated from
+the two pre-existing capabilities-page edits.
+
+The post-deployment crawl passed 65 sitemap pages, 66 internal destinations,
+729 image variants and the PDF canonical with zero failures/warnings. Production
+assets use immutable caching without noindex; preview pages and assets retain
+noindex. Contact readiness passed without sending email. Production browser
+checks confirmed the responsive images, motion preferences and controls, with no
+observed script errors, overflow or layout shift. The local final build also
+passed eight desktop/mobile homepage/project control-layout checks.
 
 ## Sources and private evidence
 
