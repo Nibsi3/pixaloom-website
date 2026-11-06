@@ -5,6 +5,7 @@ const path = require('node:path');
 const Module = require('node:module');
 const ts = require('typescript');
 const React = require('react');
+const { renderToStaticMarkup } = require('react-dom/server');
 const root = path.resolve(__dirname, '..');
 const resolve = Module._resolveFilename;
 Module._resolveFilename = function (request, parent, ...rest) {
@@ -43,6 +44,7 @@ function formHarness(t) {
   });
   t.mock.method(React, 'useEffect', (callback, dependencies) => effects.push({ callback, dependencies }));
   t.mock.method(React, 'useId', () => 'submission-help');
+  t.mock.method(React, 'useSyncExternalStore', (_subscribe, getSnapshot) => getSnapshot());
   t.mock.method(globalThis, 'FormData', function () {
     return { entries: () => Object.entries(fields) };
   });
@@ -54,6 +56,27 @@ function formHarness(t) {
     get resets() { return resets; },
   };
 }
+
+test('server-rendered forms cannot expose enquiry fields through native GET submission', () => {
+  for (const rescue of [false, true]) {
+    const markup = renderToStaticMarkup(React.createElement(InquiryForm, { rescue }));
+    assert.match(markup, /<form[^>]*method="post"/);
+    assert.match(markup, /<fieldset[^>]*disabled=""/);
+    assert.match(markup, /<button(?=[^>]*type="submit")(?=[^>]*disabled="")[^>]*>/);
+    assert.match(markup, /<noscript>.*mailto:info@pixaloom.co.za.*https:\/\/wa.me\/27662995533.*<\/noscript>/);
+  }
+});
+
+test('submission is ignored until the client submit handler is ready', async t => {
+  const fixture = formHarness(t);
+  t.mock.method(React, 'useSyncExternalStore', (_subscribe, _getSnapshot, getServerSnapshot) => getServerSnapshot());
+  let requests = 0;
+  t.mock.method(globalThis, 'fetch', async () => { requests++; return Response.json({ ok: true }); });
+  await fixture.render().props.onSubmit(fixture.event);
+  assert.equal(requests, 0);
+  assert.equal(fixture.resets, 0);
+  assert.equal(nodes(fixture.render()).find(node => node.type === 'fieldset').props.disabled, true);
+});
 
 test('rapid repeated submits send only one enquiry before the first response', async t => {
   const fixture = formHarness(t);

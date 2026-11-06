@@ -44,6 +44,7 @@ function formHarness(t) {
   t.mock.method(React, 'useRef', value => ({ current: value }));
   t.mock.method(React, 'useEffect', () => {});
   t.mock.method(React, 'useId', () => 'budget-help-test');
+  t.mock.method(React, 'useSyncExternalStore', (_subscribe, getSnapshot) => getSnapshot());
   return () => { cursor = 0; return InquiryForm({}); };
 }
 const field = (tree, name) => nodes(tree).find(node => node.props.name === name);

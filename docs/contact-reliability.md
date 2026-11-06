@@ -1,5 +1,11 @@
 # Enquiry delivery and retry boundaries
 
+The server-rendered form keeps its fields and submit control disabled until the
+client handler is attached. Without JavaScript, direct email and WhatsApp links
+remain available. The form also declares POST as a defense against native GET
+submission putting personal details in the URL or browser history. It does not
+provide a separate native submission route.
+
 The form snapshots its values before disabling the editable fields. A synchronous
 in-flight guard prevents repeated submit events from creating additional requests
 in that form. Fields become editable after an error; acceptance clears the form.

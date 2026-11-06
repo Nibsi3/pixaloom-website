@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useEffect, useId, useRef, useState } from 'react';
+import { FormEvent, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/events';
 import { estimateBriefFromParams } from '@/lib/website-cost';
@@ -9,8 +9,14 @@ import { contactBudgetHelp, contactBudgetOptions } from '@/lib/contact-budgets';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
+const subscribeToHydration = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
 
 export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
+  // Native form submission must stay unavailable until the JSON submit handler
+  // is attached. Otherwise a slow or absent script can put a brief in the URL.
+  const hydrated = useSyncExternalStore(subscribeToHydration, clientReady, serverReady);
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
   const [service, setService] = useState('');
@@ -46,7 +52,7 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
     event.preventDefault();
     // State updates are batched; a ref also blocks a second submit event before
     // React has disabled the button or rendered the next frame.
-    if (submitting.current || available === false) return;
+    if (!hydrated || submitting.current || available === false) return;
     submitting.current = true;
     const form = event.currentTarget;
     let rejectionMessage = '';
@@ -103,9 +109,10 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   }
 
   return (
-    <form className="inquiry-form" aria-busy={status === 'sending'} onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; trackEvent('enquiry_start'); } }}>
+    <form className="inquiry-form" method="post" aria-busy={status === 'sending'} onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; trackEvent('enquiry_start'); } }}>
+      <noscript><p className="form-error">JavaScript is disabled. <a href="mailto:info@pixaloom.co.za">Email your brief</a> or <a href="https://wa.me/27662995533">contact us on WhatsApp</a>.</p></noscript>
       {available === false ? <p className="form-error" role="status">{contactUnavailable} <a href="mailto:info@pixaloom.co.za">Email your brief</a> or <a href="https://wa.me/27662995533">use WhatsApp</a>.</p> : null}
-      <fieldset className="form-grid" disabled={status === 'sending'} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
+      <fieldset className="form-grid" disabled={!hydrated || status === 'sending'} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
         <legend className="sr-only">Your project details</legend>
         <label><span>Name *</span><input ref={nameRef} name="name" autoComplete="name" required maxLength={80} placeholder="Your name" /></label>
         <label><span>Email *</span><input name="email" type="email" autoComplete="email" required maxLength={120} placeholder="Your email address" /></label>
@@ -127,7 +134,7 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
         </> : null}
         <label className="honeypot" aria-hidden="true"><span>Website</span><input name="website" tabIndex={-1} autoComplete="off" /></label>
       </fieldset>
-      <button className="button button-dark form-submit" type="submit" disabled={status === 'sending' || available === false}>
+      <button className="button button-dark form-submit" type="submit" disabled={!hydrated || status === 'sending' || available === false}>
         {status === 'sending' ? 'Sending…' : <>{rescue ? 'Get a free app diagnosis' : 'Ask about my website'} <ArrowRight size={18} /></>}
       </button>
       {status === 'error' ? <p className="form-error" role="alert" ref={errorRef} tabIndex={-1}>{error} You can also <a href="mailto:info@pixaloom.co.za">email your brief</a>.</p> : null}
