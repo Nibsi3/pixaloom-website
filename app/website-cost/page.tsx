@@ -225,6 +225,7 @@ export default function WebsiteCostPage() {
                 <span>04</span>
                 <h3>Monthly website costs</h3>
                 <p>Hosting, domain renewal, email, software licences and optional care are recurring costs. The quote lists them separately from the build so ownership and future commitments stay clear.</p>
+                <p><Link href="/services/website-care">See what ongoing website care covers</Link>.</p>
               </li>
             </ol>
           </div>

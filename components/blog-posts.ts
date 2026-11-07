@@ -1899,7 +1899,12 @@ const sourcesBySlug: Record<string, BlogPost['sources']> = {
   'how-much-does-website-cost-south-africa': [accessibilitySource, coreWebVitalsSource, googleSearchSource],
   'website-speed-matters-south-africa': [coreWebVitalsSource, googleSearchSource],
   'lead-generation-website-design': [accessibilitySource, coreWebVitalsSource],
-  'google-business-profile-george': [businessProfileSource, googleSearchSource],
+  'google-business-profile-george': [
+    businessProfileSource,
+    googleSearchSource,
+    { title: 'Google Maps review policies', publisher: 'Google Maps Help', url: 'https://support.google.com/contributionpolicy/answer/7400114' },
+    { title: 'Tips to improve your local ranking', publisher: 'Google Business Profile Help', url: 'https://support.google.com/business/answer/7091' },
+  ],
   'ecommerce-website-south-africa': [securitySource, accessibilitySource, coreWebVitalsSource],
   'mobile-first-design-importance': [coreWebVitalsSource, accessibilitySource],
   'ssl-https-website-security': [securitySource, googleSearchSource],

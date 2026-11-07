@@ -16,6 +16,7 @@ export default defineConfig([
     },
   },
   globalIgnores([
+    '.task-candidates/**',
     '.next/**', '.open-next/**', '.wrangler/**', 'out/**', 'output/**', 'outputs/**', 'sites/**', 'audits/**', 'fiverr-assets/**', 'build/**', 'cloudflare-env.d.ts', 'next-env.d.ts', 'scripts/**',
     'app/os/**', 'app/jokes/**',
     'components/ui/**',

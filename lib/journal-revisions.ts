@@ -313,11 +313,11 @@ For a George service business, link to a page that explains the local offer and 
 
 ## Ask for honest feedback
 
-Invite genuine customers to describe their experience without incentives, fabricated accounts or filtering requests only to people expected to leave positive feedback. Respond professionally and avoid disclosing private customer information in public replies.
+Invite genuine customers to describe their experience without incentives, fabricated accounts or filtering requests only to people expected to leave positive feedback. Follow [Google Maps' review policies](https://support.google.com/contributionpolicy/answer/7400114), including its restrictions on pressuring customers or requesting specific review content. Respond professionally and avoid disclosing private customer information in public replies.
 
 ## Measure and maintain
 
-Review the profile after a phone, address, service or opening-hours change. Compare profile interactions with enquiries, but do not treat an interaction count as confirmed revenue. Local visibility depends on factors including relevance, distance and prominence; no profile setting guarantees a position.
+Review the profile after a phone, address, service or opening-hours change. Compare profile interactions with enquiries, but do not treat an interaction count as confirmed revenue. [Google's local ranking guidance](https://support.google.com/business/answer/7091) describes relevance, distance and prominence; no profile setting guarantees a position.
 
 Our [SEO service](/services/seo) can help assess the website and profile together. The [George studio page](/locations/george) describes Pixaloom's actual base; it is not a claim that every listed service area contains an office.`
   },
@@ -553,7 +553,7 @@ Use a consistent identifier for the same organization across pages. A service pa
 
 A valid Schema.org type is not necessarily eligible for a Google rich result. Check the currently supported search features and their requirements before promising an enhancement.
 
-Google stopped showing FAQ rich results in May 2026. A useful on-page FAQ may still help customers, but adding FAQPage markup is not a route to that retired feature. Similarly, special files or extra schema types should not be sold as guaranteed AI-search visibility.
+Google stopped showing FAQ rich results on 7 May 2026, as recorded in its [8 May documentation update](https://developers.google.com/search/updates#may-2026). A useful on-page FAQ may still help customers, but adding FAQPage markup is not a route to that retired feature. Similarly, special files or extra schema types should not be sold as guaranteed AI-search visibility.
 
 ## Validate in layers
 

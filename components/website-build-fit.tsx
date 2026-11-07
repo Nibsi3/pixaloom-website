@@ -15,6 +15,7 @@ export function WebsiteBuildFit({ local = false }: { local?: boolean }) {
           <p>For your build, we agree the page structure, shape the service information, design the mobile and desktop layouts, and check the enquiry journey. Search foundations, launch checks and handover are part of that scope. Content responsibilities and any booking system, payments or integrations need to be named in the quote. The Paws On Route example does not establish its original fee or a measured increase in bookings.</p>
           <h3>Choose the amount of work you need</h3>
           <p>A custom build makes sense when several services need explaining, existing pages need careful migration, or your team needs a considered content and enquiry structure. If you only need a small brochure with ready-to-use content, a simpler template site may be enough. Bring that brief so we can discuss the smaller scope before you budget for a full build.</p>
+          <p><Link href="/custom-website-vs-website-builder">Compare custom websites and DIY builders</Link> to decide which approach fits your content and enquiry needs.</p>
           <p>If an existing AI-built site is mostly complete and has a specific fault, <Link href="/ai-website-app-rescue">compare the rescue packages</Link>. Repair work has a different scope from designing a new website. For a build, bring your priority services, existing URL, available content and the action you want visitors to take.</p>
         </div>
       </div>

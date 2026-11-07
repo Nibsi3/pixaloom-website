@@ -41,6 +41,7 @@
     "outputs",
     "sites",
     "audits",
+    ".task-candidates",
     "fiverr-assets",
     "node_modules"
   ]

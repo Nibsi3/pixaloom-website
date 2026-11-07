@@ -12,6 +12,7 @@ out
 !.env.example
 .test-build/
 audits/
+.task-candidates/
 public/optimized/
 lib/generated-image-manifest.json
 .DS_Store
