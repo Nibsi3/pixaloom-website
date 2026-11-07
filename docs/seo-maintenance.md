@@ -1,5 +1,14 @@
 # SEO maintenance and owner checklist
 
+## 7 November 2026 additional review integration
+
+Release `3d6315d` adds contextual comparison/care links, direct Google citations
+and inherited social-image alternative text. Preserve current query targeting,
+publication dates and measurement windows. Eleven candidate reviews are complete;
+four await approval in their own chats. The [integration report](batch30-integration-2026-11-07.md)
+records each decision, limits and live release checks. No new account metrics or
+ranking improvements were measured in this pass.
+
 ## 7 November 2026 reliability and accessible navigation follow-up
 
 Release `fcd9974` adds verified enquiry/privacy and keyboard fixes without changing

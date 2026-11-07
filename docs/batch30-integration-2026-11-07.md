@@ -52,4 +52,38 @@ position cannot be promised.
 
 ## Release validation
 
-Pending integration checks and release details are recorded below after execution.
+Application commit: `3d6315d`, pushed to `codex/local-search-growth` and built
+from the clean release worktree. The pre-existing capabilities edits were not
+staged, committed or included in the build.
+
+- Configured lint, all 107 existing tests, TypeScript and the Next/OpenNext build
+  pass. No redundant implementation-contract tests were added for these small edits.
+- Twelve local browser checks cover six affected routes at 320px and 1440px.
+  The new links render with useful labels and accept keyboard focus. Both shared
+  comparison-link placements work, the article citations render, and inherited
+  `/os` Twitter alternative text is present while its noindex policy remains.
+- No page script errors were observed. The five changed content routes have no
+  horizontal overflow at either width. OS layout is outside that overflow claim.
+- Browser fixtures block writes and external requests; API widgets are mocked.
+  No real enquiries were sent. The first browser run encountered a valid cached
+  304 response on its second viewport; disabling cache for the fixture produced
+  twelve fresh 200 responses and a passing run. This was a harness assumption,
+  not a site defect.
+- No new Lighthouse or field-performance result is claimed. The earlier speed
+  measurements and their limitations remain in the main audit report.
+
+The exact application commit was deployed to the existing `pixaloom-website`
+Worker, version `44494a3b-7fac-4bfe-8adf-b3c1c4ccb755`, on both existing custom
+domains. Existing variables/secrets were retained. The local preview was stopped.
+
+Six bounded live browser checks at 390px passed on `/services/website-design`,
+`/locations/george`, `/website-cost`, `/blog/google-business-profile-george`,
+`/blog/structured-data-schema-markup-seo` and `/os`. All returned 200, rendered
+the expected links or metadata and had no page script errors. The five content
+pages had no horizontal overflow. External requests, writes and speculative
+prefetching were blocked; API widgets were mocked. These checks verify this
+release, not email delivery, analytics, load capacity or search ranking.
+
+Local raw evidence: `audits/batch30-integration-hashes.json`,
+`batch30-tests.log`, `batch30-build.log`, `batch30-deploy.log`,
+`batch30-local-checks.json` and `batch30-live-checks.json`.

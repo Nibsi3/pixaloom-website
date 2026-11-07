@@ -1,5 +1,16 @@
 # Pixaloom bug, SEO and speed audit — 6–7 November 2026
 
+## Additional isolated review integration — 7 November
+
+Eleven of fifteen new reviews completed; four remain paused for approval in their
+original chats. The accepted changes add two contextual links, direct primary
+citations in two articles and root Twitter-image alternative text. Source
+`3d6315d` is live as Worker `44494a3b-7fac-4bfe-8adf-b3c1c4ccb755`.
+All 107 existing tests, lint, TypeScript, clean production build, twelve local
+browser checks and six bounded live checks pass. No new ranking or speed gain is
+claimed. See the [candidate-by-candidate decisions, pending actions and release
+evidence](batch30-integration-2026-11-07.md).
+
 ## Deeper failure, accessibility and boundary review — completed 7 November
 
 The next pass confirmed the latest public content and contact readiness, then
