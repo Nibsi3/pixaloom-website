@@ -42,8 +42,8 @@ export default function CapabilitiesPage() {
         {section.id === 'routing' && <ol className={styles.flow} aria-label="Slip a Tip payment flow">{['Scan worker QR', 'Confirm payment', 'Record fees & balance', 'Clear settlement holds', 'Request withdrawal', 'Track payout outcome'].map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>)}</ol>}
         <div className={styles.details}><h3>What sits behind it</h3><ul>{section.points.map((point) => <li key={point}>{point}</li>)}</ul></div>
         {section.id === 'assistant' && <div className={styles.paired}>
-          <Capture src="/capabilities/illumi-assistant-enhanced.png" caption="Enhanced recreation of Illumi Assistant completing a client record with fictional test-company details." width={942} height={875} />
-          <Capture src="/portfolio/2026-10-19/illumi-detail-1.png" caption="Illumi’s public invoicing page, with an illustrative invoice preview. Sample data, not a customer invoice." width={3200} height={2000} />
+          <Capture src="/capabilities/illumi-ai-invoice-2026-11-09.png" caption="Illumi AI invoice creator, with editable document details, business information and client selection." width={1656} height={1580} />
+          <Capture src="/work/illumi-home-2026-10-29.png" caption="Illumi public homepage, using the same image featured on the Pixaloom homepage." width={1683} height={941} />
         </div>}
         <div className={styles.sectionFoot}><p>{section.note}</p><Link href={section.link}>Explore {section.id === 'growth' ? 'SEO services' : 'the project'} <ArrowUpRight size={15} /></Link></div>
       </section>)}

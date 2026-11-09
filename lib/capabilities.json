@@ -41,8 +41,8 @@
         "Bring historical clients, products, invoices and expenses into a reviewed CSV migration workflow with validation, duplicate checks and an import record."
       ],
       "note": "Historical data is imported in controlled batches: the reviewed CSV workflow previews up to 500 rows / 1 MiB and applies up to 100 selected records at a time. Larger migrations need staged batches; this is not an unlimited, unreviewed import.",
-      "image": "/capabilities/illumi-dashboard-enhanced.png",
-      "caption": "Enhanced recreation of the supplied Illumi dashboard, retaining the displayed figures, assistant and workflow actions.",
+      "image": "/capabilities/illumi-ai-home-2026-11-09.png",
+      "caption": "The current Illumi AI home screen, with the assistant composer and quick actions for invoices, payments, recurring billing and receipts.",
       "link": "/work/illumi"
     },
     {
