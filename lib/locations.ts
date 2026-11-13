@@ -12,7 +12,7 @@ export const provinces: Province[] = [
   {
     slug: 'western-cape', name: 'Western Cape', capital: 'Cape Town',
     lead: 'From established Cape Town firms to owner-run Garden Route businesses, Western Cape buyers expect polished mobile experiences and visible proof of quality.',
-    opportunity: 'Pixaloom is based in George, giving Garden Route clients a local partner while serving Cape Town, the Winelands, Overberg, West Coast and Central Karoo remotely.',
+    opportunity: 'Pixaloom works entirely online from George with businesses across the Garden Route, Cape Town, the Winelands, Overberg, West Coast and Central Karoo.',
     sectors: ['Tourism and hospitality', 'Professional services', 'Property and construction', 'Agriculture and exports'],
     towns: ['Cape Town', 'George', 'Stellenbosch', 'Paarl', 'Worcester', 'Mossel Bay', 'Knysna', 'Plettenberg Bay', 'Oudtshoorn', 'Wilderness', 'Somerset West', 'Hermanus', 'Swellendam', 'Bredasdorp', 'Caledon', 'Robertson', 'Montagu', 'Ceres', 'Tulbagh', 'Wellington', 'Malmesbury', 'Darling', 'Saldanha', 'Vredenburg', 'Langebaan', 'Piketberg', 'Clanwilliam', 'Vredendal', 'Beaufort West', 'Prince Albert', 'Riversdale', 'Heidelberg', 'Moorreesburg', 'Velddrif'],
   },
@@ -78,15 +78,13 @@ export function getProvince(slug: string) {
   return provinces.find((province) => province.slug === slug);
 }
 
-export const allCoverageAreas = provinces.flatMap((province) => province.towns);
-
 export const localHubs = [
   {
     slug: 'george',
     name: 'George',
     href: '/locations/george',
     label: 'Studio base',
-    summary: 'The Pixaloom studio is in George. This is the page for Garden Route businesses that want a local partner without a template site.',
+    summary: 'See how a George pet-care business takes booking enquiries, check five-page website prices and discuss your own site with Cameron online.',
   },
   {
     slug: 'garden-route',

@@ -202,7 +202,7 @@ Post-release PageSpeed testing identified low-contrast supporting copy on the se
 
 1. **Delivered enquiries:** configure the real email credential and verified sender, then authorise one test to the business inbox. Check acceptance and actual delivery separately. Configure an alerting destination if automated failure alerts are required.
 2. **Qualified leads:** select an analytics destination, retention policy and access owner. Define a qualified lead and reconcile it with actual enquiries; a beacon click alone is not evidence. Keep names, emails, messages, query strings and visitor identifiers out of action-event payloads.
-3. **Business Profile:** check account status and eligibility. Confirm whether customers visit a staffed location, whether the business visits customers, or whether it is online-only. Use accurate real-world details. Resolve any suspension through Google's official process with genuine evidence; do not create a replacement to bypass enforcement or invent offices, hours or documents.
+3. **Business Profile eligibility.** On 13 November 2026 the owner confirmed that Pixaloom works entirely online from George. This operating model is ineligible for a Google Business Profile. Use the website and its organic Search Console property for discovery and measurement. Describe client meetings as online on all public pages. [Google's eligibility guidelines](https://support.google.com/business/answer/13763036?hl=en)
 4. **Portfolio authority:** confirm each project role, version, client permission and reference before publishing an endorsement. Obtain permissioned before/after evidence with dates and measurement conditions. Screenshots and demo counters are not validated outcomes.
 5. **Privacy:** the notice describes implemented processing, not a legal certification. The owner should verify mailbox access, retention, cross-border arrangements and applicable obligations with an appropriate adviser.
 6. **Editorial accountability:** Cameron Falck is the studio contact, not an assertion that he personally reviewed every revision. Arrange subject-matter review and add a reviewer credit only after that review occurs.
@@ -230,7 +230,7 @@ Use one primary page per search intent so the site does not make several URLs co
 
 Review the exact query/page pairs weekly in Search Console over comparable 28-day and three-month windows. Record impressions, clicks, click-through rate and average position privately. Check whether Google is choosing the intended page, annotate substantive releases, and avoid reacting to a single day's movement. A request for indexing is a discovery prompt, not a ranking tactic or a guarantee.
 
-Prioritise accurate, owner-approved profiles and genuinely useful mentions: an eligible Google Business Profile, the George Business Chamber, reputable Garden Route business directories and permissioned client references. Verify current terms and fees before applying. Avoid reciprocal-link directories, paid ranking links and duplicated listings.
+Prioritise permissioned references from clients who can describe the work, and professional associations that accept online businesses. Check listing terms with the owner before applying.
 
 Suggested review request: “Would you be comfortable leaving an honest Google review about the work and your experience? Please use your own words and mention only details you are happy to make public.” Do not offer an incentive, pre-write the review or request only positive feedback.
 

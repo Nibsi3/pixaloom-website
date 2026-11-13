@@ -4,7 +4,7 @@ import { ArrowRight, ArrowUpRight, MapPin } from 'lucide-react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
-import { allCoverageAreas, localHubs, provinces } from '@/lib/locations';
+import { localHubs, provinces } from '@/lib/locations';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata({
@@ -43,7 +43,7 @@ export default function LocationsPage() {
               </h1>
             </div>
             <p className="lead">
-              Based in George and set up for focused remote collaboration across every province—from major metros to regional towns and specialist businesses serving national markets.
+              Work online with Cameron Falck, a website designer based in George. Review a design, try the enquiry form and agree what goes live from anywhere in South Africa.
             </p>
           </div>
         </section>
@@ -51,8 +51,7 @@ export default function LocationsPage() {
           <div className="site-container">
             <div className="section-heading-row">
               <div>
-                <p className="eyebrow">Home ground</p>
-                <h2>Start with the real studio, then the rest of the country.</h2>
+                <h2>Website design in George and the Garden Route.</h2>
               </div>
             </div>
             <div className="location-card-grid" style={{ marginTop: 28 }}>
@@ -71,24 +70,7 @@ export default function LocationsPage() {
         </section>
         <section className="content-section alt">
           <div className="site-container">
-            <div className="stats-strip">
-              <div>
-                <strong>9</strong>
-                <span>provinces served</span>
-              </div>
-              <div>
-                <strong>8</strong>
-                <span>metropolitan markets</span>
-              </div>
-              <div>
-                <strong>{allCoverageAreas.length}+</strong>
-                <span>named towns and cities</span>
-              </div>
-              <div>
-                <strong>1</strong>
-                <span>senior delivery team</span>
-              </div>
-            </div>
+            <h2>Find your province.</h2>
             <div className="location-card-grid" style={{ marginTop: 28 }}>
               {provinces.map((province, index) => (
                 <Link className="location-card" href={`/locations/${province.slug}`} key={province.slug}>
@@ -106,15 +88,14 @@ export default function LocationsPage() {
         <section className="content-section">
           <div className="site-container content-grid">
             <div>
-              <p className="eyebrow">Real coverage, no pretend offices</p>
-              <h2>National reach without doorway-page spam.</h2>
+              <h2>How an online project works.</h2>
             </div>
             <div className="body-copy">
               <p>
-                Pixaloom has one real base in George and works remotely throughout South Africa. We do not invent local offices or publish hundreds of near-identical pages. Each province guide explains the market context and provides a useful, browseable coverage directory.
+                Send your existing website, the services or products you sell, and an example of an enquiry you would like to receive. We use those details to agree the pages, features and price in writing.
               </p>
               <p>
-                That creates a clear national service footprint for customers and search engines while keeping every claim accurate.
+                You can review a working version on your own phone before launch. For a price to plan around, compare our <Link href="/website-cost#price-list">website build estimates in rand</Link>.
               </p>
               <Link href="/services/website-design" className="text-link">
                 Explore website design <ArrowRight size={15} />

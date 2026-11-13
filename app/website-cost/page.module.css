@@ -1,0 +1,46 @@
+.prices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: 2rem clamp(2rem, 6vw, 5rem);
+}
+
+.prices article {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--fine-line);
+}
+
+.prices h3 {
+  margin: 0;
+  font: 400 clamp(1.6rem, 3vw, 2.3rem)/1.15 "Iowan Old Style", Baskerville, serif;
+}
+
+.prices p, .prices dt {
+  color: #b9b7ae;
+  line-height: 1.6;
+}
+
+.prices dl {
+  margin: 1.25rem 0;
+}
+
+.prices dl div {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .25rem .75rem;
+  padding: .6rem 0;
+  border-bottom: 1px solid var(--fine-line);
+}
+
+.prices dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.prices a {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}

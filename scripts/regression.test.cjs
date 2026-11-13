@@ -280,17 +280,17 @@ test('George intent and service-to-location links are explicit', () => {
   }
   const entries = sitemap();
   for (const pathName of ['/locations/george', '/services/website-design', '/services/seo']) {
-    const expectedDates = { '/locations/george': '2026-11-06', '/services/website-design': '2026-10-29', '/services/seo': '2026-09-04' };
+    const expectedDates = { '/locations/george': '2026-11-13', '/services/website-design': '2026-11-13', '/services/seo': '2026-09-04' };
     assert.equal(entries.find(item => item.url.endsWith(pathName)).lastModified, expectedDates[pathName]);
   }
 });
 test('website pricing intent receives a direct answer and the legacy pricing URL', async () => {
   const page = fs.readFileSync(path.join(root, 'app/website-cost/page.tsx'), 'utf8');
-  assert.match(page, /Website Design Prices South Africa \(2026\)/);
-  assert.match(page, /Five-page business website/);
+  assert.match(page, /South African Web Design Prices – 5 Pages from R7,500/);
+  assert.match(page, /five-page custom business website/i);
   assert.match(page, /R7,500–R12,500/);
   assert.match(page, /Monthly website costs/);
-  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-11-06');
+  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-11-13');
   const pricingRedirect = (await require('../next.config.js').redirects()).find(item => item.source === '/pricing');
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });

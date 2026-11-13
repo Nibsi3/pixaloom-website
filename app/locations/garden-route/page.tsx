@@ -32,9 +32,9 @@ const towns = [
 
 const faqs = [
   {
-    question: 'Do you have offices in Knysna, Mossel Bay and Plettenberg Bay?',
+    question: 'How do we work together from Knysna, Mossel Bay or Plettenberg Bay?',
     answer:
-      'Pixaloom is based in George. We work with Garden Route businesses remotely and arrange in-person meetings by agreement. Contact us with your location and project requirements.',
+      'Cameron runs Pixaloom from George and works entirely online. We discuss the brief by phone or video, share a preview for you to try and agree changes before launch.',
   },
   {
     question: 'How will bookings work on my accommodation website?',
@@ -99,7 +99,7 @@ export default function GardenRoutePage() {
             </div>
             <div>
               <p className="lead">
-                Work with Cameron Falck at our George studio on a website for your Garden Route business. We help service businesses, accommodation providers and retailers explain their offer, serve mobile visitors and make booking or quote enquiries easier.
+                Work online with Cameron Falck in George on a website for your Garden Route business. Help customers choose a service, check accommodation or request a quote from their phone.
               </p>
               <div className="minimal-inline-links" style={{ marginTop: 28 }}>
                 <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my Garden Route business.')}`}>Discuss your website <ArrowRight size={18} /></a>

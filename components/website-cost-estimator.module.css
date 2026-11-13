@@ -1,0 +1,44 @@
+.budget {
+  min-width: 0;
+  max-width: 44rem;
+  border-top: 1px solid #646461;
+  color: #e3e1db;
+}
+
+.budget summary {
+  padding: 1rem 0;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.budget p, .fields span {
+  margin: 0;
+  color: #c0beb8;
+  font-size: .85rem;
+  line-height: 1.6;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.fields label { display: grid; align-content: start; gap: .35rem; font-size: .95rem; }
+.fields input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: .7rem;
+  border: 1px solid #96948e;
+  border-radius: .25rem;
+  background: #181818;
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+}
+.fields input[aria-invalid="true"] { border-color: #ffb599; }
+.budget :focus-visible { outline: 2px solid #e8edff; outline-offset: 3px; }
+.budgetResult { overflow-wrap: anywhere; }
+.budgetResult strong { display: block; margin-bottom: .3rem; font-size: 1.1rem; }

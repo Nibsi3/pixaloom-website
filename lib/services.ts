@@ -19,11 +19,11 @@ export const services: Service[] = [
     name: 'Website Design & Development',
     shortName: 'Website design',
     seoTitle: 'Website Design Company South Africa',
-    eyebrow: 'Make the right first impression',
+    eyebrow: 'Custom business websites · South Africa',
     description:
-      'Strategic, mobile-first websites for South African businesses that need to look credible, explain their value clearly and turn visits into calls, messages and qualified enquiries.',
+      'Work online with Cameron in George on a custom business website. Plan R7,500–R12,500 for five pages with mobile design, an enquiry form and launch handover.',
     promise: 'A distinctive business website that is fast, easy to use and built around the next action you want a customer to take.',
-    outcomes: ['A sharper market position', 'More qualified enquiries', 'A faster mobile experience', 'A platform your team can grow'],
+    outcomes: ['Service pages that answer customer questions', 'An enquiry form tested on a phone', 'A layout for mobile and desktop', 'A handover covering accounts and site updates'],
     inclusions: ['Discovery and conversion strategy', 'Custom responsive design', 'Copy structure and content guidance', 'Next.js or WordPress development', 'On-page SEO foundations', 'Analytics and conversion setup', 'Launch support and team handover'],
     suitedFor: ['Professional services', 'Tourism and hospitality', 'Construction and trades', 'Healthcare practices', 'B2B and industrial companies', 'Local and multi-location businesses'],
     process: [

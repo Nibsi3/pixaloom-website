@@ -1,19 +1,17 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, Check, MapPin } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, MapPin } from 'lucide-react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { WebsiteBuildFit } from '@/components/website-build-fit';
 import { JsonLd } from '@/components/json-ld';
 import { breadcrumbSchema, faqPageSchema } from '@/lib/schema';
-import { services } from '@/lib/services';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Web Design George | Business Websites & Redesigns',
+  title: 'Web Design in George | Business Websites & Redesigns',
   description:
-    'Work directly with Cameron in George on your business website or redesign. See local work, custom-build costs and what is included. Discuss your brief.',
+    'See the Paws On Route website built in George. Work with Cameron on a new site or redesign. Budget R7,500–R12,500 for a five-page custom website.',
   path: '/locations/george',
 });
 
@@ -29,40 +27,22 @@ const faqs = [
   {
     question: 'Is Pixaloom actually based in George?',
     answer:
-      'Yes. The studio is in George, Western Cape. We meet locally when it helps and work remotely with clients across South Africa. We do not invent extra branch offices.',
+      'Yes. Cameron is based in George, Western Cape. All client work takes place online, including discovery calls, design reviews and handover.',
   },
   {
     question: 'Do you only work with George businesses?',
     answer:
-      'No. George is the base. We regularly deliver for clients in other provinces. Local companies get a partner who understands Garden Route search behaviour, mobile use and WhatsApp-first contact habits.',
+      'We also work remotely with businesses across the Garden Route and elsewhere in South Africa. We use shared previews so you can review the pages and try the enquiry flow before launch.',
   },
   {
     question: 'Can you rebuild a site that already ranks in George?',
     answer:
-      'Yes. We audit useful URLs, protect what already earns traffic and plan redirects before the new site launches. Redesigns should not throw away search equity for a visual refresh.',
+      'Yes. Bring your existing URL. We review which pages customers already find, agree which addresses to keep and map redirects for pages that need to move. We check those redirects and your contact routes at launch.',
   },
   {
     question: 'What should I ask a website designer in George?',
     answer:
-      'Ask who owns the domain, hosting and source code; how content, redirects and enquiry delivery will be tested; and what is included after launch. A useful proposal should connect those responsibilities to your actual services and customers, not only show a visual concept.',
-  },
-];
-
-const proof = [
-  {
-    href: '/work/paws-on-route',
-    name: 'Paws On Route',
-    text: 'A George pet-care website with grooming, sitting and daycare information and direct booking enquiries.',
-  },
-  {
-    href: '/work/team-colours',
-    name: 'Team Colours',
-    text: 'An ecommerce catalogue interface with product hierarchy and a clear shopping journey.',
-  },
-  {
-    href: '/work/vicbay',
-    name: 'VicBay',
-    text: 'An apparel ecommerce interface study. The current public website may differ from the version shown.',
+      'Ask who owns the domain, who updates the content and where enquiries go. Ask the designer to walk through one customer journey on a phone and to name the hosting, renewal and support costs in the quote.',
   },
 ];
 
@@ -118,121 +98,71 @@ export default function GeorgePage() {
               </h1>
             </div>
             <div>
-              <p className="lead">Work directly with Cameron Falck at Pixaloom, an independent website design and development studio in George. We build and redesign business websites around clear service information, mobile usability and an easy route to call, WhatsApp or request a quote.</p>
+              <p className="lead">Work online with Cameron Falck, a website designer and developer based in George. Pixaloom builds websites for businesses that take bookings, quote for work or sell online.</p>
+              <p className="service-budget"><strong>Planning a new five-page business website? Budget R7,500–R12,500</strong> for a custom build with one main enquiry route. Optional features, ongoing costs and VAT where applicable are separate.</p>
               <div className="minimal-inline-links" style={{ marginTop: 28 }}>
                 <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my George or Garden Route business.')}`}>Discuss your website <ArrowRight size={18} /></a>
-                <Link href="/website-cost">See costs and inclusions <ArrowUpRight size={14} /></Link>
+                <Link href="/website-cost">Compare website prices and inclusions <ArrowUpRight size={14} /></Link>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="content-section">
+        <section className="content-section alt" aria-labelledby="george-project-heading">
           <div className="site-container content-grid">
-            <div>
-              <p className="eyebrow">Start with the local enquiry</p>
-              <h2>Clear services. Useful proof. Easy contact.</h2>
-            </div>
             <div className="body-copy">
-              <p>
-                For a local service business, the first website conversation is practical: which services do customers ask about, where do you travel, and what do they need to know before requesting a quote or appointment? We turn those answers into pages with clear scope, genuine examples and a direct contact route.
-              </p>
-              <p>
-                For a retailer, we work through catalogue and stock responsibilities. For a tourism operator, we clarify availability and the booking handover. We agree language requirements with the business, test mobile journeys and keep useful existing URLs during a redesign. Our studio is in George; meetings are arranged by agreement.
-              </p>
-              <p>
-                If you are comparing a <Link href="/services/website-design">website designer or web developer in George</Link>, look beyond the first mock-up. The practical differences are who will shape the content, test real enquiries, protect existing search visibility and remain accountable for the launch.
-              </p>
-              <div className="pill-list">
-                {['Tourism and hospitality', 'Trades and construction', 'Professional services', 'Retail and ecommerce', 'Local media and institutions'].map((item) => (
-                  <span className="pill" key={item}>{item}</span>
-                ))}
-              </div>
+              <p className="eyebrow">Local website project</p>
+              <h2 id="george-project-heading">How Paws On Route takes booking enquiries.</h2>
+              <p>This George pet-care business offers grooming, sitting, daycare and boarding. A pet owner can read about the service they need and start a WhatsApp conversation from the same WordPress page.</p>
+              <p>The booking prompt asks for the pet’s name, breed and the service needed. It also explains that the team will reply with availability and price.</p>
+              <Link href="/work/paws-on-route" className="text-link">See the Paws On Route case study <ArrowRight size={16} /></Link>
             </div>
+            <figure className="article-project-evidence" style={{ margin: 0 }}>
+              <Image
+                src="/portfolio/2026-10-19/paws-on-route-detail-1.png"
+                width={3200}
+                height={2000}
+                sizes="(max-width: 900px) calc(100vw - 32px), (max-width: 1400px) 62vw, 850px"
+                alt="Paws On Route services page showing grooming, sitting, daycare and boarding alongside a WhatsApp booking prompt"
+              />
+              <figcaption>Paws On Route, captured 19 October 2026. The “Ready to book?” box sits beside the grooming information so a visitor can enquire from the services page.</figcaption>
+            </figure>
           </div>
         </section>
 
-        <WebsiteBuildFit local />
-
-        <section className="content-section">
-          <div className="site-container content-grid">
-            <div><p className="eyebrow">Before you brief a developer</p><h2>Plan the website and compare the scope.</h2></div>
-            <div>
-              <p>Use our <Link href="/blog/why-george-businesses-need-modern-website">George business website brief</Link> to identify your customers, service area and enquiry process.</p>
-              <p>The <Link href="/blog/choosing-web-developer-george">developer comparison checklist</Link> covers deliverables, account ownership, recurring costs and launch acceptance.</p>
-              <p>Before launch, walk through the <Link href="/blog/lead-generation-website-design">phone and enquiry checklist</Link> with whoever receives your messages.</p>
+        <section className="content-section" aria-labelledby="george-project-paths">
+          <div className="site-container">
+            <div className="section-heading-row">
+              <div><h2 id="george-project-paths">What kind of website do you need?</h2></div>
+            </div>
+            <div className="location-card-grid">
+              <Link className="location-card" href="/services/website-design">
+                <h3>A website for a service business</h3>
+                <p>Bring your service list, where you work and one question customers ask before they call. We use those details to plan the pages, photos and enquiry form.</p>
+                <span className="card-link">See what a business website includes <ArrowRight size={15} /></span>
+              </Link>
+              <Link className="location-card" href="/services/ecommerce-websites">
+                <h3>An online store</h3>
+                <p>Start with a typical product, its variants and how you deliver or arrange collection in George. These decisions shape the catalogue, checkout and order notifications.</p>
+                <span className="card-link">Explore ecommerce development <ArrowRight size={15} /></span>
+              </Link>
+              <Link className="location-card" href="/contact">
+                <h3>A redesign of an existing site</h3>
+                <p>Send the current address and one task customers struggle with. We can check which pages already attract visitors and what needs to carry across to the new site.</p>
+                <span className="card-link">Discuss your redesign <ArrowRight size={15} /></span>
+              </Link>
             </div>
           </div>
         </section>
 
         <section className="content-section alt">
-          <div className="site-container">
-            <div className="content-grid" style={{ marginBottom: 40 }}>
-              <div className="body-copy">
-                <p className="eyebrow">George project evidence</p>
-                <h2>A clear next step for each service.</h2>
-                <p>The Paws On Route services page introduces grooming, sitting, daycare and boarding, with a visible WhatsApp booking route. Its enquiry prompt asks for the pet’s name, breed and required service, then explains that availability and pricing will be confirmed. That is a concrete example of shaping a page around the information a local business needs to respond.</p>
-              </div>
-              <figure className="article-project-evidence" style={{ margin: 0 }}>
-                <Link href="/work/paws-on-route" aria-label="View the Paws On Route website case study">
-                  <Image src="/portfolio/2026-10-19/paws-on-route-detail-1.png" width={3200} height={2000} sizes="(max-width: 900px) calc(100vw - 32px), (max-width: 1400px) 62vw, 850px" alt="Paws On Route services page with a dog photograph, pet-care introduction and WhatsApp booking prompt" loading="lazy" />
-                </Link>
-                <figcaption>Services page captured on 19 October 2026. <Link href="/work/paws-on-route">Explore the recorded project scope and other screens.</Link></figcaption>
-              </figure>
-            </div>
-            <div className="location-card-grid">
-              {proof.map((item) => (
-                <Link className="location-card" href={item.href} key={item.href}>
-                  <span>Case study</span>
-                  <h3>{item.name}</h3>
-                  <p>{item.text}</p>
-                  <span className="card-link">View project <ArrowUpRight size={15} /></span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="content-section">
-          <div className="site-container">
-            <div className="section-heading-row">
-              <div>
-                <p className="eyebrow">What we deliver in George</p>
-                <h2>From first search to qualified enquiry.</h2>
-              </div>
-            </div>
-            <div className="location-card-grid">
-              {services.map((service) => (
-                <Link className="location-card" href={`/services/${service.slug}`} key={service.slug}>
-                  <span>Service</span>
-                  <h3>{service.shortName}</h3>
-                  <p>{service.promise}</p>
-                  <span className="card-link">Explore <ArrowRight size={15} /></span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="content-section dark">
           <div className="site-container content-grid">
-            <div>
-              <p className="eyebrow eyebrow-light">How the work runs</p>
-              <h2>Local when it helps. Remote when it is faster.</h2>
+            <div><h2>Before you commission a website.</h2></div>
+            <div className="body-copy">
+              <p>Our <Link href="/blog/why-george-businesses-need-modern-website">George business website brief</Link> helps you list the services, photographs and contact details you already have. A smaller brochure site with ready-to-use content may be enough. You can <Link href="/custom-website-vs-website-builder">compare a custom build with a DIY website</Link>.</p>
+              <p>If you are choosing a website designer or web developer in George, use the <Link href="/blog/choosing-web-developer-george">developer comparison checklist</Link> to ask who owns the domain, who can edit the pages and who checks that enquiries reach you. Use the <Link href="/blog/lead-generation-website-design">phone and enquiry checklist</Link> to test that handover.</p>
+              <p>Already have the website you need? See our <Link href="/services/seo">search visibility services</Link> if customers struggle to find it, or <Link href="/ai-website-app-rescue">get help with an unfinished AI-built site</Link> if a specific feature is stopping launch.</p>
             </div>
-            <ul className="detail-list" style={{ borderColor: '#393c43' }}>
-              {[
-                'Discovery by call or in George when the brief is easier face to face',
-                'Mobile-first pages designed for Garden Route connections, not only fibre screenshots',
-                'On-page SEO, Google Business Profile guidance and WhatsApp as a first-class action',
-                'Nationwide delivery from the same studio—no invented Knysna or Cape Town offices',
-              ].map((item) => (
-                <li key={item} style={{ borderColor: '#393c43' }}>
-                  <Check size={18} />
-                  <strong>{item}</strong>
-                </li>
-              ))}
-            </ul>
           </div>
         </section>
 

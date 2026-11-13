@@ -9,16 +9,45 @@ import { WebsiteBuildFit } from '@/components/website-build-fit';
 import { breadcrumbSchema, faqPageSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import { contentModified } from '@/lib/content-dates';
-import { estimateContactUrl, estimateWebsiteCost, formatRandRange, type ProjectExtraId } from '@/lib/website-cost';
+import { estimateContactUrl, estimateWebsiteCost, formatRandRange, projectScales, type ProjectExtraId, type ProjectKindId } from '@/lib/website-cost';
+import styles from './page.module.css';
 
+const pageTitle = 'South African Web Design Prices – 5 Pages from R7,500';
 const pageDescription =
-  'Pixaloom custom business websites: R7,500–R12,500 for five pages. Compare scope, optional extras and recurring costs, then estimate your project.';
+  'Budget R7,500–R12,500 for a five-page business website or R15,000–R25,000 for a focused online store. Compare Pixaloom build prices and calculate year one.';
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Website Design Prices South Africa (2026)',
+  title: pageTitle,
   description: pageDescription,
   path: '/website-cost',
 });
+
+const priceList: { kind: ProjectKindId; title: string; scope: string; action: string }[] = [
+  {
+    kind: 'business',
+    title: 'Business website',
+    scope: 'A focused build covers five core pages and one route to enquire. Allow for a larger build when several services or audiences need their own page layouts.',
+    action: 'Discuss a five-page website',
+  },
+  {
+    kind: 'ecommerce',
+    title: 'Ecommerce website',
+    scope: 'A focused store includes a product catalogue, checkout and one standard hosted payment integration. Multiple stock sources or delivery rules can increase the scope.',
+    action: 'Discuss a focused store',
+  },
+  {
+    kind: 'redesign',
+    title: 'Website redesign',
+    scope: 'A focused redesign reuses suitable content and keeps useful URLs working. Moving a larger archive or rebuilding a catalogue requires a separate migration plan.',
+    action: 'Discuss a focused redesign',
+  },
+  {
+    kind: 'application',
+    title: 'Custom web application',
+    scope: 'Start with one workflow, such as a customer portal. More user roles, approval steps or connections to other systems can move a project into a larger range.',
+    action: 'Discuss a focused web app',
+  },
+];
 
 const scopeExamples: { title: string; description: string; extras: readonly ProjectExtraId[] }[] = [
   {
@@ -78,7 +107,7 @@ const schema = {
       '@type': 'WebPage',
       '@id': absoluteUrl('/website-cost#webpage'),
       url: absoluteUrl('/website-cost'),
-      name: 'Website Design Prices in South Africa (2026) | Pixaloom',
+      name: `${pageTitle} | Pixaloom`,
       description: pageDescription,
       inLanguage: 'en-ZA',
       isPartOf: { '@id': `${site.url}/#website` },
@@ -111,7 +140,7 @@ export default function WebsiteCostPage() {
             <h1>Website design prices<br /> <em>in South Africa.</em></h1>
             <div className="minimal-hero-foot">
               <p style={{ fontSize: '1rem' }}>
-                <strong>Five-page custom business websites: R7,500–R12,500.</strong> Pixaloom’s planning range excludes optional features, VAT where applicable and recurring costs. Your written scope confirms the quote.
+                <strong>A five-page custom business website costs R7,500–R12,500 to build with Pixaloom.</strong> A focused online store starts at R15,000. These build estimates exclude optional extras, running costs and VAT where applicable.
               </p>
               <nav className="minimal-inline-links" aria-label="Website price sections" style={{ marginTop: 0 }}>
                 <a href="#price-list">Compare website prices <ArrowUpRight size={14} /></a>
@@ -128,31 +157,31 @@ export default function WebsiteCostPage() {
                 <span>01</span>
                 <p>Price list</p>
               </div>
-              <h2>Start with the closest<br /> <em>scope, then refine it.</em></h2>
+              <h2>Compare website prices<br /> <em>by project size.</em></h2>
             </div>
-            <ol className="minimal-principle-list">
-              <li>
-                <span>01</span>
-                <h3>Five-page business website</h3>
-                <p>R7,500–R12,500. Five core pages, custom responsive design, one primary enquiry journey, on-page SEO foundations, analytics and launch handover.</p>
-              </li>
-              <li>
-                <span>02</span>
-                <h3>Growing business website</h3>
-                <p>R15,000–R25,000. More page templates, services, proof, locations or content depth, with conversion measurement from launch.</p>
-              </li>
-              <li>
-                <span>03</span>
-                <h3>Ecommerce website</h3>
-                <p>R15,000–R25,000 for a focused store, including one standard hosted payment integration. Larger catalogues and more complex operations are planned at R25,000–R80,000; bespoke integrations are scoped separately.</p>
-              </li>
-              <li>
-                <span>04</span>
-                <h3>Custom web application</h3>
-                <p>From R35,000. Accounts, permissions, data models, workflows and external systems are scoped through discovery before a delivery range is confirmed.</p>
-              </li>
-            </ol>
-            <p className="service-budget">Build prices exclude VAT where applicable, domains, hosting, email, software subscriptions, payment fees and ongoing care. They describe Pixaloom’s current planning allowances, not an industry-wide average.</p>
+            <div className={styles.prices}>
+              {priceList.map(({ kind, title, scope, action }) => (
+                <article key={kind}>
+                  <h3>{title}</h3>
+                  <p>{scope}</p>
+                  <dl>
+                    {projectScales.map(({ id, label }) => {
+                      const { min, max } = estimateWebsiteCost(kind, id, []);
+                      return <div key={id}><dt>{label}</dt><dd>{formatRandRange(min, max)}</dd></div>;
+                    })}
+                  </dl>
+                  <Link href={estimateContactUrl(kind, 'focused', [])}>{action} <ArrowUpRight size={14} /></Link>
+                </article>
+              ))}
+            </div>
+            <p className="service-budget">These are Pixaloom’s once-off build allowances in rand. Your written quote confirms scope and VAT where applicable. Budget separately for your domain, hosting, email, subscriptions, transaction fees and ongoing care.</p>
+          </div>
+        </section>
+
+        <section className="minimal-statement" id="cost-estimator">
+          <div className="minimal-shell">
+            <h2>Estimate your website <em>budget.</em></h2>
+            <WebsiteCostEstimator />
           </div>
         </section>
 
@@ -185,16 +214,6 @@ export default function WebsiteCostPage() {
         </section>
 
         <WebsiteBuildFit />
-
-        <section className="minimal-statement" id="cost-estimator">
-          <div className="minimal-shell">
-            <div className="minimal-section-mark">
-              <span>02</span>
-              <p>Estimator</p>
-            </div>
-            <WebsiteCostEstimator />
-          </div>
-        </section>
 
         <section className="minimal-index-section">
           <div className="minimal-shell">

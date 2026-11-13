@@ -1905,7 +1905,10 @@ const sourcesBySlug: Record<string, BlogPost['sources']> = {
     { title: 'Google Maps review policies', publisher: 'Google Maps Help', url: 'https://support.google.com/contributionpolicy/answer/7400114' },
     { title: 'Tips to improve your local ranking', publisher: 'Google Business Profile Help', url: 'https://support.google.com/business/answer/7091' },
   ],
-  'ecommerce-website-south-africa': [securitySource, accessibilitySource, coreWebVitalsSource],
+  'ecommerce-website-south-africa': [
+    { title: 'Checkout webhooks', publisher: 'Peach Payments', url: 'https://developer.peachpayments.com/docs/checkout-webhooks' },
+    { title: 'Setting up shipping zones', publisher: 'WooCommerce', url: 'https://woocommerce.com/document/setting-up-shipping-zones/' },
+  ],
   'mobile-first-design-importance': [coreWebVitalsSource, accessibilitySource],
   'ssl-https-website-security': [securitySource, googleSearchSource],
   'content-marketing-small-business': [googleSearchSource, businessProfileSource],

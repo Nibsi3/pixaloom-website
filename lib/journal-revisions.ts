@@ -3,68 +3,69 @@
 export type JournalRevision = { title: string; excerpt: string; modified: string; service: string; project?: string; content: string };
 export const journalRevisions: Record<string, JournalRevision> = {
   'ai-app-launch-checklist': {
-    title: 'AI App Launch Checklist: From Preview to Production',
-    excerpt: 'Before launching an AI-built app, check account ownership, login, saved data, payments and recovery. Use this practical checklist to record what actually works.',
-    modified: '2026-11-06', service: 'web-app-development',
-    content: `An AI-built app is ready for a controlled launch when the important user journeys work on the production domain, the owner controls the required accounts, and there is a tested way to recover from a failed change. A convincing preview is useful evidence of the design; it does not establish those other conditions.
+    title: 'AI App Launch Checklist – 8 Tests Before You Go Live',
+    excerpt: 'Test your AI-built app on its live domain. Check login, data privacy, email delivery, payments and rollback with eight tests and a pass condition for each.',
+    modified: '2026-11-13', service: 'web-app-development',
+    content: `Start with the job a customer needs to finish. For a quote app, that means a customer can send a request and the business can find it. Run the checks below on the release you intend to ship. Use test accounts, made-up records and a receiving inbox you control. If the app takes payments, use the payment provider’s test mode for checkout.
 
-This checklist is for a business owner or founder finishing a project built with tools such as Lovable, Bolt, Replit or an AI coding assistant. Use it with whoever maintains the app. It is a practical acceptance checklist, not a comprehensive security audit. If a check fails, record the exact step rather than asking the AI to rewrite the whole project.
+## 1. Open the app outside the builder
 
-## 1. Define the smallest useful launch
+Send someone the published address of an inner page. Ask them to open it on a phone in a fresh browser session, then reload it. This catches links that only work inside a Lovable, Bolt or Replit preview, and routes that break on refresh.
 
-Write one sentence describing the primary job: for example, a customer can request a quote and the business receives it. Separate essential steps from later improvements. Give every launch requirement an owner, a test and an expected result. A useful record has five fields: journey, test account, expected outcome, actual evidence and unresolved issue.
+**Pass when** the page opens on your domain over HTTPS and survives a reload. A private page should send a signed-out visitor to login. Record the address and deployment version.
 
-For a quote form, the evidence is a received message with the right details and a clear acknowledgement for the visitor. A green success banner alone is insufficient. For an account app, the evidence includes the saved record appearing after signing out and signing back in.
+## 2. Sign in, sign out and reset a password
 
-## 2. Confirm ownership and a recovery path
+Register a test user if your app allows registration. Sign out, request a password reset and open the email using a fresh browser session. For a passwordless app, run the equivalent sign-in link flow.
 
-- Confirm who controls the domain, source repository, hosting, database, email and payment accounts. Use business-controlled accounts where appropriate.
-- Record which subscriptions and usage charges are necessary for launch. A developer fee is separate from those running costs.
-- Save a known working source version before changes. Identify the previous deployment and how to restore it.
-- Back up important data and test an appropriate restore in a separate environment. Rolling back code does not undo a database migration or restore deleted customer records.
-- Give collaborators individual invitations with only the access they need. Do not paste passwords or secret keys into a public issue, form or chat transcript.
+**Pass when** the email arrives, its link returns to the published app and the test user can reach their account. After signing out, a direct link to a private page should ask them to sign in again.
 
-## 3. Test on the actual domain
+## 3. Save a record and try it from a second account
 
-Open the production address in a fresh browser session. Test a direct link to an inner page, then reload it. Confirm that required environment settings exist in the production environment and that login callbacks return to the intended domain. A preview and production deployment can use different settings, databases and service credentials.
+Create a uniquely named private record with account A. Sign out and back in to check that it was saved. In a separate browser profile, sign in as ordinary account B and open a copy of the record link. Have the maintainer exercise the corresponding read and edit requests with those test accounts.
 
-If deployment fails, capture the first relevant build error, the deployment identifier and the change immediately before it. Remove secrets from logs before sharing. Fix one reproducible failure at a time and re-test the affected journey.
+**Pass when** A can retrieve the saved record and B can neither read nor change it. Reopen the record as A to confirm it is intact. If you use Supabase, the [production checklist](https://supabase.com/docs/guides/deployment/going-into-prod) covers the database access policies behind this test.
 
-## 4. Check login and data boundaries
+## 4. Follow an enquiry to the receiving inbox
 
-Use two separate test accounts. Check registration, confirmation email, sign-in, sign-out and password recovery. Confirm that one ordinary account cannot read or edit the other account's private records, including through a copied record link. Check administrator actions separately. Hiding a button in the interface is not proof that the underlying action is restricted.
+Send a made-up enquiry with a unique reference. Check the visitor’s confirmation, open the receiving inbox and find that reference. If your app writes requests to a dashboard, check the dashboard as well. In a separate test environment, simulate a delivery failure.
 
-For a Supabase-backed project, review its [official production checklist](https://supabase.com/docs/guides/deployment/going-into-prod) with the developer, including database access policies and authentication settings. Other backends need their own equivalent review. Passing a few manual checks does not prove the whole application is secure.
+**Pass when** the complete enquiry reaches the intended destination once and the visitor gets an accurate status. If delivery fails or is uncertain, the app gives a way to follow up and avoids claiming delivery.
 
-## 5. Follow forms, email and payments to completion
+## 5. Check that payment and order status agree
 
-- Submit an authorised test enquiry and confirm receipt at its destination. Test missing fields and a delivery failure too.
-- If email confirmation is essential, verify receipt outside the owner's own mailbox and make the next step understandable.
-- Test payments using the provider's supported test environment before switching to live settings. Check success, cancellation, failure and repeated notifications.
-- Verify that an order or subscription is updated from the provider's confirmed payment status, not merely a visit to a thank-you URL.
-- Agree who handles refunds, failed payments and customer support. Do not run live charges without the account owner's approval.
+If there is a checkout, make a successful test payment and cancel another. Have the maintainer replay the same successful provider notification in test mode. Check the resulting orders and any confirmation messages.
 
-## 6. Use a phone and a keyboard
+**Pass when** only the successful payment marks its order paid. A repeated notification leaves one fulfilment, and opening the thank-you page directly cannot mark an unpaid order paid. Record the test order references.
 
-Complete the primary journey on a narrow phone screen and a desktop. Look for clipped buttons, sideways scrolling, keyboard-covered fields and error messages that disappear off screen. Test the menu, form labels, keyboard focus and readable contrast. Try a slower connection and observe when the essential text and controls become usable. Large media should earn its place; measure the actual page before deciding what to remove.
+## 6. Finish the main task on a phone and with a keyboard
 
-## 7. Separate public pages from private app screens
+Ask a second person to complete the job from the opening screen without coaching. Try a narrow phone screen, then use only a keyboard on desktop. Trigger a missing-field error and correct it. If the task calls an AI model, also simulate an unavailable model or exhausted test quota in a test environment.
 
-Public service and help pages need useful titles, descriptive links and an appropriate canonical address. Check that public pages return a successful response and are not accidentally marked noindex. Include the intended public URLs in the sitemap. Account pages and customer data need proper access control.
+**Pass when** the person reaches the expected result in both layouts, can recover from the field error and can tell when a request failed. A failed model call should preserve the input and offer a clear next step.
 
-[Google's robots.txt guidance](https://developers.google.com/search/docs/crawling-indexing/robots/intro) explains that robots.txt controls crawling and is not a privacy mechanism. Do not use it as a substitute for authentication. Search visibility is a separate process after launch; a technically available page is not guaranteed to be indexed or rank.
+## 7. Check what a signed-out visitor can find
 
-## 8. Make a release decision and handover
+Open a public help page and a private account link in a signed-out browser. For pages you want people to find in search, confirm the page loads, has a descriptive title and allows indexing. Ask the maintainer to check that private records require authentication on the server. [Google’s robots.txt guide](https://developers.google.com/search/docs/crawling-indexing/robots/intro) explains how crawl rules work.
 
-Pause launch for failures that affect access, important data, payment correctness or the main customer journey. Cosmetic refinements can be listed separately if they do not prevent use. Record the released version, domain, checks completed, known limitations, recovery steps and the person responsible for support. After release, repeat the primary journey and check error reporting with appropriate privacy controls.
+**Pass when** the help page is readable without an account and the private link reveals no customer details. If the entire product is private, test that boundary and mark public search visibility inapplicable.
 
-Keep attempts separate from outcomes in measurement. A click on Submit is an attempt; an accepted and delivered enquiry is a different event. Choose a small set of measures that reflects the product's actual purpose.
+## 8. Rehearse recovery and record the launch decision
 
-## When to ask for help
+Have the owner confirm access to the domain, hosting, source and essential provider accounts. Restore the previous working release in a separate test environment and run the main journey again. If the release changes stored data, use a separate test database to verify the backup and recovery steps too.
 
-A focused repair is often worth assessing when the app already does most of the required job and a reproducible blocker remains. Rebuilding may be more sensible when the underlying approach cannot meet the requirement or the source and essential accounts are unavailable. The decision should follow a review, not a blanket promise.
+**Pass when** the person on support can find the working version and recover a test record using the handover instructions. Record the release decision alongside each applicable check. A simple entry looks like this:
 
-Bring the URL, what should happen, what actually happens and the last known working version to our [AI website and app rescue service](/ai-website-app-rescue). We agree scope and acceptance criteria before paid work. For a new product rather than a stalled build, see [web application development](/services/web-app-development).`,
+- **Check** — Enquiry delivery, release 12, contact page.
+- **Expected** — One message with reference DEMO-12 in the test inbox.
+- **Observed** — Confirmation appeared on screen. No message arrived in the intended inbox.
+- **Decision** — Hold the enquiry launch. The maintainer will check the receiving address, then repeat the same journey with a new reference.
+
+Mark each check passed, failed, untested or inapplicable. Hold the affected launch if a required journey fails or remains untested. Keep the person responsible and the next test with the decision.
+
+## If a check fails
+
+Give the maintainer the first step that failed, what you expected, what you observed and the release version. Share a redacted screenshot if it helps. If you need help finishing an existing build, use our [AI website and app rescue service](/ai-website-app-rescue). For a new workflow or product, see [custom web application development](/services/web-app-development).`,
   },
   'why-george-businesses-need-modern-website': {
     title: 'What a George Business Website Needs to Do',
@@ -322,36 +323,40 @@ Review the profile after a phone, address, service or opening-hours change. Comp
 Our [SEO service](/services/seo) can help assess the website and profile together. The [George studio page](/locations/george) describes Pixaloom's actual base; it is not a claim that every listed service area contains an office.`
   },
   'ecommerce-website-south-africa': {
-    title: 'Planning a South African Ecommerce Website',
-    excerpt: 'Define catalogue, checkout, payment and fulfilment rules before choosing an ecommerce platform.',
-    modified: '2026-09-03', service: 'ecommerce-websites', project: 'layerforge',
-    content: `An online store is an operational system as well as a visual catalogue. Before choosing the platform, document how products, payments, stock and fulfilment work today. The cost and risk usually sit in those rules rather than the number of screen designs.
+    title: 'Ecommerce Websites in South Africa – Costs & Delivery',
+    excerpt: 'Budget R15,000–R25,000 for a focused Pixaloom online store. See what the build includes, how hosted payments work and which delivery options to test.',
+    modified: '2026-11-13', service: 'ecommerce-websites', project: 'layerforge',
+    content: `To budget for an online store, follow one product from its shelf to the customer. A George clothing shop selling a jersey might need sizes, stock per size, payment in rand and a choice of collection or courier. A supplier selling made-to-order equipment may need dimensions and a delivery address before it can give a price. Those businesses need different websites.
 
-## Start with representative products
+## What does an ecommerce website cost?
 
-Collect examples covering a simple item, variants, an out-of-stock item and any product needing a quote or special delivery. Define the source of truth for price and stock, who updates it and how frequently it changes. Clean catalogue data is part of the build, not an automatic by-product of installing a shop.
+Pixaloom’s planning range for a focused online store is **R15,000–R25,000**, including one standard hosted payment integration. A growing store has a build allowance of **R25,000–R45,000**. If the catalogue has hundreds of variants or prices and stock come from another system, bring sample records so we can quote the work involved.
 
-Our [Layerforge UX design project](/work/layerforge) shows category, shop and product-detail interfaces for a specialist catalogue. [Emberwell UX design](/work/emberwell) offers another product-discovery example. The public previews demonstrate interface work; they do not establish live sales or merchant integration outcomes.
+The written quote confirms the scope. Allow separately for VAT where applicable, hosting, subscriptions, transaction fees and courier charges. Compare the [website and online store price ranges](/website-cost#price-list).
 
-## Treat payment as a full journey
+## Choose between checkout and a catalogue enquiry
 
-Choose a payment provider after checking current merchant eligibility, fees, supported methods and settlement terms directly with that provider. Confirm who owns the merchant account. Avoid handling raw payment-card data in your own application when a hosted provider flow fits the requirement.
+In the clothing shop, each jersey size needs its own stock count. A customer should be able to choose an available size, see the delivery charge and pay for the order on a phone. Give the developer a product with two sizes and mark one sold out to see how the customer experiences it.
 
-Test successful, failed, cancelled and delayed payments. Verify server-side payment notifications, duplicate handling, order status and confirmation emails. A checkout success screen must not be the only evidence that an order was paid.
+For the equipment supplier, a product page could show specifications and ask for the buyer’s measurements and delivery town. Send the product reference with that enquiry so staff can price the right item. Our [Layerforge design study](/work/layerforge) shows how a specialist catalogue can present categories and product details.
 
-## Resolve fulfilment and support
+## What happens after a customer pays?
 
-- Delivery regions, collection options and exclusions.
-- Shipping calculations for bulky or unusual items.
-- Stock reservation and what happens when inventory changes.
-- Returns, refunds and customer-support responsibilities.
-- Tax and consumer-facing terms checked for the actual business.
+Check which payment methods your business can accept, its merchant approval requirements, fees and settlement timing with the provider. With a hosted checkout, the customer enters payment details on the provider’s page. Your shop still needs to match the payment to the right order.
 
-Keep legal policies consistent with the business and obtain qualified advice where necessary; a generic template cannot determine compliance.
+For example, Peach Payments sends a signed notification when the payment status changes. Ask your developer to show what staff see if payment is pending or the customer closes the browser. A successful payment should mark one order as paid and send one confirmation, even if the notification arrives twice. [Peach Payments checkout notifications](https://developer.peachpayments.com/docs/checkout-webhooks)
 
-## Launch a manageable scope
+## Test delivery with three addresses
 
-Agree which catalogue and fulfilment cases the first release supports, and document what remains manual. Build a test order checklist that staff can repeat after changes. Explore our [ecommerce development service](/services/ecommerce-websites) for scope and examples, then use the [planning estimator](/website-cost) to prepare the initial budget conversation.`
+1. **Collection in George.** Place a test order for collection. Check that the confirmation gives the pickup location and tells the customer when to come.
+2. **Courier delivery to another town.** Enter an address you ship to. Check the rate against your courier agreement, then add a bulky item and check whether the parcel still qualifies.
+3. **Outside your delivery area.** Enter an address you cannot serve. Give the customer a clear message before payment and offer collection if that is a real option.
+
+In WooCommerce, shipping zones control which methods shoppers can choose for their address. Test an overlapping postcode if you offer both local and national delivery. [WooCommerce shipping zones](https://woocommerce.com/document/setting-up-shipping-zones/)
+
+## What to bring for a store quote
+
+Send a few representative products, your stock source, the payment provider you use or are considering, and the places you deliver to. Include who packs the orders and handles returns. We can use those details to scope the first release and agree which order staff will test before launch. [Explore Pixaloom’s ecommerce development service](/services/ecommerce-websites).`
   },
   'mobile-first-design-importance': {
     title: 'Mobile-First Design: A Practical Testing Checklist',
