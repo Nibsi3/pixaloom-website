@@ -53,7 +53,7 @@ function emailHarness(t, overrides = {}) {
 }
 const { validateContact, escapeHtml } = require('../lib/contact.ts');
 const { ArticleContent, safeHref } = require('../components/article-content.tsx');
-const { estimateWebsiteCost, estimateContactUrl, estimateBriefFromParams } = require('../lib/website-cost.ts');
+const { estimateWebsiteCost, estimateContactUrl, estimateEnquiryFromParams } = require('../lib/website-cost.ts');
 const { POST, GET } = require('../app/api/contact/route.ts');
 const events = require('../app/api/events/route.ts');
 const { workItems } = require('../components/work-items.ts');
@@ -250,10 +250,11 @@ test('ecommerce payments are included once and estimate context round-trips safe
   assert.deepEqual(estimateWebsiteCost('ecommerce', 'focused', ['payments']), estimateWebsiteCost('ecommerce', 'focused', []));
   assert.equal(estimateWebsiteCost('business', 'focused', ['payments', 'payments']).min, 10000);
   const url = estimateContactUrl('ecommerce', 'growing', ['payments', 'cms']);
-  const brief = estimateBriefFromParams(new URL(url, 'https://example.com').searchParams);
+  const { brief, service } = estimateEnquiryFromParams(new URL(url, 'https://example.com').searchParams);
+  assert.equal(service, 'Ecommerce website');
   assert.match(brief, /Ecommerce store/); assert.match(brief, /Editable CMS/); assert.match(brief, /Standard hosted payment integration included/);
-  assert.equal(estimateBriefFromParams(new URLSearchParams('kind=__proto__&scale=focused')), '');
-  assert.doesNotMatch(estimateBriefFromParams(new URLSearchParams('kind=business&scale=focused&extras=<script>')), /<script>/);
+  assert.equal(estimateEnquiryFromParams(new URLSearchParams('kind=__proto__&scale=focused')), null);
+  assert.doesNotMatch(estimateEnquiryFromParams(new URLSearchParams('kind=business&scale=focused&extras=<script>')).brief, /<script>/);
 });
 test('published content is revised, linked and dates agree with sitemap', () => {
   assert.equal(publishedBlogPosts.length, 17);
@@ -290,7 +291,7 @@ test('website pricing intent receives a direct answer and the legacy pricing URL
   assert.match(page, /five-page custom business website/i);
   assert.match(page, /R7,500–R12,500/);
   assert.match(page, /Monthly website costs/);
-  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-11-13');
+  assert.equal(sitemap().find(item => item.url.endsWith('/website-cost')).lastModified, '2026-11-19');
   const pricingRedirect = (await require('../next.config.js').redirects()).find(item => item.source === '/pricing');
   assert.equal(pricingRedirect.destination, 'https://www.pixaloom.co.za/website-cost');
 });
@@ -304,6 +305,8 @@ test('paused work and experiments stay out of sitemap; robots permits noindex di
   assert.match(home, /\['team-colours', 'featherbleu-store', 'illumi'\]/);
 });
 test('image sitemap exposes the reviewed public captures with valid canonical URLs', () => {
+  assert.equal(sitemap().find(item => item.url.endsWith('/work/paws-on-route')).lastModified, '2026-11-19');
+  assert.equal(sitemap().find(item => item.url.endsWith('/work/vicbay')).lastModified, '2026-10-19');
   assert.equal(sitemap().find(entry => entry.url === 'https://www.pixaloom.co.za').lastModified, require('../lib/content-dates.ts').contentModified('/'));
   const imageUrls = new Set(sitemap().flatMap(entry => entry.images || []));
   assert.equal(imageUrls.size, new Set(workItems.flatMap(item => item.gallery?.length ? item.gallery.slice(0, 6) : [item.png])).size);
