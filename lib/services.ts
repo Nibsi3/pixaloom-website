@@ -1,3 +1,7 @@
+import { estimateWebsiteCost, formatRandRange } from '@/lib/website-cost';
+
+const focusedStore = estimateWebsiteCost('ecommerce', 'focused', []);
+
 export type Service = {
   slug: string;
   name: string;
@@ -42,11 +46,11 @@ export const services: Service[] = [
     slug: 'ecommerce-websites',
     name: 'Ecommerce Website Development',
     shortName: 'Ecommerce',
-    seoTitle: 'Ecommerce Website Development SA',
-    eyebrow: 'Turn product interest into revenue',
+    seoTitle: 'Ecommerce Website Development in South Africa',
+    eyebrow: 'Online shops for South African businesses',
     description:
-      'High-performance online stores designed for South African buying behaviour, mobile checkout and the operational reality of payments, shipping, inventory and product content.',
-    promise: 'An ecommerce store that makes products easy to find, simple to buy and manageable behind the scenes.',
+      `Budget ${formatRandRange(focusedStore.min, focusedStore.max)} for a focused online shop with a product catalogue, mobile checkout and one hosted payment integration. Get a quote for your store.`,
+    promise: 'An online shop where customers can choose a product, see delivery options and pay, and your team can manage the order.',
     outcomes: ['Fewer checkout obstacles', 'Better product discovery', 'A trustworthy mobile store', 'A scalable catalogue structure'],
     inclusions: ['Store and catalogue strategy', 'Custom storefront design', 'WooCommerce or headless commerce', 'PayFast, Peach Payments or Stripe integration', 'Shipping and fulfilment configuration', 'Product and category SEO', 'Analytics and purchase tracking'],
     suitedFor: ['Retail brands', 'Manufacturers and distributors', 'Specialist catalogues', 'Subscription products', 'Tourism products', 'Direct-to-consumer businesses'],

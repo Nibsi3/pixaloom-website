@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/events';
-import { estimateBriefFromParams } from '@/lib/website-cost';
+import { estimateEnquiryFromParams } from '@/lib/website-cost';
 import { contactDeliveryUnconfirmed, contactUnavailable } from '@/lib/contact';
 import { contactBudgetHelp, contactBudgetOptions } from '@/lib/contact-budgets';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
@@ -19,7 +19,11 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   const hydrated = useSyncExternalStore(subscribeToHydration, clientReady, serverReady);
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
-  const [service, setService] = useState('');
+  const [selectedService, setService] = useState<string | null>(null);
+  const search = hydrated && !rescue && typeof window !== 'undefined' ? window.location.search : '';
+  const estimate = search ? estimateEnquiryFromParams(new URLSearchParams(search)) : null;
+  const service = selectedService ?? estimate?.service ?? '';
+  const initialBrief = estimate?.brief;
   const [budget, setBudget] = useState('');
   const budgetHelpId = useId();
   const [available, setAvailable] = useState<boolean | null>(null);
@@ -35,10 +39,13 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
     const controller = new AbortController();
     fetch('/api/contact', { signal: controller.signal, cache: 'no-store' })
       .then(response => response.json()).then(result => setAvailable((result as { available?: boolean }).available === true)).catch(() => undefined);
-    const brief = estimateBriefFromParams(new URLSearchParams(window.location.search));
-    if (brief && messageRef.current) messageRef.current.value = brief;
     return () => controller.abort();
   }, []);
+  useEffect(() => {
+    if (initialBrief && messageRef.current && !messageRef.current.value) {
+      messageRef.current.value = initialBrief;
+    }
+  }, [initialBrief]);
   useEffect(() => {
     if (status === 'sent') successRef.current?.focus();
     if (status === 'error') errorRef.current?.focus();
@@ -109,7 +116,7 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   }
 
   return (
-    <form className="inquiry-form" method="post" aria-busy={status === 'sending'} onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; trackEvent('enquiry_start'); } }}>
+    <form id={rescue ? undefined : 'project-enquiry'} className="inquiry-form" method="post" aria-busy={status === 'sending'} onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; trackEvent('enquiry_start'); } }}>
       <noscript><p className="form-error">JavaScript is disabled. <a href="mailto:info@pixaloom.co.za">Email your brief</a> or <a href="https://wa.me/27662995533">contact us on WhatsApp</a>.</p></noscript>
       {available === false ? <p className="form-error" role="status">{contactUnavailable} <a href="mailto:info@pixaloom.co.za">Email your brief</a> or <a href="https://wa.me/27662995533">use WhatsApp</a>.</p> : null}
       <fieldset className="form-grid" disabled={!hydrated || status === 'sending'} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>

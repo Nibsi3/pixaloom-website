@@ -31,7 +31,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const item = workItems.find((project) => project.slug === slug);
   if (!item) return {};
   const description = truncateDescription(item.scope);
-  return pageMetadata({ title: `${item.name} — ${item.category || 'Website'} Project`, description, path: `/work/${slug}`, image: item.png, imageAlt: projectMediaDescription(item, item.png) });
+  const title = item.brief ? `${item.name} – ${item.brief.title}` : `${item.name} - ${item.category || 'Website'} Project`;
+  return pageMetadata({ title, description, path: `/work/${slug}`, image: item.png, imageAlt: projectMediaDescription(item, item.png) });
 }
 
 export default async function WorkPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -83,8 +84,13 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
 
         <section className="case-brief">
           <div className="site-container case-brief-grid">
-            <div><p className="micro-label">{item.concept ? "The independent study" : "The assignment"}</p><h2>Build the useful thing.<br /><em>Then make it unforgettable.</em></h2></div>
-            <div className="case-copy"><p>{item.scope}</p><p className="project-provenance">{projectVersion(item)}. {item.concept ? "Published UX design screenshots show the fictional design direction. No client relationship, real retailer network, trading business or commercial outcome is implied." : "This study describes the version shown in the saved captures; an external site may have changed since that work."} Interface examples are not verified sales or ranking results. Updated <time dateTime={contentModified(`/work/${slug}`)}>{new Date(`${contentModified(`/work/${slug}`)}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time>.</p>{!item.url ? <p>No public demo is linked for this study. <Link href="/contact">Ask about the demonstrated scope</Link>.</p> : null}</div>
+            <div><p className="micro-label">{item.concept ? "The independent study" : "The assignment"}</p><h2>{item.brief?.title ?? <>Build the useful thing.<br /><em>Then make it unforgettable.</em></>}</h2></div>
+            <div className="case-copy">
+              <p>{item.brief?.description ?? item.scope}</p>
+              {item.brief && <p><Link className="text-link" href={item.brief.link.href}>{item.brief.link.label} <ArrowRight size={16} /></Link></p>}
+              <p className="project-provenance">{projectVersion(item)}. {item.concept ? "Published UX design screenshots show the fictional design direction. No client relationship, real retailer network, trading business or commercial outcome is implied." : "This study describes the version shown in the saved captures; an external site may have changed since that work."} Interface examples are not verified sales or ranking results. Updated <time dateTime={contentModified(`/work/${slug}`)}>{new Date(`${contentModified(`/work/${slug}`)}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time>.</p>
+              {!item.url ? <p>No public demo is linked for this study. <Link href="/contact">Ask about the demonstrated scope</Link>.</p> : null}
+            </div>
           </div>
           {item.facts?.length ? <dl className="site-container case-fact-row">{item.facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl> : null}
         </section>

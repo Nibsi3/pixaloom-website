@@ -2,21 +2,25 @@ export const projectKinds = [
   {
     id: 'business',
     label: 'Business website',
+    contactService: 'Website design',
     detail: 'A marketing site that explains the offer and turns visits into calls, WhatsApp messages or quotes.',
   },
   {
     id: 'ecommerce',
     label: 'Ecommerce store',
+    contactService: 'Ecommerce website',
     detail: 'Product catalogue, checkout and South African payments, shipping and order handling.',
   },
   {
     id: 'application',
     label: 'Custom web app',
+    contactService: 'Custom web application',
     detail: 'A portal, dashboard or workflow product with accounts, data and ongoing product work.',
   },
   {
     id: 'redesign',
     label: 'Redesign / rebuild',
+    contactService: 'Website design',
     detail: 'Replace an existing site while keeping useful URLs, content and search equity where they still earn their place.',
   },
 ] as const;
@@ -129,14 +133,15 @@ export function formatRandRange(min: number, max: number) {
 }
 
 export function estimateContactUrl(kind: ProjectKindId, scale: ProjectScaleId, extras: readonly ProjectExtraId[]) {
-  return `/contact?${new URLSearchParams({ kind, scale, extras: [...new Set(extras)].filter(extra => !(kind === 'ecommerce' && extra === 'payments')).join(',') })}`;
+  return `/contact?${new URLSearchParams({ kind, scale, extras: [...new Set(extras)].filter(extra => !(kind === 'ecommerce' && extra === 'payments')).join(',') })}#project-enquiry`;
 }
 
-export function estimateBriefFromParams(params: URLSearchParams) {
+export function estimateEnquiryFromParams(params: URLSearchParams) {
   const kind = projectKinds.find(item => item.id === params.get('kind'));
   const scale = projectScales.find(item => item.id === params.get('scale'));
-  if (!kind || !scale) return '';
+  if (!kind || !scale) return null;
   const extras = projectExtras.filter(item => (params.get('extras') || '').split(',').includes(item.id) && !(kind.id === 'ecommerce' && item.id === 'payments'));
   const estimate = estimateWebsiteCost(kind.id, scale.id, extras.map(item => item.id));
-  return `Website planning brief\nProject: ${kind.label}\nScale: ${scale.label}\nAdditional features: ${extras.map(item => item.label).join(', ') || 'None selected'}${kind.id === 'ecommerce' ? '\nStandard hosted payment integration included' : ''}\nIndicative build allowance: ${formatRandRange(estimate.min, estimate.max)} (excluding VAT where applicable and recurring third-party charges; not a quote)\n\nMy business and goals:\n`;
+  const brief = `Website planning brief\nProject: ${kind.label}\nScale: ${scale.label}\nAdditional features: ${extras.map(item => item.label).join(', ') || 'None selected'}${kind.id === 'ecommerce' ? '\nStandard hosted payment integration included' : ''}\nIndicative build allowance: ${formatRandRange(estimate.min, estimate.max)} (excluding VAT where applicable and recurring third-party charges; not a quote)\n\nMy business and goals:\n`;
+  return { service: kind.contactService, brief };
 }

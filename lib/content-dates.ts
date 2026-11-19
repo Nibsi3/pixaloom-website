@@ -5,15 +5,15 @@ import { projectCaptureSets } from '@/lib/project-captures';
 const pageDates: Record<string, string> = {
   '/custom-website-vs-website-builder': '2026-10-30',
   '/capabilities': '2026-10-29',
-  '/': '2026-11-06', '/services': '2026-10-30', '/ai-website-app-rescue': '2026-11-06', '/about': '2026-09-03', '/blog': '2026-11-06',
-  '/contact': '2026-10-29', '/privacy': '2026-10-23', '/website-cost': '2026-11-13',
+  '/': '2026-11-19', '/services': '2026-10-30', '/ai-website-app-rescue': '2026-11-06', '/about': '2026-09-03', '/blog': '2026-11-06',
+  '/contact': '2026-10-29', '/privacy': '2026-10-23', '/website-cost': '2026-11-19',
   '/locations': '2026-11-13', '/locations/george': '2026-11-13', '/locations/garden-route': '2026-11-13',
-  '/services/website-design': '2026-11-13', '/services/ecommerce-websites': '2026-10-29',
+  '/services/website-design': '2026-11-13', '/services/ecommerce-websites': '2026-11-19',
   '/services/seo': '2026-09-04', '/services/web-app-development': '2026-10-29', '/services/website-care': '2026-09-14',
   '/locations/western-cape': '2026-09-03', '/locations/gauteng': '2026-09-03', '/locations/kwazulu-natal': '2026-09-03',
   '/locations/eastern-cape': '2026-09-03', '/locations/free-state': '2026-09-03', '/locations/limpopo': '2026-09-03',
   '/locations/mpumalanga': '2026-09-03', '/locations/north-west': '2026-09-03', '/locations/northern-cape': '2026-09-03',
-  '/work/paws-on-route': '2026-09-03', '/work/team-colours': '2026-09-03', '/work/vicbay': '2026-09-03',
+  '/work/paws-on-route': '2026-11-19', '/work/team-colours': '2026-09-03', '/work/vicbay': '2026-09-03',
   '/work/illumi': '2026-09-03', '/work/physiotherapy': '2026-09-03', '/work/slip-a-tip': '2026-09-03',
   '/work/spotlight': '2026-09-03', '/work/nexai': '2026-09-03', '/work/ai-testing': '2026-09-03', '/work/haval': '2026-09-03',
   '/work/emberwell': '2026-10-14', '/work/layerforge': '2026-10-14', '/work/mineralis': '2026-10-14',
@@ -22,5 +22,7 @@ const pageDates: Record<string, string> = {
 export function contentModified(path: string) {
   if (path === '/projects') return '2026-10-28';
   const capture = path.startsWith('/work/') ? projectCaptureSets[path.slice('/work/'.length)] : undefined;
-  return capture?.capturedAt ?? pageDates[path || '/'];
+  const pageDate = pageDates[path || '/'];
+  if (capture && (!pageDate || capture.capturedAt > pageDate)) return capture.capturedAt;
+  return pageDate;
 }
