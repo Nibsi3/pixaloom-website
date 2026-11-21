@@ -5,6 +5,7 @@ import { ArrowDown, ArrowUpRight, Download } from 'lucide-react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
+import { contentModified } from '@/lib/content-dates';
 import content from '@/lib/capabilities.json';
 import captureSizes from '@/lib/capability-image-sizes.json';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
@@ -23,7 +24,7 @@ function Capture({ src, caption, width = 1680, height = 1000 }: { src: string; c
 
 export default function CapabilitiesPage() {
   return <><Header /><main id="main-content" className={`minimal-page ${styles.page}`}>
-    <JsonLd id="capabilities-schema" data={{ '@context': 'https://schema.org', '@type': 'ProfilePage', name: 'Pixaloom development capabilities', url: absoluteUrl('/capabilities'), dateModified: '2026-10-29', mainEntity: { '@type': 'Person', name: site.editor, url: absoluteUrl('/about'), worksFor: { '@type': 'Organization', name: 'Pixaloom', url: site.url } } }} />
+    <JsonLd id="capabilities-schema" data={{ '@context': 'https://schema.org', '@type': 'ProfilePage', name: 'Pixaloom development capabilities', url: absoluteUrl('/capabilities'), dateModified: contentModified('/capabilities'), mainEntity: { '@type': 'Person', name: site.editor, url: absoluteUrl('/about'), worksFor: { '@type': 'Organization', name: 'Pixaloom', url: site.url } } }} />
     <section className="minimal-hero"><div className="minimal-shell">
       <div className="minimal-crumb"><Link href="/">Home</Link><span>/</span><span>Capabilities</span></div>
       <p className="minimal-kicker">Cameron Falck / Pixaloom / Selected capabilities</p>
