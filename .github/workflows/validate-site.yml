@@ -1,0 +1,35 @@
+name: Validate site
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: Crawl local production site
+        shell: bash
+        run: |
+          set -euo pipefail
+          node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000 > "$RUNNER_TEMP/pixaloom-next.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          if ! curl --fail --silent --show-error --retry 20 --retry-delay 1 --retry-connrefused http://127.0.0.1:3000/robots.txt > /dev/null; then
+            cat "$RUNNER_TEMP/pixaloom-next.log"
+            exit 1
+          fi
+          npm run audit:seo -- http://127.0.0.1:3000
