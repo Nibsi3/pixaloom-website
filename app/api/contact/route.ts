@@ -41,7 +41,7 @@ export async function POST(req: Request) {
       text: Object.entries(fields).map(([label, value]) => `${label}: ${value || '-'}`).join('\n\n'),
       html: Object.entries(fields).map(([label, value]) => `<p><strong>${label}</strong><br/>${escapeHtml(value || '-').replaceAll('\n', '<br/>')}</p>`).join(''),
     }, requestKey ? `pixaloom-enquiry-${requestKey.toLowerCase()}` : undefined);
-    console.info(JSON.stringify({ event: 'enquiry_accepted' }));
+    console.info(JSON.stringify({ event: 'enquiry_accepted', source: 'email_provider' }));
     return json({ ok: true });
   } catch {
     // Never log form contents, addresses, credentials or provider errors.

@@ -1,7 +1,9 @@
 """Build the downloadable portfolio from the same content used by the website."""
 import json
 import html
+from io import BytesIO
 from pathlib import Path
+from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
 from reportlab.lib.styles import ParagraphStyle
@@ -59,11 +61,19 @@ def new_page(label):
 def picture(src, max_h=205, caption=None):
     global y
     path = ROOT / 'public' / src.lstrip('/')
-    image = ImageReader(str(path))
-    iw, ih = image.getSize()
-    scale = min(CW / iw, max_h / ih)
-    dw, dh = iw*scale, ih*scale
-    C.drawImage(image, M+(CW-dw)/2, y-dh, dw, dh, mask='auto')
+    with Image.open(path) as source:
+        iw, ih = source.size
+        scale = min(CW / iw, max_h / ih)
+        dw, dh = iw*scale, ih*scale
+        # Retain fine dashboard lettering at 216 dpi at its actual printed size.
+        source.thumbnail((round(dw*3), round(dh*3)), Image.Resampling.LANCZOS)
+        rgba = source.convert('RGBA')
+        picture_rgb = Image.new('RGB', rgba.size, '#f8f6f0')
+        picture_rgb.paste(rgba, mask=rgba.getchannel('A'))
+        jpeg = BytesIO()
+        picture_rgb.save(jpeg, 'JPEG', quality=89, subsampling=0, optimize=True)
+        jpeg.seek(0)
+        C.drawImage(ImageReader(jpeg), M+(CW-dw)/2, y-dh, dw, dh)
     y -= dh + 8
     if caption:
         para(html.escape(caption), 8, 11, '#52636c', gap=15)
@@ -100,8 +110,8 @@ for section in DATA['sections']:
     if section['id'] == 'assistant':
         new_page('Illumi / The experience in practice')
         para('From conversation<br/>to a useful record.', 31, 35, '#14242b', 'Times-Roman', 18)
-        picture('/capabilities/illumi-assistant-enhanced.png', 335, 'Enhanced recreation of the supplied assistant screenshot, retaining the fictional test-company details.')
-        picture('/portfolio/2026-10-19/illumi-detail-1.png', 190, 'Illumi public invoicing-page capture with an illustrative invoice. Sample data, not a customer invoice.')
+        picture('/capabilities/illumi-ai-invoice-2026-11-09.png', 335, 'Illumi AI invoice creator, with editable document details, business information and client selection.')
+        picture('/work/illumi-home-2026-10-29.png', 190, 'Illumi public homepage, using the same image featured on the Pixaloom homepage.')
 
 new_page('Further work / Skills / Contact')
 para('Built around the problem.<br/>Not a single platform.', 32, 36, '#14242b', 'Times-Roman', 22)

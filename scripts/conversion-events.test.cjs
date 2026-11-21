@@ -16,7 +16,7 @@ function harness(hostname = 'www.pixaloom.co.za', throwing = false) {
     navigator: { sendBeacon: (...args) => { if (throwing) throw new Error('offline'); beacons.push(args); return true; } },
   };
   vm.runInNewContext(source, context);
-  return { ...context.exports, calls, beacons };
+  return { ...context.exports, calls, beacons, context };
 }
 
 test('accepted enquiries and attempts are distinct and omit query/form data', () => {
@@ -29,7 +29,27 @@ test('accepted enquiries and attempts are distinct and omit query/form data', ()
 });
 test('preview and local hosts do not pollute production analytics', () => {
   for (const host of ['localhost', 'pixaloom-preview.workers.dev', 'www.pixaloom.co.za.evil.test']) {
-    const h = harness(host); h.trackEvent('whatsapp_click'); assert.equal(h.calls.length, 0);
+    const h = harness(host); h.trackEvent('whatsapp_click'); assert.equal(h.calls.length, 0); assert.equal(h.beacons.length, 0);
+  }
+});
+test('page and contact counts survive a missing tracker and carry only fixed section names', async () => {
+  const h = harness();
+  delete h.context.window.plausible;
+  const requests = [];
+  h.context.fetch = async (...args) => requests.push(args);
+  h.recordAction('page_view', '/locations/george');
+  h.recordAction('page_view', '/blog/PRIVATE');
+  h.recordAction('page_view', '/PRIVATE');
+  h.trackEvent('enquiry_accepted');
+  assert.deepEqual(requests.map(([, init]) => JSON.parse(init.body)), [
+    { event: 'page_view', section: 'george' }, { event: 'page_view', section: 'blog' },
+    { event: 'enquiry_accepted', section: 'contact' },
+  ]);
+  for (const [url, init] of requests) {
+    assert.equal(url, '/api/events');
+    assert.equal(init.credentials, 'omit');
+    assert.equal(init.referrerPolicy, 'origin');
+    assert.equal(init.keepalive, true);
   }
 });
 test('unavailable analytics never interrupts the enquiry journey', () => {

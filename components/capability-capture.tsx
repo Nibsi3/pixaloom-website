@@ -36,7 +36,7 @@ export function CapabilityCapture({ src, caption, width, height, className = '' 
         <button type="button" autoFocus onClick={() => setOpen(false)} aria-label="Close image"><X size={21} /> Close</button>
       </div>
       <div className={`${styles.stage} ${zoom ? styles.zoomed : ''}`} onClick={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
-        <Image className={styles.fullImage} unoptimized src={src} alt={caption} width={width} height={height} />
+        <Image className={styles.fullImage} unoptimized={zoom} sizes={zoom ? undefined : '100vw'} src={src} alt={caption} width={width} height={height} />
       </div>
       <p id={captionId} className={styles.caption}>{caption}</p>
     </dialog>, document.body)}

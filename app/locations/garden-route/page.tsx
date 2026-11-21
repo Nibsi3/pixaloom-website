@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, Check, MapPin } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, MapPin } from 'lucide-react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
 import { breadcrumbSchema, faqPageSchema } from '@/lib/schema';
+import { estimateWebsiteCost, formatRandRange } from '@/lib/website-cost';
 import { services } from '@/lib/services';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
@@ -14,6 +15,9 @@ export const metadata: Metadata = pageMetadata({
     'Business websites and redesigns across the Garden Route, from our George studio. Plan service pages, booking enquiries and costs directly with Cameron.',
   path: '/locations/garden-route',
 });
+
+const businessBuild = estimateWebsiteCost('business', 'focused', []);
+const businessRange = formatRandRange(businessBuild.min, businessBuild.max);
 
 const towns = [
   'Mossel Bay',
@@ -102,8 +106,8 @@ export default function GardenRoutePage() {
                 Work online with Cameron Falck in George on a website for your Garden Route business. Help customers choose a service, check accommodation or request a quote from their phone.
               </p>
               <div className="minimal-inline-links" style={{ marginTop: 28 }}>
-                <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my Garden Route business.')}`}>Discuss your website <ArrowRight size={18} /></a>
-                <Link href="/website-cost">See costs and inclusions <ArrowUpRight size={14} /></Link>
+                <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my Garden Route business.')}`}>WhatsApp Cameron <ArrowRight size={18} /></a>
+                <Link href="/website-cost">See website prices in rand <ArrowUpRight size={14} /></Link>
               </div>
             </div>
           </div>
@@ -112,8 +116,8 @@ export default function GardenRoutePage() {
         <section className="content-section">
           <div className="site-container content-grid">
             <div>
-              <p className="eyebrow">The market</p>
-              <h2>Seasonal attention. Year-round systems.</h2>
+              <p className="eyebrow">Booking and enquiry websites</p>
+              <h2>What happens after a visitor asks for dates?</h2>
             </div>
             <div className="body-copy">
               <p>
@@ -123,9 +127,9 @@ export default function GardenRoutePage() {
                 Work runs from our George studio through shared previews, focused calls and agreed approval milestones. Bring the existing site, who updates prices or availability, and the services you want to grow. We scope content, photography, integrations and handover separately so each has a clear owner.
               </p>
               <Link href="/locations/george" className="text-link">
-                Visit the George studio page <ArrowRight size={15} />
+                See website design in George <ArrowRight size={15} />
               </Link>
-              <p>For a local service structure, see <Link href="/work/paws-on-route">Paws On Route</Link>. For a different kind of product, see the <Link href="/work/spotlight">Spotlight map interface study</Link>. These examples show the described work, not a promise of booking or ranking results.</p>
+              <p>At <Link href="/work/paws-on-route">Paws On Route in George</Link>, a pet owner can check daycare fees before asking the team for availability on WhatsApp. A guesthouse can make the same distinction explicit by labelling its booking button "Ask about dates" or "Check live availability", according to what happens next.</p>
             </div>
           </div>
         </section>
@@ -135,7 +139,7 @@ export default function GardenRoutePage() {
             <div>
               <p className="eyebrow">Plan your business website</p>
               <h2>A practical brief for the customers you serve.</h2>
-              <p className="service-budget">A focused five-page custom business website has a Pixaloom planning allowance of R7,500–R12,500. Optional features, VAT where applicable and recurring costs are separate. Smaller template briefs can be scoped separately.</p>
+              <p className="service-budget">A focused five-page custom business website has a Pixaloom planning allowance of {businessRange}. Optional features, VAT where applicable and recurring costs are separate. Smaller template briefs can be scoped separately.</p>
               <Link href="/website-cost" className="text-link">Compare website costs and inclusions <ArrowRight size={15} /></Link>
             </div>
             <div className="body-copy">
@@ -156,7 +160,7 @@ export default function GardenRoutePage() {
               <p className="eyebrow">Coverage directory</p>
               <h2>Towns we actually serve from George.</h2>
               <p style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
-                A listed town is a service area. It is not a claimed office.
+                Cameron handles discovery, design reviews and handover online from George.
               </p>
             </div>
             <div className="town-directory">
@@ -188,28 +192,6 @@ export default function GardenRoutePage() {
           </div>
         </section>
 
-        <section className="content-section dark">
-          <div className="site-container content-grid">
-            <div>
-              <p className="eyebrow eyebrow-light">Built for this coast</p>
-              <h2>Local relevance without copied town pages.</h2>
-            </div>
-            <ul className="detail-list" style={{ borderColor: '#393c43' }}>
-              {[
-                'Tourism and hospitality journeys that make availability and contact obvious',
-                'Local SEO that matches how people search the Garden Route—not stuffed town names',
-                'Pages that stay usable on holiday mobile data',
-                'One studio in George, covering the route without fake branches',
-              ].map((item) => (
-                <li key={item} style={{ borderColor: '#393c43' }}>
-                  <Check size={18} />
-                  <strong>{item}</strong>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
         <section className="content-section">
           <div className="site-container content-grid">
             <div>
@@ -232,7 +214,7 @@ export default function GardenRoutePage() {
             <h2>Planning a Garden Route website?</h2>
             <div className="minimal-inline-links" style={{ marginTop: 28 }}>
               <Link href="/contact" className="button button-light">
-                Start with your goal <ArrowRight size={18} />
+                Send your project brief <ArrowRight size={18} />
               </Link>
               <Link href="/blog/george-tourism-website-best-practices">
                 Tourism website notes <ArrowUpRight size={14} />

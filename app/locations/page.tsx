@@ -39,7 +39,7 @@ export default function LocationsPage() {
                 <MapPin size={14} /> Nationwide service
               </p>
               <h1>
-                Web design for South Africa’s <em>ambitious businesses.</em>
+                Website design across <em>South Africa.</em>
               </h1>
             </div>
             <p className="lead">
@@ -58,7 +58,7 @@ export default function LocationsPage() {
               {localHubs.map((hub) => (
                 <Link className="location-card" href={hub.href} key={hub.slug}>
                   <span>{hub.label}</span>
-                  <h2>{hub.name}</h2>
+                  <h3>{hub.name}</h3>
                   <p>{hub.summary}</p>
                   <span className="card-link">
                     View {hub.name} <ArrowUpRight size={15} />
@@ -72,13 +72,12 @@ export default function LocationsPage() {
           <div className="site-container">
             <h2>Find your province.</h2>
             <div className="location-card-grid" style={{ marginTop: 28 }}>
-              {provinces.map((province, index) => (
+              {provinces.map((province) => (
                 <Link className="location-card" href={`/locations/${province.slug}`} key={province.slug}>
-                  <span>0{index + 1}</span>
-                  <h2>{province.name}</h2>
-                  <p>{province.towns.slice(0, 5).join(' · ')}</p>
+                  <h3>{province.name}</h3>
+                  <p>{province.lead}</p>
                   <span className="card-link">
-                    View province <ArrowUpRight size={15} />
+                    Explore {province.name} <ArrowUpRight size={15} />
                   </span>
                 </Link>
               ))}
@@ -105,9 +104,9 @@ export default function LocationsPage() {
         </section>
         <section className="content-section alt">
           <div className="site-container cta-panel">
-            <h2>Your town is part of our service area.</h2>
+            <h2>Discuss a website for your business.</h2>
             <Link href="/contact" className="button button-light">
-              Tell us where you are <ArrowRight size={18} />
+              Send your project brief <ArrowRight size={18} />
             </Link>
           </div>
         </section>

@@ -444,6 +444,7 @@ async function audit() {
 }
 
 audit().catch((error) => {
-  console.error(`SEO audit could not complete: ${error.message}`);
+  const reason = error.cause?.code;
+  console.error(`SEO audit could not complete: ${error.message}${reason ? ` (${reason})` : ""}`);
   process.exitCode = 1;
 });

@@ -1,5 +1,14 @@
 import { rescuePackages } from './ai-rescue';
 
+export const enquiryServices = [
+  { slug: 'website-design', label: 'Website design' },
+  { slug: 'ecommerce-websites', label: 'Ecommerce website' },
+  { slug: 'seo', label: 'SEO and content' },
+  { slug: 'web-app-development', label: 'Custom web application' },
+  { slug: 'website-care', label: 'Website care' },
+  { slug: 'ai-website-app-rescue', label: 'AI rescue enquiry' },
+] as const;
+
 const buildBudgets = ['Under R5k', 'R5k-R10k', 'R10k-R25k', 'R25k-R50k', 'R50k-R100k', 'R100k+', 'Need guidance'];
 
 export function contactBudgetOptions(service: string): readonly string[] {

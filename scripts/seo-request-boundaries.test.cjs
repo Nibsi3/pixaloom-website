@@ -73,6 +73,7 @@ test('a local crawl cannot escape through sitemap paths, images or redirect chai
     child.on('exit', resolve);
   });
   assert.equal(code, 1, 'The deliberately invalid fixtures must fail the audit');
+  assert.ok(localRequests.includes('/robots.txt'), `The audit must reach the HTTP fixture before checking its routes. ${output}`);
   assert.deepEqual(escapedRequests, [], 'No fetch may leave the chosen crawl origin');
   assert.ok(localRequests.includes(unusualPath), 'The double-slash pathname must remain a local path');
   assert.ok(localRequests.includes('/resolved-probe?x=1&x=2'), 'Canonical redirects must be checked locally with all query values');

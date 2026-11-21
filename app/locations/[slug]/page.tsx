@@ -1,24 +1,126 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowRight, Check, MapPin } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
+import { publishedBlogPosts } from '@/components/blog-posts';
 import { getProvince, localHubs, provinces } from '@/lib/locations';
-import { services } from '@/lib/services';
 import { regionalBriefs } from '@/lib/regional-briefs';
+import { breadcrumbSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
-export function generateStaticParams(){return provinces.map(({slug})=>({slug}));}
-export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const {slug}=await params;const p=getProvince(slug);if(!p)return{};return pageMetadata({title:`Web Design in ${p.name}`,description:`Website design, ecommerce, SEO and web application development across ${p.name}, including ${p.towns.slice(0,4).join(', ')}.`,path:`/locations/${slug}`})}
-export default async function ProvincePage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const p=getProvince(slug);if(!p)notFound();const schema={'@context':'https://schema.org','@graph':[{'@type':'Service',name:`Web design in ${p.name}`,serviceType:'Website design and development',provider:{'@id':`${site.url}/#organization`},areaServed:[{'@type':'AdministrativeArea',name:p.name},...p.towns.map(name=>({'@type':'City',name}))],url:absoluteUrl(`/locations/${slug}`)},{'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Home',item:site.url},{'@type':'ListItem',position:2,name:'South Africa',item:absoluteUrl('/locations')},{'@type':'ListItem',position:3,name:p.name,item:absoluteUrl(`/locations/${slug}`)}]}]};return <><Header/><main id="main-content"><JsonLd id="location-schema" data={schema}/>
-  <section className="page-hero"><div className="site-container page-hero-grid"><div><div className="breadcrumb"><Link href="/">Home</Link><span>/</span><Link href="/locations">South Africa</Link><span>/</span><span>{p.name}</span></div><p className="eyebrow"><MapPin size={14}/> {p.name}</p><h1>Web design in <em>{p.name}</em></h1></div><p className="lead">{p.lead}</p></div></section>
-  {p.slug === 'western-cape' ? <section className="content-section alt"><div className="site-container"><div className="section-heading-row"><div><p className="eyebrow">Home ground</p><h2>George and the Garden Route first.</h2></div></div><div className="location-card-grid">{localHubs.map((hub)=><Link className="location-card" href={hub.href} key={hub.slug}><span>{hub.label}</span><h3>{hub.name}</h3><p>{hub.summary}</p><span className="card-link">View {hub.name} <ArrowRight size={15}/></span></Link>)}</div></div></section> : null}
-  <section className="content-section"><div className="site-container content-grid"><div><p className="eyebrow">The market</p><h2>Designed for how {p.name} businesses compete.</h2></div><div className="body-copy"><p>{p.opportunity}</p><div className="pill-list">{p.sectors.map(s=><span className="pill" key={s}>{s}</span>)}</div></div></div></section>
-  <section className="content-section"><div className="site-container content-grid"><div><p className="eyebrow">Prepare the project</p><h2>{regionalBriefs[slug].title}</h2></div><div className="body-copy"><p>{regionalBriefs[slug].brief}</p><ul>{regionalBriefs[slug].decisions.map(decision => <li key={decision}>{decision}</li>)}</ul><p>Delivery is managed from George with shared previews and agreed approval milestones. A local office is not implied by this service area.</p><Link href={`/blog/${regionalBriefs[slug].guide}`} className="text-link">Read the relevant planning guide</Link></div></div></section>
-  <section className="content-section alt"><div className="site-container"><div className="section-heading-row"><div><p className="eyebrow">What we deliver</p><h2>From first search to qualified enquiry.</h2></div></div><div className="location-card-grid">{services.map((s)=><Link className="location-card" href={`/services/${s.slug}`} key={s.slug}><span>Service</span><h3>{s.shortName}</h3><p>{s.promise}</p><span className="card-link">Explore <ArrowRight size={15}/></span></Link>)}</div></div></section>
-  <section className="content-section"><div className="site-container content-grid"><div><p className="eyebrow">Coverage directory</p><h2>Cities and towns across {p.name}.</h2><p style={{color:'var(--muted)',lineHeight:1.7}}>Our remote process is available across the province. A listed town is a service area, not a claimed physical office.</p></div><div className="town-directory">{p.towns.map(t=><span key={t}>{t}</span>)}</div></div></section>
-  <section className="content-section dark"><div className="site-container content-grid"><div><p className="eyebrow eyebrow-light">Why the approach works</p><h2>Local relevance. National build quality.</h2></div><ul className="detail-list" style={{borderColor:'#393c43'}}>{['Mobile-first experiences for everyday South African devices','Fast pages designed to respect bandwidth and attention','South African payments, contact habits and commercial context','Clear regional relevance without copied city pages'].map(x=><li key={x} style={{borderColor:'#393c43'}}><Check size={18}/><strong>{x}</strong></li>)}</ul></div></section>
-  <section className="content-section"><div className="site-container cta-panel"><h2>Planning a website in {p.name}?</h2><Link href="/contact" className="button button-light">Start with your goal <ArrowRight size={18}/></Link></div></section>
-  </main><Footer/></>}
+type ProvinceProps = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  return provinces.map(({ slug }) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: ProvinceProps): Promise<Metadata> {
+  const { slug } = await params;
+  const province = getProvince(slug);
+  if (!province) return {};
+  return pageMetadata({
+    title: `Web Design in ${province.name}`,
+    description: province.lead,
+    path: `/locations/${slug}`,
+  });
+}
+
+export default async function ProvincePage({ params }: ProvinceProps) {
+  const { slug } = await params;
+  const province = getProvince(slug);
+  if (!province) notFound();
+
+  const brief = regionalBriefs[slug];
+  const guide = publishedBlogPosts.find((post) => post.slug === brief.guide);
+  const path = `/locations/${slug}`;
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: `Website design for businesses in ${province.name}`,
+        serviceType: 'Website design and development',
+        provider: { '@id': `${site.url}/#organization` },
+        areaServed: { '@type': 'AdministrativeArea', name: province.name, containedInPlace: { '@type': 'Country', name: 'South Africa' } },
+        url: absoluteUrl(path),
+      },
+      breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'South Africa', path: '/locations' }, { name: province.name, path }]),
+    ],
+  };
+
+  return (
+    <>
+      <Header />
+      <main id="main-content">
+        <JsonLd id="location-schema" data={schema} />
+        <section className="page-hero">
+          <div className="site-container page-hero-grid">
+            <div>
+              <nav className="breadcrumb" aria-label="Breadcrumb">
+                <Link href="/">Home</Link><span aria-hidden="true">/</span>
+                <Link href="/locations">South Africa</Link><span aria-hidden="true">/</span>
+                <span aria-current="page">{province.name}</span>
+              </nav>
+              <h1>Web design in <em>{province.name}.</em></h1>
+            </div>
+            <div>
+              <p className="lead">{province.lead}</p>
+              <div className="minimal-inline-links" style={{ marginTop: 28 }}>
+                <Link href="/website-cost#price-list">Compare website prices <ArrowRight size={15} /></Link>
+                <Link href="/contact">Discuss your website with Cameron</Link>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="content-section">
+          <div className="site-container content-grid">
+            <div><h2>{brief.title}</h2></div>
+            <div className="body-copy">
+              <p>{brief.brief}</p>
+              <ul>{brief.decisions.map((decision) => <li key={decision}>{decision}</li>)}</ul>
+              {guide && <Link href={`/blog/${guide.slug}`} className="text-link">{guide.title} <ArrowRight size={15} /></Link>}
+            </div>
+          </div>
+        </section>
+        {slug === 'western-cape' && (
+          <section className="content-section alt">
+            <div className="site-container">
+              <h2>George and the Garden Route.</h2>
+              <div className="location-card-grid" style={{ marginTop: 28 }}>
+                {localHubs.map((hub) => (
+                  <Link className="location-card" href={hub.href} key={hub.slug}>
+                    <h3>{hub.name}</h3><p>{hub.summary}</p>
+                    <span className="card-link">Website design in {hub.name} <ArrowRight size={15} /></span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+        <section className="content-section alt">
+          <div className="site-container content-grid">
+            <div>
+              <h2>Working online across {province.name}.</h2>
+              <p>{province.opportunity}</p>
+            </div>
+            <div className="body-copy">
+              <p>Cameron works online from George. Send a link to your current site, the action you want customers to take and who will handle the enquiry. We agree the scope in writing and share a working preview for you to try on your own phone.</p>
+              <details><summary>View towns we serve online</summary>
+                <div className="town-directory">{province.towns.map((town) => <span key={town}>{town}</span>)}</div>
+              </details>
+              <div className="minimal-inline-links">
+                <Link href="/services/website-design">Business website design</Link>
+                <Link href="/services/ecommerce-websites">Online stores</Link>
+                <Link href="/services">All services</Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}
