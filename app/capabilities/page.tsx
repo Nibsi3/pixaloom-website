@@ -5,6 +5,7 @@ import { ArrowDown, ArrowUpRight, Download } from 'lucide-react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
+import { contentModified } from '@/lib/content-dates';
 import content from '@/lib/capabilities.json';
 import captureSizes from '@/lib/capability-image-sizes.json';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
@@ -23,7 +24,7 @@ function Capture({ src, caption, width = 1680, height = 1000 }: { src: string; c
 
 export default function CapabilitiesPage() {
   return <><Header /><main id="main-content" className={`minimal-page ${styles.page}`}>
-    <JsonLd id="capabilities-schema" data={{ '@context': 'https://schema.org', '@type': 'ProfilePage', name: 'Pixaloom development capabilities', url: absoluteUrl('/capabilities'), dateModified: '2026-10-29', mainEntity: { '@type': 'Person', name: site.editor, url: absoluteUrl('/about'), worksFor: { '@type': 'Organization', name: 'Pixaloom', url: site.url } } }} />
+    <JsonLd id="capabilities-schema" data={{ '@context': 'https://schema.org', '@type': 'ProfilePage', name: 'Pixaloom development capabilities', url: absoluteUrl('/capabilities'), dateModified: contentModified('/capabilities'), mainEntity: { '@type': 'Person', name: site.editor, url: absoluteUrl('/about'), worksFor: { '@type': 'Organization', name: 'Pixaloom', url: site.url } } }} />
     <section className="minimal-hero"><div className="minimal-shell">
       <div className="minimal-crumb"><Link href="/">Home</Link><span>/</span><span>Capabilities</span></div>
       <p className="minimal-kicker">Cameron Falck / Pixaloom / Selected capabilities</p>
@@ -51,6 +52,6 @@ export default function CapabilitiesPage() {
 
     <section className={styles.more}><p className={styles.eyebrow}>More of the work</p><h2>Different problems.<br /><em>The same care in the build.</em></h2><div className={styles.otherGrid}>{content.other.map((project) => <article key={project.name}><h3>{project.name}</h3><p>{project.description}</p>{project.href && <Link href={project.href}>View work <ArrowUpRight size={15} /></Link>}</article>)}</div><div className={styles.skills}>{content.skills.map((skill) => <span key={skill}>{skill}</span>)}</div></section>
 
-    <section className={styles.download} id="download"><div><p className={styles.eyebrow}>Keep the portfolio</p><h2>The whole picture.<br /><em>Ready to share.</em></h2><p>Download the Pixaloom capabilities CV: selected projects, product screenshots, technical strengths and the people behind the work.</p><a className={styles.button} href="/downloads/pixaloom-capabilities.pdf" download>Download Pixaloom’s CV <Download size={18} /></a><small>9-page PDF · 18.1 MB · Updated {content.date}</small></div><aside><span>Have a project in mind?</span><h3>Let’s build something useful.</h3><p>Tell me what your business needs to do. We can shape the right website, store or custom application around it.</p><Link href="/contact">Talk to Cameron <ArrowUpRight size={17} /></Link><a href={`mailto:${site.email}`}>{site.email}</a></aside></section>
+    <section className={styles.download} id="download"><div><p className={styles.eyebrow}>Keep the portfolio</p><h2>The whole picture.<br /><em>Ready to share.</em></h2><p>Download the Pixaloom capabilities CV: selected projects, product screenshots, technical strengths and the people behind the work.</p><a className={styles.button} href="/downloads/pixaloom-capabilities.pdf" download>Download Pixaloom’s CV <Download size={18} /></a><small>9-page PDF · 1.3 MB · Updated {content.date}</small></div><aside><span>Have a project in mind?</span><h3>Let’s build something useful.</h3><p>Tell me what your business needs to do. We can shape the right website, store or custom application around it.</p><Link href="/contact">Talk to Cameron <ArrowUpRight size={17} /></Link><a href={`mailto:${site.email}`}>{site.email}</a></aside></section>
   </main><Footer /></>;
 }

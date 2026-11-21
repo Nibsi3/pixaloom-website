@@ -17,11 +17,11 @@ export function CinematicHero() {
         <CinematicBackgroundVideo />
         <div className="reference-scrim" aria-hidden="true" />
         <div className="hero-offer">
-          <h1 id="hero-title">Web design in George.<br />Built for your business.</h1>
-          <span>Business websites, online stores and redesigns.<br />George, the Garden Route and South Africa.</span>
+          <h1 id="hero-title">Business websites<br />and online stores.</h1>
+          <span>Built by Cameron Falck in George.<br />Work with me online from anywhere in South Africa.</span>
           <div className="hero-offer-actions">
-            <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I need a website for my business. Can we discuss the scope?')}`}>WhatsApp Cameron <ArrowUpRight size={14} /></a>
-            <Link href="/website-cost">See website costs <ArrowUpRight size={14} /></Link>
+            <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like a quote for a website. My business is ')}`}>WhatsApp Cameron <ArrowUpRight size={14} /></a>
+            <Link href="/website-cost">Compare website prices <ArrowUpRight size={14} /></Link>
           </div>
         </div>
 
@@ -44,7 +44,7 @@ export function CinematicHero() {
         <div className="featured-copy" id="featured-state">
           <p className="featured-kicker">Pixaloom · Web design studio in George</p>
           <h2>Web design<br /> <em>for South Africa.</em></h2>
-          <p className="featured-intro">We design and build fast websites, ecommerce stores and digital products from George—with enough character to be remembered.</p>
+          <p className="featured-intro">Explore the apparel catalogue for Team Colours, a booking enquiry for Paws On Route, and the invoicing tools inside Illumi.</p>
           <div className="featured-project">
             <span>Strategy · Design · Engineering</span>
             <strong>Made in George, South Africa</strong>

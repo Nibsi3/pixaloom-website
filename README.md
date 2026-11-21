@@ -70,7 +70,17 @@ Plausible instance at `https://immich.tail31199f.ts.net/analytics/event`.
 The manual tracker records client navigation without query strings or form
 contents. It runs only on pixaloom.co.za and www.pixaloom.co.za.
 The local dashboard is http://localhost:8000/pixaloom.co.za.
-Collection stops while the owner's PC or Docker services are offline.
+Plausible collection stops while the owner's PC or Docker services are offline.
+On 21 November 2026 the public tracker script returned HTTP 502 while
+the production contact readiness check returned `available: true`.
+Cloudflare Worker logs independently record aggregate page views and contact
+actions on the production site. Filter structured log entries by
+`source = website_action`, group by `section` (for example `george`,
+`website-cost` or `contact`) and count each event name. Page views and
+clicks can include repeat visitors. Use only `source = email_provider` and
+`event = enquiry_accepted` to count provider acknowledgements after this
+release. Browser success events describe the same journey and must be counted
+separately. Confirm qualified enquiries against the inbox.
 
 Contact actions also use this existing tracker when it is available. Configure
 matching Plausible custom-event goals to report them. `enquiry_submit` is an

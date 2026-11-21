@@ -17,7 +17,7 @@ export function Header() {
 
         <nav className="desktop-nav" aria-label="Primary navigation">
           {primaryNavigation.map((item, index) => (
-            <Link key={item.href} href={item.href}><span>0{index + 1}</span>{item.label}</Link>
+            <Link key={item.href} href={item.href}><span aria-hidden="true">0{index + 1}</span>{item.label}</Link>
           ))}
         </nav>
 
@@ -27,13 +27,13 @@ export function Header() {
         <a className="mobile-contact" href={site.whatsapp}>WhatsApp Cameron</a>
 
         <MobileNavigation>
-          <summary aria-label="Toggle navigation"><Menu size={20} /></summary>
+          <summary aria-label="Site menu"><Menu size={20} aria-hidden="true" /></summary>
           <nav aria-label="Mobile navigation">
             {primaryNavigation.map((item, index) => (
-              <Link key={item.href} href={item.href}><span>0{index + 1}</span>{item.label}</Link>
+              <Link key={item.href} href={item.href}><span aria-hidden="true">0{index + 1}</span>{item.label}</Link>
             ))}
-            <Link href="/contact"><span>0{primaryNavigation.length + 1}</span>Contact</Link>
-            <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Pixaloom — I would like to discuss a digital project.')}`}><span>0{primaryNavigation.length + 2}</span>WhatsApp</a>
+            <Link href="/contact"><span aria-hidden="true">0{primaryNavigation.length + 1}</span>Contact</Link>
+            <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Pixaloom - I would like to discuss a digital project.')}`}><span aria-hidden="true">0{primaryNavigation.length + 2}</span>WhatsApp</a>
           </nav>
         </MobileNavigation>
       </div>

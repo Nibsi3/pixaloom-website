@@ -39,7 +39,8 @@ export default function JokesPage() {
     <div className="min-h-screen bg-bg-900 bg-grid-fade">
       <Header />
       <div className="md:pl-[70px]">
-        <main className="px-4 py-10 sm:px-6">
+        <main id="main-content" tabIndex={-1} className="px-4 py-10 sm:px-6">
+          <h1 className="sr-only">Jokes</h1>
           <div className="mx-auto max-w-3xl">
             <div className="rounded-lg border border-bg-700 bg-bg-800/40">
               <div className="flex items-center justify-between border-b border-bg-700 bg-bg-900/25 px-4 py-3">

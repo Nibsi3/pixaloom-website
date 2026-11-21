@@ -1,0 +1,40 @@
+name: Validate site
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - name: Check out pull request
+        run: |
+          git init -q
+          git fetch --no-tags --depth=1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git" "$GITHUB_SHA"
+          git checkout -q --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Select Node.js 22 from the runner
+        run: |
+          node_dir=$(find "$RUNNER_TOOL_CACHE/node" -mindepth 1 -maxdepth 1 -type d -name '22.*' | sort -V | tail -1)
+          test -x "$node_dir/x64/bin/node"
+          echo "$node_dir/x64/bin" >> "$GITHUB_PATH"
+          "$node_dir/x64/bin/node" --version
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: Crawl local production site
+        shell: bash
+        run: |
+          set -euo pipefail
+          node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000 > "$RUNNER_TEMP/pixaloom-next.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          if ! curl --fail --silent --show-error --retry 20 --retry-delay 1 --retry-connrefused http://127.0.0.1:3000/robots.txt > /dev/null; then
+            cat "$RUNNER_TEMP/pixaloom-next.log"
+            exit 1
+          fi
+          npm run audit:seo -- http://127.0.0.1:3000

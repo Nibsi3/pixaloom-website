@@ -5,7 +5,6 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
 import { WebsiteCostEstimator } from '@/components/website-cost-estimator';
-import { WebsiteBuildFit } from '@/components/website-build-fit';
 import { breadcrumbSchema, faqPageSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import { contentModified } from '@/lib/content-dates';
@@ -22,30 +21,26 @@ export const metadata: Metadata = pageMetadata({
   path: '/website-cost',
 });
 
-const priceList: { kind: ProjectKindId; title: string; scope: string; action: string }[] = [
+const priceList: { kind: ProjectKindId; title: string; scope: string }[] = [
   {
     kind: 'business',
     title: 'Business website',
     scope: 'A focused build covers five core pages and one route to enquire. Allow for a larger build when several services or audiences need their own page layouts.',
-    action: 'Discuss a five-page website',
   },
   {
     kind: 'ecommerce',
     title: 'Ecommerce website',
     scope: 'A focused store includes a product catalogue, checkout and one standard hosted payment integration. Multiple stock sources or delivery rules can increase the scope.',
-    action: 'Discuss a focused store',
   },
   {
     kind: 'redesign',
     title: 'Website redesign',
     scope: 'A focused redesign reuses suitable content and keeps useful URLs working. Moving a larger archive or rebuilding a catalogue requires a separate migration plan.',
-    action: 'Discuss a focused redesign',
   },
   {
     kind: 'application',
     title: 'Custom web application',
     scope: 'Start with one workflow, such as a customer portal. More user roles, approval steps or connections to other systems can move a project into a larger range.',
-    action: 'Discuss a focused web app',
   },
 ];
 
@@ -142,7 +137,8 @@ export default function WebsiteCostPage() {
               <p style={{ fontSize: '1rem' }}>
                 <strong>A five-page custom business website costs R7,500–R12,500 to build with Pixaloom.</strong> A focused online store starts at R15,000. These build estimates exclude optional extras, running costs and VAT where applicable.
               </p>
-              <nav className="minimal-inline-links" aria-label="Website price sections" style={{ marginTop: 0 }}>
+              <nav className={styles.heroActions} aria-label="Website pricing and quotes">
+                <Link className="button button-light" href={estimateContactUrl('business', 'focused', [])}>Get a five-page website quote <ArrowRight size={16} /></Link>
                 <a href="#price-list">Compare website prices <ArrowUpRight size={14} /></a>
                 <a href="#cost-estimator">Estimate my website <ArrowUpRight size={14} /></a>
               </nav>
@@ -159,22 +155,52 @@ export default function WebsiteCostPage() {
               </div>
               <h2>Compare website prices<br /> <em>by project size.</em></h2>
             </div>
+            <p>Select a price range to include that project and estimate in your enquiry.</p>
             <div className={styles.prices}>
-              {priceList.map(({ kind, title, scope, action }) => (
+              {priceList.map(({ kind, title, scope }) => (
                 <article key={kind}>
                   <h3>{title}</h3>
                   <p>{scope}</p>
                   <dl>
                     {projectScales.map(({ id, label }) => {
                       const { min, max } = estimateWebsiteCost(kind, id, []);
-                      return <div key={id}><dt>{label}</dt><dd>{formatRandRange(min, max)}</dd></div>;
+                      const range = formatRandRange(min, max);
+                      return (
+                        <div key={id}>
+                          <dt>{label}</dt>
+                          <dd>
+                            <Link href={estimateContactUrl(kind, id, [])} aria-label={`Request a quote for the ${label.toLowerCase()} ${title.toLowerCase()} at ${range}`}>
+                              {range} <ArrowUpRight size={14} aria-hidden="true" />
+                            </Link>
+                          </dd>
+                        </div>
+                      );
                     })}
                   </dl>
-                  <Link href={estimateContactUrl(kind, 'focused', [])}>{action} <ArrowUpRight size={14} /></Link>
                 </article>
               ))}
             </div>
             <p className="service-budget">These are Pixaloom’s once-off build allowances in rand. Your written quote confirms scope and VAT where applicable. Budget separately for your domain, hosting, email, subscriptions, transaction fees and ongoing care.</p>
+          </div>
+        </section>
+
+        <section className="content-section" id="five-page-website" aria-labelledby="five-page-heading">
+          <div className="site-container content-grid">
+            <div>
+              <h2 id="five-page-heading">What does a five-page website include?</h2>
+              <p className="service-budget">For a service business with one main enquiry route, these five pages can fit the R7,500–R12,500 custom build allowance.</p>
+            </div>
+            <div className="body-copy">
+              <dl className={styles.pagePlan}>
+                <div><dt>Home</dt><dd>Tell customers what you do, where you work and how to ask for a quote.</dd></div>
+                <div><dt>Services</dt><dd>Explain the jobs you take on and what information you need to price them.</dd></div>
+                <div><dt>Recent work</dt><dd>Use your own photos and a short description to show a customer what a finished job looks like.</dd></div>
+                <div><dt>About</dt><dd>Introduce the person doing the work and any relevant experience or qualifications.</dd></div>
+                <div><dt>Contact</dt><dd>Give the visitor a short enquiry form or a WhatsApp link and explain what happens after they get in touch.</dd></div>
+              </dl>
+              <p>One service page can cover several related jobs. If each service needs its own page, list them in your brief so we can quote for the extra writing, layout and testing. A live booking calendar or an online payment step also changes the estimate.</p>
+              <p>For an example of a service enquiry in practice, see <Link href="/work/paws-on-route">how Paws On Route invites pet owners to book on WhatsApp</Link>.</p>
+            </div>
           </div>
         </section>
 
@@ -212,8 +238,6 @@ export default function WebsiteCostPage() {
             </div>
           </div>
         </section>
-
-        <WebsiteBuildFit />
 
         <section className="minimal-index-section">
           <div className="minimal-shell">

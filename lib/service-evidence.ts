@@ -22,15 +22,15 @@ export const serviceEvidence: Record<string, ServiceEvidence> = {
     acceptance: ['Representative mobile and desktop journeys checked', 'Contact validation, failure states and actual email delivery tested', 'Important redirects, canonical URLs and sitemap verified', 'Editing, account ownership and handover responsibilities documented'],
   },
   'ecommerce-websites': {
-    title: 'The catalogue is the beginning, not the whole store.',
+    title: 'What happens after a shopper chooses a product?',
     paragraphs: [
       'We scope the store around representative products and the work of your operations team: variants, prices, stock, delivery, payments, notifications and returns. A standard catalogue is a different job from a store that must reconcile inventory with an ERP or supplier feed.',
       'A product catalogue does not always need checkout. For suppliers whose customers need specifications, advice or a dealer before buying, we can scope category pages, product details, approved technical downloads and product-specific enquiries. Bring a simple product, a complex variant and a discontinued item so we can agree identifiers, units, editing responsibilities and replacement links. Dealer handoffs, live inventory and ERP connections are separate requirements; the enquiry should carry the product reference to the receiving team.',
-      'Layerforge concept and Emberwell concept provide product-discovery and catalogue interface examples. These are independent designs for fictional brands, not commissioned client websites. The linked studies let you examine the presentation. They do not establish live merchant performance or independently verified sales results.',
+      'For a shop taking payments online, agree who receives the order, which delivery methods a shopper can select and what your team sees if payment fails. For a trade catalogue, agree which prices are public, which require an account and whether buyers request a quote or place an order.',
       'During discovery we identify who owns the merchant account and where product data comes from. We confirm the provider’s current capabilities and eligibility rather than assuming every payment method is available. One standard hosted payment integration is included in the ecommerce base allowance; custom reconciliation and other integrations are scoped separately.',
       'The launch checklist covers failed and delayed payments as well as a successful order. We define stock handling, delivery regions, customer notifications and the staff handover. Your business supplies and approves its commercial policies, prices and legally appropriate terms.',
     ], projects: ['emberwell', 'layerforge'], guide: 'ecommerce-website-south-africa',
-    budget: 'The focused store planning allowance is R15,000–R25,000, including one standard hosted payment integration. It excludes VAT where applicable, merchant transaction fees, hosting and recurring subscriptions. Catalogue import complexity and bespoke integrations affect the written quote.',
+    budget: 'The written quote sets out catalogue imports, payment setup, delivery rules and handover. Budget separately for hosting, subscriptions, merchant transaction fees and VAT where applicable. Custom stock feeds and account-specific pricing need their own scope.',
     acceptance: ['Catalogue and variants checked with representative data', 'Payment success, failure and duplicate notifications tested', 'Shipping, stock and order emails verified', 'Store administration and recurring charges documented'],
   },
   'web-app-development': {

@@ -57,3 +57,13 @@ test('structured, prototype-shaped and oversized event inputs never become log e
   assert.equal(oversized.status, 413);
   assert.deepEqual(logs, []);
 });
+
+test('section counts reject arbitrary labels and accept only known page views', async t => {
+  const logs = [];
+  t.mock.method(console, 'info', value => logs.push(JSON.parse(value)));
+  for (const section of [undefined, 'PRIVATE', '/contact?email=PRIVATE', { name: 'contact' }]) {
+    assert.equal((await POST(request(JSON.stringify({ event: 'page_view', section })))).status, 400);
+  }
+  assert.equal((await POST(request(JSON.stringify({ event: 'page_view', section: 'website-cost' })))).status, 204);
+  assert.deepEqual(logs, [{ event: 'page_view', source: 'website_action', section: 'website-cost' }]);
+});
