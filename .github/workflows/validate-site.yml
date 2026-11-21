@@ -10,13 +10,18 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: '1'
     steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
+      - name: Check out pull request
+        run: |
+          git init -q
+          git fetch --no-tags --depth=1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git" "$GITHUB_SHA"
+          git checkout -q --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Select Node.js 22 from the runner
+        run: |
+          node_dir=$(find "$RUNNER_TOOL_CACHE/node" -mindepth 1 -maxdepth 1 -type d -name '22.*' | sort -V | tail -1)
+          test -x "$node_dir/x64/bin/node"
+          echo "$node_dir/x64/bin" >> "$GITHUB_PATH"
+          "$node_dir/x64/bin/node" --version
       - run: npm ci
       - run: npm run lint
       - run: npm test
