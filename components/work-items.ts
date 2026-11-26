@@ -7,6 +7,7 @@ export type WorkItem = {
   fallback: string;
   meta: string;
   scope: string;
+  brief?: { title: string; description: string; link: { href: string; label: string } };
   stack: string[];
   highlights: string[];
   gallery?: string[];
@@ -138,14 +139,18 @@ const allWorkItems: WorkItem[] = [
     url: 'https://pawsonroute.co.za',
     png: '/work/pawsonroute.jpg',
     fallback: '/work/paws-on-route.svg',
-    meta: 'WordPress · Local Services · SEO',
+    meta: 'George · Pet care · WordPress',
     scope:
-      'A WordPress website for a George-based pet grooming and pet sitting business, built to drive bookings and enquiries with a clear service structure and strong trust signals.',
+      'Pixaloom built a WordPress website for Paws On Route in George, with separate grooming and daycare information, published fees and WhatsApp enquiries.',
+    brief: {
+      title: 'Pet care website case study in George',
+      description: 'A grooming enquiry starts with the dog and the treatment. A daycare enquiry starts with the length of the stay and the fee. We gave the two questions different routes through the WordPress site. Both take the owner to the Paws On Route team to confirm a booking.',
+      link: { href: '/locations/george', label: 'Website design for businesses in George' },
+    },
     highlights: [
-      'Service pages structured for local search intent',
-      'Fast contact flow (call/WhatsApp/contact form)',
-      'Clean design for credibility and trust',
-      'SEO-focused headings, content structure, and performance basics',
+      'A services overview covering grooming, sitting, daycare and boarding',
+      'A dedicated daycare page with half-day and full-day fees',
+      'A WhatsApp booking prompt beside the service details',
     ],
     stack: ['WordPress', 'SEO setup', 'Performance tuning', 'Lead/contact flows'],
     facts: [
@@ -156,12 +161,16 @@ const allWorkItems: WorkItem[] = [
     ],
     sections: [
       {
-        title: 'What was delivered',
-        bullets: [
-          'Service-first site structure for clarity and local SEO',
-          'Trust-building layout with clear calls-to-action',
-          'Fast contact flow for mobile users',
-        ],
+        title: 'Let returning customers book straight away',
+        description: 'The homepage gives a returning customer a “Make a booking” button. Beside it, “Explore our services” gives a first-time visitor somewhere to start. The introduction names George so visitors can check the service area before contacting the business.',
+      },
+      {
+        title: 'Ask for what the team needs to quote',
+        description: "Beside the grooming information, the booking box asks for the pet's name, breed and service. The owner can send those details in the first WhatsApp message so the team can advise on pricing and availability.",
+      },
+      {
+        title: 'Put daycare fees next to the enquiry',
+        description: 'The daycare page puts half-day and full-day options side by side under “Fees and regulations”. Someone comparing care for a morning with care for a working day can check the options and ask about a place from the same page.',
       },
     ],
     gallery: [

@@ -3,9 +3,9 @@
 import { FormEvent, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/events';
-import { estimateBriefFromParams } from '@/lib/website-cost';
+import { estimateEnquiryFromParams } from '@/lib/website-cost';
 import { contactDeliveryUnconfirmed, contactUnavailable } from '@/lib/contact';
-import { contactBudgetHelp, contactBudgetOptions } from '@/lib/contact-budgets';
+import { contactBudgetHelp, contactBudgetOptions, enquiryServices } from '@/lib/contact-budgets';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
@@ -19,7 +19,13 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   const hydrated = useSyncExternalStore(subscribeToHydration, clientReady, serverReady);
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
-  const [service, setService] = useState('');
+  const [selectedService, setService] = useState<string | null>(null);
+  const search = hydrated && !rescue && typeof window !== 'undefined' ? window.location.search : '';
+  const params = new URLSearchParams(search);
+  const estimate = search ? estimateEnquiryFromParams(params) : null;
+  const linkedService = enquiryServices.find(item => item.slug === params.get('service'));
+  const service = selectedService ?? estimate?.service ?? linkedService?.label ?? '';
+  const initialBrief = estimate?.brief;
   const [budget, setBudget] = useState('');
   const budgetHelpId = useId();
   const [available, setAvailable] = useState<boolean | null>(null);
@@ -35,10 +41,13 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
     const controller = new AbortController();
     fetch('/api/contact', { signal: controller.signal, cache: 'no-store' })
       .then(response => response.json()).then(result => setAvailable((result as { available?: boolean }).available === true)).catch(() => undefined);
-    const brief = estimateBriefFromParams(new URLSearchParams(window.location.search));
-    if (brief && messageRef.current) messageRef.current.value = brief;
     return () => controller.abort();
   }, []);
+  useEffect(() => {
+    if (initialBrief && messageRef.current && !messageRef.current.value) {
+      messageRef.current.value = initialBrief;
+    }
+  }, [initialBrief]);
   useEffect(() => {
     if (status === 'sent') successRef.current?.focus();
     if (status === 'error') errorRef.current?.focus();
@@ -109,7 +118,7 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
   }
 
   return (
-    <form className="inquiry-form" method="post" aria-busy={status === 'sending'} onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; trackEvent('enquiry_start'); } }}>
+    <form id={rescue ? undefined : 'project-enquiry'} className="inquiry-form" method="post" aria-busy={status === 'sending'} onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; trackEvent('enquiry_start'); } }}>
       <noscript><p className="form-error">JavaScript is disabled. <a href="mailto:info@pixaloom.co.za">Email your brief</a> or <a href="https://wa.me/27662995533">contact us on WhatsApp</a>.</p></noscript>
       {available === false ? <p className="form-error" role="status">{contactUnavailable} <a href="mailto:info@pixaloom.co.za">Email your brief</a> or <a href="https://wa.me/27662995533">use WhatsApp</a>.</p> : null}
       <fieldset className="form-grid" disabled={!hydrated || status === 'sending'} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
@@ -122,10 +131,10 @@ export function InquiryForm({ rescue = false }: { rescue?: boolean }) {
           <label><span>Website or app URL</span><input name="appUrl" type="url" maxLength={500} placeholder="https://…" /></label>
         </> : <><label><span>Phone</span><input name="phone" type="tel" autoComplete="tel" maxLength={30} placeholder="+27 ..." /></label>
         <label><span>Company</span><input name="company" autoComplete="organization" maxLength={120} placeholder="Business or brand" /></label>
-        <label><span>What do you need?</span><select name="service" value={service} onChange={event => { setService(event.target.value); setBudget(''); }}><option value="" disabled>Select a service</option><option>Website design</option><option>Ecommerce website</option><option>SEO and content</option><option>Custom web application</option><option>Website care</option><option>AI rescue enquiry</option><option>Not sure yet</option></select></label>
+        <label><span>What do you need?</span><select name="service" value={service} onChange={event => { setService(event.target.value); setBudget(''); }}><option value="" disabled>Select a service</option>{enquiryServices.map(item => <option key={item.slug}>{item.label}</option>)}<option>Not sure yet</option></select></label>
         <label><span>Indicative budget</span><select name="budget" value={budget} disabled={!service} aria-describedby={budgetHelpId} onChange={event => setBudget(event.target.value)}><option value="" disabled>{service ? 'Select a budget option' : 'Choose a service first'}</option>{contactBudgetOptions(service).map(option => <option key={option} value={option}>{option}</option>)}</select></label>
         <div className="span-2"><p className="service-budget" id={budgetHelpId} role="status">{service ? 'Budget options updated for your service. ' : ''}{contactBudgetHelp(service)}</p>{service === 'AI rescue enquiry' ? <Link className="text-link" href="/ai-website-app-rescue">Compare rescue package scope</Link> : null}</div></>}
-        <label className="span-2"><span>{rescue ? 'What is broken? *' : 'What website do you need? *'}</span><textarea ref={messageRef} name="message" required minLength={20} maxLength={3000} placeholder={rescue ? "Describe what fails and how to reproduce it. Redact any secrets." : "Tell us what your business does and whether you need a new website, online store or redesign. A few sentences are enough."} /></label>
+        <label className="span-2"><span>{rescue ? 'What is broken? *' : 'How can we help? *'}</span><textarea ref={messageRef} name="message" required minLength={20} maxLength={3000} placeholder={rescue ? "Describe what fails and how to reproduce it. Redact any secrets." : "Tell us what your business does, what you want to build or improve, and your current website if you have one."} /></label>
         {rescue ? <>
           <label className="span-2"><span>What should happen instead? *</span><textarea name="expected" required minLength={5} maxLength={1000} placeholder="Describe the expected result." /></label>
           <label><span>Error or screenshot link</span><input name="errorLink" type="url" maxLength={500} placeholder="Optional https:// link, with secrets removed" /></label>

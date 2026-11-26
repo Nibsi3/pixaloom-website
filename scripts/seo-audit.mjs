@@ -51,6 +51,12 @@ function elements(html, tagName) {
   );
 }
 
+function htmlCanonicalUrls(html) {
+  return elements(html, 'link')
+    .filter(({ attrs }) => attrs.rel?.toLowerCase().split(/\s+/).includes('canonical'))
+    .map(({ attrs }) => attrs.href);
+}
+
 function pageUrl(value) {
   return crawlPageUrl(value, { crawlOrigin, canonicalOrigin });
 }
@@ -145,17 +151,27 @@ async function audit() {
       const path = new URL(canonicalUrl).pathname;
       const title = decodeHtml(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]);
       const metas = elements(html, "meta");
-      const links = elements(html, "link");
       const description = metas.find(({ attrs }) => attrs.name?.toLowerCase() === "description")
         ?.attrs.content;
       const metaValue = (name) => metas.find(({ attrs }) =>
         (attrs.name || attrs.property)?.toLowerCase() === name)?.attrs.content;
-      const canonicals = links.filter(({ attrs }) =>
-        attrs.rel?.toLowerCase().split(/\s+/).includes("canonical"),
-      ).map(({ attrs }) => attrs.href);
+      const canonicals = htmlCanonicalUrls(html);
       const canonical = canonicals[0];
       const h1Count = [...html.matchAll(/<h1\b[^>]*>/gi)].length;
       const language = attributes(html.match(/<html\b[^>]*>/i)?.[0] || "").lang;
+      if (path === '/') {
+        const icons = elements(html, 'link').filter(({ attrs }) => attrs.rel?.toLowerCase() === 'icon');
+        if (icons.length !== 1) fail(`/: expected one favicon, found ${icons.length}`);
+        else {
+          const { href, sizes } = icons[0].attrs;
+          if (sizes !== '64x64' || !href) fail('/: missing the declared 64x64 favicon');
+          else {
+            const iconUrl = new URL(href, canonicalUrl);
+            if (!robotsAllows(robots, iconUrl, 'Googlebot-Image')) fail(`/: favicon is blocked for Googlebot-Image: ${iconUrl.href}`);
+            imageUrls.add(iconUrl.href);
+          }
+        }
+      }
       const jsonLdBlocks = [...html.matchAll(
         /<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi,
       )];
@@ -377,10 +393,16 @@ async function audit() {
     if (!blocksIndexing(elements(html, "meta"), response)) fail(`${path}: experiment is missing noindex`);
     if (!robotsAllows(robots, path)) fail(`${path}: robots.txt blocks Googlebot from reading experiment noindex`);
     if (crawledUrls.has(normalizeUrl(path))) fail(`${path}: experiment is included in sitemap`);
+    if (htmlCanonicalUrls(html).length || httpCanonicalUrls(response.headers.get('link') || '', { crawlOrigin, canonicalOrigin }).length) {
+      fail(`${path}: experiment declares a canonical despite noindex`);
+    }
   });
   await mapConcurrent(["/seo-audit-missing-page", "/work/seo-audit-missing-project", "/work/caps-tutor", "/work/george-herald", "/blog/seo-audit-missing-post", "/services/seo-audit-missing-service", "/locations/seo-audit-missing-place", "/ai-website-app-rescue/seo-audit-missing-specialism"], async (path) => {
-    const { response } = await get(pageUrl(path));
+    const { response, text: html } = await get(pageUrl(path));
     if (response.status !== 404) fail(`${path}: missing page returned ${response.status}, expected 404`);
+    if (htmlCanonicalUrls(html).length || httpCanonicalUrls(response.headers.get('link') || '', { crawlOrigin, canonicalOrigin }).length) {
+      fail(`${path}: missing page declares a canonical`);
+    }
   });
   const redirectCases = [
     [pageUrl("/pricing?utm_source=seo-audit&topic=web%20design&tag=business&tag=booking"), "/website-cost"],
@@ -444,6 +466,7 @@ async function audit() {
 }
 
 audit().catch((error) => {
-  console.error(`SEO audit could not complete: ${error.message}`);
+  const reason = error.cause?.code;
+  console.error(`SEO audit could not complete: ${error.message}${reason ? ` (${reason})` : ""}`);
   process.exitCode = 1;
 });

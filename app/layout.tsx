@@ -17,23 +17,18 @@ export const metadata: Metadata = {
   description: site.description,
   applicationName: site.name,
   category: 'Web design and development',
-  keywords: ['web design South Africa', 'website design company', 'web development South Africa', 'ecommerce website development', 'SEO company South Africa'],
   authors: [{ name: 'Pixaloom', url: site.url }],
   creator: 'Pixaloom',
   publisher: 'Pixaloom',
-  alternates: { canonical: '/' },
   verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
     ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
     : undefined,
   icons: {
-    icon: [
-      { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
-      { url: '/icon.png', type: 'image/png', sizes: '512x512' },
-    ],
+    icon: [{ url: '/favicon-64.png', type: 'image/png', sizes: '64x64' }],
     apple: [{ url: '/apple-touch-icon.png', type: 'image/png', sizes: '180x180' }],
   },
   openGraph: {
-    type: 'website', locale: 'en_ZA', url: '/', siteName: site.name,
+    type: 'website', locale: 'en_ZA', siteName: site.name,
     title: 'Web Design South Africa | Pixaloom',
     description: site.description,
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Pixaloom web design company in South Africa' }],
@@ -61,7 +56,7 @@ const organizationSchema = {
       contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: site.phoneInternational, email: site.email, areaServed: 'ZA', availableLanguage: ['English', 'Afrikaans'] },
       sameAs: ['https://github.com/Nibsi3'],
     },
-    { '@type': 'WebSite', '@id': `${site.url}/#website`, url: site.url, name: site.name, inLanguage: 'en-ZA', publisher: { '@id': `${site.url}/#organization` } },
+    { '@type': 'WebSite', '@id': `${site.url}/#website`, url: absoluteUrl('/'), name: site.name, inLanguage: 'en-ZA', publisher: { '@id': `${site.url}/#organization` } },
     { '@type': 'Person', '@id': `${site.url}/about#cameron-falck`, name: site.editor, url: absoluteUrl('/about'), worksFor: { '@id': `${site.url}/#organization` } },
   ],
 };

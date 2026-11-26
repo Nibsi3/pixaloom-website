@@ -5,20 +5,28 @@ import { ArrowRight, ArrowUpRight, MapPin } from 'lucide-react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
+import { estimateContactUrl, estimateWebsiteCost, formatRandRange } from '@/lib/website-cost';
 import { breadcrumbSchema, faqPageSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 
+const businessBuild = estimateWebsiteCost('business', 'focused', []);
+const businessRange = formatRandRange(businessBuild.min, businessBuild.max);
+const storeBuild = estimateWebsiteCost('ecommerce', 'focused', []);
+const storeRange = formatRandRange(storeBuild.min, storeBuild.max);
+const redesign = estimateWebsiteCost('redesign', 'focused', []);
+const redesignRange = formatRandRange(redesign.min, redesign.max);
+
 export const metadata: Metadata = pageMetadata({
-  title: 'Web Design in George | Business Websites & Redesigns',
+  title: 'Web Design in George, Western Cape',
   description:
-    'See the Paws On Route website built in George. Work with Cameron on a new site or redesign. Budget R7,500–R12,500 for a five-page custom website.',
+    `Work with George website designer Cameron Falck. See the Paws On Route project and budget ${businessRange} for a five-page business website.`,
   path: '/locations/george',
 });
 
 const faqs = [
   {
     question: 'How much does a business website in George cost?',
-    answer: 'Pixaloom’s focused five-page custom website allowance is R7,500–R12,500, excluding optional features, VAT where applicable and recurring costs. This is our planning range, not a George market average. A smaller template website can be scoped separately. We confirm the price after agreeing the content, pages and enquiry journey.',
+    answer: `Budget ${businessRange} for a focused custom five-page website. Optional features, recurring costs and VAT where applicable are separate. A smaller template website can be scoped separately. We confirm the price after agreeing the content, pages and enquiry route.`,
   },
   {
     question: 'How long will my business website take?',
@@ -99,9 +107,9 @@ export default function GeorgePage() {
             </div>
             <div>
               <p className="lead">Work online with Cameron Falck, a website designer and developer based in George. Pixaloom builds websites for businesses that take bookings, quote for work or sell online.</p>
-              <p className="service-budget"><strong>Planning a new five-page business website? Budget R7,500–R12,500</strong> for a custom build with one main enquiry route. Optional features, ongoing costs and VAT where applicable are separate.</p>
+              <p className="service-budget"><strong>Planning a new five-page business website? Budget {businessRange}</strong> for a custom build with one main enquiry route. Optional features, ongoing costs and VAT where applicable are separate.</p>
               <div className="minimal-inline-links" style={{ marginTop: 28 }}>
-                <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my George or Garden Route business.')}`}>Discuss your website <ArrowRight size={18} /></a>
+                <a href={`${site.whatsapp}?text=${encodeURIComponent('Hi Cameron, I would like to discuss a website for my George or Garden Route business.')}`}>WhatsApp Cameron <ArrowRight size={18} /></a>
                 <Link href="/website-cost">Compare website prices and inclusions <ArrowUpRight size={14} /></Link>
               </div>
             </div>
@@ -143,12 +151,12 @@ export default function GeorgePage() {
               </Link>
               <Link className="location-card" href="/services/ecommerce-websites">
                 <h3>An online store</h3>
-                <p>Start with a typical product, its variants and how you deliver or arrange collection in George. These decisions shape the catalogue, checkout and order notifications.</p>
+                <p>For a focused store, budget {storeRange} for a catalogue and standard hosted payment integration. Bring a typical product, its variants and how you deliver or arrange collection in George. These decisions shape the catalogue, checkout and order notifications.</p>
                 <span className="card-link">Explore ecommerce development <ArrowRight size={15} /></span>
               </Link>
-              <Link className="location-card" href="/contact">
+              <Link className="location-card" href={estimateContactUrl('redesign', 'focused', [])}>
                 <h3>A redesign of an existing site</h3>
-                <p>Send the current address and one task customers struggle with. We can check which pages already attract visitors and what needs to carry across to the new site.</p>
+                <p>A focused redesign is estimated at {redesignRange}. Send the current address and one task customers struggle with. We can check which pages already attract visitors and what needs to carry across to the new site.</p>
                 <span className="card-link">Discuss your redesign <ArrowRight size={15} /></span>
               </Link>
             </div>
@@ -159,9 +167,9 @@ export default function GeorgePage() {
           <div className="site-container content-grid">
             <div><h2>Before you commission a website.</h2></div>
             <div className="body-copy">
-              <p>Our <Link href="/blog/why-george-businesses-need-modern-website">George business website brief</Link> helps you list the services, photographs and contact details you already have. A smaller brochure site with ready-to-use content may be enough. You can <Link href="/custom-website-vs-website-builder">compare a custom build with a DIY website</Link>.</p>
-              <p>If you are choosing a website designer or web developer in George, use the <Link href="/blog/choosing-web-developer-george">developer comparison checklist</Link> to ask who owns the domain, who can edit the pages and who checks that enquiries reach you. Use the <Link href="/blog/lead-generation-website-design">phone and enquiry checklist</Link> to test that handover.</p>
-              <p>Already have the website you need? See our <Link href="/services/seo">search visibility services</Link> if customers struggle to find it, or <Link href="/ai-website-app-rescue">get help with an unfinished AI-built site</Link> if a specific feature is stopping launch.</p>
+              <p>Start with one service and a real customer request. A trades business can ask for the suburb, a description of the job and a photo. A business that takes appointments can ask for the service and preferred day, then explain how it confirms the booking. The <Link href="/blog/why-george-businesses-need-modern-website">George business website brief</Link> helps you collect the other information needed for a quote.</p>
+              <p>If you are choosing a website designer or web developer in George, use the <Link href="/blog/choosing-web-developer-george">developer comparison checklist</Link> to confirm who owns the domain and who can edit the pages. Before launch, follow the <Link href="/blog/lead-generation-website-design">phone and enquiry checklist</Link> to make sure a test enquiry reaches the person who handles it.</p>
+              <p>If you already have a live website and local customers struggle to find it, ask about a <Link href="/services/seo">technical SEO and local visibility audit</Link>. For an unfinished project with a specific launch blocker, see <Link href="/ai-website-app-rescue">AI website and app repair</Link>.</p>
             </div>
           </div>
         </section>
@@ -188,10 +196,10 @@ export default function GeorgePage() {
             <h2>Planning a website in George?</h2>
             <div className="minimal-inline-links" style={{ marginTop: 28 }}>
               <Link href="/contact" className="button button-light">
-                Start with your goal <ArrowRight size={18} />
+                Send Cameron your project brief <ArrowRight size={18} />
               </Link>
               <Link href="/locations/garden-route">
-                Garden Route coverage <ArrowUpRight size={14} />
+                Web design across the Garden Route <ArrowUpRight size={14} />
               </Link>
               <Link href="/website-cost">
                 Website cost range <ArrowUpRight size={14} />

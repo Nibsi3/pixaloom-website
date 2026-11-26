@@ -1,3 +1,8 @@
+import { estimateWebsiteCost, formatRandRange } from '@/lib/website-cost';
+
+const focusedStore = estimateWebsiteCost('ecommerce', 'focused', []);
+const focusedBusiness = estimateWebsiteCost('business', 'focused', []);
+
 export type Service = {
   slug: string;
   name: string;
@@ -18,11 +23,11 @@ export const services: Service[] = [
     slug: 'website-design',
     name: 'Website Design & Development',
     shortName: 'Website design',
-    seoTitle: 'Website Design Company South Africa',
+    seoTitle: 'Custom Website Design in South Africa',
     eyebrow: 'Custom business websites · South Africa',
     description:
-      'Work online with Cameron in George on a custom business website. Plan R7,500–R12,500 for five pages with mobile design, an enquiry form and launch handover.',
-    promise: 'A distinctive business website that is fast, easy to use and built around the next action you want a customer to take.',
+      `Budget ${formatRandRange(focusedBusiness.min, focusedBusiness.max)} for a custom five-page business website with mobile design, an enquiry form and launch handover.`,
+    promise: 'A business website that answers customer questions and makes it easy to enquire.',
     outcomes: ['Service pages that answer customer questions', 'An enquiry form tested on a phone', 'A layout for mobile and desktop', 'A handover covering accounts and site updates'],
     inclusions: ['Discovery and conversion strategy', 'Custom responsive design', 'Copy structure and content guidance', 'Next.js or WordPress development', 'On-page SEO foundations', 'Analytics and conversion setup', 'Launch support and team handover'],
     suitedFor: ['Professional services', 'Tourism and hospitality', 'Construction and trades', 'Healthcare practices', 'B2B and industrial companies', 'Local and multi-location businesses'],
@@ -34,19 +39,19 @@ export const services: Service[] = [
     ],
     faqs: [
       { question: 'How long does a business website take?', answer: 'Most focused business websites take four to eight weeks. Larger content, ecommerce or integration requirements may extend the timeline.' },
-      { question: 'Can you redesign an existing website?', answer: 'Yes. We audit what is worth preserving, protect valuable URLs, plan redirects and rebuild the experience without throwing away useful search equity.' },
+      { question: 'Can you redesign an existing website?', answer: 'Yes. We review the content and URLs customers already find, keep the pages that still serve a purpose and test permanent redirects for addresses that need to change.' },
       { question: 'Do you work outside George?', answer: 'Yes. Pixaloom is based in George and works remotely with businesses across every South African province.' },
     ],
   },
   {
     slug: 'ecommerce-websites',
-    name: 'Ecommerce Website Development',
+    name: 'Ecommerce Website Design & Development',
     shortName: 'Ecommerce',
-    seoTitle: 'Ecommerce Website Development SA',
-    eyebrow: 'Turn product interest into revenue',
+    seoTitle: 'Ecommerce Website Design in South Africa',
+    eyebrow: 'Online shops for South African businesses',
     description:
-      'High-performance online stores designed for South African buying behaviour, mobile checkout and the operational reality of payments, shipping, inventory and product content.',
-    promise: 'An ecommerce store that makes products easy to find, simple to buy and manageable behind the scenes.',
+      `Budget ${formatRandRange(focusedStore.min, focusedStore.max)} for a focused online shop with a product catalogue, mobile checkout and one hosted payment integration.`,
+    promise: 'An online shop where customers can choose a product, see delivery options and pay, and your team can manage the order.',
     outcomes: ['Fewer checkout obstacles', 'Better product discovery', 'A trustworthy mobile store', 'A scalable catalogue structure'],
     inclusions: ['Store and catalogue strategy', 'Custom storefront design', 'WooCommerce or headless commerce', 'PayFast, Peach Payments or Stripe integration', 'Shipping and fulfilment configuration', 'Product and category SEO', 'Analytics and purchase tracking'],
     suitedFor: ['Retail brands', 'Manufacturers and distributors', 'Specialist catalogues', 'Subscription products', 'Tourism products', 'Direct-to-consumer businesses'],
@@ -58,7 +63,8 @@ export const services: Service[] = [
     ],
     faqs: [
       { question: 'Which ecommerce platform do you use?', answer: 'The right platform depends on catalogue size, internal workflows and growth plans. We commonly use WooCommerce or a custom/headless stack when the requirements justify it.' },
-      { question: 'Can you integrate South African payments?', answer: 'Yes. We can integrate common South African and international gateways, subject to provider approval and your merchant account.' },
+      { question: 'Can you integrate South African payments?', answer: 'Yes. A focused store includes one standard hosted payment integration. We confirm the gateway and supported payment methods with you based on your merchant account and provider approval.' },
+      { question: 'Can you build an online catalogue for trade customers?', answer: 'Yes. We can plan searchable product pages, variants, specification downloads and product enquiries. Reseller sign-in, account-specific pricing and supplier stock feeds need separate scoping.' },
       { question: 'Will the store be optimised for Google?', answer: 'Yes. We plan crawlable categories, product metadata, structured data, canonical rules and performance from the start.' },
     ],
   },

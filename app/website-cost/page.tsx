@@ -5,16 +5,19 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { JsonLd } from '@/components/json-ld';
 import { WebsiteCostEstimator } from '@/components/website-cost-estimator';
-import { WebsiteBuildFit } from '@/components/website-build-fit';
 import { breadcrumbSchema, faqPageSchema } from '@/lib/schema';
 import { absoluteUrl, pageMetadata, site } from '@/lib/site';
 import { contentModified } from '@/lib/content-dates';
 import { estimateContactUrl, estimateWebsiteCost, formatRandRange, projectScales, type ProjectExtraId, type ProjectKindId } from '@/lib/website-cost';
 import styles from './page.module.css';
 
-const pageTitle = 'South African Web Design Prices – 5 Pages from R7,500';
+const focusedBusiness = estimateWebsiteCost('business', 'focused', []);
+const focusedStore = estimateWebsiteCost('ecommerce', 'focused', []);
+const businessRange = formatRandRange(focusedBusiness.min, focusedBusiness.max);
+const storeRange = formatRandRange(focusedStore.min, focusedStore.max);
+const pageTitle = 'Website Design Prices in South Africa';
 const pageDescription =
-  'Budget R7,500–R12,500 for a five-page business website or R15,000–R25,000 for a focused online store. Compare Pixaloom build prices and calculate year one.';
+  `Budget ${businessRange} for a five-page website or ${storeRange} for a focused online store. Compare build prices, optional features and running costs.`;
 
 export const metadata: Metadata = pageMetadata({
   title: pageTitle,
@@ -22,30 +25,26 @@ export const metadata: Metadata = pageMetadata({
   path: '/website-cost',
 });
 
-const priceList: { kind: ProjectKindId; title: string; scope: string; action: string }[] = [
+const priceList: { kind: ProjectKindId; title: string; scope: string }[] = [
   {
     kind: 'business',
     title: 'Business website',
     scope: 'A focused build covers five core pages and one route to enquire. Allow for a larger build when several services or audiences need their own page layouts.',
-    action: 'Discuss a five-page website',
   },
   {
     kind: 'ecommerce',
     title: 'Ecommerce website',
     scope: 'A focused store includes a product catalogue, checkout and one standard hosted payment integration. Multiple stock sources or delivery rules can increase the scope.',
-    action: 'Discuss a focused store',
   },
   {
     kind: 'redesign',
     title: 'Website redesign',
     scope: 'A focused redesign reuses suitable content and keeps useful URLs working. Moving a larger archive or rebuilding a catalogue requires a separate migration plan.',
-    action: 'Discuss a focused redesign',
   },
   {
     kind: 'application',
     title: 'Custom web application',
     scope: 'Start with one workflow, such as a customer portal. More user roles, approval steps or connections to other systems can move a project into a larger range.',
-    action: 'Discuss a focused web app',
   },
 ];
 
@@ -69,9 +68,8 @@ const scopeExamples: { title: string; description: string; extras: readonly Proj
 
 const faqs = [
   {
-    question: 'How much does a website cost in South Africa in 2026?',
-    answer:
-      'Pixaloom’s focused custom business-website planning allowance starts at R7,500, excluding optional extras, VAT where applicable and recurring third-party charges. This is our indicative scope-based allowance, not a national average. The written quote follows discovery.',
+    question: 'How much does an online store cost?',
+    answer: `Pixaloom budgets ${storeRange} for a focused online store with a catalogue, checkout and one standard hosted payment integration. Allow separately for VAT where applicable, merchant fees, hosting and delivery. The written quote confirms the catalogue size and checkout requirements.`,
   },
   {
     question: 'Why do quotes vary so widely?',
@@ -91,7 +89,7 @@ const faqs = [
   {
     question: 'How much is a five-page website in South Africa?',
     answer:
-      'Pixaloom plans a focused five-page custom business website at R7,500–R12,500 before optional features and VAT where applicable. That range assumes one clear audience, one primary enquiry path and content that can be shaped within five core pages. A written scope confirms the actual templates, content and integrations.',
+      `Pixaloom budgets ${businessRange} for a focused five-page custom business website before optional features and VAT where applicable. That range assumes one clear audience, one main way to enquire and content that fits within five core pages. A written scope confirms the templates, content and integrations.`,
   },
   {
     question: 'What does a website cost per month?',
@@ -140,9 +138,10 @@ export default function WebsiteCostPage() {
             <h1>Website design prices<br /> <em>in South Africa.</em></h1>
             <div className="minimal-hero-foot">
               <p style={{ fontSize: '1rem' }}>
-                <strong>A five-page custom business website costs R7,500–R12,500 to build with Pixaloom.</strong> A focused online store starts at R15,000. These build estimates exclude optional extras, running costs and VAT where applicable.
+                <strong>Budget {businessRange} for a five-page custom website from Pixaloom.</strong> A focused online store costs {storeRange} to build. These estimates exclude optional extras, running costs and VAT where applicable.
               </p>
-              <nav className="minimal-inline-links" aria-label="Website price sections" style={{ marginTop: 0 }}>
+              <nav className={styles.heroActions} aria-label="Website pricing and quotes">
+                <Link className="button button-light" href={estimateContactUrl('business', 'focused', [])}>Get a five-page website quote <ArrowRight size={16} /></Link>
                 <a href="#price-list">Compare website prices <ArrowUpRight size={14} /></a>
                 <a href="#cost-estimator">Estimate my website <ArrowUpRight size={14} /></a>
               </nav>
@@ -159,22 +158,52 @@ export default function WebsiteCostPage() {
               </div>
               <h2>Compare website prices<br /> <em>by project size.</em></h2>
             </div>
+            <p>Select a price range to include that project and estimate in your enquiry.</p>
             <div className={styles.prices}>
-              {priceList.map(({ kind, title, scope, action }) => (
+              {priceList.map(({ kind, title, scope }) => (
                 <article key={kind}>
                   <h3>{title}</h3>
                   <p>{scope}</p>
                   <dl>
                     {projectScales.map(({ id, label }) => {
                       const { min, max } = estimateWebsiteCost(kind, id, []);
-                      return <div key={id}><dt>{label}</dt><dd>{formatRandRange(min, max)}</dd></div>;
+                      const range = formatRandRange(min, max);
+                      return (
+                        <div key={id}>
+                          <dt>{label}</dt>
+                          <dd>
+                            <Link href={estimateContactUrl(kind, id, [])} aria-label={`Request a quote for the ${label.toLowerCase()} ${title.toLowerCase()} at ${range}`}>
+                              {range} <ArrowUpRight size={14} aria-hidden="true" />
+                            </Link>
+                          </dd>
+                        </div>
+                      );
                     })}
                   </dl>
-                  <Link href={estimateContactUrl(kind, 'focused', [])}>{action} <ArrowUpRight size={14} /></Link>
                 </article>
               ))}
             </div>
             <p className="service-budget">These are Pixaloom’s once-off build allowances in rand. Your written quote confirms scope and VAT where applicable. Budget separately for your domain, hosting, email, subscriptions, transaction fees and ongoing care.</p>
+          </div>
+        </section>
+
+        <section className="content-section" id="five-page-website" aria-labelledby="five-page-heading">
+          <div className="site-container content-grid">
+            <div>
+              <h2 id="five-page-heading">What does a five-page website include?</h2>
+              <p className="service-budget">For a service business with one main enquiry route, these five pages can fit the {businessRange} custom build allowance.</p>
+            </div>
+            <div className="body-copy">
+              <dl className={styles.pagePlan}>
+                <div><dt>Home</dt><dd>Tell customers what you do, where you work and how to ask for a quote.</dd></div>
+                <div><dt>Services</dt><dd>Explain the jobs you take on and what information you need to price them.</dd></div>
+                <div><dt>Recent work</dt><dd>Use your own photos and a short description to show a customer what a finished job looks like.</dd></div>
+                <div><dt>About</dt><dd>Introduce the person doing the work and any relevant experience or qualifications.</dd></div>
+                <div><dt>Contact</dt><dd>Give the visitor a short enquiry form or a WhatsApp link and explain what happens after they get in touch.</dd></div>
+              </dl>
+              <p>One service page can cover several related jobs. If each service needs its own page, list them in your brief so we can quote for the extra writing, layout and testing. A live booking calendar or an online payment step also changes the estimate.</p>
+              <p>For an example of a service enquiry in practice, see <Link href="/work/paws-on-route">how Paws On Route invites pet owners to book on WhatsApp</Link>.</p>
+            </div>
           </div>
         </section>
 
@@ -207,13 +236,11 @@ export default function WebsiteCostPage() {
             <p className="service-budget">These are worked examples from our estimator, not completed client quotes. They exclude VAT where applicable and recurring costs. An existing CMS or booking system may change the work required; we confirm what can be reused before quoting.</p>
             <div className="body-copy">
               <h3>Separate the build from the first year of ownership</h3>
-              <p>Compare the build fee plus agreed content work, optional features, twelve months of monthly subscriptions, annual renewals and support. Confirm VAT treatment and renewal prices. The quote should identify who owns each account and which fees you pay directly to providers.</p>
+              <p>To compare first-year totals, add the build fee, any separate content work and setup charges, 12 months of monthly fees, and annual charges due in that year. Count each item once. Ask for the renewal price and who pays each provider directly.</p>
               <p>For a local project, explore <Link href="/locations/george">business website design in George</Link> or our <Link href="/locations/garden-route">Garden Route website service</Link>.</p>
             </div>
           </div>
         </section>
-
-        <WebsiteBuildFit />
 
         <section className="minimal-index-section">
           <div className="minimal-shell">
@@ -279,7 +306,7 @@ export default function WebsiteCostPage() {
                 Start a project <ArrowRight size={15} />
               </Link>
               <Link href="/blog/how-much-does-website-cost-south-africa">
-                Read the full cost guide <ArrowUpRight size={14} />
+                Use the quote comparison worksheet <ArrowUpRight size={14} />
               </Link>
               <Link href="/services/website-design">
                 Website design <ArrowUpRight size={14} />

@@ -8,7 +8,11 @@ import { JsonLd } from '@/components/json-ld';
 import { services } from '@/lib/services';
 import { absoluteUrl, pageMetadata } from '@/lib/site';
 
-export const metadata: Metadata = pageMetadata({ title: 'Web Design & SEO Services', description: 'Website design, ecommerce, SEO, web application development and ongoing website care for businesses across South Africa.', path: '/services' });
+export const metadata: Metadata = pageMetadata({
+  title: 'Website Design, Ecommerce & SEO Services',
+  description: 'Compare website design, ecommerce development, SEO, web apps and website maintenance. Work online with Cameron Falck from George, South Africa.',
+  path: '/services',
+});
 
 const delivery = [
   ['Discover', 'Commercial goals, users, constraints and proof.'],
@@ -32,8 +36,8 @@ export default function ServicesPage() {
       <div className="minimal-shell">
         <div className="minimal-crumb"><Link href="/">Home</Link><span>/</span><span>Services</span></div>
         <p className="minimal-kicker">Strategy · Design · Engineering · Search</p>
-        <h1>Web design &amp; SEO<br /> <em>that earns its place.</em></h1>
-        <div className="minimal-hero-foot"><p>Connected web design, ecommerce, SEO and software development for South African businesses that want clearer positioning, better performance and measurable outcomes.</p><span>Five connected capabilities</span></div>
+        <h1>Web design, ecommerce<br /> <em>and SEO services.</em></h1>
+        <div className="minimal-hero-foot"><p>Compare a new website or online store, ongoing maintenance, an SEO audit or a custom application. Work directly with Cameron Falck from George, wherever your business is in South Africa.</p></div>
       </div>
     </section>
 
@@ -52,13 +56,13 @@ export default function ServicesPage() {
 
     <section className="minimal-statement"><div className="minimal-shell minimal-statement-grid">
       <div className="minimal-section-mark"><span>Choose your route</span><p>Before you commission a build</p></div>
-      <div><h2>Build it yourself,<br /> <em>or bring in a developer?</em></h2><div className="minimal-prose"><p>Compare a DIY website builder with Pixaloom's custom service: who handles the content, design, editing and ongoing changes, and when either approach makes sense.</p><Link href="/custom-website-vs-website-builder">Compare custom websites and DIY builders <ArrowUpRight size={16} /></Link></div></div>
+      <div><h2>Build it yourself,<br /> <em>or bring in a developer?</em></h2><div className="minimal-prose"><p>Find out who handles the content, design and updates with a DIY website builder or a custom build.</p><Link href="/custom-website-vs-website-builder">Compare custom websites and DIY builders <ArrowUpRight size={16} /></Link></div></div>
     </div></section>
 
     <section className="minimal-statement">
       <div className="minimal-shell minimal-statement-grid">
         <div className="minimal-section-mark"><span>02</span><p>One connected system</p></div>
-        <div><h2>Not separate<br /> <em>departments.</em></h2><div className="minimal-prose"><p>A site can look impressive and still be difficult to find, slow to use or vague about what to do next. Pixaloom considers positioning, content, interface, engineering, search and conversion as one system from the beginning.</p><p>That gives every visual decision a commercial reason and every technical decision a clear owner.</p></div></div>
+        <div><h2>Plan around your<br /> <em>customers’ next step.</em></h2><div className="minimal-prose"><p>Start with the task a customer needs to complete. A visitor might check a grooming price and ask about a slot, buy an item for delivery or submit a quote request. We use that task to plan pages, content, search and mobile checks.</p><p>See a <Link href="/locations/george">local website example from George</Link> or plan <Link href="/locations/garden-route">bookings and enquiries on the Garden Route</Link>.</p></div></div>
       </div>
     </section>
 

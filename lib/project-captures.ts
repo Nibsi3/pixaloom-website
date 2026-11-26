@@ -62,15 +62,15 @@ export const projectCaptureSets: Record<string, ProjectCaptureSet> = {
     "images": [
       {
         "src": "/portfolio/2026-10-19/paws-on-route-home.png",
-        "description": "Live homepage with pet-care introduction and puppy photography"
+        "description": "Paws On Route homepage with George in the introduction and separate buttons to book or explore services"
       },
       {
         "src": "/portfolio/2026-10-19/paws-on-route-detail-1.png",
-        "description": "Live services page with grooming and pet-care information"
+        "description": "Grooming information beside a WhatsApp prompt asking for the pet’s name, breed and service"
       },
       {
         "src": "/portfolio/2026-10-19/paws-on-route-detail-2.png",
-        "description": "Live doggy-daycare page with dog photography and boarding information"
+        "description": "Daycare and boarding page with half-day and full-day fees beside the booking prompt"
       }
     ]
   },

@@ -169,10 +169,10 @@ For a local pet-care page, that might mean clarifying appointment services, show
 Choose one important page and document its starting point before changing it. Review search and enquiry patterns after Google has had time to recrawl; do not attribute every movement to the latest edit. Our [technical SEO service](/services/seo) starts with these observable problems, supported by our [Garden Route delivery process](/locations/garden-route).`
   },
   'how-much-does-website-cost-south-africa': {
-    title: 'How to Budget for a Website in South Africa',
-    excerpt: 'Compare website proposals by scope, responsibilities and ongoing costs—not an unsupported national average.',
-    modified: '2026-11-06', service: 'website-design', project: 'layerforge',
-    content: `A website price is meaningful only alongside a scope. A five-page marketing site, a stock-connected online store and a customer portal are different products. This guide explains how to compare proposals. The [Pixaloom cost estimator](/website-cost) provides our indicative planning ranges; it is not a survey of South African market prices or a binding quotation.
+    title: 'How to Compare Website Quotes in South Africa',
+    excerpt: 'Use this worksheet to compare website quotes by scope, ownership and first-year costs before you choose a developer.',
+    modified: '2026-11-26', service: 'website-design', project: 'layerforge',
+    content: `Give each developer the same brief and compare the work, account ownership and running costs they put in writing. The worksheet below shows what to ask and how to compare the answers. If you need a figure before asking for quotes, [compare Pixaloom's website design prices and build estimates](/website-cost).
 
 ## Define the first useful release
 
@@ -206,7 +206,7 @@ Send each supplier the same brief, then write their answers beside these heading
 6. **First-year and renewal costs:** Add the agreed build fee, mandatory recurring services and known setup charges. Show optional care separately. Record currency, VAT treatment and renewal pricing rather than comparing only the first invoice.
 7. **Launch and support:** Ask who tests links, redirects, forms and mobile layouts, who publishes the release, and which issues are covered afterwards.
 
-For example, two proposals can both say five-page website while one includes copy preparation and the other requires ready-to-publish text. Neither is automatically better value: compare the time and work you would still need to provide. If you are comfortable updating a simple template yourself, that can be a suitable option. Read our [custom website versus website builder comparison](/custom-website-vs-website-builder) before paying for custom work you do not need.
+For example, two proposals can both say five-page website while one includes copy preparation and the other requires ready-to-publish text. Ask the second developer to price copy preparation separately, then compare both totals with the same content scope. If you plan to supply it yourself, count the time to draft it, get it approved and provide photographs for all five pages. Our [custom website versus website builder comparison](/custom-website-vs-website-builder) covers who takes on this work when you build the site yourself.
 
 ## Finishing an existing AI-built website
 

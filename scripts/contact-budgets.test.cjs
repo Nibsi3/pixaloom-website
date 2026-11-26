@@ -20,6 +20,7 @@ after(() => { globalThis.fetch = originalFetch; });
 const { contactBudgetOptions, contactBudgetHelp } = require('../lib/contact-budgets.ts');
 const { rescuePackages } = require('../lib/ai-rescue.ts');
 const { validateContact } = require('../lib/contact.ts');
+const { estimateWebsiteCost, formatRandRange } = require('../lib/website-cost.ts');
 const { InquiryForm } = require('../components/inquiry-form.tsx');
 const { WebsiteBuildFit } = require('../components/website-build-fit.tsx');
 const email = require('../lib/email.ts');
@@ -151,7 +152,10 @@ test('form success resets service and budget; failure retains the brief for corr
 
 test('build guidance links existing evidence, qualifies price and distinguishes concepts', () => {
   const markup = renderToStaticMarkup(React.createElement(WebsiteBuildFit));
-  for (const text of ['/work/paws-on-route', 'R7,500–R12,500', 'does not establish its original fee', 'simpler template site', '/ai-website-app-rescue']) assert.ok(markup.includes(text));
+  const { min, max } = estimateWebsiteCost('business', 'focused', []);
+  assert.ok(markup.includes(`Budget ${formatRandRange(min, max)} for a focused custom build.`));
+  assert.match(markup, /Optional features, VAT where applicable and recurring costs are separate/);
+  for (const text of ['/work/paws-on-route', '/website-cost#five-page-website', 'simpler template site', '/ai-website-app-rescue']) assert.ok(markup.includes(text));
   const { serviceEvidence } = require('../lib/service-evidence.ts');
   assert.match(serviceEvidence['website-design'].paragraphs.join(' '), /Mineralis is a separate, self-initiated design for a fictional brand, not commissioned client work/);
 });
